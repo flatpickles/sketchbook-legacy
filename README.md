@@ -1,4 +1,4 @@
-# sketches
+# sketchbook
 
 The vision for this project is to have a nice web app UI around an ever growing series of canvas-sketch based projects. These will probably be shaders to start, but hopefully can be anything I want in the web domain – thus the svelte wrapper.
 
@@ -17,3 +17,4 @@ Considerations:
 * Where to go the first time the site is loaded? Probably the most recent sketch.
 * Sorting the list by name and by date published
 * How to make this easily usable for other people to use with their collections of things?
+* If it's going to be a static site, we need a manifest of sorts for all files and their data - perhaps a JSON file.

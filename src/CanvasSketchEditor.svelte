@@ -3,6 +3,10 @@
     export let settings = {};
     export let data = {};
     export let sketch = () => {};
+
+    export function loadSketch(sketch) {
+      console.log(sketch.name + " selected");
+    }
     
     let localStorageSupported = (() => {
         try {
@@ -37,11 +41,14 @@
 </script>
 
 <main>
+  <div class='panel'>
+      <slot name='sketches'></slot>
+  </div>
     <div class='viewport'>
         <CanvasSketch {data} {settings} {sketch} />
     </div>
     <div class='panel'>
-        <slot></slot>
+        <slot name='inspector'></slot>
     </div>
 </main>
 

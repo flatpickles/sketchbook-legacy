@@ -1,9 +1,6 @@
 <script>
     import SketchViewer from './SketchViewer.svelte';
     import { SketchDemo1, SketchDemo2 } from './Sketch.js';
-    import { onMount } from 'svelte';
-
-    let viewerComponent = undefined;
 
     const sketches = [
         new SketchDemo1(),
@@ -11,17 +8,12 @@
     ];
     let currentSketch = sketches[0];
 
-    onMount(async () => {
-        sketchSelected(currentSketch);
-    });
-
     function sketchSelected(sketch) {
-        viewerComponent.loadSketch(sketch);
-        currentSketch = sketch;
+        if (sketch != currentSketch) currentSketch = sketch;
     }
 </script>
 
-<SketchViewer bind:this={viewerComponent}>
+<SketchViewer sketch={currentSketch}>
     <ul>
         {#each sketches as sketch}
             <li>

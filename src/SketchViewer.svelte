@@ -5,13 +5,7 @@
     import ColorInput from './InputComponents/ColorInput.svelte';
     import CheckboxInput from './InputComponents/CheckboxInput.svelte';
 
-    let sketchComponent = undefined;
-    let currentSketch = undefined;
-
-    export function loadSketch(sketch) {
-      console.log(sketch.name + " selected");
-      currentSketch = sketch;
-    }
+    export let sketch;
     
   //   let localStorageSupported = (() => {
   //       try {
@@ -52,20 +46,18 @@
       </slot>
     </div>
     <div class='viewport'>
-        <CanvasSketch bind:this={sketchComponent} />
+        <CanvasSketch {sketch}/>
     </div>
     <div class='panel'>
-        {#if currentSketch}
-            {#each Object.values(currentSketch.params) as param}
-                {#if (param instanceof FloatParam)}
-                    <SliderInput label={param.name} bind:value={param.value} min={param.min} max={param.max}></SliderInput>
-                {:else if (param instanceof BoolParam)}
-                    <CheckboxInput label={param.name} bind:value={param.value}></CheckboxInput>
-                {:else if (param instanceof ColorParam)}
-                    <ColorInput label={param.name} bind:value={param.value}></ColorInput>
-                {/if}
-            {/each}
-        {/if}
+        {#each Object.values(sketch.params) as param}
+            {#if (param instanceof FloatParam)}
+                <SliderInput label={param.name} bind:value={param.value} min={param.min} max={param.max}></SliderInput>
+            {:else if (param instanceof BoolParam)}
+                <CheckboxInput label={param.name} bind:value={param.value}></CheckboxInput>
+            {:else if (param instanceof ColorParam)}
+                <ColorInput label={param.name} bind:value={param.value}></ColorInput>
+            {/if}
+        {/each}
     </div>
 </main>
 

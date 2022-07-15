@@ -2,44 +2,52 @@
     import canvasSketch from 'canvas-sketch';
     import { onMount, onDestroy } from 'svelte';
 
+    export let sketch;
+
     let canvas;
 
-    export let settings = {
-        dimensions: undefined
-    };
+    // export let settings = {
+    //     dimensions: undefined
+    // };
     
-    export let data = {};
-    export let sketch = () => {};
+    // export let data = {};
+    // export let sketch = () => {};
     
     // handle sketch loaded
-    let loader, manager;
-    onMount(async () => {
-        const opt = {
-            ...settings,
-            canvas,
-            parent: canvas.parentElement,
-            data
-        };
-        loader = canvasSketch(sketch, opt);
-        manager = await loader;
-    });
+    // let loader, manager;
+    // onMount(async () => {
+    //     const opt = {
+    //         ...settings,
+    //         canvas,
+    //         parent: canvas.parentElement,
+    //         data
+    //     };
+    //     loader = canvasSketch(sketch, opt);
+    //     manager = await loader;
+    // });
     
-    // handle sketch destroy
-    onDestroy(() => {
-        loader.then(m => m.destroy());
-        loader = null;
-        manager = null;
-    });
+    // // handle sketch destroy
+    // onDestroy(() => {
+    //     loader.then(m => m.destroy());
+    //     loader = null;
+    //     manager = null;
+    // });
 
-    // update settings and data
-    $: manager && manager.update(settings);
-    $: dataChanged(data);
+    // // update settings and data
+    // $: manager && manager.update(settings);
+    // $: dataChanged(data);
     
-    function dataChanged (data) {
-        if (manager) {
-            Object.assign(manager.props.data, data);
-            manager.render();
-        }
+    // function dataChanged (data) {
+    //     if (manager) {
+    //         Object.assign(manager.props.data, data);
+    //         manager.render();
+    //     }
+    // }
+
+    $: sketchChanged(sketch);
+
+    function sketchChanged(sketch) {
+        console.log(sketch);
     }
 </script>
 

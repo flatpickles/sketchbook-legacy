@@ -19,6 +19,8 @@ export class FloatParam extends SketchParam {
     }
 }
 
+/// todo separate these
+
 export class Sketch {
     name = "Unnamed Sketch";
     params = {};
@@ -39,7 +41,7 @@ export class SketchDemo1 extends Sketch {
     name = "Test Sketch 1";
 
     params = {
-        bigness: new FloatParam('Bigness', 0, 0, 1),
+        bigness: new FloatParam('Bigness', 0.7, 0, 1),
         isGreen: new BoolParam('Is Green', true)
     };
     
@@ -56,8 +58,8 @@ export class SketchDemo2 extends Sketch {
     name = "Test Sketch 2";
 
     params = {
-        bignessP: new FloatParam('Bigness %', 0, 0, 100),
-        isBlue: new BoolParam('Is Blue', true)
+        bignessP: new FloatParam('Bigness %', 20, 0, 100),
+        isBlue: new BoolParam('Is Blue', false)
     };
     
     sketchFn = ({}) => {

@@ -1,14 +1,14 @@
 <script>
-    import Param from './Param.svelte';
+    import ParamInput from './ParamInput.svelte';
 
     export let label = '';
 
     export let value = 0;
 </script>
 
-<Param {label} >
+<ParamInput {label} >
   <input type='color' id={label} bind:value={value} />
-</Param>
+</ParamInput>
 
 <style>
 input {

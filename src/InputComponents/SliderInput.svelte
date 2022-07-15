@@ -1,5 +1,5 @@
 <script>
-    import Param from './Param.svelte';
+    import ParamInput from './ParamInput.svelte';
 
     export let label = '';
 
@@ -9,9 +9,9 @@
     export let step = 0.01;
 </script>
 
-<Param {label}>
+<ParamInput {label}>
     <input type='range' id={label} bind:value={value} {min} {max} {step} />
-</Param>
+</ParamInput>
 
 <style>
 input {

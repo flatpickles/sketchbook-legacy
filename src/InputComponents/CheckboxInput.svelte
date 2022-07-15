@@ -7,7 +7,7 @@
 </script>
 
 <ParamInput {label}>
-    <input type='checkbox' id={label} bind:checked={value} />
+    <input type='checkbox' id={label} bind:checked={value} on:input on:change />
 </ParamInput>
 
 <style>

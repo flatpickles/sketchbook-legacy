@@ -7,7 +7,7 @@
 </script>
 
 <ParamInput {label} >
-  <input type='color' id={label} bind:value={value} />
+  <input type='color' id={label} bind:value={value} on:input on:change />
 </ParamInput>
 
 <style>

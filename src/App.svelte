@@ -24,6 +24,7 @@
                     on:click={sketchSelected.bind(this, sketch)}>
                         {sketch.name}
                 </span>
+                <!-- {JSON.stringify(sketch.params)} -->
             </li>
         {/each}
     </ul>

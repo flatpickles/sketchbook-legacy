@@ -10,7 +10,7 @@
 </script>
 
 <ParamInput {label}>
-    <input type='range' id={label} bind:value={value} {min} {max} {step} />
+    <input type='range' id={label} bind:value={value} {min} {max} {step} on:input on:change />
 </ParamInput>
 
 <style>

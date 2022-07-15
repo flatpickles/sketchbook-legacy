@@ -14,27 +14,26 @@
     // export let sketch = () => {};
     
     // handle sketch loaded
-    // let loader, manager;
-    // onMount(async () => {
-    //     const opt = {
-    //         ...settings,
-    //         canvas,
-    //         parent: canvas.parentElement,
-    //         data
-    //     };
-    //     loader = canvasSketch(sketch, opt);
-    //     manager = await loader;
-    // });
+    let loader, manager;
+    onMount(async () => {
+        const opt = {
+            ...sketch.settings,
+            canvas,
+            parent: canvas.parentElement
+        };
+        loader = canvasSketch(sketch.sketchFn, opt);
+        manager = await loader;
+    });
     
-    // // handle sketch destroy
-    // onDestroy(() => {
-    //     loader.then(m => m.destroy());
-    //     loader = null;
-    //     manager = null;
-    // });
+    // handle sketch destroy
+    onDestroy(() => {
+        loader.then(m => m.destroy());
+        loader = null;
+        manager = null;
+    });
 
-    // // update settings and data
-    // $: manager && manager.update(settings);
+    // update settings and data
+    $: manager && manager.update(sketch.settings);
     // $: dataChanged(data);
     
     // function dataChanged (data) {
@@ -46,8 +45,12 @@
 
     $: sketchChanged(sketch);
 
-    function sketchChanged(sketch) {
-        console.log(sketch);
+    function sketchChanged(params) {
+        console.log(params);
+        // if (manager) {
+        //     // Object.assign(manager.props.data, data);
+        //     manager.render();
+        // }
     }
 </script>
 

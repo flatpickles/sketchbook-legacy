@@ -38,8 +38,8 @@
   //   }
   // }
 
-  function paramUpdated(param) {
-    // Trigger reactivity
+  function paramUpdated() {
+    // Svelte reactivity with param input updates
     sketch = sketch;
   }
 
@@ -57,11 +57,28 @@
     <div class='panel'>
         {#each Object.values(sketch.params) as param}
             {#if (param instanceof FloatParam)}
-                <SliderInput label={param.name} on:input={paramUpdated} bind:value={param.value} min={param.min} max={param.max}></SliderInput>
+                <SliderInput
+                    label={param.name}
+                    on:input={paramUpdated}
+                    on:change={paramUpdated}
+                    bind:value={param.value}
+                    min={param.min}
+                    max={param.max}>
+                </SliderInput>
             {:else if (param instanceof BoolParam)}
-                <CheckboxInput label={param.name} on:input={paramUpdated} bind:value={param.value}></CheckboxInput>
+                <CheckboxInput
+                    label={param.name}
+                    on:input={paramUpdated}
+                    on:change={paramUpdated}
+                    bind:value={param.value}>
+                </CheckboxInput>
             {:else if (param instanceof ColorParam)}
-                <ColorInput label={param.name} on:input={paramUpdated} bind:value={param.value}></ColorInput>
+                <ColorInput
+                    label={param.name}
+                    on:input={paramUpdated}
+                    on:change={paramUpdated}
+                    bind:value={param.value}>
+                </ColorInput>
             {/if}
         {/each}
     </div>

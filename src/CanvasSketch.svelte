@@ -3,61 +3,37 @@
     import { onMount, onDestroy } from 'svelte';
 
     export let sketch;
-
-    let canvas;
-
-    // export let settings = {
-    //     dimensions: undefined
-    // };
+    let canvas, loadedSketch, canvasSketchManager;
     
-    // export let data = {};
-    // export let sketch = () => {};
-    
-    // handle sketch loaded
-    let loader, manager;
     onMount(async () => {
+        loadCurrentSketch();
+    });
+
+    $: sketchChanged(sketch);
+    function sketchChanged(sketch) {
+        if (canvas && sketch != loadedSketch) {
+            loadCurrentSketch();
+        } else if (canvasSketchManager) {
+            canvasSketchManager.render();
+        }
+    }
+
+    async function loadCurrentSketch() {
+        console.log('Loading "' + sketch.name +'"');
+        if (canvasSketchManager) canvasSketchManager.unload();
         const opt = {
             ...sketch.settings,
             canvas,
             parent: canvas.parentElement
         };
-        loader = canvasSketch(sketch.sketchFn, opt);
-        manager = await loader;
-    });
-    
-    // handle sketch destroy
-    onDestroy(() => {
-        loader.then(m => m.destroy());
-        loader = null;
-        manager = null;
-    });
-
-    // update settings and data
-    $: manager && manager.update(sketch.settings);
-    // $: dataChanged(data);
-    
-    // function dataChanged (data) {
-    //     if (manager) {
-    //         Object.assign(manager.props.data, data);
-    //         manager.render();
-    //     }
-    // }
-
-    $: sketchChanged(sketch);
-
-    function sketchChanged(params) {
-        console.log(params);
-        // if (manager) {
-        //     // Object.assign(manager.props.data, data);
-        //     manager.render();
-        // }
+        canvasSketchManager = await canvasSketch(sketch.sketchFn, opt);
+        loadedSketch = sketch;
     }
 </script>
 
 <canvas bind:this={canvas} />
 
 <style>
-    /* Optionally style the canvas here */
     canvas {
         margin: auto;
         display: block;

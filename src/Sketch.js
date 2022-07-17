@@ -26,7 +26,9 @@ export class Sketch {
     params = {};
     settings = {
         scaleToView: true,
-        dimensions: [ 1280, 1280 ]
+        dimensions: [ 1280, 1280 ],
+        // animate: true,
+        // duration: Infinity
     };
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
@@ -48,8 +50,8 @@ export class SketchDemo1 extends Sketch {
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
             context.clearRect(0, 0, width, height);
-            context.fillStyle = this.params.isGreen.value ? '#00ff00' : 'ffffff';
-            context.fillRect(0, 0, width * this.params.bigness.value, this.params.bigness.value); 
+            context.fillStyle = this.params.isGreen.value ? '#00ff00' : '#000000';
+            context.fillRect(0, 0, width * this.params.bigness.value, height * this.params.bigness.value);
         };
     };
 }
@@ -65,8 +67,8 @@ export class SketchDemo2 extends Sketch {
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
             context.clearRect(0, 0, width, height);
-            context.fillStyle = this.params.Blue.value ? '#0000ff' : 'ffffff';
-            context.fillRect(0, 0, width * this.params.bignessP.value / 100, this.params.bignessP.value / 100); 
+            context.fillStyle = this.params.isBlue.value ? '#0000ff' : '#000000';
+            context.fillRect(0, 0, width * this.params.bignessP.value / 100, height * this.params.bignessP.value / 100); 
         };
     };
 }

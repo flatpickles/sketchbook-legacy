@@ -4,12 +4,12 @@ The vision for this project is to have a nice web app UI around an ever growing 
 
 I'm starting from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15b5f63dc?version=3.12.1), but will end up heavily modifying it.
 
-Basic UI:
+### Basic UI:
 * Left and right panels that slide out and in with the click of a button
 * Left: list of sketches
 * Right: customizable parameter / about pane
 
-Considerations:
+### Considerations:
 * Not necessarily optimizing for canvas-sketch only, having that just be one type of sub-component.
 * [svelte-self](https://svelte.dev/tutorial/svelte-self) for nested folders containing sketches
 * A way to link to a sketch directly, e.g. from flatpickles.com
@@ -18,3 +18,16 @@ Considerations:
 * Sorting the list by name and by date published
 * How to make this easily usable for other people to use with their collections of things?
 * If it's going to be a static site, we need a manifest of sorts for all files and their data - perhaps a JSON file.
+
+### To-do list:
+* Divide up classes in Sketch.js
+* Do some testing with full-screen, and animation stuff
+* Style improvements to sidebars
+* Show/hide sidebars
+* Export frame option
+* Export video option (?)
+* Parameter saving/loading via local storage
+* URL arguments -> sketch loading 
+* Visit without a URL argument -> last viewed sketch (?)
+* Webcam & microphone inputs
+* Options for other types of sketches that aren't canvas-sketch - just svelte components (?)

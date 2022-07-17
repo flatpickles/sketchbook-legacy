@@ -1,54 +1,22 @@
 <script>
     import CanvasSketch from './CanvasSketch.svelte';
-    import { ColorParam, FloatParam, BoolParam } from './Sketch.js';
     import SliderInput from './InputComponents/SliderInput.svelte';
     import ColorInput from './InputComponents/ColorInput.svelte';
-    import CheckboxInput from './InputComponents/CheckboxInput.svelte';
+    import CheckboxInput from './InputComponents/CheckboxInput.svelte'
+    import { ColorParam, FloatParam, BoolParam } from '../Sketches/Base/SketchParam.js'; // todo
 
     export let sketch;
-    
-  //   let localStorageSupported = (() => {
-  //       try {
-  //           return typeof window.localStorage !== 'undefined';
-  //       } catch (err) {
-  //           return false;
-  //       }
-  //   })();
 
-  //   // None of this will work in the sandbox REPL but it will work offline
-  // readData(settings, data);
-  // $: saveData(settings, data);
-
-  // function saveData(settings, data) {
-  //   if (localStorageSupported && settings.localStorage !== false) {
-  //     window.localStorage.setItem("data", JSON.stringify(data));
-  //   }
-  // }
-
-  // function readData(settings, data) {
-  //   if (localStorageSupported && settings.localStorage !== false) {
-  //     try {
-  //       const prev = window.localStorage.getItem("data");
-  //       if (!prev) return;
-  //       const newData = JSON.parse(prev);
-  //       Object.assign(data, newData);
-  //     } catch (err) {
-  //       console.warn(err);
-  //     }
-  //   }
-  // }
-
-  function paramUpdated() {
-    // Svelte reactivity with param input updates
-    sketch = sketch;
-  }
-
+    function paramUpdated() {
+        // Svelte reactivity with param input updates
+        sketch = sketch;
+    }
 </script>
 
 <main>
     <div class='panel'>
       <slot>
-        <!-- Sketch list -->
+        <!-- Sketch list goes here! -->
       </slot>
     </div>
     <div class='viewport'>

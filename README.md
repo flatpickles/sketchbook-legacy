@@ -18,9 +18,12 @@ I'm starting from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46ea
 * Sorting the list by name and by date published
 * How to make this easily usable for other people to use with their collections of things?
 * If it's going to be a static site, we need a manifest of sorts for all files and their data - perhaps a JSON file.
+* MIDI input could be cool, to build visualizers that respond to midi playing.
 
 ### To-do list:
-* Divide up classes in Sketch.js
+* Fix dependency injection design for parameter types in viewer
+* Create a shader demo
+* Useful signal inputs for all sketches - mouse position, other numbers, images, files...
 * Do some testing with full-screen, and animation stuff
 * Style improvements to sidebars
 * Show/hide sidebars

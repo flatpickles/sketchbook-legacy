@@ -2,7 +2,6 @@
     import ParamInput from './ParamInput.svelte';
 
     export let label = '';
-
     export let value = 0;
     export let min = 0;
     export let max = 1;

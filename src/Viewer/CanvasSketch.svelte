@@ -1,6 +1,6 @@
 <script>
     import canvasSketch from 'canvas-sketch';
-    import { onMount, onDestroy } from 'svelte';
+    import { onMount } from 'svelte';
 
     export let sketch;
     let canvas, loadedSketch, canvasSketchManager;

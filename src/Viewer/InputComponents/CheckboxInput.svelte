@@ -2,7 +2,6 @@
     import ParamInput from './ParamInput.svelte';
 
     export let label = '';
-
     export let value = false;
 </script>
 

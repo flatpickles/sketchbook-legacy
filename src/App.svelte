@@ -1,13 +1,8 @@
 <script>
-    import SketchViewer from './SketchViewer.svelte';
-    import { SketchDemo1, SketchDemo2 } from './Sketch.js';
+    import SketchViewer from './Viewer/SketchViewer.svelte';
+    import sketches from './SketchIndex.js';
 
-    const sketches = [
-        new SketchDemo1(),
-        new SketchDemo2(),
-    ];
     let currentSketch = sketches[0];
-
     function sketchSelected(sketch) {
         if (sketch != currentSketch) currentSketch = sketch;
     }
@@ -24,7 +19,6 @@
                     on:click={sketchSelected.bind(this, sketch)}>
                         {sketch.name}
                 </span>
-                <!-- {JSON.stringify(sketch.params)} -->
             </li>
         {/each}
     </ul>

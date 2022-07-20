@@ -1,4 +1,4 @@
-import Sketch from './Base/Sketch.js';
+import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam } from './Base/SketchParam.js';
 
 import createShader from  'canvas-sketch-util/shader';
@@ -6,6 +6,7 @@ import createShader from  'canvas-sketch-util/shader';
 
 export default class SketchShaderDemo extends Sketch {
     name = "Test Sketch 2";
+    type = SketchType.Shader;
 
     settings = {
         dimensions: [ 512, 512 ],

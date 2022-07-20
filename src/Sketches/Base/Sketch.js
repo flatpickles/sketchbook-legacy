@@ -1,5 +1,12 @@
+export const SketchType = {
+    Undefined: "Undefined",
+    Canvas: "Canvas",
+    Shader: "Shader"
+}
+
 export default class Sketch {
     name = "Unnamed Sketch";
+    type = SketchType.Undefined
     params = {};
     settings = {
         scaleToView: true,

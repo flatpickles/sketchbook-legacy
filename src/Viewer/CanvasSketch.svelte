@@ -12,10 +12,13 @@
     $: sketchChanged(sketch);
     function sketchChanged(sketch) {
         if (canvas && sketch != loadedSketch) {
-            // Canvas must be recreated for a new sketch when the context changes type
-            // sketchChanged is called before the DOM updates, so setTimeout to execute after
-            // Todo: can we delay/recreate ONLY when the context changes?
-            setTimeout(loadCurrentSketch, 0);
+            if (sketch.type != loadedSketch.type) {
+                // Canvas must be recreated for a new sketch when the context changes type
+                // sketchChanged is called before the DOM updates, so use setTimeout to execute after
+                setTimeout(loadCurrentSketch, 0);
+            } else {
+                loadCurrentSketch();
+            }
         } else if (canvas && canvasSketchManager && sketch == loadedSketch) {
             canvasSketchManager.render();
         }
@@ -32,7 +35,7 @@
     }
 </script>
 
-{#key sketch.name}
+{#key sketch.type}
     <canvas bind:this={canvas} />
 {/key}
 

@@ -21,9 +21,10 @@ I'm starting from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46ea
 * MIDI input could be cool, to build visualizers that respond to midi playing.
 
 ### To-do list:
-* Create a shader demo
-* Useful signal inputs for all sketches - mouse position, other numbers, images, files...
+* Parameter improvements: `this.params.param.value` is awkward
 * Do some testing with full-screen, and animation stuff
+* Options for sketch type that doesn't use canvas-sketch - just vanilla svelte
+* Useful signal inputs for all sketches - mouse position, other numbers, images, files...
 * Style improvements to sidebars
 * Show/hide sidebars
 * Webcam & microphone inputs
@@ -34,4 +35,3 @@ I'm starting from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46ea
 * Visit without a URL argument -> last viewed sketch (?)
 * Export frame option
 * Export video option (?)
-* Options for other types of sketches that aren't canvas-sketch - just svelte components (?)

@@ -3,7 +3,7 @@
     import SliderInput from './InputComponents/SliderInput.svelte';
     import ColorInput from './InputComponents/ColorInput.svelte';
     import CheckboxInput from './InputComponents/CheckboxInput.svelte'
-    import { ColorParam, FloatParam, BoolParam } from '../Sketches/Base/SketchParam.js'; // todo
+    import { ColorParam, FloatParam, BoolParam } from '../Sketches/Base/SketchParam.js';
 
     export let sketch;
 

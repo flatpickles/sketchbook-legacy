@@ -2,7 +2,7 @@ import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam } from './Base/SketchParam.js';
 
 export default class SketchCanvasDemo extends Sketch {
-    name = 'Test Sketch 1';
+    name = 'Test Canvas Sketch';
     type = SketchType.Canvas;
 
     params = {

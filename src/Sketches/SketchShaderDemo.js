@@ -5,12 +5,12 @@ import createShader from  'canvas-sketch-util/shader';
 import shaderString from './SketchShaderDemo.frag';
 
 export default class SketchShaderDemo extends Sketch {
-    name = "Test Shader Sketch";
+    name = "Test Shaders";
     type = SketchType.Shader;
 
     settings = {
-        dimensions: [ 512, 512 ],
         context: 'webgl',
+        scaleToView: true,
         animate: true
     };
 

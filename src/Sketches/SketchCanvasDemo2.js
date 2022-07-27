@@ -2,13 +2,17 @@ import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam } from './Base/SketchParam.js';
 
 export default class SketchCanvasDemo2 extends Sketch {
-    name = 'Test Sketch 3';
+    name = 'Test 3';
     type = SketchType.Canvas;
 
     params = {
         bigness: new FloatParam('Bigness', 0.3, 0, 1),
         isRed: new BoolParam('Is Red', true)
     };
+
+    settings = {
+        scaleToView: true,
+    }
     
     sketchFn = ({}) => {
         return ({ context, width, height }) => {

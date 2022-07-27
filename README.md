@@ -1,13 +1,11 @@
 # sketchbook
 
-The vision for this project is to have a nice web app that presents an ever growing series of AV multimedia projects. These "sketches" may be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser.
-
-I started from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15b5f63dc?version=3.12.1), but have modified it extensively. 
+The vision for this project is to have a nice web app that presents an ever growing series of AV multimedia sketches. These may be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. I started from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15b5f63dc?version=3.12.1), but have since modified it extensively. 
 
 ## Feature wishlist & next steps
-* Full-screen shaders
-* Style improvements to sidebars
 * Show/hide sidebars
+* Style improvements to sidebars
+* Pretty font(s)
 * Inputs:
     * Mouse position
     * Microphone
@@ -23,6 +21,7 @@ I started from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15
 * Experimental vs. "production" sketches
 * Folders for sketch index display organization
 * Sketch sorting options: alphabetical or most recent
+* Date metadata & display for sketches (in sidebar)
 
 ## Workflow wishlist
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte

@@ -13,59 +13,44 @@
     }
 </script>
 
-<main>
-    <div class='panel'>
-      <slot>
+<div class='panel'>
+    <slot>
         <!-- Sketch list goes here! -->
-      </slot>
-    </div>
-    <div class='viewport'>
-        <CanvasSketch {sketch}/>
-    </div>
-    <div class='panel'>
-        {#each Object.values(sketch.params) as param}
-            {#if (param instanceof FloatParam)}
-                <SliderInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                    min={param.min}
-                    max={param.max}>
-                </SliderInput>
-            {:else if (param instanceof BoolParam)}
-                <CheckboxInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}>
-                </CheckboxInput>
-            {:else if (param instanceof ColorParam)}
-                <ColorInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}>
-                </ColorInput>
-            {/if}
-        {/each}
-    </div>
-</main>
+    </slot>
+</div>
+<div class='viewport'>
+    <CanvasSketch {sketch} />
+</div>
+<div class='panel'>
+    {#each Object.values(sketch.params) as param}
+        {#if (param instanceof FloatParam)}
+            <SliderInput
+                label={param.name}
+                on:input={paramUpdated}
+                on:change={paramUpdated}
+                bind:value={param.value}
+                min={param.min}
+                max={param.max}
+            />
+        {:else if (param instanceof BoolParam)}
+            <CheckboxInput
+                label={param.name}
+                on:input={paramUpdated}
+                on:change={paramUpdated}
+                bind:value={param.value}
+            />
+        {:else if (param instanceof ColorParam)}
+            <ColorInput
+                label={param.name}
+                on:input={paramUpdated}
+                on:change={paramUpdated}
+                bind:value={param.value}
+            />
+        {/if}
+    {/each}
+</div>
 
 <style>
-    :global(body) {
-        margin: 0;
-        padding: 0;
-    }
-    
-    main {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-    }
     .viewport {
         display: flex;
         justify-content: center;

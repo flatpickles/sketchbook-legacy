@@ -1,37 +1,37 @@
 <script>
     import SketchViewer from './Viewer/SketchViewer.svelte';
+    import SketchList from './Viewer/SketchList.svelte';
     import sketches from './SketchIndex.js';
 
     let currentSketch = sketches[0];
-    function sketchSelected(sketch) {
-        if (sketch != currentSketch) currentSketch = sketch;
+    function sketchSelection(event) {
+        const selectedSketch = event.detail.sketch;
+        if (selectedSketch != currentSketch) currentSketch = selectedSketch;
     }
 </script>
 
-<SketchViewer sketch={currentSketch}>
-    <ul>
-        {#each sketches as sketch}
-            <li>
-                <span
-                    class='sketch_item'
-                    class:sketch_unselected={sketch != currentSketch}
-                    class:sketch_selected={sketch == currentSketch}
-                    on:click={sketchSelected.bind(this, sketch)}>
-                        {sketch.name}
-                </span>
-            </li>
-        {/each}
-    </ul>
-</SketchViewer>
+<main>
+    <SketchViewer sketch={currentSketch}>
+        <SketchList
+            sketches={sketches}
+            selected={currentSketch}
+            on:selection={sketchSelection}
+        />
+    </SketchViewer>
+</main>
 
 <style>
-    .sketch_item {
-        cursor: pointer;
+    :global(body) {
+        margin: 0;
+        padding: 0;
     }
-    .sketch_selected {
-        font-weight: bold;
-    }
-    .sketch_unselected {
-        font-style: italic;
+    
+    main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
     }
 </style>

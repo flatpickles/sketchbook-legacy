@@ -3,7 +3,7 @@
 The vision for this project is to have a nice web app that presents an ever growing series of AV multimedia sketches. These may be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. I started from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15b5f63dc?version=3.12.1), but have since modified it extensively. 
 
 ## Feature wishlist & next steps
-* Show/hide sidebars
+* Show/hide sidebars - adapt 'panel' class in SketchViewer
 * Style improvements to sidebars
 * Pretty font(s)
 * Inputs:
@@ -29,7 +29,6 @@ The vision for this project is to have a nice web app that presents an ever grow
 * Making it easier for others to create their own sketchbooks
 
 ## Architecture notes
-* Dedicated sidebar component
 * Cleaner parameter display logic/architecture in SketchViewer
 * Perhaps a single param component referenced from SketchViewer
 * Types at top level of app (sketch types, parameter types)

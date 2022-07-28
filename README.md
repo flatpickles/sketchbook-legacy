@@ -12,6 +12,8 @@ The vision for this project is to have a nice web app that presents an ever grow
     * Webcam
     * MIDI (+ output?)
     * Image (browse & load)
+* Param types
+    * Button
 * Descriptions: left (what's sketchbook?) and right (what's this sketch?)
 * Direct links: URL arguments -> sketch loading
 * Save/load parameter configurations

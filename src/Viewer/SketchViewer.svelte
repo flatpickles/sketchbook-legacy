@@ -11,16 +11,35 @@
         // Svelte reactivity with param input updates
         sketch = sketch;
     }
+
+    let leftBarOpen = false;
+    function toggleLeft() {
+        leftBarOpen = !leftBarOpen;
+    }
 </script>
 
-<div class='panel'>
+<!-- <div class='panel'>
     <slot>
-        <!-- Sketch list goes here! -->
     </slot>
+</div> -->
+
+<div class="left_side" class:open={leftBarOpen}>
+    <div class="left_content">
+        <slot>
+        </slot>
+    </div>
+    <div class="left_button_container">
+        <div class="left_button">
+            <span on:click={toggleLeft}>[x]</span>
+        </div>
+    </div>
 </div>
+
 <div class='viewport'>
     <CanvasSketch {sketch} />
 </div>
+
+<!--
 <div class='panel'>
     {#each Object.values(sketch.params) as param}
         {#if (param instanceof FloatParam)}
@@ -50,18 +69,42 @@
     {/each}
 </div>
 
+-->
 <style>
     .viewport {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        width: 100%;
         height: 100%;
-        flex-basis: 60%;
-        min-width: 200px;
-        flex-grow: 1;
-        flex-shrink: 1;
     }
+
+    .left_side {
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        left: -250px;
+        width: 300px;
+        transition: left 0.3s ease-in-out;
+    }
+
+    .open {
+        left: 0px
+    }
+
+    .left_content {
+        flex-grow: 1;
+        background-color: rgb(0, 0, 0, 20%);
+    }
+
+    .left_button_container {
+        width: 50px;
+        text-align: left;
+        background-color: rgb(0, 0, 0, 0%);
+    }
+
+    .left_button {
+        cursor: pointer;
+    }
+
     .panel {
         padding: 20px;
         box-sizing: border-box;
@@ -71,7 +114,15 @@
         flex-grow: 1;
         flex-shrink: 1;
         height: 100%;
-        background: hsl(0, 0%, 95%);
+        background: hsl(0, 0%, 95%, 50%);
         border-left: 1px solid hsl(0, 0%, 90%);
     }
+
+    
+
+    aside {
+        /* offscreen by default */
+    }
+
+
 </style>

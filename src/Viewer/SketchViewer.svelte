@@ -12,9 +12,14 @@
         sketch = sketch;
     }
 
-    let leftBarOpen = false;
+    let leftPanelOpen = false;
     function toggleLeft() {
-        leftBarOpen = !leftBarOpen;
+        leftPanelOpen = !leftPanelOpen;
+    }
+
+    let rightPanelOpen = false;
+    function toggleRight() {
+        rightPanelOpen = !rightPanelOpen;
     }
 </script>
 
@@ -23,89 +28,137 @@
     </slot>
 </div> -->
 
-<div class="left_side" class:open={leftBarOpen}>
-    <div class="left_content">
+<div id="left_panel" class="panel" class:open={leftPanelOpen}>
+    <div class="panel_content">
         <slot>
         </slot>
     </div>
-    <div class="left_button_container">
-        <div class="left_button">
-            <span on:click={toggleLeft}>[x]</span>
+    <div class="button_container">
+        <div class="panel_button">
+            <span on:click={toggleLeft}>
+                {#if leftPanelOpen}
+                    [x]
+                {:else}
+                    [&gt]
+                {/if }
+            </span>
         </div>
     </div>
 </div>
 
-<div class='viewport'>
+<div class="viewport">
     <CanvasSketch {sketch} />
 </div>
 
-<!--
-<div class='panel'>
-    {#each Object.values(sketch.params) as param}
-        {#if (param instanceof FloatParam)}
-            <SliderInput
-                label={param.name}
-                on:input={paramUpdated}
-                on:change={paramUpdated}
-                bind:value={param.value}
-                min={param.min}
-                max={param.max}
-            />
-        {:else if (param instanceof BoolParam)}
-            <CheckboxInput
-                label={param.name}
-                on:input={paramUpdated}
-                on:change={paramUpdated}
-                bind:value={param.value}
-            />
-        {:else if (param instanceof ColorParam)}
-            <ColorInput
-                label={param.name}
-                on:input={paramUpdated}
-                on:change={paramUpdated}
-                bind:value={param.value}
-            />
-        {/if}
-    {/each}
+<div id="right_panel" class="panel" class:open={rightPanelOpen}>
+    <div class="button_container">
+        <div class="panel_button">
+            <span on:click={toggleRight}>
+                {#if rightPanelOpen}
+                    [x]
+                {:else}
+                    [&lt]
+                {/if }
+            </span>
+        </div>
+    </div>
+    <div class="panel_content">
+        {#each Object.values(sketch.params) as param}
+            {#if (param instanceof FloatParam)}
+                <SliderInput
+                    label={param.name}
+                    on:input={paramUpdated}
+                    on:change={paramUpdated}
+                    bind:value={param.value}
+                    min={param.min}
+                    max={param.max}
+                />
+            {:else if (param instanceof BoolParam)}
+                <CheckboxInput
+                    label={param.name}
+                    on:input={paramUpdated}
+                    on:change={paramUpdated}
+                    bind:value={param.value}
+                />
+            {:else if (param instanceof ColorParam)}
+                <ColorInput
+                    label={param.name}
+                    on:input={paramUpdated}
+                    on:change={paramUpdated}
+                    bind:value={param.value}
+                />
+            {/if}
+        {/each}
+    </div>
 </div>
 
--->
 <style>
     .viewport {
         width: 100%;
         height: 100%;
     }
 
-    .left_side {
+    .panel {
         position: fixed;
         display: flex;
         flex-direction: row;
         height: 100%;
-        left: -250px;
         width: 300px;
+    }
+
+    .panel_content {
+        padding: 20px;
+        flex-grow: 1;
+        background-color: rgb(255, 255, 255, 70%);
+    }
+
+    #left_panel {
+        left: -250px;
         transition: left 0.3s ease-in-out;
     }
 
-    .open {
+    #left_panel.open {
         left: 0px
     }
 
-    .left_content {
-        flex-grow: 1;
-        background-color: rgb(0, 0, 0, 20%);
+    #left_panel .button_container {
+        text-align: left;
     }
 
-    .left_button_container {
+    #left_panel .panel_content {
+        border-right: 2px solid black;
+    }
+
+    #right_panel {
+        left: calc(100vw - 50px);
+        transition: left 0.3s ease-in-out;
+    }
+
+    #right_panel.open {
+        left: calc(100vw - 300px);
+    }
+
+    #right_panel .button_container {
+        text-align: right;
+    }
+
+    #right_panel .panel_content {
+        border-left: 2px solid black;
+    }
+
+    .panel_content {
+    }
+
+    .button_container {
         width: 50px;
-        text-align: left;
         background-color: rgb(0, 0, 0, 0%);
     }
 
-    .left_button {
+    .panel_button {
         cursor: pointer;
     }
 
-    .panel {
+    /* .panel {
         padding: 20px;
         box-sizing: border-box;
         flex-basis: 300px;
@@ -116,13 +169,7 @@
         height: 100%;
         background: hsl(0, 0%, 95%, 50%);
         border-left: 1px solid hsl(0, 0%, 90%);
-    }
-
-    
-
-    aside {
-        /* offscreen by default */
-    }
+    } */
 
 
 </style>

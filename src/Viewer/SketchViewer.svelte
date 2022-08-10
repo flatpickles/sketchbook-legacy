@@ -1,15 +1,11 @@
 <script>
     import CanvasSketch from './CanvasSketch.svelte';
-    import SliderInput from './InputComponents/SliderInput.svelte';
-    import ColorInput from './InputComponents/ColorInput.svelte';
-    import CheckboxInput from './InputComponents/CheckboxInput.svelte'
-    import { ColorParam, FloatParam, BoolParam } from '../Sketches/Base/SketchParam.js';
 
     export let sketch;
+    let sketchComponent;
 
-    function paramUpdated() {
-        // Svelte reactivity with param input updates
-        sketch = sketch;
+    export function update() {
+        sketchComponent.update();
     }
 
     let leftPanelOpen = false;
@@ -23,18 +19,13 @@
     }
 </script>
 
-<!-- <div class='panel'>
-    <slot>
-    </slot>
-</div> -->
-
-<div id="left_panel" class="panel" class:open={leftPanelOpen}>
-    <div class="panel_content">
-        <slot>
+<div id='left_panel' class='panel' class:open={leftPanelOpen}>
+    <div class='panel_content'>
+        <slot name='left'>
         </slot>
     </div>
-    <div class="button_container">
-        <div class="panel_button">
+    <div class='button_container'>
+        <div class='panel_button'>
             <span on:click={toggleLeft}>
                 {#if leftPanelOpen}
                     [x]
@@ -46,13 +37,13 @@
     </div>
 </div>
 
-<div class="viewport">
-    <CanvasSketch {sketch} />
+<div class='viewport'>
+    <CanvasSketch {sketch} bind:this={sketchComponent} />
 </div>
 
-<div id="right_panel" class="panel" class:open={rightPanelOpen}>
-    <div class="button_container">
-        <div class="panel_button">
+<div id='right_panel' class='panel' class:open={rightPanelOpen}>
+    <div class='button_container'>
+        <div class='panel_button'>
             <span on:click={toggleRight}>
                 {#if rightPanelOpen}
                     [x]
@@ -62,33 +53,9 @@
             </span>
         </div>
     </div>
-    <div class="panel_content">
-        {#each Object.values(sketch.params) as param}
-            {#if (param instanceof FloatParam)}
-                <SliderInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                    min={param.min}
-                    max={param.max}
-                />
-            {:else if (param instanceof BoolParam)}
-                <CheckboxInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                />
-            {:else if (param instanceof ColorParam)}
-                <ColorInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                />
-            {/if}
-        {/each}
+    <div class='panel_content'>
+        <slot name='right'>
+        </slot>
     </div>
 </div>
 
@@ -107,9 +74,17 @@
     }
 
     .panel_content {
-        padding: 20px;
         flex-grow: 1;
         background-color: rgb(255, 255, 255, 70%);
+    }
+
+    .button_container {
+        width: 50px;
+        background-color: rgb(0, 0, 0, 0%);
+    }
+
+    .panel_button {
+        cursor: pointer;
     }
 
     #left_panel {
@@ -145,31 +120,5 @@
     #right_panel .panel_content {
         border-left: 2px solid black;
     }
-
-    .panel_content {
-    }
-
-    .button_container {
-        width: 50px;
-        background-color: rgb(0, 0, 0, 0%);
-    }
-
-    .panel_button {
-        cursor: pointer;
-    }
-
-    /* .panel {
-        padding: 20px;
-        box-sizing: border-box;
-        flex-basis: 300px;
-        min-width: 200px;
-        max-width: 400px;
-        flex-grow: 1;
-        flex-shrink: 1;
-        height: 100%;
-        background: hsl(0, 0%, 95%, 50%);
-        border-left: 1px solid hsl(0, 0%, 90%);
-    } */
-
 
 </style>

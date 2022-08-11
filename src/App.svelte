@@ -6,10 +6,22 @@
 
     let viewerComponent;
 
-    let currentSketch = sketches[0];
+    // Restore currently selected sketch - find index by name (allows reordering)
+    // todo: check URL string to see if we're navigating to a specific sketch, if so use that instead
+    let storedCurrentSketchName = localStorage.getItem('currentSketchName');
+    let storedCurrentSketchIndex = sketches.reduce((foundIdx, sketch, currIdx) => {
+        // foundIdx is null while we're still searching
+        if (foundIdx == null) return (sketch.name === storedCurrentSketchName) ? currIdx : null;
+        else return foundIdx;
+    }, null) ?? 0;
+    let currentSketch = sketches[storedCurrentSketchIndex];
+
     function sketchSelection(event) {
         const selectedSketch = event.detail.sketch;
-        if (selectedSketch != currentSketch) currentSketch = selectedSketch;
+        if (selectedSketch != currentSketch) {
+            currentSketch = selectedSketch;
+            localStorage.setItem('currentSketchName', currentSketch.name);
+        }
     }
 
     function update() {

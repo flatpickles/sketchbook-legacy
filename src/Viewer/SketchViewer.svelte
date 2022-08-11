@@ -8,13 +8,15 @@
         sketchComponent.update();
     }
 
-    let leftPanelOpen = localStorage.getItem('leftPanelOpen') ? (localStorage.getItem('leftPanelOpen') === 'true') : true;
+    let storedLeftPanelState = localStorage.getItem('leftPanelOpen');
+    let leftPanelOpen = storedLeftPanelState ? (storedLeftPanelState === 'true') : true;
     function toggleLeft() {
         leftPanelOpen = !leftPanelOpen;
         localStorage.setItem('leftPanelOpen', leftPanelOpen ? 'true' : 'false');
     }
 
-    let rightPanelOpen = localStorage.getItem('rightPanelOpen') ? (localStorage.getItem('rightPanelOpen') === 'true') : true;
+    let storedRightPanelState = localStorage.getItem('rightPanelOpen');
+    let rightPanelOpen = storedRightPanelState ? (storedRightPanelState === 'true') : true;
     function toggleRight() {
         rightPanelOpen = !rightPanelOpen;
         localStorage.setItem('rightPanelOpen', rightPanelOpen ? 'true' : 'false');

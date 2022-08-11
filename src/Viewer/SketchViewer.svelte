@@ -8,14 +8,16 @@
         sketchComponent.update();
     }
 
-    let leftPanelOpen = false;
+    let leftPanelOpen = localStorage.getItem('leftPanelOpen') ? (localStorage.getItem('leftPanelOpen') === 'true') : true;
     function toggleLeft() {
         leftPanelOpen = !leftPanelOpen;
+        localStorage.setItem('leftPanelOpen', leftPanelOpen ? 'true' : 'false');
     }
 
-    let rightPanelOpen = false;
+    let rightPanelOpen = localStorage.getItem('rightPanelOpen') ? (localStorage.getItem('rightPanelOpen') === 'true') : true;
     function toggleRight() {
         rightPanelOpen = !rightPanelOpen;
+        localStorage.setItem('rightPanelOpen', rightPanelOpen ? 'true' : 'false');
     }
 </script>
 

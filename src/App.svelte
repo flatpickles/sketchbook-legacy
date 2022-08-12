@@ -15,6 +15,7 @@
         else return foundIdx;
     }, null) ?? 0;
     let currentSketch = sketches[storedCurrentSketchIndex];
+    document.title = currentSketch.name;
 
     // Restore parameter values for all loaded sketches
     sketches.forEach((sketch) => {
@@ -26,6 +27,7 @@
         if (selectedSketch != currentSketch) {
             currentSketch = selectedSketch;
             localStorage.setItem('currentSketchName', currentSketch.name);
+            document.title = currentSketch.name;
         }
     }
 

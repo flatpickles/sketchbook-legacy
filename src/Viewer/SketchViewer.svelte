@@ -29,14 +29,12 @@
         </slot>
     </div>
     <div class='button_container'>
-        <div class='panel_button'>
-            <span on:click={toggleLeft}>
-                {#if leftPanelOpen}
-                    [x]
-                {:else}
-                    [&gt]
-                {/if }
-            </span>
+        <div class='panel_button' on:click={toggleLeft}>
+            {#if leftPanelOpen}
+                &lt
+            {:else}
+                &gt
+            {/if }
         </div>
     </div>
 </div>
@@ -47,14 +45,12 @@
 
 <div id='right_panel' class='panel' class:open={rightPanelOpen}>
     <div class='button_container'>
-        <div class='panel_button'>
-            <span on:click={toggleRight}>
-                {#if rightPanelOpen}
-                    [x]
-                {:else}
-                    [&lt]
-                {/if }
-            </span>
+        <div class='panel_button' on:click={toggleRight}>
+            {#if rightPanelOpen}
+                &gt
+            {:else}
+                &lt
+            {/if }
         </div>
     </div>
     <div class='panel_content'>
@@ -64,6 +60,10 @@
 </div>
 
 <style>
+    :root {
+        --panel-background: rgb(255, 255, 255, 70%);
+    }
+
     .viewport {
         width: 100%;
         height: 100%;
@@ -79,17 +79,27 @@
 
     .panel_content {
         flex-grow: 1;
-        background-color: rgb(255, 255, 255, 70%);
+        background-color: var(--panel-background);
     }
 
     .button_container {
         width: 50px;
         background-color: rgb(0, 0, 0, 0%);
+        display: flex;
+        flex-direction: row;
+        height: fit-content;
     }
 
     .panel_button {
         cursor: pointer;
+        padding: var(--spacing);
+        border-bottom: var(--border);
+        background-color: var(--panel-background);
+        text-align: center;
+        flex-shrink: 2;
     }
+
+    /* Left panel */
 
     #left_panel {
         left: -250px;
@@ -101,12 +111,18 @@
     }
 
     #left_panel .button_container {
-        text-align: left;
+        justify-content: flex-start;
     }
 
     #left_panel .panel_content {
-        border-right: 2px solid black;
+        border-right: var(--border);
     }
+
+    #left_panel .panel_button {
+        border-right: var(--border);
+    }
+
+    /* Right panel */
 
     #right_panel {
         left: calc(100vw - 50px);
@@ -118,11 +134,15 @@
     }
 
     #right_panel .button_container {
-        text-align: right;
+        justify-content: flex-end;
     }
 
     #right_panel .panel_content {
-        border-left: 2px solid black;
+        border-left: var(--border);
+    }
+
+    #right_panel .panel_button {
+        border-left: var(--border);
     }
 
 </style>

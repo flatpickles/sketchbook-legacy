@@ -31,8 +31,8 @@
     .sketch_item {
         cursor: pointer;
         flex-grow: 1;
-        border-bottom: 2px solid black;
-        padding: 8px;
+        border-bottom: var(--border);
+        padding: var(--spacing);
     }
 
     .sketch_selected {

@@ -47,6 +47,6 @@
 
 <style>
     #list_container {
-        padding: 20px;
+        padding: var(--spacing);
     }
 </style>

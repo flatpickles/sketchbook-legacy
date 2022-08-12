@@ -57,6 +57,11 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
 
+    :global(:root) {
+        --spacing: 8px;
+        --border: 2px solid black;
+    }
+
     :global(body) {
         margin: 0;
         padding: 0;

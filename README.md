@@ -6,8 +6,9 @@ The vision for this project is to have a nice web app that presents an ever grow
 * Style improvements to sidebars
 * Descriptions: left (what's sketchbook?) and right (what's this sketch?)
 * Direct links: URL arguments -> sketch loading
-* Parameter persistence via local storage
 * Pretty font(s)
+* Favicon
+* Crossfade when switching sketches
 * Inputs:
     * Mouse position
     * Microphone
@@ -22,6 +23,7 @@ The vision for this project is to have a nice web app that presents an ever grow
 * Visit without a URL argument -> select last viewed sketch
 * Export frame option and/or record video option
 * Experimental vs. "production" sketches
+* Clear local state
 * Folders for sketch index display organization
 * Sketch sorting options: alphabetical or most recent
 

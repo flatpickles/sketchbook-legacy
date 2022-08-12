@@ -9,8 +9,10 @@
     export let sketch;
 
     const dispatch = createEventDispatcher();
-    function paramUpdated() {
-        dispatch('update', {});
+    function paramUpdated(event) {
+        dispatch('update', {
+            domEvent: event
+        });
     }
 </script>
 

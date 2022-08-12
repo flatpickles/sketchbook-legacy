@@ -3,9 +3,27 @@ export class SketchParam {
         this.name = name;
         this.value = defaultValue;
     }
+
+    storeValue(parentKey) {
+        localStorage.setItem(parentKey + ' ' + this.name, JSON.stringify(this.value));
+    }
+
+    restoreValue(parentKey) {
+        const storedString = localStorage.getItem(parentKey + ' ' + this.name);
+        if (storedString) {
+            this.value = JSON.parse(storedString);
+        }
+    }
 }
 
 export class ColorParam extends SketchParam {
+    storeValue() {
+        throw('ColorParam may need custom storeValue - todo.');
+    }
+
+    restoreValue() {
+        throw('ColorParam may need custom restoreValue - todo.');
+    }
 }
 
 export class BoolParam extends SketchParam {

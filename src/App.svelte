@@ -16,6 +16,11 @@
     }, null) ?? 0;
     let currentSketch = sketches[storedCurrentSketchIndex];
 
+    // Restore parameter values for all loaded sketches
+    sketches.forEach((sketch) => {
+        sketch.restoreParamValues();
+    });
+
     function sketchSelection(event) {
         const selectedSketch = event.detail.sketch;
         if (selectedSketch != currentSketch) {
@@ -24,7 +29,10 @@
         }
     }
 
-    function update() {
+    function update(event) {
+        if (event.detail.domEvent.type === 'change') {
+            currentSketch.storeParamValues();
+        };
         viewerComponent.update();
     }
 </script>

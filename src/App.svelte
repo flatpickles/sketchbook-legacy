@@ -55,10 +55,14 @@
 </main>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+
     :global(body) {
         margin: 0;
         padding: 0;
         overscroll-behavior: none;
+        font-family: 'Inconsolata', monospace;
+        font-size: 20px;
     }
     
     main {

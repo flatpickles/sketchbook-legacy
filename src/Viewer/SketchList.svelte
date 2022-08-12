@@ -11,28 +11,32 @@
     }
 </script>
 
-<ul>
+<div class="list_container">
     {#each sketches as sketch}
-        <li>
-            <span
-                class='sketch_item'
-                class:sketch_unselected={sketch != selected}
-                class:sketch_selected={sketch == selected}
-                on:click={selectSketch.bind(this, sketch)}>
-                    {sketch.name}
-            </span>
-        </li>
+        <div
+            class='sketch_item'
+            class:sketch_selected={sketch == selected}
+            on:click={selectSketch.bind(this, sketch)}>
+                {sketch.name}
+        </div>
     {/each}
-</ul>
+</div>
 
 <style>
+    .list_container {
+        display: flex;
+        flex-direction: column;
+    }
+
     .sketch_item {
         cursor: pointer;
+        flex-grow: 1;
+        border-bottom: 2px solid black;
+        padding: 8px;
     }
+
     .sketch_selected {
+        background-color:  rgb(0, 0, 0, 15%);
         font-weight: bold;
-    }
-    .sketch_unselected {
-        font-style: italic;
     }
 </style>

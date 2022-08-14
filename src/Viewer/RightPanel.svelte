@@ -55,6 +55,8 @@
 
     <div id='description'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
     </div>
 </div>
 
@@ -62,6 +64,8 @@
     #panel_container {
         display: flex;
         flex-direction: column;
+        overflow: auto;
+        max-height: 100vh;
     }
 
     #sketch_name {

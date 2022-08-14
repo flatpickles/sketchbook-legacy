@@ -3,8 +3,6 @@
 The vision for this project is to have a nice web app that presents an ever growing series of AV multimedia sketches. These may be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. I started from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15b5f63dc?version=3.12.1), but have since modified it extensively. 
 
 ## In progress
-* Fix right panel not collapsing all the way
-* Right panel description styling
 * Panel scrolling
 * Date & description metadata in each sketch
 * Show panels & right panel sections only when we have data

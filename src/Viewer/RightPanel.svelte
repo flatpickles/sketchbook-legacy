@@ -84,5 +84,6 @@
     #description {
         padding: var(--spacing);
         border-top: var(--border);
+        font-size: var(--description-font-size);
     }
 </style>

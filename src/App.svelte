@@ -68,6 +68,9 @@
         /* Sidebars */
         --title-font-size: 24px;
         --subtitle-font-size: 14px;
+        --description-font-size: 14px;
+
+        /* Collapse tabs */
         --collapse-tab-text-color: rgb(0, 0, 0);
         --collapse-tab-font-size: 16px;
         --collapse-tab-padding: 4px;

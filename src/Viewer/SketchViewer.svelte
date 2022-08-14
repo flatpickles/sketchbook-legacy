@@ -31,9 +31,9 @@
     <div class='button_container'>
         <div class='panel_button' on:click={toggleLeft}>
             {#if leftPanelOpen}
-                &lt
+                &lt;
             {:else}
-                &gt
+                &gt;
             {/if }
         </div>
     </div>
@@ -47,9 +47,9 @@
     <div class='button_container'>
         <div class='panel_button' on:click={toggleRight}>
             {#if rightPanelOpen}
-                &gt
+                &gt;
             {:else}
-                &lt
+                &lt;
             {/if }
         </div>
     </div>
@@ -81,6 +81,7 @@
 
     .button_container {
         width: 50px;
+        flex-shrink: 0;
         background-color: rgb(0, 0, 0, 0%);
         display: flex;
         flex-direction: row;
@@ -97,6 +98,7 @@
         backdrop-filter: var(--panel-filter);
         text-align: center;
         flex-shrink: 2;
+        user-select: none;
     }
 
     /* Left panel */

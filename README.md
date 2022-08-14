@@ -9,7 +9,6 @@ The vision for this project is to have a nice web app that presents an ever grow
 
 ## Feature wishlist & next steps
 * Direct links: URL arguments -> sketch loading
-* Favicon
 * Crossfade when switching sketches
 * Inputs:
     * Mouse position

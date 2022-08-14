@@ -5,6 +5,13 @@ export default class SketchCanvasDemo extends Sketch {
     name = 'Test Canvas Sketch';
     type = SketchType.Canvas;
     date = new Date("3/2/2020");
+    description = `
+        Yadda yadda yadda
+
+        Multiple lines and such!??!
+
+        Sweet stuff yeah let's rock
+    `;
 
     params = {
         bigness: new FloatParam('Bigness', 0.7, 0, 1),

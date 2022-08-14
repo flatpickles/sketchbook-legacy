@@ -1,13 +1,14 @@
 export const SketchType = {
-    Undefined: "Undefined",
-    Canvas: "Canvas",
-    Shader: "Shader"
+    Undefined: 'Undefined',
+    Canvas: 'Canvas',
+    Shader: 'Shader'
 }
 
 export default class Sketch {
-    name = "Unnamed Sketch";
+    name = 'Unnamed Sketch';
     type = SketchType.Undefined;
     date = new Date();
+    description = undefined;
     params = {};
     settings = {};
     sketchFn = ({}) => {

@@ -28,40 +28,42 @@
         })}
     </div>
 
-    <div id='list_container'>
-        {#each Object.values(sketch.params) as param}
-            {#if (param instanceof FloatParam)}
-                <SliderInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                    min={param.min}
-                    max={param.max}
-                />
-            {:else if (param instanceof BoolParam)}
-                <CheckboxInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                />
-            {:else if (param instanceof ColorParam)}
-                <ColorInput
-                    label={param.name}
-                    on:input={paramUpdated}
-                    on:change={paramUpdated}
-                    bind:value={param.value}
-                />
-            {/if}
-        {/each}
-    </div>
+    {#if sketch.params && Object.values(sketch.params).length > 0}
+        <div id='list_container'>
+            {#each Object.values(sketch.params) as param}
+                {#if (param instanceof FloatParam)}
+                    <SliderInput
+                        label={param.name}
+                        on:input={paramUpdated}
+                        on:change={paramUpdated}
+                        bind:value={param.value}
+                        min={param.min}
+                        max={param.max}
+                    />
+                {:else if (param instanceof BoolParam)}
+                    <CheckboxInput
+                        label={param.name}
+                        on:input={paramUpdated}
+                        on:change={paramUpdated}
+                        bind:value={param.value}
+                    />
+                {:else if (param instanceof ColorParam)}
+                    <ColorInput
+                        label={param.name}
+                        on:input={paramUpdated}
+                        on:change={paramUpdated}
+                        bind:value={param.value}
+                    />
+                {/if}
+            {/each}
+        </div>
+    {/if}
 
-    <div id='description'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
-    </div>
+    {#if sketch.description}
+        <div id='description'>
+            {sketch.description.trim()}
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -82,16 +84,17 @@
         font-size: var(--subtitle-font-size);
         padding: var(--spacing);
         padding-top: 4px;
-        border-bottom: var(--border);
     }
 
     #list_container {
         padding: var(--spacing);
+        border-top: var(--border);
     }
 
     #description {
         padding: var(--spacing);
         border-top: var(--border);
         font-size: var(--description-font-size);
+        white-space: pre-line;
     }
 </style>

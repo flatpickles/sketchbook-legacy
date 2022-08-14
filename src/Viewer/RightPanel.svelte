@@ -21,7 +21,11 @@
         {sketch.name}
     </div>
     <div id="sketch_date">
-        Aug 13, 2022
+        {sketch.date.toLocaleDateString('en-us', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })}
     </div>
 
     <div id='list_container'>

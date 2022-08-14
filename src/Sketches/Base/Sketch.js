@@ -6,7 +6,8 @@ export const SketchType = {
 
 export default class Sketch {
     name = "Unnamed Sketch";
-    type = SketchType.Undefined
+    type = SketchType.Undefined;
+    date = new Date();
     params = {};
     settings = {};
     sketchFn = ({}) => {

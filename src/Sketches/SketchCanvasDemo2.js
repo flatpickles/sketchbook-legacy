@@ -4,6 +4,7 @@ import { FloatParam, BoolParam } from './Base/SketchParam.js';
 export default class SketchCanvasDemo2 extends Sketch {
     name = 'Test 3';
     type = SketchType.Canvas;
+    date = new Date("12/4/2021");
 
     params = {
         bigness: new FloatParam('Bigness', 0.3, 0, 1),

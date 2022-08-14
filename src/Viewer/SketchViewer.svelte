@@ -88,10 +88,12 @@
     }
 
     .panel_button {
+        color: var(--collapse-tab-text-color);
+        font-size: var(--collapse-tab-font-size);
         cursor: pointer;
-        padding: var(--spacing);
+        padding: var(--collapse-tab-padding);
         border-bottom: var(--border);
-        background-color: var(--panel-background);
+        background-color: var(--collapse-tab-bg-color);
         backdrop-filter: var(--panel-filter);
         text-align: center;
         flex-shrink: 2;

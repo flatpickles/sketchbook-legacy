@@ -1,7 +1,7 @@
 <script>
     import SketchViewer from './Viewer/SketchViewer.svelte';
-    import SketchList from './Viewer/SketchList.svelte';
-    import ParamList from './Viewer/ParamList.svelte';
+    import LeftPanel from './Viewer/LeftPanel.svelte';
+    import RightPanel from './Viewer/RightPanel.svelte';
     import sketches from './SketchIndex.js';
 
     let viewerComponent;
@@ -42,14 +42,17 @@
 <main>
     <SketchViewer sketch={currentSketch} bind:this={viewerComponent}>
         <span slot="left">
-            <SketchList
+            <LeftPanel
                 sketches={sketches}
                 selected={currentSketch}
                 on:selection={sketchSelection}
             />
         </span>
         <span slot="right">
-            <ParamList sketch={currentSketch} on:update={update}></ParamList>
+            <RightPanel
+                sketch={currentSketch}
+                on:update={update}
+            />
         </span>
     </SketchViewer>
 </main>
@@ -58,13 +61,22 @@
     :global(:root) {
         /* General */
         --spacing: 8px;
-        --border: 2px solid rgb(0, 0, 0, 90%);
+        --border: 1px solid rgb(0, 0, 0, 90%);
         --panel-background: rgb(255, 255, 255, 70%);
         --panel-filter: blur(5px);
 
+        /* Sidebars */
+        --title-font-size: 24px;
+        --subtitle-font-size: 14px;
+        --collapse-tab-text-color: rgb(0, 0, 0);
+        --collapse-tab-font-size: 14px;
+        --collapse-tab-padding: 4px;
+        --collapse-tab-bg-color: rgb(255, 255, 255, 60%);
+
         /* Sketch list */
-        --selected-text-color: rgb(255, 255, 255);
-        --selected-bg-color: rgb(0, 0, 0, 90%);
+        --sketch-list-font-size: 16px;
+        --selected-text-color: rgb(0, 0, 0);
+        --selected-bg-color: rgb(0, 0, 0, 10%);
     }
 
     :global(body) {

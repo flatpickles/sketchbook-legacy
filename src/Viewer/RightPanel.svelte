@@ -52,6 +52,10 @@
             {/if}
         {/each}
     </div>
+
+    <div id='description'>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa a dolor viverra, et varius nisi molestie. Duis finibus porttitor erat, et hendrerit mi rhoncus quis. Integer ut pellentesque massa. Ut venenatis sapien quis nisl dignissim, nec sodales est posuere. Pellentesque congue porta mi, vitae rutrum diam volutpat in. Aenean libero orci, placerat ac scelerisque in, posuere sed libero. Mauris dapibus congue tellus at pulvinar.
+    </div>
 </div>
 
 <style>
@@ -75,5 +79,10 @@
 
     #list_container {
         padding: var(--spacing);
+    }
+
+    #description {
+        padding: var(--spacing);
+        border-top: var(--border);
     }
 </style>

@@ -69,9 +69,9 @@
         --title-font-size: 24px;
         --subtitle-font-size: 14px;
         --collapse-tab-text-color: rgb(0, 0, 0);
-        --collapse-tab-font-size: 14px;
+        --collapse-tab-font-size: 16px;
         --collapse-tab-padding: 4px;
-        --collapse-tab-bg-color: rgb(255, 255, 255, 60%);
+        --collapse-tab-bg-color: rgb(255, 255, 255, 50%);
 
         /* Sketch list */
         --sketch-list-font-size: 16px;

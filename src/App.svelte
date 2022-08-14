@@ -55,18 +55,23 @@
 </main>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-
     :global(:root) {
+        /* General */
         --spacing: 8px;
-        --border: 2px solid black;
+        --border: 2px solid rgb(0, 0, 0, 90%);
+        --panel-background: rgb(255, 255, 255, 70%);
+        --panel-filter: blur(5px);
+
+        /* Sketch list */
+        --selected-text-color: rgb(255, 255, 255);
+        --selected-bg-color: rgb(0, 0, 0, 90%);
     }
 
     :global(body) {
         margin: 0;
         padding: 0;
         overscroll-behavior: none;
-        font-family: 'Inconsolata', monospace;
+        font-family: monospace;
         font-size: 20px;
     }
     

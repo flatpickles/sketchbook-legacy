@@ -36,7 +36,7 @@
     }
 
     .sketch_selected {
-        background-color:  rgb(0, 0, 0, 15%);
-        font-weight: bold;
+        color: var(--selected-text-color);
+        background-color:  var(--selected-bg-color);
     }
 </style>

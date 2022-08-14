@@ -60,10 +60,6 @@
 </div>
 
 <style>
-    :root {
-        --panel-background: rgb(255, 255, 255, 70%);
-    }
-
     .viewport {
         width: 100%;
         height: 100%;
@@ -80,6 +76,7 @@
     .panel_content {
         flex-grow: 1;
         background-color: var(--panel-background);
+        backdrop-filter: var(--panel-filter);
     }
 
     .button_container {
@@ -95,6 +92,7 @@
         padding: var(--spacing);
         border-bottom: var(--border);
         background-color: var(--panel-background);
+        backdrop-filter: var(--panel-filter);
         text-align: center;
         flex-shrink: 2;
     }

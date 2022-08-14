@@ -30,7 +30,9 @@ The vision for this project is to have a nice web app that presents an ever grow
 ## Workflow wishlist
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte
 * Parameter improvements: `this.params.param.value` is awkward
-* Making it easier for others to create their own sketchbooks
+* Making it easier for others to create their own sketchbooks:
+    * Master branch is just the sketchbook tool, gh-pages branch includes sketches
+    * Allow forking of master branch, updates to & rebases on master branch
 
 ## Architecture notes
 * Cleaner parameter display logic/architecture in SketchViewer

@@ -11,7 +11,6 @@ export default class Util {
         s *= 100;
         l *= 100;
         return 'hsl(' + h.toString() + ', ' + s.toString() + '%, ' + l.toString() + '%)';
-        // return "hsl(" + 100 * h + "%, " + 100 * s + "%, ", 100 * l + "%)";
     }
 
     /**

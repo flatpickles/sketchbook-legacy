@@ -27,6 +27,7 @@
     }
 
     async function loadCurrentSketch() {
+        if (canvasSketchManager) canvasSketchManager.unload();
         const opt = {
             ...sketch.settings,
             canvas,

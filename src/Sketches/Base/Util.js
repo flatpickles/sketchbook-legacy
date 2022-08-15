@@ -14,6 +14,11 @@ export default class Util {
         // return "hsl(" + 100 * h + "%, " + 100 * s + "%, ", 100 * l + "%)";
     }
 
+    /**
+     * Return a continuous triangle wave value for a time input
+     * @param {Number} t Continuous time input
+     * @returns {Number} Triangle value ranging 0-1
+     */
     static triangle(t) {
         if (t % 2 < 1) {
             return t % 1;

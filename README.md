@@ -1,13 +1,14 @@
 # sketchbook
 
-The vision for this project is to have a nice web app that presents an ever growing series of AV multimedia sketches. These may be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. I started from [this template](https://svelte.dev/repl/65d8e61777a44c77bf46eaa15b5f63dc?version=3.12.1), but have since modified it extensively. 
+Sketchbook is a web app that presents an ever growing series of AV multimedia sketches, each with a set of configurable parameters. These sketches could be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. For the time being, sketches may only be built via the magnificent [canvas-sketch framework](https://github.com/mattdesl/canvas-sketch).
 
 ## Known Issues
-* Resizing window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a `margin` value for some reason.
+* Absolutely no mobile support whatsoever
+* Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason
+* The right sidebar floats awkwardly when resizing the window
 * Behavior is undefined with an empty sketch index
 
 ## Feature wishlist & next steps
-* HSV utility function
 * Direct links: URL arguments -> sketch loading
 * Custom parameter control styles + polish
 * Crossfade when switching sketches
@@ -32,12 +33,12 @@ The vision for this project is to have a nice web app that presents an ever grow
 ## Workflow wishlist
 * Parameter improvements: `this.params.param.value` is awkward
 * An easy way to capture current parameter values for use as defaults
-* Making it easier for others to create their own sketchbooks:
+* Making it easier for others to create their own sketchbooks. Potential approach:
     * Master branch is just the sketchbook tool, gh-pages branch includes sketches
     * Allow forking of master branch, updates to & rebases on master branch
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte
 
-## Architecture notes
-* Cleaner parameter display logic/architecture in SketchViewer
-* Perhaps a single param component referenced from SketchViewer
-* Types at top level of app (sketch types, parameter types)
+## Utility function wishlist
+* HSV
+* Kernel applicator
+* Blur(s)

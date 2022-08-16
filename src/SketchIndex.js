@@ -4,9 +4,9 @@ import SketchCanvasDemo2 from './Sketches/SketchCanvasDemo2.js';
 import NoSignal from './Sketches/NoSignal.js';
 
 const sketches = [
-    new SketchCanvasDemo(),
-    new SketchShaderDemo(),
-    new SketchCanvasDemo2(),
+    // new SketchCanvasDemo(),
+    // new SketchShaderDemo(),
+    // new SketchCanvasDemo2(),
     new NoSignal()
 ];
 

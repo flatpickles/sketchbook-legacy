@@ -8,7 +8,7 @@ export default class NoSignal extends Sketch {
     type = SketchType.Canvas;
     date = new Date("8/15/2022");
     description = `
-        A "no signal" graphic, inspired by VCRs and other classic image displays. This was the first sketch project created within Sketchbook. It still needs a bit of a blur beneath the grain.
+        A "no signal" graphic, inspired by VCRs and other classic image displays. This was the first sketch project created within Sketchbook. It still needs a bit of a blur beneath the grain effect.
     `;
 
     params = {

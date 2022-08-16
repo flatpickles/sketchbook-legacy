@@ -10,6 +10,8 @@ Sketchbook is a web app that presents an ever growing series of AV multimedia sk
 
 ## Feature wishlist & next steps
 * Direct links: URL arguments -> sketch loading
+* Option to clear local state
+* FPS meter
 * Custom parameter control styles + polish
 * Crossfade when switching sketches
 * Inputs:
@@ -26,7 +28,6 @@ Sketchbook is a web app that presents an ever growing series of AV multimedia sk
 * Visit without a URL argument -> select last viewed sketch
 * Export frame option and/or record video option
 * Experimental vs. "production" sketches
-* Clear local state
 * Folders for sketch index display organization
 * Sketch sorting options: alphabetical or most recent
 

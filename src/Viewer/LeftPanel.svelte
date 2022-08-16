@@ -53,7 +53,7 @@
 
     <div id='settings_panel_container' class:open={settingsPanelOpen}>
         <div id='settings_panel' bind:clientHeight={settingsPanelHeight}>
-            Sketchbook is a collection of programmatic art pieces.
+            Sketchbook is a collection of programmatic art pieces. It is a work in progress.
             Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
         </div>
     </div>

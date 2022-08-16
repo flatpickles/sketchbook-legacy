@@ -8,7 +8,7 @@ export default class NoSignal extends Sketch {
     type = SketchType.Canvas;
     date = new Date("8/15/2022");
     description = `
-        A "no signal" graphic, inspired by VCRs and other classic image displays. This was the first sketch project created within Sketchbook. It still needs a bit of a blur beneath the grain effect.
+        A "no signal" graphic, inspired by VCRs and other classic image displays. This is the first sketch project created within Sketchbook, and is a simple demo of its capabilities and intent.
     `;
 
     params = {
@@ -81,6 +81,7 @@ export default class NoSignal extends Sketch {
             // Blur (todo)
 
             // Grain effect with minor color distortion
+            /* Grain effect needs optimization
             const originalImage = context.getImageData(0, 0, width, height);
             const modifiedImage = new ImageData(width, height);
             for (let y = 0; y < height; y++) {
@@ -104,6 +105,7 @@ export default class NoSignal extends Sketch {
                 }
             }
             context.putImageData(modifiedImage, 0, 0);
+            */
         };
     };
 }

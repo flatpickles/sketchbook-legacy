@@ -23,6 +23,16 @@
         rightPanelOpen = !rightPanelOpen;
         localStorage.setItem('rightPanelOpen', rightPanelOpen ? 'true' : 'false');
     }
+
+    // Prevent right bar position from animating immediately after a window resize event
+    window.addEventListener('resize', function(event) {
+        // Remove the class with the transition before the animation can roll
+        document.getElementById('right_panel').classList.remove('right_transition');
+        // Add it back on the next DOM update - goofy but daaang it looks fresh
+        setTimeout(() => {
+            document.getElementById('right_panel').classList.add('right_transition');
+        }, 0);
+    }, true);
 </script>
 
 <div id='left_panel' class='panel' class:open={leftPanelOpen}>
@@ -45,7 +55,7 @@
     <CanvasSketch {sketch} bind:this={sketchComponent} />
 </div>
 
-<div id='right_panel' class='panel' class:open={rightPanelOpen} style='--viewport-width: {viewportWidthString}'>
+<div id='right_panel' class='panel right_transition' class:open={rightPanelOpen} style='--viewport-width: {viewportWidthString}'>
     <div class='button_container'>
         <div class='panel_button' on:click={toggleRight}>
             {#if rightPanelOpen}
@@ -73,6 +83,7 @@
         flex-direction: row;
         height: 100%;
         width: 300px;
+        z-index: 10;
     }
 
     .panel_content {
@@ -130,6 +141,9 @@
 
     #right_panel {
         left: calc(var(--viewport-width) - 50px);
+    }
+
+    .right_transition {
         transition: left 0.3s ease-in-out;
     }
 

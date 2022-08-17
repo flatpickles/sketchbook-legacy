@@ -5,7 +5,6 @@ Sketchbook is a web app that presents an ever growing series of AV multimedia sk
 ## Known Issues
 * Absolutely no mobile support whatsoever
 * Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason
-* The right sidebar floats awkwardly when resizing the window
 * Behavior is undefined with an empty sketch index
 
 ## Feature wishlist & next steps

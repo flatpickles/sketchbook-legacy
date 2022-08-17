@@ -3,6 +3,8 @@
 
     export let sketch;
     let sketchComponent;
+    let viewportWidth;
+    $: viewportWidthString = viewportWidth + "px";
 
     export function update() {
         sketchComponent.update();
@@ -39,11 +41,11 @@
     </div>
 </div>
 
-<div class='viewport'>
+<div class='viewport' bind:clientWidth={viewportWidth}>
     <CanvasSketch {sketch} bind:this={sketchComponent} />
 </div>
 
-<div id='right_panel' class='panel' class:open={rightPanelOpen}>
+<div id='right_panel' class='panel' class:open={rightPanelOpen} style='--viewport-width: {viewportWidthString}'>
     <div class='button_container'>
         <div class='panel_button' on:click={toggleRight}>
             {#if rightPanelOpen}
@@ -127,12 +129,12 @@
     /* Right panel */
 
     #right_panel {
-        left: calc(100vw - 50px);
+        left: calc(var(--viewport-width) - 50px);
         transition: left 0.3s ease-in-out;
     }
 
     #right_panel.open {
-        left: calc(100vw - 300px);
+        left: calc(var(--viewport-width) - 300px);
     }
 
     #right_panel .button_container {

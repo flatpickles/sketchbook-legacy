@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from 'svelte';
     import CanvasSketch from './CanvasSketch.svelte';
 
     export let sketch;
@@ -15,6 +16,7 @@
     function toggleLeft() {
         leftPanelOpen = !leftPanelOpen;
         localStorage.setItem('leftPanelOpen', leftPanelOpen ? 'true' : 'false');
+        preventPanelCollision(false);
     }
 
     let storedRightPanelState = localStorage.getItem('rightPanelOpen');
@@ -22,7 +24,25 @@
     function toggleRight() {
         rightPanelOpen = !rightPanelOpen;
         localStorage.setItem('rightPanelOpen', rightPanelOpen ? 'true' : 'false');
+        preventPanelCollision(true);
     }
+
+    // Only allow one open panel at a time for narrow screens
+    onMount(preventPanelCollision);
+    function preventPanelCollision(preferRight = true) {
+        // todo: fix hardcoded width threshold
+        if (leftPanelOpen && rightPanelOpen && window.innerWidth < 600) {
+            leftPanelOpen = !preferRight;
+            rightPanelOpen = preferRight;
+            localStorage.setItem('leftPanelOpen', leftPanelOpen ? 'true' : 'false');
+            localStorage.setItem('rightPanelOpen', rightPanelOpen ? 'true' : 'false');
+        }
+    }
+
+    // Check panels again when the document becomes visible (i.e. tab is selected)
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') preventPanelCollision();
+    });
 
     // Prevent right bar position from animating immediately after a window resize event
     window.addEventListener('resize', function(event) {
@@ -32,6 +52,8 @@
         setTimeout(() => {
             document.getElementById('right_panel').classList.add('right_transition');
         }, 0);
+        // Adjust panels if need be
+        preventPanelCollision();
     }, true);
 </script>
 

@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from 'svelte';
     import CanvasSketch from './CanvasSketch.svelte';
 
     export let sketch;
@@ -28,7 +27,7 @@
     }
 
     // Only allow one open panel at a time for narrow screens
-    onMount(preventPanelCollision);
+    preventPanelCollision();
     function preventPanelCollision(preferRight = true) {
         // todo: fix hardcoded width threshold
         if (leftPanelOpen && rightPanelOpen && window.innerWidth < 600) {

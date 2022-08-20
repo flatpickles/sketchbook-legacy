@@ -5,30 +5,57 @@
     import sketches from './SketchIndex.js';
 
     let viewerComponent;
+    let currentSketch;
 
-    // Restore currently selected sketch - find index by name (allows reordering)
-    // todo: check URL string to see if we're navigating to a specific sketch, if so use that instead
-    let storedCurrentSketchName = localStorage.getItem('currentSketchName');
-    let storedCurrentSketchIndex = sketches.reduce((foundIdx, sketch, currIdx) => {
-        // foundIdx is null while we're still searching
-        if (foundIdx == null) return (sketch.name === storedCurrentSketchName) ? currIdx : null;
-        else return foundIdx;
-    }, null) ?? 0;
-    let currentSketch = sketches[storedCurrentSketchIndex];
-    document.title = currentSketch.name;
+    // Select sketch on page load, and on hash change (fwd/back nav etc)
+    loadInitialSketch();
+    window.onhashchange = loadInitialSketch;
 
     // Restore parameter values for all loaded sketches
     sketches.forEach((sketch) => {
         sketch.restoreParamValues();
     });
 
-    function sketchSelection(event) {
-        const selectedSketch = event.detail.sketch;
+    // Select directly linked sketch OR last viewed sketch
+    function loadInitialSketch() {
+        const normalizeString = (input) => {
+            let output = input.toLowerCase();
+            output = output.replace(/\s+/g, '');
+            output = output.replace(/-+/g, '');
+            output = output.replace(/_+/g, '');
+            return output;
+        };
+        const normalizedLinkName = window.location.hash
+            ? normalizeString(window.location.hash.substring(1))
+            : undefined;
+        const storedName = localStorage.getItem('currentSketchName');
+        const normalizedStoredName = storedName
+            ? normalizeString(storedName)
+            : undefined;
+        let linkedIndex, storedIndex;
+        sketches.forEach((sketch, currentIndex) => {
+            const normalizedSketchName = normalizeString(sketch.name);
+            if (normalizedSketchName === normalizedLinkName) linkedIndex = currentIndex;
+            if (normalizedSketchName === normalizedStoredName) storedIndex = currentIndex;
+        });
+        const sketchToLoadIndex = linkedIndex ?? storedIndex ?? 0;
+        selectSketch(sketches[sketchToLoadIndex]);
+    }
+
+    // Select sketch and update local state, navigation, etc.
+    function selectSketch(selectedSketch) {
         if (selectedSketch != currentSketch) {
             currentSketch = selectedSketch;
             localStorage.setItem('currentSketchName', currentSketch.name);
             document.title = currentSketch.name;
+            const hashName = '#' + currentSketch.name.toLowerCase().replace(/\s+/g, '-');
+            location.hash = hashName;
         }
+    }
+
+    function sketchSelection(event) {
+        const selectedSketch = event.detail.sketch;
+        selectSketch(selectedSketch);
     }
 
     function update(event) {

@@ -8,9 +8,8 @@ Sketchbook is a web app that presents an ever growing series of AV multimedia sk
 * Behavior is undefined with an empty sketch index
 
 ## Feature wishlist & next steps
-* Direct links: URL arguments -> sketch loading
 * Option to clear local state
-* FPS meter
+* FPS meter   
 * Custom parameter control styles + polish
 * Crossfade when switching sketches
 * Inputs:

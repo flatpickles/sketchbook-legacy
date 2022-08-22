@@ -17,6 +17,7 @@
         text-decoration: none;
         cursor: pointer;
         font-size: var(--description-font-size);
+        border-radius: 2px;
     }
 
     button:active {

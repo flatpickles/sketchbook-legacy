@@ -4,12 +4,14 @@ Sketchbook is a web app that presents an ever growing series of AV multimedia sk
 
 ## Known Issues
 * No blur effect behind panels on mobile - they need to be more opaque here
-* Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason (maybe no longer?)
+* Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason
 * Behavior is undefined with an empty sketch index
 
 ## Feature wishlist & next steps
-* FPS meter   
-* Custom parameter control styles + polish
+* FPS meter
+* Parameter control styling:
+    * Custom color styles
+    * Number display for slider inputs
 * Crossfade when switching sketches
 * Inputs:
     * Mouse position

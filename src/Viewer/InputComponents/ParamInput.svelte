@@ -12,15 +12,23 @@
 
 <style>
     .param {
-        margin-top: 20px;
+        margin: 0;
+        padding-top: var(--spacing);
+        padding-bottom: var(--spacing);
         box-sizing: border-box;
         display: flex;
         justify-content: flex-start;
         align-items: center;
     }
+
     div:first-child {
-        margin-top: 0;
+        padding-top: 0;
     }
+
+    div:last-child {
+        padding-bottom: 0;
+    }
+
     .param-wrapper {
         display: flex;
         justify-content: flex-start;

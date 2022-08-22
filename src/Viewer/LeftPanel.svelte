@@ -1,5 +1,7 @@
 <script>
 	import { createEventDispatcher, onMount } from 'svelte';
+    import Button from './InputComponents/Button.svelte';
+
     export let sketches;
     export let selected;
 
@@ -31,6 +33,11 @@
         settingsPanelOpen = !settingsPanelOpen;
         localStorage.setItem('settingsPanelOpen', settingsPanelOpen ? 'true' : 'false');
     }
+
+    function resetState() {
+        localStorage.clear();
+        location.reload();
+    }
 </script>
 
 <div id='panel_container' style='--settings-panel-height: {settingsPanelHeightPx}'>
@@ -53,8 +60,12 @@
 
     <div id='settings_panel_container' class:open={settingsPanelOpen}>
         <div id='settings_panel' bind:clientHeight={settingsPanelHeight}>
-            Sketchbook is a collection of programmatic art pieces. It is a work in progress.
-            Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
+            <p>
+                Sketchbook is a collection of programmatic art pieces. It is a work in progress.
+                Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
+            </p>
+            
+            <Button name='Reset Sketchbook' on:click={resetState}></Button>
         </div>
     </div>
     
@@ -77,6 +88,8 @@
         overflow: auto;
         max-height: 100vh;
     }
+
+    /* Header */
 
     #title {
         font-size: var(--title-font-size);
@@ -101,10 +114,14 @@
         user-select: none;
     }
 
+    /* Settings panel */
+
     #settings_panel {
         font-size: var(--description-font-size);
         padding: var(--spacing);
         padding-top: 0;
+        display: flex;
+        flex-direction: column;
     }
 
     #settings_panel_container {
@@ -118,6 +135,13 @@
         /* CSS cannot transition height to `auto`, so use computed height */
         height: var(--settings-panel-height);
     }
+
+    p {
+        margin: 0;
+        padding-bottom: var(--spacing);
+    }
+
+    /* Sketch list */
 
     #list_container {
         display: flex;

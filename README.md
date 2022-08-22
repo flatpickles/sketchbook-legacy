@@ -1,14 +1,13 @@
 # sketchbook
 
-Sketchbook is a web app that presents an ever growing series of AV multimedia sketches, each with a set of configurable parameters. These sketches could be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. For the time being, sketches may only be built via the magnificent [canvas-sketch framework](https://github.com/mattdesl/canvas-sketch).
+Sketchbook is a web app that presents an ever growing series of AV multimedia sketches, each with a set of configurable parameters. These sketches could be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
 ## Known Issues
 * No blur effect behind panels on mobile - they need to be more opaque here
-* Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason
+* Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason (maybe no longer?)
 * Behavior is undefined with an empty sketch index
 
 ## Feature wishlist & next steps
-* Option to clear local state
 * FPS meter   
 * Custom parameter control styles + polish
 * Crossfade when switching sketches

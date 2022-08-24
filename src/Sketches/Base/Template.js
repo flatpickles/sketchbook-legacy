@@ -1,3 +1,5 @@
+/** Imports assume file is contained within Sketches **/
+
 import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam } from './Base/SketchParam.js';
 

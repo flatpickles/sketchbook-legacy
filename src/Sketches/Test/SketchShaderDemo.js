@@ -1,5 +1,5 @@
-import Sketch, { SketchType } from './Base/Sketch.js';
-import { FloatParam, BoolParam } from './Base/SketchParam.js';
+import Sketch, { SketchType } from '../Base/Sketch.js';
+import { FloatParam, BoolParam } from '../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
 import shaderString from './SketchShaderDemo.frag';

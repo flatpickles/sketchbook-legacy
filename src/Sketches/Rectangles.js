@@ -18,7 +18,7 @@ export default class Rectangles extends Sketch {
     
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
-            const structure = new RectStructure();
+            const structure = new RectStructure(width, height);
             context.clearRect(0, 0, width, height);
             structure.rects.forEach((rect) => {
                 context.rect(rect.origin.x, rect.origin.y, rect.width, rect.height);
@@ -45,11 +45,15 @@ class Rect {
 
 class RectStructure {
     constructor(
+        fullWidth,
+        fullHeight,
         minRectWidth = 50,
         maxRectWidth = 100,
         minRectHeight = 50, 
         maxRectHeight = 100)
     {
+        this.fullWidth = fullWidth;
+        this.fullHeight = fullHeight;
         this.minRectWidth = minRectWidth;
         this.maxRectWidth = maxRectWidth;
         this.minRectHeight = minRectHeight;
@@ -69,7 +73,17 @@ class RectStructure {
 
     generateRects(fromPoint) {
         this.rects = [];
+        this.leftOpen = [];
+
         this.addRect(fromPoint);
+        while (this.leftOpen.length > 0) {
+            const leftRect = this.leftOpen.shift();
+            console.log(leftRect);
+            if (!leftRect) return;
+            const newOrigin = new Point(fromPoint.x + leftRect.width, fromPoint.y);
+            this.addRect(newOrigin);
+            fromPoint = newOrigin;
+        }
 
         // todo: 
         // * maintain a queue (?) of rects that need a rect to the right and/or (?) below
@@ -77,14 +91,23 @@ class RectStructure {
     }
 
     addRect(fromPoint) {
-        const width = Math.min(
+        const widthRemaining = this.fullWidth - fromPoint.x;
+        const heightRemaining = this.fullHeight - fromPoint.y;
+        const width = Math.min(widthRemaining, Math.min(
             this.maxWidth(fromPoint),
             Random.rangeFloor(this.minRectWidth, this.maxRectWidth)
-        );
-        const height = Math.min(
+        ));
+        const height = Math.min(heightRemaining, Math.min(
             this.maxHeight(fromPoint),
             Random.rangeFloor(this.minRectHeight, this.maxRectHeight)
-        );
-        this.rects.push(new Rect(fromPoint, width, height));
+        ));
+
+        const freshRect = new Rect(fromPoint, width, height);
+        this.rects.push(freshRect);
+        if (width != widthRemaining) {
+            this.leftOpen.push(freshRect);
+        }
+
+        return freshRect;
     }
 }

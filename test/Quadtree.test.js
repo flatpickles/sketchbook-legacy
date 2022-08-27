@@ -56,6 +56,8 @@ test('insert multiple objects at the same point', () => {
     quadtree.insert(insertionPoint, "first insertion");
     quadtree.insert(insertionPoint, "second insertion");
     quadtree.insert(insertionPoint, "third insertion");
+    expect(quadtree.quadrants[0]).toBeInstanceOf(QTObject);
+    expect(quadtree.quadrants[0].contents.length).toEqual(3);
     expect(quadtree.getAllObjects().sort()).toMatchObject([
         "first insertion",
         "second insertion",
@@ -63,12 +65,59 @@ test('insert multiple objects at the same point', () => {
     ].sort());
 });
 
+test('insert hella objects', () => {
+    const size = 100;
+    const quadtree = createQuadree(size, size);
+
+    // Generate 10,000 float & int points
+    let insertionPoints = [];
+    for (let i = 0; i < 5000; i++) {
+        const randomFloatPoint = new Point(
+            Math.random() * size,
+            Math.random() * size
+        );
+        insertionPoints.push(randomFloatPoint);
+        const randomIntPoint = new Point(
+            Math.floor(Math.random() * size),
+            Math.floor(Math.random() * size)
+        );
+        insertionPoints.push(randomIntPoint);
+    }
+
+    // Add all the points
+    insertionPoints.forEach((point) => {
+        quadtree.insert(point, point.toString());
+    })
+
+    // Check size and contents
+    const allObjects = quadtree.getAllObjects();
+    expect(allObjects.length).toEqual(insertionPoints.length);
+    expect(allObjects.sort()).toMatchObject(
+        insertionPoints.map(point => point.toString()).sort()
+    );
+});
+
+test('insert throws an error if point is out of bounds', () => {
+    const size = 8;
+    const quadtree = createQuadree(8, 8);
+    const testObj = "Test object.";
+    const justBarelyOut1 = new Point(8, 8);
+    const justBarelyOut2 = new Point(-0.01, -0.01);
+    const wayOut1 = new Point(size * 2, size / 2);
+    const wayOut2 = new Point(size / 2, size * 2);
+    const wayOut3 = new Point(size - 1, -size / 2);
+    const wayOut4 = new Point(-size / 2, size - 1);
+    expect(() => quadtree.insert(justBarelyOut1, testObj)).toThrow();
+    expect(() => quadtree.insert(justBarelyOut2, testObj)).toThrow();
+    expect(() => quadtree.insert(wayOut1, testObj)).toThrow();
+    expect(() => quadtree.insert(wayOut2, testObj)).toThrow();
+    expect(() => quadtree.insert(wayOut3, testObj)).toThrow();
+    expect(() => quadtree.insert(wayOut4, testObj)).toThrow();
+})
 
 /* todo
 
 Test:
-- inserting hella stuff
-- exceptions
 - search
 
 */

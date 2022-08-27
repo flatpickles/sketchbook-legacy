@@ -118,8 +118,8 @@ export default class QTNode {
     }
 
     _checkPoint(point) {
-        if (point.lt(this.northWestCorner) || point.gte(this.southEastCorner)) {
-            throw point.toSring() + ' is outside of node bounds';
+        if (!point.lt(this.southEastCorner) || !point.gte(this.northWestCorner)) {
+            throw point.toString() + ' is outside of node bounds';
         }
     }
 }

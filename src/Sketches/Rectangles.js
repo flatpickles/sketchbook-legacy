@@ -24,7 +24,7 @@ export default class Rectangles extends Sketch {
             context.fillRect(0, 0, width, height);
             context.strokeStyle = '#FFF';
             structure.rects.forEach((rect) => {
-                context.fillStyle = '#777';
+                context.fillStyle = '#AAA';
                 context.rect(rect.origin.x, rect.origin.y, rect.width, rect.height);
                 context.fill();
                 context.stroke();
@@ -37,6 +37,22 @@ class Point {
     constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
+    }
+
+    gt(point) {
+        return this.x > point.x && this.y > point.y;
+    }
+
+    gte(point) {
+        return this.x >= point.x && this.y >= point.y;
+    }
+
+    lt(point) {
+        return this.x < point.x && this.y < point.y;
+    }
+
+    lte(point) {
+        return this.x <= point.x && this.y <= point.y;
     }
 }
 
@@ -131,6 +147,7 @@ class QTNode {
     constructor(northWestCorner, southEastCorner) {
         this.northWestCorner = northWestCorner;
         this.southEastCorner = southEastCorner;
+        this.quadrants = [null, null, null, null]; // [NW, NE, SW, SE]
 
         // assuming top-left origin, naturally
         this.width = southEastCorner.x - northWestCorner.x;
@@ -145,40 +162,63 @@ class QTNode {
         this._checkPoint(point);
         const north = (point.y < this.midpoint.y);
         const west = (point.x < this.midpoint.x);
-        let currentChild = this._getChild(north, west);
+        let currentQuadrant = this._getQuadrant(north, west);
 
-        // if nothing at this position, add it
-        if (!currentChild) {
+        // If nothing exists at this position, add it
+        if (!currentQuadrant) {
             const toInsert = new QTObject(point, object);
-            this._setChild(toInsert, north, west);
+            this._setQuadrant(toInsert, north, west);
         }
 
-        // if object exists at this position, replace with node
-        else if (currentChild instanceof QTObject) {
-            const newNode = this._createSubNode(north, west);
-            newNode.insert(currentChild.point, currentChild.object);
+        // If object exists at this position, replace with node
+        else if (currentQuadrant instanceof QTObject) {
+            const newNode = this._createSubQuadrant(north, west);
+            newNode.insert(currentQuadrant.point, currentQuadrant.object);
         }
 
-        // if child at this position is a node, insert in that node
-        else if (currentChild && currentChild instanceof QTNode) {
-            currentChild.insert(point, object);
+        // If quadrant at this position is a node, insert in that node
+        else if (currentQuadrant && currentQuadrant instanceof QTNode) {
+            currentQuadrant.insert(point, object);
         }
     }
 
     search(northWestCorner, southEastCorner) {
-        // todo
+        // If node is fully enclosed, return all objects
+        if (northWestCorner.lte(this.northWestCorner) && southEastCorner.gt(this.southEastCorner)) {
+            return this.getAllObjects();
+        }
+
+        // If not, look through each quadrant
+        let foundObjects = [];
+        this.quadrants.forEach((quadrant) => {
+            // Add enclosed quadrant objects
+            if (quadrant instanceof QTObject) {
+                if (northWestCorner.lte(quadrant.point) && southEastCorner.gt(quadrant.point)) {
+                    foundObjects.push(quadrant.object);
+                }
+            }
+            // Search sub-quadrants that aren't fully excluded
+            else if (quadrant instanceof QTNode) {
+                if (northWestCorner.lt(quadrant.southEastCorner) || southEastCorner.gte(quadrant.northWestCorner)) {
+                    const quadrantObjects = quadrant.search(northWestCorner, southEastCorner);
+                    foundObjects = foundObjects.concat(quadrantObjects);
+                }
+            }
+        });
+        return foundObjects;
     }
 
-    get(point) {
-        this._checkPoint(point);
-        const north = (point.y < this.midpoint.y);
-        const west = (point.x < this.midpoint.x);
-        const objOrNode = this._getChild(north, west);
-        return (objOrNode instanceof QTNode) ? objOrNode.get(point) : objOrNode;
+    getAllObjects() {
+        let allObjects = [];
+        this.quadrants.forEach((quadrant) => {
+            if (quadrant instanceof QTNode) allObjects = allObjects.concat(quadrant.getAll());
+            else if (quadrant instanceof QTObject) allObjects.push(quadrant.object);
+        });
+        return allObjects;
     }
 
-    _createSubNode(north, west) {
-        // create new QT node
+    _createSubQuadrant(north, west) {
+        // Create new QT node
         const northWestCorner = new Point(
             west ? 0 : this.midpoint.x,
             north ? 0 : this.midpoint.y
@@ -189,33 +229,28 @@ class QTNode {
         );
         const newNode = new QTNode(northWestCorner, southEastCorner);
 
-        // store and return new QT node
-        this._setChild(newNode, north, west);
+        // Store and return new QT node
+        this._setQuadrant(newNode, north, west);
         return newNode;
     }
 
-    _getChild(north, west) {
-        const objOrNode = 
-            north && west  ?  this.northWest :
-            north && !west ?  this.northEast :
-            !north && west ?  this.southWest :
-                              this.southEast;
-        return objOrNode;
+    _getQuadrant(north, west) {
+        return north && west  ?  this.quadrants[0] :
+               north && !west ?  this.quadrants[1] :
+               !north && west ?  this.quadrants[2] :
+                                 this.quadrants[3];
     }
 
-    _setChild(child, north, west) {
-        if (north && west)   this.northWest = child;
-        if (north & !west)   this.northEast = child;
-        if (!north && west)  this.southWest = child;
-        if (!north && !west) this.southEast = child;
+    _setQuadrant(quadrant, north, west) {
+        if (north && west)   this.quadrants[0] = quadrant;
+        if (north & !west)   this.quadrants[1] = quadrant;
+        if (!north && west)  this.quadrants[2] = quadrant;
+        if (!north && !west) this.quadrants[3] = quadrant;
     }
 
     _checkPoint(point) {
-        if (point.x < this.northWestCorner.x || point.x >= this.southEastCorner.x) {
-            throw "point.x is outside of node bounds";
-        }
-        if (point.y < this.northWestCorner.y || point.y >= this.northWestCorner.y) {
-            throw "point.y is outside of node bounds";
+        if (point.lt(this.northWestCorner) || point.gte(this.southEastCorner)) {
+            throw 'point (' + point.x + ', ' + point.y + ') is outside of node bounds';
         }
     }
 }

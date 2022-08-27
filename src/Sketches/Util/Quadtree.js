@@ -1,6 +1,12 @@
 import { Point } from './Geometry.js';
 
-// todo: maybe a constructor with just width/height?
+/* todo:
+
+- documentation
+- constructor with just width/height
+- node removal
+
+*/
 
 export default class QTNode {
     constructor(northWestCorner, southEastCorner) {
@@ -52,8 +58,12 @@ export default class QTNode {
     }
 
     search(northWestCorner, southEastCorner) {
+        if (!northWestCorner.lte(southEastCorner)) {
+            throw 'both dimensions of NW corner must be less than SE corner';
+        }
+
         // If node is fully enclosed, return all objects
-        if (northWestCorner.lte(this.northWestCorner) && southEastCorner.gt(this.southEastCorner)) {
+        if (northWestCorner.lte(this.northWestCorner) && southEastCorner.gte(this.southEastCorner)) {
             return this.getAllObjects();
         }
 
@@ -62,13 +72,13 @@ export default class QTNode {
         this.quadrants.forEach((quadrant) => {
             // Add enclosed quadrant objects
             if (quadrant instanceof QTObject) {
-                if (northWestCorner.lte(quadrant.point) && southEastCorner.gt(quadrant.point)) {
+                if (northWestCorner.lte(quadrant.point) && southEastCorner.gte(quadrant.point)) {
                     foundObjects = foundObjects.concat(quadrant.contents);
                 }
             }
             // Search sub-quadrants that aren't fully excluded
             else if (quadrant instanceof QTNode) {
-                if (northWestCorner.lt(quadrant.southEastCorner) || southEastCorner.gte(quadrant.northWestCorner)) {
+                if (northWestCorner.lte(quadrant.southEastCorner) || southEastCorner.gte(quadrant.northWestCorner)) {
                     const quadrantObjects = quadrant.search(northWestCorner, southEastCorner);
                     foundObjects = foundObjects.concat(quadrantObjects);
                 }

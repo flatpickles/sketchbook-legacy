@@ -31,6 +31,7 @@ Sketchbook is a web app that presents an ever growing series of AV multimedia sk
 * Sketch sorting options: alphabetical or most recent
 
 ## Workflow wishlist
+* Avoid bundling `public` dir in main branch
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte
 * Parameter improvements: `this.params.paramName.value` is awkward, but providing a generated `this.paramName` property has proved difficult.
 * An easy way to capture current parameter values for use as defaults

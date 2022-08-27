@@ -19,6 +19,10 @@ export class Point {
     lte(point) {
         return this.x <= point.x && this.y <= point.y;
     }
+
+    toString() {
+        return '(' + this.x.toString() + ', ' + this.y.toString() + ')';
+    }
 }
 
 export class Rect {

@@ -1,5 +1,7 @@
 import { Point } from './Geometry.js';
 
+// todo: maybe a constructor with just width/height?
+
 export default class QTNode {
     constructor(northWestCorner, southEastCorner) {
         this.northWestCorner = northWestCorner;
@@ -29,12 +31,13 @@ export default class QTNode {
 
         // If object exists at this position, replace with node
         else if (currentQuadrant instanceof QTObject) {
-            const newNode = this._createSubQuadrant(north, west);
-            newNode.insert(currentQuadrant.point, currentQuadrant.object);
+            const existingObject = currentQuadrant;
+            currentQuadrant = this._createSubQuadrant(north, west);
+            currentQuadrant.insert(existingObject.point, existingObject.object);
         }
 
         // If quadrant at this position is a node, insert in that node
-        else if (currentQuadrant && currentQuadrant instanceof QTNode) {
+        if (currentQuadrant && currentQuadrant instanceof QTNode) {
             currentQuadrant.insert(point, object);
         }
     }
@@ -68,7 +71,7 @@ export default class QTNode {
     getAllObjects() {
         let allObjects = [];
         this.quadrants.forEach((quadrant) => {
-            if (quadrant instanceof QTNode) allObjects = allObjects.concat(quadrant.getAll());
+            if (quadrant instanceof QTNode) allObjects = allObjects.concat(quadrant.getAllObjects());
             else if (quadrant instanceof QTObject) allObjects.push(quadrant.object);
         });
         return allObjects;
@@ -107,12 +110,12 @@ export default class QTNode {
 
     _checkPoint(point) {
         if (point.lt(this.northWestCorner) || point.gte(this.southEastCorner)) {
-            throw 'point (' + point.x + ', ' + point.y + ') is outside of node bounds';
+            throw point.toSring() + ' is outside of node bounds';
         }
     }
 }
 
-class QTObject {
+export class QTObject {
     constructor(point, object) {
         this.point = point;
         this.object = object;

@@ -1,3 +1,5 @@
+import { Point } from './Geometry.js';
+
 export default class QTNode {
     constructor(northWestCorner, southEastCorner) {
         this.northWestCorner = northWestCorner;

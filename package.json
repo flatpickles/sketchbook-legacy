@@ -6,9 +6,11 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
-    "deploy": "node ./gh-pages.js"
+    "deploy": "node ./gh-pages.js",
+    "test": "jest"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.18.10",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "canvas-sketch": "latest",

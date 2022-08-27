@@ -1,6 +1,6 @@
-import SketchCanvasDemo from './Sketches/Test/SketchCanvasDemo.js';
-import SketchShaderDemo from './Sketches/Test/SketchShaderDemo.js';
-import SketchCanvasDemo2 from './Sketches/Test/SketchCanvasDemo2.js';
+import SketchCanvasDemo from './Sketches/Demos/SketchCanvasDemo.js';
+import SketchShaderDemo from './Sketches/Demos/SketchShaderDemo.js';
+import SketchCanvasDemo2 from './Sketches/Demos/SketchCanvasDemo2.js';
 import NoSignal from './Sketches/NoSignal.js';
 import Rectangles from './Sketches/Rectangles.js';
 

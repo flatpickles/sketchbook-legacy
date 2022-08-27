@@ -1,6 +1,6 @@
 import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam } from './Base/SketchParam.js';
-import Util from './Base/Util.js';
+import Util from './Util/Util.js';
 import Random from 'canvas-sketch-util/random';
 
 export default class NoSignal extends Sketch {

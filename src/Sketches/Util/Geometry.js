@@ -4,6 +4,10 @@ export class Point {
         this.y = y;
     }
 
+    eq(point) {
+        return this.x == point.x && this.y == point.y;
+    }
+
     gt(point) {
         return this.x > point.x && this.y > point.y;
     }

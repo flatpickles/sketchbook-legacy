@@ -29,11 +29,20 @@ export default class QTNode {
             this._setQuadrant(toInsert, north, west);
         }
 
-        // If object exists at this position, replace with node
+        // If object exists at this position, add to or replace w/ node
         else if (currentQuadrant instanceof QTObject) {
-            const existingObject = currentQuadrant;
-            currentQuadrant = this._createSubQuadrant(north, west);
-            currentQuadrant.insert(existingObject.point, existingObject.object);
+            const existingContents = currentQuadrant;
+            // If insertion point is equal to existing point, add to that content obj
+            if (existingContents.point.eq(point)) {
+                existingContents.add(object);
+            }
+            // If insertion point is different, replace w/ new quadrant & insert existing content
+            else {
+                currentQuadrant = this._createSubQuadrant(north, west);
+                existingContents.contents.forEach((contentObj) => {
+                    currentQuadrant.insert(existingContents.point, contentObj);
+                });
+            }
         }
 
         // If quadrant at this position is a node, insert in that node
@@ -54,7 +63,7 @@ export default class QTNode {
             // Add enclosed quadrant objects
             if (quadrant instanceof QTObject) {
                 if (northWestCorner.lte(quadrant.point) && southEastCorner.gt(quadrant.point)) {
-                    foundObjects.push(quadrant.object);
+                    foundObjects = foundObjects.concat(quadrant.contents);
                 }
             }
             // Search sub-quadrants that aren't fully excluded
@@ -72,7 +81,7 @@ export default class QTNode {
         let allObjects = [];
         this.quadrants.forEach((quadrant) => {
             if (quadrant instanceof QTNode) allObjects = allObjects.concat(quadrant.getAllObjects());
-            else if (quadrant instanceof QTObject) allObjects.push(quadrant.object);
+            else if (quadrant instanceof QTObject) allObjects = allObjects.concat(quadrant.contents);
         });
         return allObjects;
     }
@@ -118,6 +127,10 @@ export default class QTNode {
 export class QTObject {
     constructor(point, object) {
         this.point = point;
-        this.object = object;
+        this.contents = [object];
+    }
+
+    add(object) {
+        this.contents.push(object);
     }
 }

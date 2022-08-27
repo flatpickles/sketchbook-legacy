@@ -21,7 +21,7 @@ test('insert one point', () => {
     quadtree.insert(insertionPoint, insertionPoint.toString());
     expect(quadtree.quadrants[0]).toBeInstanceOf(QTObject);
     expect(quadtree.quadrants[0].point).toBe(insertionPoint);
-    expect(quadtree.quadrants[0].object).toBe(insertionObject);
+    expect(quadtree.quadrants[0].contents).toMatchObject([insertionObject]);
 });
 
 test('insert three different points in the same quadrant', () => {
@@ -49,3 +49,26 @@ test('insert three different points in the same quadrant', () => {
         insertionPoint3.toString()
     ].sort());
 });
+
+test('insert multiple objects at the same point', () => {
+    const quadtree = createQuadree(8, 8);
+    const insertionPoint = new Point(0, 0);
+    quadtree.insert(insertionPoint, "first insertion");
+    quadtree.insert(insertionPoint, "second insertion");
+    quadtree.insert(insertionPoint, "third insertion");
+    expect(quadtree.getAllObjects().sort()).toMatchObject([
+        "first insertion",
+        "second insertion",
+        "third insertion"
+    ].sort());
+});
+
+
+/* todo
+
+Test:
+- inserting hella stuff
+- exceptions
+- search
+
+*/

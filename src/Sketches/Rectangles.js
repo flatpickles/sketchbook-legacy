@@ -20,11 +20,11 @@ export default class Rectangles extends Sketch {
     
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
-            context.clearRect(0, 0, width, height);
+            context.clearRect(0, 0, width, height); // clear canvas
+            context.beginPath(); // also clear previous strokes
+
             const structure = new RectStructure(width, height);
-            context.fillStyle = '#000';
-            context.fillRect(0, 0, width, height);
-            context.strokeStyle = '#FFF';
+            context.strokeStyle = '#000';
             structure.rects.forEach((rect) => {
                 context.fillStyle = '#AAA';
                 context.rect(rect.origin.x, rect.origin.y, rect.width, rect.height);

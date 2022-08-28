@@ -271,3 +271,17 @@ test('remove throws an error (for now)', () => {
     quadtree.insert(pointToRemove, objectToRemove);
     expect(() => quadtree.remove(objectToRemove)).toThrow();
 })
+
+test('clear removes all inserted objects', () => {
+    const quadtree = new Quadtree(8, 8);
+    const insertionPoint1 = new Point(1, 1);
+    const insertionPoint2 = new Point(2, 2);
+    quadtree.insert(insertionPoint1, insertionPoint1.toString());
+    quadtree.insert(insertionPoint2, insertionPoint2.toString());
+    expect(quadtree.getAllObjects().sort()).toMatchObject([
+        insertionPoint1.toString(),
+        insertionPoint2.toString()
+    ].sort());
+    quadtree.clear();
+    expect(quadtree.getAllObjects()).toMatchObject([]);
+})

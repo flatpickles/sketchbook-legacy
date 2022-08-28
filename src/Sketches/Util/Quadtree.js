@@ -8,6 +8,8 @@ export default class Quadtree {
      * @param {Number} height -  - Height of 2D space covered by Quadtree.
      */
     constructor(width, height) {
+        this.width = width;
+        this.height = height;
         this.root = new QTNode(
             new Point(0, 0),
             new Point(width, height)
@@ -49,6 +51,17 @@ export default class Quadtree {
      */
     getAllObjects() {
         return this.root.getAllObjects();
+    }
+
+    /**
+     * Remove all objects from the quadtree.
+     */
+    clear() {
+        // Simply create a fresh root.
+        this.root = new QTNode(
+            new Point(0, 0),
+            new Point(this.width, this.height)
+        );
     }
 }
 

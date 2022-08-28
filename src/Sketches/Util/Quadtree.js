@@ -3,12 +3,32 @@ import { Point } from './Geometry.js';
 /* todo:
 
 - documentation
-- constructor with just width/height
 - node removal
 
 */
 
-export default class QTNode {
+export default class Quadtree {
+    constructor(width, height) {
+        this.root = new QTNode(
+            new Point(0, 0),
+            new Point(width, height)
+        );
+    }
+
+    insert(point, object) {
+        this.root.insert(point, object);
+    }
+
+    search(northWestCorner, southEastCorner) {
+        return this.root.search(northWestCorner, southEastCorner);
+    }
+
+    getAllObjects() {
+        return this.root.getAllObjects();
+    }
+}
+
+export class QTNode {
     constructor(northWestCorner, southEastCorner) {
         this.northWestCorner = northWestCorner;
         this.southEastCorner = southEastCorner;
@@ -24,7 +44,11 @@ export default class QTNode {
     }
 
     insert(point, object) {
-        this._checkPoint(point);
+        if (!point.lt(this.southEastCorner) || !point.gte(this.northWestCorner)) {
+            throw point.toString() + ' is outside of node bounds';
+        }
+
+        // Get whatever exists at this quadrant position
         const north = (point.y < this.midpoint.y);
         const west = (point.x < this.midpoint.x);
         let currentQuadrant = this._getQuadrant(north, west);
@@ -59,7 +83,7 @@ export default class QTNode {
 
     search(northWestCorner, southEastCorner) {
         if (!northWestCorner.lte(southEastCorner)) {
-            throw 'both dimensions of NW corner must be less than SE corner';
+            throw 'both dimensions of NW corner must be less than or equal to SE corner';
         }
 
         // If node is fully enclosed, return all objects
@@ -125,12 +149,6 @@ export default class QTNode {
         if (north & !west)   this.quadrants[1] = quadrant;
         if (!north && west)  this.quadrants[2] = quadrant;
         if (!north && !west) this.quadrants[3] = quadrant;
-    }
-
-    _checkPoint(point) {
-        if (!point.lt(this.southEastCorner) || !point.gte(this.northWestCorner)) {
-            throw point.toString() + ' is outside of node bounds';
-        }
     }
 }
 

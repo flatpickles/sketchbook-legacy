@@ -1,13 +1,7 @@
-import QTNode, { QTObject } from '../src/Sketches/Util/Quadtree.js';
+import Quadtree, { QTNode, QTObject } from '../src/Sketches/Util/Quadtree.js';
 import { Point } from '../src/Sketches/Util/Geometry.js';
 
 /******* HELPERS *******/
-
-function createQuadtree(width, height) {
-    const nwCorner = new Point(0, 0);
-    const seCorner = new Point(width, height);
-    return new QTNode(nwCorner, seCorner);
-}
 
 function generateRandomPoints(numPoints, size) {
     let insertionPoints = [];
@@ -48,31 +42,31 @@ function generateExpectedPoints(northWestCorner, southEastCorner) {
 /******* TESTS *******/
 
 test('initialize quadtree', () => {
-    const quadtree = createQuadtree(8, 8);
-    expect(quadtree.width).toEqual(8);
-    expect(quadtree.height).toEqual(8);
-    expect(quadtree.midpoint).toEqual({x: 4, y: 4});
+    const quadtree = new Quadtree(8, 8);
+    expect(quadtree.root.width).toEqual(8);
+    expect(quadtree.root.height).toEqual(8);
+    expect(quadtree.root.midpoint).toEqual({x: 4, y: 4});
 });
 
 test('insert one point', () => {
-    const quadtree = createQuadtree(8, 8);
+    const quadtree = new Quadtree(8, 8);
     const insertionPoint = new Point(2, 2);
     const insertionObject = insertionPoint.toString();
     quadtree.insert(insertionPoint, insertionPoint.toString());
-    expect(quadtree.quadrants[0]).toBeInstanceOf(QTObject);
-    expect(quadtree.quadrants[0].point).toBe(insertionPoint);
-    expect(quadtree.quadrants[0].contents).toMatchObject([insertionObject]);
+    expect(quadtree.root.quadrants[0]).toBeInstanceOf(QTObject);
+    expect(quadtree.root.quadrants[0].point).toBe(insertionPoint);
+    expect(quadtree.root.quadrants[0].contents).toMatchObject([insertionObject]);
 });
 
 test('insert three different points in the same quadrant', () => {
-    const quadtree = createQuadtree(8, 8);
+    const quadtree = new Quadtree(8, 8);
     const insertionPoint1 = new Point(1, 1);
     const insertionPoint2 = new Point(2, 2);
     quadtree.insert(insertionPoint1, insertionPoint1.toString());
     quadtree.insert(insertionPoint2, insertionPoint2.toString());
 
     // Check first and second insertion
-    const nwQuadrant = quadtree.quadrants[0];
+    const nwQuadrant = quadtree.root.quadrants[0];
     expect(nwQuadrant).toBeInstanceOf(QTNode);
     expect(nwQuadrant.quadrants[0]).toBeInstanceOf(QTObject);
 
@@ -91,13 +85,13 @@ test('insert three different points in the same quadrant', () => {
 });
 
 test('insert multiple objects at the same point', () => {
-    const quadtree = createQuadtree(8, 8);
+    const quadtree = new Quadtree(8, 8);
     const insertionPoint = new Point(0, 0);
     quadtree.insert(insertionPoint, "first insertion");
     quadtree.insert(insertionPoint, "second insertion");
     quadtree.insert(insertionPoint, "third insertion");
-    expect(quadtree.quadrants[0]).toBeInstanceOf(QTObject);
-    expect(quadtree.quadrants[0].contents.length).toEqual(3);
+    expect(quadtree.root.quadrants[0]).toBeInstanceOf(QTObject);
+    expect(quadtree.root.quadrants[0].contents.length).toEqual(3);
     expect(quadtree.getAllObjects().sort()).toMatchObject([
         "first insertion",
         "second insertion",
@@ -107,7 +101,7 @@ test('insert multiple objects at the same point', () => {
 
 test('insert hella objects', () => {
     const size = 100;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
 
     // Generate 10,000 float & int points
     const insertionPoints = generateRandomPoints(10000, size);
@@ -127,7 +121,7 @@ test('insert hella objects', () => {
 
 test('insert throws an error if point is out of bounds', () => {
     const size = 8;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
     const testObj = "Test object.";
     const justBarelyOut1 = new Point(8, 8);
     const justBarelyOut2 = new Point(-0.01, -0.01);
@@ -145,7 +139,7 @@ test('insert throws an error if point is out of bounds', () => {
 
 test('searching full bounds returns all objects', () => {
     const size = 8;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
     const insertionPoints = generateRandomPoints(100, size);
     insertionPoints.forEach((point) => {
         quadtree.insert(point, point.toString());
@@ -161,7 +155,7 @@ test('searching full bounds returns all objects', () => {
 
 test('searching within odd sized quadtree returns expected subsets', () => {
     const size = 47;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
 
     // Insert points evenly distributed throughout
     insertIntPointsEvenly(quadtree, size);
@@ -199,7 +193,7 @@ test('searching within odd sized quadtree returns expected subsets', () => {
 
 test('searching points on node boundaries returns expected subsets', () => {
     const size = 8;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
 
     // Insert points evenly distributed throughout
     insertIntPointsEvenly(quadtree, size);
@@ -220,7 +214,7 @@ test('searching points on node boundaries returns expected subsets', () => {
 
 test('searching among duplicate points returns expected subsets', () => {
     const size = 17;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
 
     // Insert points evenly distributed throughout
     for (let y = 0; y < size; y++) {
@@ -257,7 +251,7 @@ test('searching among duplicate points returns expected subsets', () => {
 
 test('searching invalid bounds throws an error', () => {
     const size = 8;
-    const quadtree = createQuadtree(size, size);
+    const quadtree = new Quadtree(size, size);
     const point1 = new Point(1, 1);
     const point2 = new Point(3, 3);
     const point3 = new Point(1, 3);

@@ -1,6 +1,6 @@
 # sketchbook
 
-Sketchbook is a web app that presents an ever growing series of programmatic art pieces, each with a set of configurable parameters. These sketches could be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
+Sketchbook is a web app that presents an ever growing series of programmatic art pieces, aka sketches, each with a set of configurable parameters. These sketches could be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
 ## Known Issues
 * No blur effect behind panels on mobile - they need to be more opaque here

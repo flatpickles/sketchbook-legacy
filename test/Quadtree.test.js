@@ -262,3 +262,12 @@ test('searching invalid bounds throws an error', () => {
     expect(() => quadtree.search(point4, point3)).toThrow();
     expect(() => quadtree.search(point3, point4)).toThrow();
 });
+
+test('remove throws an error (for now)', () => {
+    const size = 8;
+    const quadtree = new Quadtree(size, size);
+    const pointToRemove = new Point(3, 4);
+    const objectToRemove = pointToRemove.toString();
+    quadtree.insert(pointToRemove, objectToRemove);
+    expect(() => quadtree.remove(objectToRemove)).toThrow();
+})

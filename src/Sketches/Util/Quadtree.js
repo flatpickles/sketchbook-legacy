@@ -1,13 +1,12 @@
 import { Point } from './Geometry.js';
 
-/* todo:
-
-- documentation
-- node removal
-
-*/
-
+/** Quadtree class (lightweight wrapper for QTNode). */
 export default class Quadtree {
+    /**
+     * Create a Quadtree.
+     * @param {Number} width - Width of 2D space covered by Quadtree.
+     * @param {Number} height -  - Height of 2D space covered by Quadtree.
+     */
     constructor(width, height) {
         this.root = new QTNode(
             new Point(0, 0),
@@ -15,19 +14,45 @@ export default class Quadtree {
         );
     }
 
+    /**
+     * Insert an object into the Quadtree at a specified point.
+     * @param {Point} point - The point associated with the object to insert.
+     * @param {*} object - The object to insert.
+     */
     insert(point, object) {
         this.root.insert(point, object);
     }
 
+    /**
+     * Remove an object from the Quadtree (not yet implemented).
+     * @param {*} object 
+     */
+    remove(object) {
+        // todo: find and remove the object
+        throw('remove is not yet implemented.')
+    }
+
+    /**
+     * Search a specified rectangular space within the Quadtree, and return
+     * all enclosed objects. Search bounds are inclusive.
+     * @param {Point} northWestCorner - Upper left corner of the search space.
+     * @param {Point} southEastCorner - Lower right corner of the search space.
+     * @returns {Array} - All objects contained within the search space.
+     */
     search(northWestCorner, southEastCorner) {
         return this.root.search(northWestCorner, southEastCorner);
     }
 
+    /**
+     * Return all objects previously inserted into the Quadtree.
+     * @returns {Array} - All objects contained within the Quadtree.
+     */
     getAllObjects() {
         return this.root.getAllObjects();
     }
 }
 
+/** Quadtree node class, representing the root & its recursively nested quadrants. */
 export class QTNode {
     constructor(northWestCorner, southEastCorner) {
         this.northWestCorner = northWestCorner;
@@ -45,7 +70,7 @@ export class QTNode {
 
     insert(point, object) {
         if (!point.lt(this.southEastCorner) || !point.gte(this.northWestCorner)) {
-            throw point.toString() + ' is outside of node bounds';
+            throw point.toString() + ' is outside of node bounds.';
         }
 
         // Get whatever exists at this quadrant position
@@ -83,7 +108,7 @@ export class QTNode {
 
     search(northWestCorner, southEastCorner) {
         if (!northWestCorner.lte(southEastCorner)) {
-            throw 'both dimensions of NW corner must be less than or equal to SE corner';
+            throw 'both dimensions of NW corner must be less than or equal to SE corner.';
         }
 
         // If node is fully enclosed, return all objects
@@ -152,6 +177,7 @@ export class QTNode {
     }
 }
 
+/** Quadtree object class, representing objects associated with a single point. */
 export class QTObject {
     constructor(point, object) {
         this.point = point;

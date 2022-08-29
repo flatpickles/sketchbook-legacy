@@ -39,18 +39,15 @@ export default class Rectangles extends Sketch {
 class RectStructure {
     constructor(
         fullWidth,
-        fullHeight,
-        minRectWidth = 50,
-        maxRectWidth = 200,
-        minRectHeight = 50, 
-        maxRectHeight = 100)
+        fullHeight)
     {
         this.fullWidth = fullWidth;
         this.fullHeight = fullHeight;
-        this.minRectWidth = minRectWidth;
-        this.maxRectWidth = maxRectWidth;
-        this.minRectHeight = minRectHeight;
-        this.maxRectHeight = maxRectHeight;
+        this.unitSize = 10;
+        this.minWidthUnits = 5;
+        this.maxWidthUnits = 30;
+        this.minHeightUnits = 1;
+        this.maxHeightUnits = 10;
         this.generateRects(new Point(0, 0));
     }
 
@@ -90,11 +87,11 @@ class RectStructure {
         const heightRemaining = this.fullHeight - fromPoint.y;
         const width = Math.min(widthRemaining, Math.min(
             maxRectSize.x,
-            Random.rangeFloor(this.minRectWidth, this.maxRectWidth)
+            this.unitSize * Random.rangeFloor(this.minWidthUnits, this.maxWidthUnits)
         ));
         const height = Math.min(heightRemaining, Math.min(
             maxRectSize.y,
-            Random.rangeFloor(this.minRectHeight, this.maxRectHeight)
+            this.unitSize * Random.rangeFloor(this.minHeightUnits, this.maxHeightUnits)
         ));
 
         // Add the new rectangle, and add it to queues for neighboring rects as appropriate
@@ -114,13 +111,15 @@ class RectStructure {
 
     maxRectSize(fromPoint, preferWidth = true) {
         // Find all possible rect intersections from quadtree
+        const maxRectWidth = this.unitSize * this.maxWidthUnits;
+        const maxRectHeight = this.unitSize * this.maxHeightUnits;
         const searchNW = new Point(
-            fromPoint.x - this.maxRectWidth,
-            fromPoint.y - this.maxRectHeight
+            fromPoint.x - maxRectWidth,
+            fromPoint.y - maxRectHeight
         );
         const searchSE = new Point(
-            fromPoint.x + this.maxRectWidth,
-            fromPoint.y + this.maxRectHeight
+            fromPoint.x + maxRectWidth,
+            fromPoint.y + maxRectHeight
         );
         const candidateRects = this.quadtree.search(searchNW, searchSE);
 

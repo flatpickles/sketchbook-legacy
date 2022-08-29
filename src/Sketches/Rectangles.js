@@ -43,11 +43,11 @@ class RectStructure {
     {
         this.fullWidth = fullWidth;
         this.fullHeight = fullHeight;
-        this.unitSize = 10;
-        this.minWidthUnits = 5;
+        this.unitSize = 20;
+        this.minWidthUnits = 1;
         this.maxWidthUnits = 30;
         this.minHeightUnits = 1;
-        this.maxHeightUnits = 10;
+        this.maxHeightUnits = 5;
         this.generateRects(new Point(0, 0));
     }
 
@@ -69,7 +69,8 @@ class RectStructure {
                 const leftRect = this.rightOpen.shift();
                 const newOrigin = new Point(leftRect.x + leftRect.width, leftRect.y);
                 this.addRect(newOrigin);
-            } else if (this.bottomOpen.length > 0) {
+            }
+            if (this.bottomOpen.length > 0) {
                 const topRect = this.bottomOpen.shift();
                 const newOrigin = new Point(topRect.x, topRect.y + topRect.height);
                 this.addRect(newOrigin);
@@ -82,17 +83,29 @@ class RectStructure {
         const maxRectSize = this.maxRectSize(fromPoint, Math.random() > 0.5);
         if (!maxRectSize) return null;
 
-        // Calculate width and height for next rect
+        // Calculate width for next rect
         const widthRemaining = this.fullWidth - fromPoint.x;
-        const heightRemaining = this.fullHeight - fromPoint.y;
-        const width = Math.min(widthRemaining, Math.min(
+        let width = Math.min(
+            widthRemaining,
             maxRectSize.x,
             this.unitSize * Random.rangeFloor(this.minWidthUnits, this.maxWidthUnits)
-        ));
-        const height = Math.min(heightRemaining, Math.min(
+        );
+        const widthLeftover = this.fullWidth - (fromPoint.x + width);
+        if (widthLeftover < this.unitSize * this.minWidthUnits) {
+            width += widthLeftover;
+        }
+
+        // Calculate height for next rect
+        const heightRemaining = this.fullHeight - fromPoint.y;
+        let height = Math.min(
+            heightRemaining,
             maxRectSize.y,
             this.unitSize * Random.rangeFloor(this.minHeightUnits, this.maxHeightUnits)
-        ));
+        );
+        const heightLeftover = this.fullHeight - (fromPoint.y + height);
+        if (heightLeftover < this.unitSize * this.minHeightUnits) {
+            height += heightLeftover;
+        }
 
         // Add the new rectangle, and add it to queues for neighboring rects as appropriate
         const freshRect = new Rect(fromPoint, width, height);

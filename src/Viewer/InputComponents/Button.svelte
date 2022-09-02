@@ -21,7 +21,7 @@
     }
 
     button:active {
-        background-color: #fff;
+        background-color: rgb(0, 0, 0, 0);
         color: #000;
     }
 </style>

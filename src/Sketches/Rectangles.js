@@ -1,5 +1,5 @@
 import Sketch, { SketchType } from './Base/Sketch.js';
-import { FloatParam, BoolParam } from './Base/SketchParam.js';
+import { FloatParam, BoolParam, EventParam } from './Base/SketchParam.js';
 
 import Util from './Util/Util.js';
 import Quadtree from './Util/Quadtree.js';
@@ -16,16 +16,43 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        // bigness: new FloatParam('Bigness', 0.7, 0, 1),
-        // isGreen: new BoolParam('Is Green', true)
+        testParam1: new FloatParam('testParam1', 0.7, 0, 1),
+        testParam2: new BoolParam('testParam2', true),
+        redraw: new EventParam('Redraw', this.redrawRequested.bind(this)),
+        testParam4: new FloatParam('testParam3', 0.7, 0, 1),
+        testParam3: new BoolParam('testParam4', true),
     };
     
+    width = undefined;
+    height = undefined;
+    structure = undefined;
+    initializationNeeded = true;
+    initializeIfNeeded(width, height) {
+        // Trigger intialization when size changes (for now)
+        this.initializationNeeded = this.initializationNeeded
+            || (width != this.width || height != this.height);
+
+        // Don't initialize if we don't need it
+        if (!this.initializationNeeded) return;
+
+        // Initialize!
+        this.width = width;
+        this.height = height;
+        this.structure = new RectStructure(width, height);
+        this.initializationNeeded = false;
+    }
+
+    redrawRequested() {
+        this.initializationNeeded = true;
+    }
+
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
             context.clearRect(0, 0, width, height);
-            const structure = new RectStructure(width, height);
+            this.initializeIfNeeded(width, height);
+
             context.strokeStyle = '#000';
-            structure.rects.forEach((rect) => {
+            this.structure.rects.forEach((rect) => {
                 context.beginPath();
                 context.fillStyle = Util.hsl(Math.random(), 1, 0.5);
                 context.rect(rect.x, rect.y, rect.width, rect.height);
@@ -35,6 +62,16 @@ export default class Rectangles extends Sketch {
         };
     };
 }
+
+/* 
+
+- maybe use divisions of the width/height for unit size
+- are there as many horizontal as vertical alignments? can it feel more random?
+- different size horizontal vs. vertical borders
+- drawing them at a customizable angle
+- don't redraw when changing params (when possible)
+
+*/
 
 class RectStructure {
     constructor(

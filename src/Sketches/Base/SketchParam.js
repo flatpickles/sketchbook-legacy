@@ -16,6 +16,12 @@ export class SketchParam {
     }
 }
 
+export class EventParam extends SketchParam {
+    // EventParam values (functions) are always defined within the Sketch
+    storeValue() {}
+    restoreValue() {}
+}
+
 export class ColorParam extends SketchParam {
     storeValue() {
         throw('ColorParam may need custom storeValue - todo.');

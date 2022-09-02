@@ -4,7 +4,8 @@
     import SliderInput from './InputComponents/SliderInput.svelte';
     import ColorInput from './InputComponents/ColorInput.svelte';
     import CheckboxInput from './InputComponents/CheckboxInput.svelte';
-    import { ColorParam, FloatParam, BoolParam } from '../Sketches/Base/SketchParam.js';
+    import EventInput from './InputComponents/EventInput.svelte';
+    import { ColorParam, FloatParam, BoolParam, EventParam } from '../Sketches/Base/SketchParam.js';
 
     export let sketch;
 
@@ -52,6 +53,12 @@
                         label={param.name}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
+                        bind:value={param.value}
+                    />
+                {:else if (param instanceof EventParam)}
+                    <EventInput
+                        label={param.name}
+                        on:click={paramUpdated}
                         bind:value={param.value}
                     />
                 {/if}

@@ -8,10 +8,12 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
 * Behavior is undefined with an empty sketch index
 
 ## Feature wishlist & next steps
+* Option to set window size
 * FPS meter
 * Parameter control styling:
     * Custom color styles
     * Number display for slider inputs
+* Min/max range slider
 * Crossfade when switching sketches
 * Inputs:
     * Mouse position

@@ -31,13 +31,14 @@
 
     .param-wrapper {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
         flex-shrink: 1;
         flex-grow: 1;
         flex-basis: 60%;
         box-sizing: border-box;
     }
+
     label {
         font-size: 12px;
         flex-shrink: 1;

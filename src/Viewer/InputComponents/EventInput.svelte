@@ -32,7 +32,7 @@
         font-size: 12px;
         border-radius: 5px;
         height: 10px;
-        width: 50%;
+        width: 33%;
         border: 2px solid #000;
     }
 

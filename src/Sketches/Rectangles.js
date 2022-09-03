@@ -7,6 +7,33 @@ import { Point, Rect } from './Util/Geometry.js';
 
 import Random from 'canvas-sketch-util/random';
 
+/* 
+
+params
+- horizontal size
+- horizontal variation
+- vertical size
+- vertical variation
+* horizontal border size
+* vertical border size
+* draw external border
+- horizontal skew
+- vertical skew
+* (colors?)
+- recalculate
+
+legend
+- implicit recalculate: update on slider release
+* simple update: keep underlying struct, update with continuous input
+
+ideas
+- calculate param defaults based on screen size (?)
+- maybe use divisions of the width/height for unit size
+- don't redraw when changing params (when possible)
+- parameter groups?
+
+*/
+
 export default class Rectangles extends Sketch {
     name = 'Rectangles';
     type = SketchType.Canvas;
@@ -16,11 +43,17 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        testParam1: new FloatParam('testParam1', 0.7, 0, 1),
-        testParam2: new BoolParam('testParam2', true),
-        redraw: new EventParam('Redraw', this.redrawRequested.bind(this)),
-        testParam4: new FloatParam('testParam3', 0.7, 0, 1),
-        testParam3: new BoolParam('testParam4', true),
+        horizontalSize: new FloatParam('H Size', 0, 0, 1, false),
+        horizontalVariation: new FloatParam('H Variation', 0, 0, 1, false),
+        horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
+        horizontalBorderSize: new FloatParam('H Border', 0, 0, 1, true),
+        verticalSize: new FloatParam('V Size', 0, 0, 1, false),
+        verticalVariation: new FloatParam('V Variation', 0, 0, 1, false),
+        verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
+        verticalBorderSize: new FloatParam('V Border', 0, 0, 1, true),
+        drawExternalBorder: new BoolParam('Ext Border', true),
+        colorBool: new BoolParam('Colorize', true),
+        recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
     };
     
     width = undefined;
@@ -62,16 +95,6 @@ export default class Rectangles extends Sketch {
         };
     };
 }
-
-/* 
-
-- maybe use divisions of the width/height for unit size
-- are there as many horizontal as vertical alignments? can it feel more random?
-- different size horizontal vs. vertical borders
-- drawing them at a customizable angle
-- don't redraw when changing params (when possible)
-
-*/
 
 class RectStructure {
     constructor(

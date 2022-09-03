@@ -37,9 +37,10 @@ export class BoolParam extends SketchParam {
 
 export class FloatParam extends SketchParam {
     // todo: step property -> UI
-    constructor(name, defaultValue, minValue, maxValue) {
+    constructor(name, defaultValue, minValue, maxValue, continuousUpdate) {
         super(name, defaultValue);
         this.min = minValue;
         this.max = maxValue;
+        this.continuousUpdate = continuousUpdate;
     }
 }

@@ -35,7 +35,7 @@
                 {#if (param instanceof FloatParam)}
                     <SliderInput
                         label={param.name}
-                        on:input={paramUpdated}
+                        on:input={param.continuousUpdate ? paramUpdated : null}
                         on:change={paramUpdated}
                         bind:value={param.value}
                         min={param.min}

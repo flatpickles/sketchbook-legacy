@@ -55,23 +55,19 @@ export default class Rectangles extends Sketch {
         colorBool: new BoolParam('Colorize', true),
         recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
     };
-    
-    width = undefined;
-    height = undefined;
+
     structure = undefined;
     initializationNeeded = true;
     initializeIfNeeded(width, height) {
-        // Trigger intialization when size changes (for now)
-        this.initializationNeeded = this.initializationNeeded
-            || (width != this.width || height != this.height);
-
         // Don't initialize if we don't need it
         if (!this.initializationNeeded) return;
 
         // Initialize!
-        this.width = width;
-        this.height = height;
         this.structure = new RectStructure(width, height);
+        this.structure.rects.forEach((rect) => {
+            // Generate a random color for each rect
+            rect.hue = Math.random();
+        });
         this.initializationNeeded = false;
     }
 
@@ -81,13 +77,29 @@ export default class Rectangles extends Sketch {
 
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
+            // Clear and initialize if needed
             context.clearRect(0, 0, width, height);
             this.initializeIfNeeded(width, height);
 
+            // Translate canvas if resized from actual structure dimensions
+            // todo: trim & color outside of bounds if need be
+            const widthScale = width / this.structure.fullWidth;
+            const heightScale = height / this.structure.fullHeight;
+            if (widthScale < heightScale) {
+                const inset = (height - this.structure.fullHeight * widthScale) / 2;
+                context.translate(0, inset);
+                context.scale(widthScale, widthScale);
+            } else {
+                const inset = (width - this.structure.fullWidth * heightScale) / 2;
+                context.translate(inset, 0);
+                context.scale(heightScale, heightScale);
+            }
+
+            // Draw contents of structure
             context.strokeStyle = '#000';
             this.structure.rects.forEach((rect) => {
                 context.beginPath();
-                context.fillStyle = Util.hsl(Math.random(), 1, 0.5);
+                context.fillStyle = Util.hsl(rect.hue, 1, 0.6);
                 context.rect(rect.x, rect.y, rect.width, rect.height);
                 context.fill();
                 context.stroke();

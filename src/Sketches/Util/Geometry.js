@@ -25,10 +25,25 @@ export class Point {
     }
 
     sub(point) {
+        // todo: enable point subtraction
         return new Point(
             this.x - point.x,
             this.y - point.y
         );
+    }
+
+    mult(factor) {
+        if (factor instanceof Point) {
+            return new Point(
+                this.x * factor.x,
+                this.y * factor.y
+            );
+        } else {
+            return new Point(
+                this.x * factor,
+                this.y * factor
+            );
+        }
     }
 
     toString() {
@@ -57,5 +72,14 @@ export class Rect {
 
     set y(newY) {
         this.origin.y = newY;
+    }
+
+    scale(scaleFactorX, scaleFactorY) {
+        scaleFactorY = scaleFactorY ?? scaleFactorX; // allow single input
+        return new Rect(
+            this.origin.mult(new Point(scaleFactorX, scaleFactorY)),
+            this.width * scaleFactorX,
+            this.height * scaleFactorY
+        );
     }
 }

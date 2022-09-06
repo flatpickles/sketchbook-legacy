@@ -1,38 +1,11 @@
+import Random from 'canvas-sketch-util/random';
+
 import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam, EventParam } from './Base/SketchParam.js';
 
 import Util from './Util/Util.js';
 import Quadtree from './Util/Quadtree.js';
 import { Point, Rect } from './Util/Geometry.js';
-
-import Random from 'canvas-sketch-util/random';
-
-/* 
-
-params
-- horizontal size
-- horizontal variation
-- vertical size
-- vertical variation
-* horizontal border size
-* vertical border size
-* draw external border
-- horizontal skew
-- vertical skew
-* (colors?)
-- recalculate
-
-legend
-- implicit recalculate: update on slider release
-* simple update: keep underlying struct, update with continuous input
-
-ideas
-- calculate param defaults based on screen size (?)
-- maybe use divisions of the width/height for unit size
-- don't redraw when changing params (when possible)
-- parameter groups?
-
-*/
 
 export default class Rectangles extends Sketch {
     name = 'Rectangles';
@@ -43,32 +16,53 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        horizontalSize: new FloatParam('H Size', 0, 0, 1, false),
-        horizontalVariation: new FloatParam('H Variation', 0, 0, 1, false),
-        horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
-        horizontalBorderSize: new FloatParam('H Border', 0, 0, 1, true),
-        verticalSize: new FloatParam('V Size', 0, 0, 1, false),
-        verticalVariation: new FloatParam('V Variation', 0, 0, 1, false),
-        verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
-        verticalBorderSize: new FloatParam('V Border', 0, 0, 1, true),
-        drawExternalBorder: new BoolParam('Ext Border', true),
-        colorBool: new BoolParam('Colorize', true),
+        unitSize: new FloatParam('Unit Size', 20, 5, 100),
+        minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, false),
+        maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, false),
+        minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, false),
+        maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, false),
+
+        // horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
+        // horizontalBorderSize: new FloatParam('H Border', 0, 0, 1, true),
+        // verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
+        // verticalBorderSize: new FloatParam('V Border', 0, 0, 1, true),
+        // drawExternalBorder: new BoolParam('Ext Border', true),
+        // colorBool: new BoolParam('Colorize', true),
+
         recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
     };
 
     structure = undefined;
     initializationNeeded = true;
     initializeIfNeeded(width, height) {
+        // Check params to see if initialization is needed
+        if (this.structure) {
+            const paramsUpdated = this.structure.configIsDifferent(
+                this.params.unitSize.value,
+                this.params.minWidthUnits.value,
+                this.params.maxWidthUnits.value,
+                this.params.minHeightUnits.value,
+                this.params.maxHeightUnits.value);
+            this.initializationNeeded = this.initializationNeeded || paramsUpdated;
+        }
+
         // Don't initialize if we don't need it
         if (!this.initializationNeeded) return;
+        this.initializationNeeded = false;
 
         // Initialize!
-        this.structure = new RectStructure(width, height);
+        this.structure = new RectStructure(
+            width,
+            height,
+            this.params.unitSize.value,
+            this.params.minWidthUnits.value,
+            this.params.maxWidthUnits.value,
+            this.params.minHeightUnits.value,
+            this.params.maxHeightUnits.value);
         this.structure.rects.forEach((rect) => {
             // Generate a random color for each rect
             rect.hue = Math.random();
         });
-        this.initializationNeeded = false;
     }
 
     redrawRequested() {
@@ -110,17 +104,38 @@ export default class Rectangles extends Sketch {
 
 class RectStructure {
     constructor(
-        fullWidth,
-        fullHeight)
-    {
+        fullWidth, fullHeight, // dimensions
+        unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits // configuration
+    ) {
         this.fullWidth = fullWidth;
         this.fullHeight = fullHeight;
-        this.unitSize = 20;
-        this.minWidthUnits = 1;
-        this.maxWidthUnits = 30;
-        this.minHeightUnits = 1;
-        this.maxHeightUnits = 5;
+        [ // Assign all configuration instance variables:
+            this.unitSize,
+            this.minWidthUnits,
+            this.maxWidthUnits,
+            this.minHeightUnits,
+            this.maxHeightUnits
+        ] = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits);
         this.generateRects(new Point(0, 0));
+    }
+
+    configIsDifferent(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits) {
+        const parsedConfig = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits);
+        return this.unitSize != parsedConfig[0] ||
+            this.minWidthUnits != parsedConfig[1] ||
+            this.maxWidthUnits != parsedConfig[2] ||
+            this.minHeightUnits != parsedConfig[3] ||
+            this.maxHeightUnits != parsedConfig[4];
+    }
+
+    parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits) {
+        return [
+            Math.floor(unitSize),
+            Math.floor(minWidthUnits),
+            Math.floor(Math.max(minWidthUnits, maxWidthUnits)),
+            Math.floor(minHeightUnits),
+            Math.floor(Math.max(minHeightUnits, maxHeightUnits))
+        ];
     }
 
     reset() {
@@ -247,9 +262,6 @@ class RectStructure {
             }
         });
 
-        return new Point(
-            maxWidth,
-            maxHeight
-        );
+        return new Point(maxWidth, maxHeight);
     }
 }

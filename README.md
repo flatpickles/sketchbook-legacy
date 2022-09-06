@@ -10,9 +10,11 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
 ## Feature wishlist & next steps
 * Option to set window size
 * FPS meter
-* Parameter control styling:
+* Parameter updates:
     * Custom color styles
     * Number display for slider inputs
+    * Foldable parameter groups
+    * Calculate defaults based on initial size
 * Min/max range slider
 * Crossfade when switching sketches
 * Inputs:
@@ -21,12 +23,9 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Webcam
     * MIDI (+ output?)
     * Image (browse & load)
-* Param types
-    * Button
 * Hide sidebar tabs when collapsed w/ no mouse movement
 * Date metadata & display for sketches (in sidebar)
 * Save/load parameter configurations
-* Visit without a URL argument -> select last viewed sketch
 * Export frame option and/or record video option
 * Experimental vs. "production" sketches
 * Folders for sketch index display organization

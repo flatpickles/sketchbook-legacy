@@ -10,9 +10,9 @@ import { Point, Rect } from './Util/Geometry.js';
 export default class Rectangles extends Sketch {
     name = 'Rectangles';
     type = SketchType.Canvas;
-    date = new Date('8/24/2022');
+    // date = new Date('8/24/2022');
     description = `
-        Packing up some rectangles, let's see how it's done.
+        I'm experimenting with rectangle packing! This is a work in progress.
     `;
 
     params = {

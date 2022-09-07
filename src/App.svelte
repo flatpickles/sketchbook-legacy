@@ -32,13 +32,14 @@
         const normalizedStoredName = storedName
             ? normalizeString(storedName)
             : undefined;
-        let linkedIndex, storedIndex;
+        let linkedIndex, storedIndex, firstNonWIPIndex;
         sketches.forEach((sketch, currentIndex) => {
             const normalizedSketchName = normalizeString(sketch.name);
             if (normalizedSketchName === normalizedLinkName) linkedIndex = currentIndex;
             if (normalizedSketchName === normalizedStoredName) storedIndex = currentIndex;
+            if (sketch.date && !firstNonWIPIndex) firstNonWIPIndex = currentIndex;
         });
-        const sketchToLoadIndex = linkedIndex ?? storedIndex ?? 0;
+        const sketchToLoadIndex = linkedIndex ?? storedIndex ?? firstNonWIPIndex;
         selectSketch(sketches[sketchToLoadIndex]);
     }
 

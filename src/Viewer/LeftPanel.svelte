@@ -20,6 +20,11 @@
     let settingsPanelBorderSize = undefined;
     $: settingsPanelHeightPx = settingsPanelHeight + settingsPanelBorderSize + 'px';
 
+    // WIP sketches!
+    let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
+    let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
+    $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
+
     onMount(async () => {
         // Compute settings panel border size for use in height calculation
         // Currently this is styled at zero, but I'll leave this just in case.
@@ -34,7 +39,25 @@
         localStorage.setItem('settingsPanelOpen', settingsPanelOpen ? 'true' : 'false');
     }
 
+    function toggleWIP() {
+        // Toggle the state
+        showWorksInProgress = !showWorksInProgress;
+        localStorage.setItem('showWorksInProgress', showWorksInProgress ? 'true' : 'false');
+
+        // Select a different non-WIP sketch if currently selected is WIP
+        if (!selected.date) {
+            for (let sketchIdx = 0; sketchIdx < sketches.length; sketchIdx++) {
+                const sketch = sketches[sketchIdx];
+                if (sketch.date) {
+                    selectSketch(sketch);
+                    break;
+                }
+            }
+        };
+    }
+
     function resetState() {
+        location.hash = '';
         localStorage.clear();
         location.reload();
     }
@@ -64,19 +87,24 @@
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
             </p>
-            
-            <Button name='Reset Sketchbook' on:click={resetState}></Button>
+            <div id='buttons'>
+                <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
+                <Button name='Reset Sketchbook' on:click={resetState}></Button>
+            </div>
         </div>
     </div>
     
     <div id='list_container'>
         {#each sketches as sketch}
-            <div
-                class='sketch_item'
-                class:sketch_selected={sketch == selected}
-                on:click={selectSketch.bind(this, sketch)}>
-                    {sketch.name}
-            </div>
+            {#if sketch.date || showWorksInProgress || sketch == selected}
+                <div
+                    class='sketch_item'
+                    class:sketch_selected={sketch == selected}
+                    on:click={selectSketch.bind(this, sketch)}>
+                        {sketch.name}
+                        {#if !sketch.date}[WIP]{/if}
+                </div>
+            {/if}
         {/each}
     </div>
 </div>
@@ -138,7 +166,15 @@
 
     p {
         margin: 0;
-        padding-bottom: var(--spacing);
+    }
+
+    :global(#buttons > *) {
+        margin-top: calc(var(--spacing) / 2);
+        width: 100%;
+    }
+
+    :global(#buttons > :first-child) {
+        margin-top: var(--spacing);
     }
 
     /* Sketch list */

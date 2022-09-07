@@ -22,11 +22,15 @@
         {sketch.name}
     </div>
     <div id="sketch_date">
-        {sketch.date.toLocaleDateString('en-us', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        })}
+        {#if sketch.date}
+            {sketch.date.toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })}
+        {:else}
+            [Work in Progress]
+        {/if}
     </div>
 
     {#if sketch.params && Object.values(sketch.params).length > 0}

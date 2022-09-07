@@ -8,9 +8,9 @@
 
 <style>
     button {
-        background-color: #000;
+        background-color: rgb(0, 0, 0, 0);
         border: var(--border);
-        color: #fff;
+        color: #000;
         margin: 0;
         padding: 4px 8px;
         text-align: center;
@@ -21,7 +21,7 @@
     }
 
     button:active {
-        background-color: rgb(0, 0, 0, 0);
-        color: #000;
+        background-color: #000;
+        color: #FFF;
     }
 </style>

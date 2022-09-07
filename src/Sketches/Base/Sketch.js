@@ -7,7 +7,7 @@ export const SketchType = {
 export default class Sketch {
     name = 'Unnamed Sketch';
     type = SketchType.Undefined;
-    date = new Date();
+    date = undefined; // Sketch is a "Work in Progress" until date is defined
     description = undefined;
     params = {};
     settings = {};

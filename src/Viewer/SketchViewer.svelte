@@ -158,6 +158,7 @@
 
     #left_panel .panel_button {
         border-right: var(--border);
+        border-radius: 0 0 2px 0;
     }
 
     /* Right panel */
@@ -184,6 +185,7 @@
 
     #right_panel .panel_button {
         border-left: var(--border);
+        border-radius: 0 0 0 2px;
     }
 
 </style>

@@ -24,24 +24,58 @@ export class Point {
         return this.x <= point.x && this.y <= point.y;
     }
 
-    sub(point) {
-        // todo: enable point subtraction
-        return new Point(
-            this.x - point.x,
-            this.y - point.y
-        );
-    }
-
-    mult(factor) {
-        if (factor instanceof Point) {
+    add(p1, p2) {
+        if (p1 instanceof Point) {
             return new Point(
-                this.x * factor.x,
-                this.y * factor.y
+                this.x + p1.x,
+                this.y + p1.y
             );
         } else {
             return new Point(
-                this.x * factor,
-                this.y * factor
+                this.x + p1,
+                this.y + (p2  ?? p1)
+            );
+        }
+    }
+
+    sub(p1, p2) {
+        if (p1 instanceof Point) {
+            return new Point(
+                this.x - p1.x,
+                this.y - p1.y
+            );
+        } else {
+            return new Point(
+                this.x - p1,
+                this.y - (p2 ?? p1)
+            );
+        }
+    }
+
+    mult(p1, p2) {
+        if (p1 instanceof Point) {
+            return new Point(
+                this.x * p1.x,
+                this.y * p1.y
+            );
+        } else {
+            return new Point(
+                this.x * p1,
+                this.y * (p2 ?? p1)
+            );
+        }
+    }
+
+    div(p1, p2) {
+        if (p1 instanceof Point) {
+            return new Point(
+                this.x / p1.x,
+                this.y / p1.y
+            );
+        } else {
+            return new Point(
+                this.x / p1,
+                this.y / (p2 ?? p1)
             );
         }
     }
@@ -58,21 +92,15 @@ export class Rect {
         this.height = height;
     }
 
-    get x() {
-        return this.origin.x;
-    }
+    get x() { return this.origin.x; }
+    get y() { return this.origin.y; }
+    set x(newX) { this.origin.x = newX; }
+    set y(newY) { this.origin.y = newY; }
 
-    set x(newX) {
-        this.origin.x = newX;
-    }
-
-    get y() {
-        return this.origin.y;
-    }
-
-    set y(newY) {
-        this.origin.y = newY;
-    }
+    get topLeft() { return this.origin; }
+    get topRight() { return this.origin.add(this.width, 0); }
+    get bottomLeft() { return this.origin.add(0, this.height); }
+    get bottomRight() { return this.origin.add(this.width, this.height); }
 
     scale(scaleFactorX, scaleFactorY) {
         scaleFactorY = scaleFactorY ?? scaleFactorX; // allow single input

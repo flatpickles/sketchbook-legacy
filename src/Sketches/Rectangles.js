@@ -5,6 +5,7 @@ import { FloatParam, BoolParam, EventParam } from './Base/SketchParam.js';
 
 import Util from './Util/Util.js';
 import Quadtree from './Util/Quadtree.js';
+import CanvasUtil from './Util/CanvasUtil.js';
 import { Point, Rect } from './Util/Geometry.js';
 
 export default class Rectangles extends Sketch {
@@ -23,9 +24,9 @@ export default class Rectangles extends Sketch {
         maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, false),
 
         // horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
-        // horizontalBorderSize: new FloatParam('H Border', 0, 0, 1, true),
+        horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, true),
         // verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
-        // verticalBorderSize: new FloatParam('V Border', 0, 0, 1, true),
+        verticalBorderSize: new FloatParam('V Border', 1, 0, 20, true),
         // drawExternalBorder: new BoolParam('Ext Border', true),
         // colorBool: new BoolParam('Colorize', true),
 
@@ -89,14 +90,26 @@ export default class Rectangles extends Sketch {
                 context.scale(heightScale, heightScale);
             }
 
-            // Draw contents of structure
-            context.strokeStyle = '#000';
+            // Fill shapes
             this.structure.rects.forEach((rect) => {
-                context.beginPath();
-                context.fillStyle = Util.hsl(rect.hue, 1, 0.6);
-                context.rect(rect.x, rect.y, rect.width, rect.height);
-                context.fill();
-                context.stroke();
+                const vertices = [
+                    rect.topLeft,
+                    rect.topRight,
+                    rect.bottomRight,
+                    rect.bottomLeft
+                ];
+                const fillStyle = Util.hsl(rect.hue, 1, 0.6);
+                CanvasUtil.drawShape(context, vertices, fillStyle);
+            });
+
+            // Draw boundaries
+            const hBorder = this.params.horizontalBorderSize.value;
+            const vBorder = this.params.verticalBorderSize.value;
+            this.structure.rects.forEach((rect) => {
+                CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder);
+                CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder);
+                CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder);
+                CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder);
             });
         };
     };

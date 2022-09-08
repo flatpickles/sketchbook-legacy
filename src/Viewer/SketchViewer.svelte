@@ -131,7 +131,7 @@
         border-bottom: var(--border);
         background-color: var(--collapse-tab-bg-color);
         backdrop-filter: var(--panel-filter);
-        -webkit-backdrop-filter: var(--panel-filter);
+        -webkit-backdrop-filter: var(--collapse-tab-filter);
         text-align: center;
         flex-shrink: 2;
         user-select: none;

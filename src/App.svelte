@@ -90,8 +90,8 @@
         /* General */
         --spacing: 8px;
         --border: 1px solid rgb(0, 0, 0, 90%);
-        --panel-background: rgb(255, 255, 255, 70%);
-        --panel-filter: blur(5px);
+        --panel-background: rgb(255, 255, 255, 80%);
+        --panel-filter: blur(8px);
 
         /* Sidebars */
         --title-font-size: 24px;
@@ -103,6 +103,7 @@
         --collapse-tab-font-size: 16px;
         --collapse-tab-padding: 4px;
         --collapse-tab-bg-color: rgb(255, 255, 255, 50%);
+        --collapse-tab-filter: blur(4px);
 
         /* Sketch list */
         --sketch-list-font-size: 16px;

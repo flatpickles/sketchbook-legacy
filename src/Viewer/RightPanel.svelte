@@ -43,6 +43,7 @@
                         bind:value={param.value}
                         min={param.min}
                         max={param.max}
+                        step={param.step}
                     />
                 {:else if (param instanceof BoolParam)}
                     <CheckboxInput

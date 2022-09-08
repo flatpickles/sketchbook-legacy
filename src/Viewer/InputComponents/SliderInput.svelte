@@ -9,7 +9,11 @@
 </script>
 
 <ParamInput {label}>
-    <input type='range' class='slider' id={label} bind:value={value} {min} {max} {step} on:input on:change />
+    <input
+        type='range' class='slider' id={label}
+        bind:value={value} {min} {max} {step}
+        on:input on:change
+    />
 </ParamInput>
 
 <style>

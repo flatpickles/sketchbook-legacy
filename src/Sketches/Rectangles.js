@@ -18,15 +18,15 @@ export default class Rectangles extends Sketch {
 
     params = {
         unitSize: new FloatParam('Unit Size', 20, 5, 100),
-        minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, false),
-        maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, false),
-        minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, false),
-        maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, false),
+        minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, 1, false),
+        maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, 1, false),
+        minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),
+        maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, 1, false),
 
         // horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
-        horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, true),
+        horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, 1, true),
         // verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
-        verticalBorderSize: new FloatParam('V Border', 1, 0, 20, true),
+        verticalBorderSize: new FloatParam('V Border', 1, 0, 20, 1, true),
         // drawExternalBorder: new BoolParam('Ext Border', true),
         // colorBool: new BoolParam('Colorize', true),
 

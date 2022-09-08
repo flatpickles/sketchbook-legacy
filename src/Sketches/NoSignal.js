@@ -12,8 +12,8 @@ export default class NoSignal extends Sketch {
     `;
 
     params = {
-        colorCount: new FloatParam('Color Count', 19, 1, 32),
-        bwCount: new FloatParam('B&W Count', 32, 1, 64),
+        colorCount: new FloatParam('Color Count', 19, 1, 32, 1),
+        bwCount: new FloatParam('B&W Count', 32, 1, 64, 1),
         displayText: new BoolParam('Display Text', true)
     };
 

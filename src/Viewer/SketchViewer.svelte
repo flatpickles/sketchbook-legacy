@@ -111,6 +111,7 @@
         flex-grow: 1;
         background-color: var(--panel-background);
         backdrop-filter: var(--panel-filter);
+        -webkit-backdrop-filter: var(--panel-filter);
     }
 
     .button_container {
@@ -130,6 +131,7 @@
         border-bottom: var(--border);
         background-color: var(--collapse-tab-bg-color);
         backdrop-filter: var(--panel-filter);
+        -webkit-backdrop-filter: var(--panel-filter);
         text-align: center;
         flex-shrink: 2;
         user-select: none;

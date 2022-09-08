@@ -25,8 +25,7 @@
         {#if sketch.date}
             {sketch.date.toLocaleDateString('en-us', {
                 year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+                month: 'long'
             })}
         {:else}
             [Work in Progress]

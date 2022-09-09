@@ -30,6 +30,7 @@ export default class Rectangles extends Sketch {
         // drawExternalBorder: new BoolParam('Ext Border', true),
         // colorBool: new BoolParam('Colorize', true),
 
+        // fillSize: new BoolParam('Edge to Edge', true),
         recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
     };
 

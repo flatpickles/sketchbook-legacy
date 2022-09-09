@@ -26,6 +26,19 @@
         preventPanelCollision(true);
     }
 
+    // Double click: hide panels if either is open, show if both are closed
+    function viewportClicked(event) {
+        if (event.detail == 2) {
+            if (rightPanelOpen || leftPanelOpen) {
+                if (rightPanelOpen) toggleRight();
+                if (leftPanelOpen) toggleLeft();
+            } else {
+                toggleRight();
+                toggleLeft();
+            }
+        }
+    }
+
     // Only allow one open panel at a time for narrow screens
     preventPanelCollision();
     function preventPanelCollision(preferRight = true) {
@@ -72,7 +85,7 @@
     </div>
 </div>
 
-<div class='viewport' bind:clientWidth={viewportWidth}>
+<div class='viewport' bind:clientWidth={viewportWidth} on:click={viewportClicked}>
     <CanvasSketch {sketch} bind:this={sketchComponent} />
 </div>
 

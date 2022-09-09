@@ -40,15 +40,15 @@
     }
 
     label {
-        font-size: 12px;
+        font-size: var(--param-font-size);
         flex-shrink: 1;
         flex-grow: 1;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         color: black;
-        padding-right: 10px;
-        flex-basis: 100px;
+        padding-right: var(--spacing);
+        flex-basis: 120px;
         box-sizing: border-box;
     }
 </style>

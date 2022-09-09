@@ -23,12 +23,17 @@ export class EventParam extends SketchParam {
 }
 
 export class ColorParam extends SketchParam {
+    constructor(name, defaultValue) {
+        // todo: default value as a custom Color class
+        super(name, defaultValue);
+    }
+
     storeValue() {
-        throw('ColorParam may need custom storeValue - todo.');
+        // throw('ColorParam may need custom storeValue - todo.');
     }
 
     restoreValue() {
-        throw('ColorParam may need custom restoreValue - todo.');
+        // throw('ColorParam may need custom restoreValue - todo.');
     }
 }
 

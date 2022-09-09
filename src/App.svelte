@@ -97,6 +97,7 @@
         --title-font-size: 24px;
         --subtitle-font-size: 14px;
         --description-font-size: 14px;
+        --param-font-size: 12px;
 
         /* Collapse tabs */
         --collapse-tab-text-color: rgb(0, 0, 0);

@@ -9,17 +9,21 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
 * Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason.
 * Behavior is undefined with an empty sketch index, or one with only WIP sketches (though perhaps this will never be a problem).
 * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency. 
+* Left panel scrolling behavior doesn't work as desired with small window heights
 
 ## To do
+* Color:
+    * Custom color class, w/ `toStyle` string generation (for canvas styles)
+    * Integrate with ColorParam, including store/restore & constructor
 * UX improvements:
     * Hide panel tabs when both collapsed w/ no mouse movement
     * Crossfade when switching sketches
+    * Only show "WIP" button when there are WIP sketches
 * Global options:
     * Export frame option
     * Option to set window size
     * FPS meter
 * Parameter UI:
-    * Custom color styling
     * Number display for slider inputs
     * More space for parameter name (marquee for long names?)
 * Presets:
@@ -49,6 +53,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Export a sub-section of the canvas (smaller renders)
 
 ## Workflow / project wishlist
+* Probably get rid of global.css
 * Avoid bundling `public` dir in main branch
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte
 * Parameter improvements: `this.params.paramName.value` is awkward, but providing a generated `this.paramName` property has proved difficult.

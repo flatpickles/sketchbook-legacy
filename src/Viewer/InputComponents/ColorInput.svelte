@@ -15,14 +15,14 @@
         -webkit-appearance: none;
         border: none;
         background: none;
-        border-radius: 5px;
+        border-radius: 2px;
         padding: 0;
         overflow: hidden;
-        width: 50px;
-        height: 25px;
+        width: 66%;
+        height: 12px;
         outline: 0;
         box-sizing: border-box;
-        border: 1px solid #dcdcdc;
+        border: 2px solid #000;
         padding: 0;
         margin: 0;
     }
@@ -31,9 +31,8 @@
         border: 0;
         padding: 0;
     }
+
     input[type="color"]::-webkit-color-swatch {
-        border: none;
-        border: 2px solid white;
-        border-radius: 5px;
+        border: 0;
     }
 </style>

@@ -1,7 +1,7 @@
 import Random from 'canvas-sketch-util/random';
 
 import Sketch, { SketchType } from './Base/Sketch.js';
-import { FloatParam, BoolParam, EventParam } from './Base/SketchParam.js';
+import { FloatParam, BoolParam, EventParam, ColorParam } from './Base/SketchParam.js';
 
 import Util from './Util/Util.js';
 import Quadtree from './Util/Quadtree.js';
@@ -24,13 +24,22 @@ export default class Rectangles extends Sketch {
         maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, 1, false),
 
         // horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
-        horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, 1, true),
         // verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
-        verticalBorderSize: new FloatParam('V Border', 1, 0, 20, 1, true),
-        // drawExternalBorder: new BoolParam('Ext Border', true),
-        // colorBool: new BoolParam('Colorize', true),
 
+        horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, 1, true),
+        verticalBorderSize: new FloatParam('V Border', 1, 0, 20, 1, true),
+
+        // drawExternalBorder: new BoolParam('Ext Border', true),
         // fillSize: new BoolParam('Edge to Edge', true),
+
+        /* 
+            primaryColor: sprinkled throughout with `likelihood` (defined below)
+            secondaryColor: the color of the non-primary rects, unless randomized (below)
+            randomizeSecondary: secondaryColor is ignored, instead we use random hue generation
+            primaryLikelihood: how often we paint a rect with primary color
+        */
+        // primaryColor: new ColorParam('Primary Color'),
+
         recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
     };
 

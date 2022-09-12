@@ -12,8 +12,11 @@ import { Point, Rect } from './Util/Geometry.js';
 
 to do:
 
-- border color (and background, when resized)
-- rect color configuration
+- enable new shapes vs. new colors
+- use other secondary color HSV values when randomizing hue
+- enable H/V insets (showing background/border color, like when resizing)
+- click event -> new shapes
+- edge to edge fill option (i.e. use exact unit sizing, vs. expand last rects to fit. Maybe scale instead?)
 - better name ?
 
 */
@@ -33,29 +36,19 @@ export default class Rectangles extends Sketch {
         minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),
         maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, 1, false),
 
-        // horizontalSkew: new FloatParam('H Skew', 0, 0, 1, false),
-        // verticalSkew: new FloatParam('V Skew', 0, 0, 1, false),
-
         horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, 1, true),
         verticalBorderSize: new FloatParam('V Border', 1, 0, 20, 1, true),
         drawOutsideBorder: new BoolParam('Ext. Border', false),
 
-        // drawExternalBorder: new BoolParam('Ext Border', true),
-        // fillSize: new BoolParam('Edge to Edge', true),
-
-        /* 
-            primaryColor: sprinkled throughout with `likelihood` (defined below)
-            secondaryColor: the color of the non-primary rects, unless randomized (below)
-            randomizeSecondary: secondaryColor is ignored, instead we use random hue generation
-            primaryLikelihood: how often we paint a rect with primary color
-
-            also include option for randomized saturation for primary/secondary
-            recalculate colors event
-            randomize hue vs. sat vs. val (or not; slider (val) + checkbox (random))
-        */
         borderColor: new ColorParam('Border Color', '#000'),
-
-        recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
+        primaryColor: new ColorParam('Fill Color A', '#FF00FF'),
+        secondaryColor: new ColorParam('Fill Color B', '#00FF00'),
+        primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true),
+        randomizeBHue: new BoolParam('Random B Hue', false),
+        
+        // todo:
+        recalculate: new EventParam('New Shapes', this.redrawRequested.bind(this)),
+        recalculate2: new EventParam('New Colors', this.redrawRequested.bind(this)),
     };
 
     structure = undefined;
@@ -86,8 +79,9 @@ export default class Rectangles extends Sketch {
             this.params.minHeightUnits.value,
             this.params.maxHeightUnits.value);
         this.structure.rects.forEach((rect) => {
-            // Generate a random color for each rect
-            rect.hue = Math.random();
+            // Generate random values for each rect, to be used when coloring
+            rect.primaryRandom = Math.random();
+            rect.colorRandom = Math.random();
         });
     }
 
@@ -102,6 +96,10 @@ export default class Rectangles extends Sketch {
             const vBorder = this.params.verticalBorderSize.value;
             const drawOutsideBorder = this.params.drawOutsideBorder.value;
             const borderColor = this.params.borderColor.value;
+            const primaryColor = this.params.primaryColor.value;
+            const secondaryColor = this.params.secondaryColor.value;
+            const primaryColorLikelihood = this.params.primaryColorLikelihood.value;
+            const randomizeSecondaryColor = this.params.randomizeBHue.value;
 
             // Clear and initialize if needed
             context.clearRect(0, 0, width, height);
@@ -141,7 +139,12 @@ export default class Rectangles extends Sketch {
                     rect.bottomRight,
                     rect.bottomLeft
                 ];
-                const fillStyle = Util.hsl(rect.hue, 1, 0.6);
+                let fillStyle;
+                if (rect.primaryRandom < primaryColorLikelihood) {
+                    fillStyle = primaryColor;
+                } else {
+                    fillStyle = randomizeSecondaryColor ? Util.hsl(rect.colorRandom, 1, 0.6) : secondaryColor;
+                }
                 CanvasUtil.drawShape(context, vertices, fillStyle);
             });
 

@@ -53,7 +53,7 @@ export default class Rectangles extends Sketch {
             recalculate colors event
             randomize hue vs. sat vs. val (or not; slider (val) + checkbox (random))
         */
-        // primaryColor: new ColorParam('Primary Color'),
+        borderColor: new ColorParam('Border Color', '#000'),
 
         recalculate: new EventParam('Recalculate', this.redrawRequested.bind(this)),
     };
@@ -97,16 +97,18 @@ export default class Rectangles extends Sketch {
 
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
+            // Retrieve param values
             const hBorder = this.params.horizontalBorderSize.value;
             const vBorder = this.params.verticalBorderSize.value;
             const drawOutsideBorder = this.params.drawOutsideBorder.value;
+            const borderColor = this.params.borderColor.value;
 
             // Clear and initialize if needed
             context.clearRect(0, 0, width, height);
             this.initializeIfNeeded(width, height);
 
             // Fill background
-            const fillStyle = '#000';
+            context.fillStyle = borderColor;
             context.rect(0, 0, width, height);
             context.fill();
 
@@ -147,19 +149,19 @@ export default class Rectangles extends Sketch {
             this.structure.rects.forEach((rect) => {
                 // Top
                 if (drawOutsideBorder || rect.topLeft.y != 0) {
-                    CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder);
+                    CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder, borderColor);
                 }
                 // Right
                 if (drawOutsideBorder || rect.topRight.x != this.structure.fullWidth) {
-                    CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder);
+                    CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder, borderColor);
                 }
                 // Bottom
                 if (drawOutsideBorder || rect.bottomRight.y != this.structure.fullHeight) {
-                    CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder);
+                    CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder, borderColor);
                 }
                 // Left
                 if (drawOutsideBorder || rect.bottomLeft.x != 0) {
-                    CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder);
+                    CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder, borderColor);
                 }
             });
         };

@@ -10,10 +10,10 @@ import { Point, Rect } from './Util/Geometry.js';
 
 /*
 
-- unit size non-contnuous update
+- unit size non-continuous update
+- draw full outside border within bounds?
 - skew
 - color configuration
-- border edge settings  
 
 
 */
@@ -38,6 +38,7 @@ export default class Rectangles extends Sketch {
 
         horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, 1, true),
         verticalBorderSize: new FloatParam('V Border', 1, 0, 20, 1, true),
+        drawOutsideBorder: new BoolParam('Ext. Border', false),
 
         // drawExternalBorder: new BoolParam('Ext Border', true),
         // fillSize: new BoolParam('Edge to Edge', true),
@@ -129,11 +130,24 @@ export default class Rectangles extends Sketch {
             // Draw boundaries
             const hBorder = this.params.horizontalBorderSize.value;
             const vBorder = this.params.verticalBorderSize.value;
+            const drawOutsideBorder = this.params.drawOutsideBorder.value;
             this.structure.rects.forEach((rect) => {
-                CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder);
-                CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder);
-                CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder);
-                CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder);
+                // Top
+                if (drawOutsideBorder || rect.topLeft.y != 0) {
+                    CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder);
+                }
+                // Right
+                if (drawOutsideBorder || rect.topRight.x != this.structure.fullWidth) {
+                    CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder);
+                }
+                // Bottom
+                if (drawOutsideBorder || rect.bottomRight.y != this.structure.fullHeight) {
+                    CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder);
+                }
+                // Left
+                if (drawOutsideBorder || rect.bottomLeft.x != 0) {
+                    CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder);
+                }
             });
         };
     };

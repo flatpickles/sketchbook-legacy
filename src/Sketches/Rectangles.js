@@ -10,7 +10,6 @@ import { Point, Rect } from './Util/Geometry.js';
 
 /*
 
-- unit size non-continuous update
 - draw full outside border within bounds?
 - skew
 - color configuration
@@ -27,7 +26,7 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        unitSize: new FloatParam('Unit Size', 20, 5, 100, false),
+        unitSize: new FloatParam('Unit Size', 20, 5, 100, 1, false),
         minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, 1, false),
         maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, 1, false),
         minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),

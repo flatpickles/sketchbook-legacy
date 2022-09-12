@@ -12,7 +12,6 @@ import { Point, Rect } from './Util/Geometry.js';
 
 to do:
 
-- enable new shapes vs. new colors
 - use other secondary color HSV values when randomizing hue
 - enable H/V insets (showing background/border color, like when resizing)
 - click event -> new shapes
@@ -45,10 +44,9 @@ export default class Rectangles extends Sketch {
         secondaryColor: new ColorParam('Fill Color B', '#00FF00'),
         primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true),
         randomizeBHue: new BoolParam('Random B Hue', false),
-        
-        // todo:
-        recalculate: new EventParam('New Shapes', this.redrawRequested.bind(this)),
-        recalculate2: new EventParam('New Colors', this.redrawRequested.bind(this)),
+
+        newColors: new EventParam('New Colors', this.newColors.bind(this)),
+        newShapes: new EventParam('New Shapes', this.newShapes.bind(this)),
     };
 
     structure = undefined;
@@ -65,28 +63,36 @@ export default class Rectangles extends Sketch {
             this.initializationNeeded = this.initializationNeeded || paramsUpdated;
         }
 
-        // Don't initialize if we don't need it
-        if (!this.initializationNeeded) return;
-        this.initializationNeeded = false;
-
         // Initialize!
-        this.structure = new RectStructure(
-            width,
-            height,
-            this.params.unitSize.value,
-            this.params.minWidthUnits.value,
-            this.params.maxWidthUnits.value,
-            this.params.minHeightUnits.value,
-            this.params.maxHeightUnits.value);
-        this.structure.rects.forEach((rect) => {
-            // Generate random values for each rect, to be used when coloring
-            rect.primaryRandom = Math.random();
-            rect.colorRandom = Math.random();
-        });
+        if (this.initializationNeeded) {
+            this.structure = new RectStructure(
+                width,
+                height,
+                this.params.unitSize.value,
+                this.params.minWidthUnits.value,
+                this.params.maxWidthUnits.value,
+                this.params.minHeightUnits.value,
+                this.params.maxHeightUnits.value);
+            this.initializationNeeded = false;
+            this.newColorsNeeded = true;
+        }
+        
+        if (this.structure && this.newColorsNeeded) {
+            this.structure.rects.forEach((rect) => {
+                // Generate random values for each rect, to be used when coloring
+                rect.primaryRandom = Math.random();
+                rect.colorRandom = Math.random();
+            });
+            this.newColorsNeeded = false;
+        }
     }
 
-    redrawRequested() {
+    newShapes() {
         this.initializationNeeded = true;
+    }
+
+    newColors() {
+        this.newColorsNeeded = true;
     }
 
     sketchFn = ({}) => {

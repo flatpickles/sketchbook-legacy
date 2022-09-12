@@ -10,10 +10,11 @@ import { Point, Rect } from './Util/Geometry.js';
 
 /*
 
-- draw full outside border within bounds?
-- skew
-- color configuration
+to do:
 
+- border color (and background, when resized)
+- rect color configuration
+- better name ?
 
 */
 
@@ -96,12 +97,28 @@ export default class Rectangles extends Sketch {
 
     sketchFn = ({}) => {
         return ({ context, width, height }) => {
+            const hBorder = this.params.horizontalBorderSize.value;
+            const vBorder = this.params.verticalBorderSize.value;
+            const drawOutsideBorder = this.params.drawOutsideBorder.value;
+
             // Clear and initialize if needed
             context.clearRect(0, 0, width, height);
             this.initializeIfNeeded(width, height);
 
+            // Fill background
+            const fillStyle = '#000';
+            context.rect(0, 0, width, height);
+            context.fill();
+
+            // Translate canvas if external border is present (fully present ext. border)
+            const widthAdjustment = drawOutsideBorder ? vBorder : 0;
+            const heightAdjustment = drawOutsideBorder ? hBorder : 0;
+            context.translate(widthAdjustment / 2, heightAdjustment / 2);
+            context.scale((width - widthAdjustment) / width, (height - heightAdjustment) / height);
+
             // Translate canvas if resized from actual structure dimensions
-            // todo: trim & color outside of bounds if need be
+            // This doesn't take the above into account, so the scaling can be slightly too small
+            // todo: revisit this edge case
             const widthScale = width / this.structure.fullWidth;
             const heightScale = height / this.structure.fullHeight;
             if (widthScale < heightScale) {
@@ -127,9 +144,6 @@ export default class Rectangles extends Sketch {
             });
 
             // Draw boundaries
-            const hBorder = this.params.horizontalBorderSize.value;
-            const vBorder = this.params.verticalBorderSize.value;
-            const drawOutsideBorder = this.params.drawOutsideBorder.value;
             this.structure.rects.forEach((rect) => {
                 // Top
                 if (drawOutsideBorder || rect.topLeft.y != 0) {

@@ -20,16 +20,17 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Crossfade when switching sketches
     * Only show "WIP" button when there are WIP sketches
 * Global options:
-    * Export frame option
-    * Option to set window size
-    * FPS meter
+    * Export frame option (also exports param JSON; bottom right panel)
+    * Import JSON parameter settings (bottom right panel)
+    * Option to set canvas size vs. fit to window size (bottom right panel
+    * FPS meter (probably in left panel settings)
 * Parameter UI:
+    * Radio button parameter type (2-5 options?)
     * Number display for slider inputs
     * More space for parameter name (marquee for long names?)
 * Presets:
     * Choose from curated parameter settings
     * Save your own (local storage)
-    * Export current settings as JSON
 
 ## To consider
 * Key commands

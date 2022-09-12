@@ -8,6 +8,16 @@ import Quadtree from './Util/Quadtree.js';
 import CanvasUtil from './Util/CanvasUtil.js';
 import { Point, Rect } from './Util/Geometry.js';
 
+/*
+
+- unit size non-contnuous update
+- skew
+- color configuration
+- border edge settings  
+
+
+*/
+
 export default class Rectangles extends Sketch {
     name = 'Rectangles';
     type = SketchType.Canvas;
@@ -17,7 +27,7 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        unitSize: new FloatParam('Unit Size', 20, 5, 100),
+        unitSize: new FloatParam('Unit Size', 20, 5, 100, false),
         minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, 1, false),
         maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, 1, false),
         minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),
@@ -37,6 +47,10 @@ export default class Rectangles extends Sketch {
             secondaryColor: the color of the non-primary rects, unless randomized (below)
             randomizeSecondary: secondaryColor is ignored, instead we use random hue generation
             primaryLikelihood: how often we paint a rect with primary color
+
+            also include option for randomized saturation for primary/secondary
+            recalculate colors event
+            randomize hue vs. sat vs. val (or not; slider (val) + checkbox (random))
         */
         // primaryColor: new ColorParam('Primary Color'),
 
@@ -175,14 +189,14 @@ class RectStructure {
     
         // Iterate through queues of rects with open sides to add more
         while (this.rightOpen.length > 0 || this.bottomOpen.length > 0) {
-            if (this.rightOpen.length > 0) {
-                const leftRect = this.rightOpen.shift();
-                const newOrigin = new Point(leftRect.x + leftRect.width, leftRect.y);
-                this.addRect(newOrigin);
-            }
             if (this.bottomOpen.length > 0) {
                 const topRect = this.bottomOpen.shift();
                 const newOrigin = new Point(topRect.x, topRect.y + topRect.height);
+                this.addRect(newOrigin);
+            }
+            if (this.rightOpen.length > 0) {
+                const leftRect = this.rightOpen.shift();
+                const newOrigin = new Point(leftRect.x + leftRect.width, leftRect.y);
                 this.addRect(newOrigin);
             }
         }

@@ -32,8 +32,14 @@
         {/if}
     </div>
 
+    {#if sketch.description}
+        <div id='description'>
+            {sketch.description.trim()}
+        </div>
+    {/if}
+
     {#if sketch.params && Object.values(sketch.params).length > 0}
-        <div id='list_container'>
+        <div id='params_container'>
             {#each Object.values(sketch.params) as param}
                 {#if (param instanceof FloatParam)}
                     <SliderInput
@@ -70,11 +76,6 @@
         </div>
     {/if}
 
-    {#if sketch.description}
-        <div id='description'>
-            {sketch.description.trim()}
-        </div>
-    {/if}
 </div>
 
 <style>
@@ -97,14 +98,14 @@
         padding-top: 4px;
     }
 
-    #list_container {
+    #params_container {
         padding: var(--spacing);
         border-top: var(--border);
     }
 
     #description {
         padding: var(--spacing);
-        border-top: var(--border);
+        padding-top: 0;
         font-size: var(--description-font-size);
         white-space: pre-line;
     }

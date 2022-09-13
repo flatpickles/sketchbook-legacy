@@ -26,12 +26,14 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Option to set canvas size vs. fit to window size (bottom right panel
     * FPS meter (probably in left panel settings)
 * Parameter UI:
-    * Radio button parameter type (2-5 options?)
+    * Parameter tooltips
     * Number display for slider inputs
     * More space for parameter name (marquee for long names?)
 * Presets:
-    * Choose from curated parameter settings
-    * Save your own (local storage)
+    * Choose from curated parameter settings (replace defaults?)
+    * Save your own (local storage), and remove them
+    * Add asterisk to title display when sliders are edited
+    * Double click to return to preset/default value
 
 ## To consider
 * Key commands
@@ -41,10 +43,10 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Folders for sketch index display organization
     * Sketch sorting options: alphabetical or most recent
 * Parameters / param display:
-    * Parameter tooltips
     * Foldable parameter groups
     * Calculate parameter defaults based on initial size
     * Min/max range slider (new param type)
+    * Radio button parameter type (2-5 options?)
 * Inputs:
     * Mouse position & clicks
     * Key presses

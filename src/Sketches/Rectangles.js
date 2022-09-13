@@ -153,7 +153,7 @@ export default class Rectangles extends Sketch {
             const drawOutsideBorder = false;
             this.structure.rects.forEach((rect) => {
                 // Top
-                if (drawOutsideBorder || rect.topLeft.y != 0) {
+                if (drawOutsideBorder || rect.topLeft.y != this.structure.internalTopLeft.y) {
                     CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder, borderColor);
                 }
                 // Right
@@ -165,7 +165,7 @@ export default class Rectangles extends Sketch {
                     CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder, borderColor);
                 }
                 // Left
-                if (drawOutsideBorder || rect.bottomLeft.x != 0) {
+                if (drawOutsideBorder || rect.bottomLeft.x != this.structure.internalTopLeft.x) {
                     CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder, borderColor);
                 }
             });

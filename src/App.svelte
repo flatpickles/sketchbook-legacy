@@ -96,6 +96,7 @@
         /* Sidebars */
         --title-font-size: 24px;
         --subtitle-font-size: 14px;
+        --subtitle-top-spacing: 2px;
         --description-font-size: 14px;
         --param-font-size: 12px;
 

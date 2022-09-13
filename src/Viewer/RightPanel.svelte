@@ -95,7 +95,7 @@
     #sketch_date {
         font-size: var(--subtitle-font-size);
         padding: var(--spacing);
-        padding-top: 4px;
+        padding-top: var(--subtitle-top-spacing);
     }
 
     #params_container {

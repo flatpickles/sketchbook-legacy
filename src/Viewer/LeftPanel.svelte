@@ -133,7 +133,7 @@
         flex-grow: 1;
         font-size: var(--subtitle-font-size);
         padding: var(--spacing);
-        padding-top: 4px;
+        padding-top: var(--subtitle-top-spacing);
     }
 
     #subtitle_button {

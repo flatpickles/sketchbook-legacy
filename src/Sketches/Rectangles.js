@@ -12,10 +12,9 @@ import { Point, Rect } from './Util/Geometry.js';
 
 to do:
 
+- with non-1 fill height/width, round total height/width to unit increments
 - use other secondary color HSV values when randomizing hue
-- enable H/V insets (showing background/border color, like when resizing)
 - click event -> new shapes
-- edge to edge fill option (i.e. use exact unit sizing, vs. expand last rects to fit. Maybe scale instead?)
 - better name ?
 
 */
@@ -35,14 +34,15 @@ export default class Rectangles extends Sketch {
         minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),
         maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, 1, false),
 
-        horizontalBorderSize: new FloatParam('H Border', 1, 0, 20, 1, true),
-        verticalBorderSize: new FloatParam('V Border', 1, 0, 20, 1, true),
-        drawOutsideBorder: new BoolParam('Ext. Border', false),
+        horizontalBorderSize: new FloatParam('H Borders Px', 1, 0, 20, 1, true),
+        verticalBorderSize: new FloatParam('V Borders Px', 1, 0, 20, 1, true),
+        fillWidth: new FloatParam('Fill Width', 1, 0, 1, 0.01, false),
+        fillHeight: new FloatParam('Fill Height', 1, 0, 1, 0.01, false),
 
         borderColor: new ColorParam('Border Color', '#000'),
-        primaryColor: new ColorParam('Fill Color A', '#FF00FF'),
+        primaryColor: new ColorParam('Rect Color A', '#FF00FF'),
         primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true),
-        secondaryColor: new ColorParam('Fill Color B', '#00FF00'),
+        secondaryColor: new ColorParam('Rect Color B', '#00FF00'),
         randomizeBHue: new BoolParam('Random B Hue', false),
 
         newColors: new EventParam('New Colors', this.newColors.bind(this)),
@@ -59,7 +59,9 @@ export default class Rectangles extends Sketch {
                 this.params.minWidthUnits.value,
                 this.params.maxWidthUnits.value,
                 this.params.minHeightUnits.value,
-                this.params.maxHeightUnits.value);
+                this.params.maxHeightUnits.value,
+                this.params.fillWidth.value,
+                this.params.fillHeight.value);
             this.initializationNeeded = this.initializationNeeded || paramsUpdated;
         }
 
@@ -72,7 +74,9 @@ export default class Rectangles extends Sketch {
                 this.params.minWidthUnits.value,
                 this.params.maxWidthUnits.value,
                 this.params.minHeightUnits.value,
-                this.params.maxHeightUnits.value);
+                this.params.maxHeightUnits.value,
+                this.params.fillWidth.value,
+                this.params.fillHeight.value);
             this.initializationNeeded = false;
             this.newColorsNeeded = true;
         }
@@ -100,7 +104,6 @@ export default class Rectangles extends Sketch {
             // Retrieve param values
             const hBorder = this.params.horizontalBorderSize.value;
             const vBorder = this.params.verticalBorderSize.value;
-            const drawOutsideBorder = this.params.drawOutsideBorder.value;
             const borderColor = this.params.borderColor.value;
             const primaryColor = this.params.primaryColor.value;
             const secondaryColor = this.params.secondaryColor.value;
@@ -110,17 +113,9 @@ export default class Rectangles extends Sketch {
             // Clear and initialize if needed
             context.clearRect(0, 0, width, height);
             this.initializeIfNeeded(width, height);
-
-            // Fill background
             context.fillStyle = borderColor;
             context.rect(0, 0, width, height);
             context.fill();
-
-            // Translate canvas if external border is present (fully present ext. border)
-            const widthAdjustment = drawOutsideBorder ? vBorder : 0;
-            const heightAdjustment = drawOutsideBorder ? hBorder : 0;
-            context.translate(widthAdjustment / 2, heightAdjustment / 2);
-            context.scale((width - widthAdjustment) / width, (height - heightAdjustment) / height);
 
             // Translate canvas if resized from actual structure dimensions
             // This doesn't take the above into account, so the scaling can be slightly too small
@@ -155,17 +150,18 @@ export default class Rectangles extends Sketch {
             });
 
             // Draw boundaries
+            const drawOutsideBorder = false;
             this.structure.rects.forEach((rect) => {
                 // Top
                 if (drawOutsideBorder || rect.topLeft.y != 0) {
                     CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder, borderColor);
                 }
                 // Right
-                if (drawOutsideBorder || rect.topRight.x != this.structure.fullWidth) {
+                if (drawOutsideBorder || rect.topRight.x != this.structure.internalBottomRight.x) {
                     CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder, borderColor);
                 }
                 // Bottom
-                if (drawOutsideBorder || rect.bottomRight.y != this.structure.fullHeight) {
+                if (drawOutsideBorder || rect.bottomRight.y != this.structure.internalBottomRight.y) {
                     CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder, borderColor);
                 }
                 // Left
@@ -180,7 +176,8 @@ export default class Rectangles extends Sketch {
 class RectStructure {
     constructor(
         fullWidth, fullHeight, // dimensions
-        unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits // configuration
+        unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, // configuration (units)
+        fillWidth, fillHeight // configuration (ratios)
     ) {
         this.fullWidth = fullWidth;
         this.fullHeight = fullHeight;
@@ -189,27 +186,48 @@ class RectStructure {
             this.minWidthUnits,
             this.maxWidthUnits,
             this.minHeightUnits,
-            this.maxHeightUnits
-        ] = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits);
-        this.generateRects(new Point(0, 0));
+            this.maxHeightUnits,
+            this.fillWidth,
+            this.fillHeight
+        ] = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight);
+        this.generateRects(this.internalTopLeft);
     }
 
-    configIsDifferent(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits) {
-        const parsedConfig = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits);
+    get internalTopLeft() {
+        return new Point(
+            Math.floor((this.fullWidth - this.fullWidth * this.fillWidth) / 2),
+            Math.floor((this.fullHeight - this.fullHeight * this.fillHeight) / 2)
+        );
+    }
+
+    get internalBottomRight() {
+        const topLeft = this.internalTopLeft;
+        return new Point(
+            this.fullWidth - topLeft.x,
+            this.fullHeight - topLeft.y
+        );
+    }
+
+    configIsDifferent(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight) {
+        const parsedConfig = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight);
         return this.unitSize != parsedConfig[0] ||
             this.minWidthUnits != parsedConfig[1] ||
             this.maxWidthUnits != parsedConfig[2] ||
             this.minHeightUnits != parsedConfig[3] ||
-            this.maxHeightUnits != parsedConfig[4];
+            this.maxHeightUnits != parsedConfig[4] ||
+            this.fillWidth != parsedConfig[5] ||
+            this.fillHeight != parsedConfig[6];
     }
 
-    parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits) {
+    parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight) {
         return [
             Math.floor(unitSize),
             Math.floor(minWidthUnits),
             Math.floor(Math.max(minWidthUnits, maxWidthUnits)),
             Math.floor(minHeightUnits),
-            Math.floor(Math.max(minHeightUnits, maxHeightUnits))
+            Math.floor(Math.max(minHeightUnits, maxHeightUnits)),
+            fillWidth,
+            fillHeight
         ];
     }
 
@@ -246,25 +264,25 @@ class RectStructure {
         if (!maxRectSize) return null;
 
         // Calculate width for next rect
-        const widthRemaining = this.fullWidth - fromPoint.x;
+        const widthRemaining = this.internalBottomRight.x - fromPoint.x;
         let width = Math.min(
             widthRemaining,
             maxRectSize.x,
             this.unitSize * Random.rangeFloor(this.minWidthUnits, this.maxWidthUnits)
         );
-        const widthLeftover = this.fullWidth - (fromPoint.x + width);
+        const widthLeftover = this.internalBottomRight.x - (fromPoint.x + width);
         if (widthLeftover < this.unitSize * this.minWidthUnits) {
             width += widthLeftover;
         }
 
         // Calculate height for next rect
-        const heightRemaining = this.fullHeight - fromPoint.y;
+        const heightRemaining = this.internalBottomRight.y - fromPoint.y;
         let height = Math.min(
             heightRemaining,
             maxRectSize.y,
             this.unitSize * Random.rangeFloor(this.minHeightUnits, this.maxHeightUnits)
         );
-        const heightLeftover = this.fullHeight - (fromPoint.y + height);
+        const heightLeftover = this.internalBottomRight.y - (fromPoint.y + height);
         if (heightLeftover < this.unitSize * this.minHeightUnits) {
             height += heightLeftover;
         }

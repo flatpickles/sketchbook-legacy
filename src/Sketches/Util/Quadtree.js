@@ -5,7 +5,7 @@ export default class Quadtree {
     /**
      * Create a Quadtree.
      * @param {Number} width - Width of 2D space covered by Quadtree.
-     * @param {Number} height -  - Height of 2D space covered by Quadtree.
+     * @param {Number} height - Height of 2D space covered by Quadtree.
      */
     constructor(width, height) {
         this.width = width;

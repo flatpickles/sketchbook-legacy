@@ -41,6 +41,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Folders for sketch index display organization
     * Sketch sorting options: alphabetical or most recent
 * Parameters / param display:
+    * Parameter tooltips
     * Foldable parameter groups
     * Calculate parameter defaults based on initial size
     * Min/max range slider (new param type)

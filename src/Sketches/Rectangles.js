@@ -41,8 +41,8 @@ export default class Rectangles extends Sketch {
 
         borderColor: new ColorParam('Border Color', '#000'),
         primaryColor: new ColorParam('Fill Color A', '#FF00FF'),
-        secondaryColor: new ColorParam('Fill Color B', '#00FF00'),
         primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true),
+        secondaryColor: new ColorParam('Fill Color B', '#00FF00'),
         randomizeBHue: new BoolParam('Random B Hue', false),
 
         newColors: new EventParam('New Colors', this.newColors.bind(this)),

@@ -22,7 +22,7 @@
 
     // WIP sketches!
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
-    let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
+    let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : true; // default true for now
     $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
 
     onMount(async () => {
@@ -169,7 +169,7 @@
     }
 
     :global(#buttons > *) {
-        margin-top: calc(var(--spacing) / 2);
+        margin-top: calc(var(--spacing) / 4);
         width: 100%;
     }
 

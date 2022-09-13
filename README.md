@@ -21,6 +21,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Crossfade when switching sketches
     * Only show "WIP" button when there are WIP sketches
 * Global options:
+    * Additional link out to per-sketch readmes from right panel
     * Export frame option (also exports param JSON; bottom right panel)
     * Import JSON parameter settings (bottom right panel)
     * Option to set canvas size vs. fit to window size (bottom right panel

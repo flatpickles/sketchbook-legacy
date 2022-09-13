@@ -40,9 +40,9 @@ export default class Rectangles extends Sketch {
         fillHeight: new FloatParam('Fill Height', 1, 0, 1, 0.01, false),
 
         borderColor: new ColorParam('Border Color', '#000'),
-        primaryColor: new ColorParam('Rect Color A', '#FF00FF'),
+        primaryColor: new ColorParam('Rect Color A', '#239cd1'),
         primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true),
-        secondaryColor: new ColorParam('Rect Color B', '#00FF00'),
+        secondaryColor: new ColorParam('Rect Color B', '#fd221c'),
         randomizeBHue: new BoolParam('Random B Hue', false),
 
         newColors: new EventParam('New Colors', this.newColors.bind(this)),
@@ -149,23 +149,24 @@ export default class Rectangles extends Sketch {
                 CanvasUtil.drawShape(context, vertices, fillStyle);
             });
 
-            // Draw boundaries
-            const drawOutsideBorder = false;
+            // Draw boundaries only when not filling full height/width
+            const topLeft = new Point(0, 0);
+            const bottomRight = new Point(width, height);
             this.structure.rects.forEach((rect) => {
                 // Top
-                if (drawOutsideBorder || rect.topLeft.y != this.structure.internalTopLeft.y) {
+                if (rect.topLeft.y != topLeft.y) {
                     CanvasUtil.drawLine(context, rect.topLeft, rect.topRight, hBorder, borderColor);
                 }
                 // Right
-                if (drawOutsideBorder || rect.topRight.x != this.structure.internalBottomRight.x) {
+                if (rect.topRight.x != bottomRight.x) {
                     CanvasUtil.drawLine(context, rect.topRight, rect.bottomRight, vBorder, borderColor);
                 }
                 // Bottom
-                if (drawOutsideBorder || rect.bottomRight.y != this.structure.internalBottomRight.y) {
+                if (rect.bottomRight.y != bottomRight.y) {
                     CanvasUtil.drawLine(context, rect.bottomRight, rect.bottomLeft, hBorder, borderColor);
                 }
                 // Left
-                if (drawOutsideBorder || rect.bottomLeft.x != this.structure.internalTopLeft.x) {
+                if (rect.bottomLeft.x != topLeft.x) {
                     CanvasUtil.drawLine(context, rect.bottomLeft, rect.topLeft, vBorder, borderColor);
                 }
             });

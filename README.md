@@ -24,7 +24,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Additional link out to per-sketch readmes from right panel
     * Export frame option (also exports param JSON; bottom right panel)
     * Import JSON parameter settings (bottom right panel)
-    * Option to set canvas size vs. fit to window size (bottom right panel
+    * Option to set canvas size, inc. fit to window size (bottom right panel)
     * FPS meter (probably in left panel settings)
 * Parameter UI:
     * Parameter tooltips
@@ -35,6 +35,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Save your own (local storage), and remove them
     * Add asterisk to title display when sliders are edited
     * Double click to return to preset/default value
+* Float bounds search test for quadtree: something funky this way comes?
 
 ## To consider
 * Key commands

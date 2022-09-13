@@ -12,7 +12,6 @@ import { Point, Rect } from './Util/Geometry.js';
 
 to do:
 
-- with non-1 fill height/width, round total height/width to unit increments
 - use other secondary color HSV values when randomizing hue
 - click event -> new shapes
 - better name ?
@@ -28,7 +27,7 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        unitSize: new FloatParam('Unit Size', 20, 5, 100, 1, false),
+        unitSize: new FloatParam('Unit Size', 20, 10, 100, 1, false),
         minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, 1, false),
         maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, 1, false),
         minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),
@@ -191,13 +190,28 @@ class RectStructure {
             this.fillWidth,
             this.fillHeight
         ] = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight);
+        this.edgeToEdge = true; // No param for now; fill full space when fillWidth or fillHeight are full
         this.generateRects(this.internalTopLeft);
+    }
+
+    get internalWidth() {
+        const scaledWidth = this.fullWidth * this.fillWidth;
+        const adjustWidth = this.fillWidth != 1 || !this.edgeToEdge;
+        const unitOverflow = adjustWidth ? scaledWidth % this.unitSize : 0;
+        return scaledWidth - unitOverflow;
+    }
+
+    get internalHeight() {
+        const scaledHeight = this.fullHeight * this.fillHeight;
+        const adjustHeight = this.fillHeight != 1 || !this.edgeToEdge;
+        const unitOverflow = adjustHeight ? scaledHeight % this.unitSize : 0;
+        return scaledHeight - unitOverflow;
     }
 
     get internalTopLeft() {
         return new Point(
-            Math.floor((this.fullWidth - this.fullWidth * this.fillWidth) / 2),
-            Math.floor((this.fullHeight - this.fullHeight * this.fillHeight) / 2)
+            Math.floor((this.fullWidth - this.internalWidth) / 2),
+            Math.floor((this.fullHeight - this.internalHeight) / 2)
         );
     }
 

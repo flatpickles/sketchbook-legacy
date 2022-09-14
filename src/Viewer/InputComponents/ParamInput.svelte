@@ -1,9 +1,10 @@
 <script>
     export let label = '';
+    export let title = undefined;
     $: inputID = label.split(" ")[0]
 </script>
 
-<div class='param'>
+<div class='param' title={title}>
     {#if label}<label for={label}>{label}</label>{/if}
     <div class='param-wrapper'>
         <slot></slot>

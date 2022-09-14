@@ -2,10 +2,11 @@
     import ParamInput from './ParamInput.svelte';
 
     export let label = '';
+    export let title = undefined;
     export let value = 0;
 </script>
 
-<ParamInput {label} >
+<ParamInput {label} {title}>
   <input type='color' id={label} bind:value={value} on:input on:change />
 </ParamInput>
 

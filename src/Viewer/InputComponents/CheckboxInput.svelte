@@ -2,10 +2,11 @@
     import ParamInput from './ParamInput.svelte';
 
     export let label = '';
+    export let title = undefined;
     export let value = false;
 </script>
 
-<ParamInput {label}>
+<ParamInput {label} {title}>
     <label class='custom_checkbox'>
         <input type='checkbox' class='checkbox' id={label} bind:checked={value} on:input on:change />
         <span></span>

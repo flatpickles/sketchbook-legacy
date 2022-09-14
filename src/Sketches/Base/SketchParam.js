@@ -1,7 +1,8 @@
 export class SketchParam {
-    constructor(name, defaultValue) {
+    constructor(name, defaultValue, description = undefined) {
         this.name = name;
         this.value = defaultValue;
+        this.description = description;
     }
 
     storeValue(parentKey) {
@@ -29,8 +30,8 @@ export class BoolParam extends SketchParam {
 }
 
 export class FloatParam extends SketchParam {
-    constructor(name, defaultValue, minValue, maxValue, stepValue = 0.01, continuousUpdate = true) {
-        super(name, defaultValue);
+    constructor(name, defaultValue, minValue, maxValue, stepValue = 0.01, continuousUpdate = true, description = undefined) {
+        super(name, defaultValue, description);
         this.min = minValue;
         this.max = maxValue;
         this.step = stepValue;

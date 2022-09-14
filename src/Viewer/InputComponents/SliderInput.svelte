@@ -2,13 +2,14 @@
     import ParamInput from './ParamInput.svelte';
 
     export let label = '';
+    export let title = undefined;
     export let value = 0;
     export let min = 0;
     export let max = 1;
     export let step = 0.01;
 </script>
 
-<ParamInput {label}>
+<ParamInput {label} {title}>
     <input
         type='range' class='slider' id={label}
         bind:value={value} {min} {max} {step}

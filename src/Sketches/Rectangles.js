@@ -12,7 +12,6 @@ import { Point, Rect } from './Util/Geometry.js';
 
 to do:
 
-- click event -> new shapes
 - better name ?
 - description & readme
 
@@ -27,7 +26,8 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        unitSize: new FloatParam('Unit Size', 20, 10, 100, 1, false),
+        unitSize: new FloatParam('Unit Size', 20, 10, 100, 1, false,
+            'Size of each unit in pixels.'),
         minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, 1, false),
         maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, 1, false),
         minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false),

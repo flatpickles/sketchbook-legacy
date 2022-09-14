@@ -4,6 +4,7 @@
     import ParamInput from './ParamInput.svelte';
 
     export let label = '';
+    export let title = undefined;
     export let value = undefined;
 
     const dispatch = createEventDispatcher();
@@ -14,7 +15,7 @@
     }
 </script>
 
-<ParamInput {label}>
+<ParamInput {label} {title}>
     <button on:click={buttonClicked}>
     </button>
 </ParamInput>

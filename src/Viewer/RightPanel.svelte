@@ -44,6 +44,7 @@
                 {#if (param instanceof FloatParam)}
                     <SliderInput
                         label={param.name}
+                        title={param.description}
                         on:input={param.continuousUpdate ? paramUpdated : null}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -54,6 +55,7 @@
                 {:else if (param instanceof BoolParam)}
                     <CheckboxInput
                         label={param.name}
+                        title={param.description}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -61,6 +63,7 @@
                 {:else if (param instanceof ColorParam)}
                     <ColorInput
                         label={param.name}
+                        title={param.description}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -68,6 +71,7 @@
                 {:else if (param instanceof EventParam)}
                     <EventInput
                         label={param.name}
+                        title={param.description}
                         on:click={paramUpdated}
                         bind:value={param.value}
                     />

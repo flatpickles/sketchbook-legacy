@@ -91,6 +91,7 @@
                 <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
                 <Button name='Reset Sketchbook' on:click={resetState}></Button>
             </div>
+            <!-- todo: copyright here? -->
         </div>
     </div>
     

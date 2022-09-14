@@ -38,6 +38,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Double click to return to preset/default value
     * URL option to pre-select a preset
 * Float bounds search test for quadtree: something funky this way comes?
+* Copyright somewhere on the page
 
 ## To consider
 * Key commands

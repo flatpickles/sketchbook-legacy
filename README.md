@@ -3,6 +3,7 @@
 Sketchbook is a web app that presents an ever growing series of programmatic art pieces, aka sketches, each with a set of configurable parameters. These sketches could be shaders, canvas drawings, audio visualizers, video effects, or anything else, as long as they can run in a browser. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
 ## Known Issues
+* If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
 * Color parameter inputs have a weird internal margin after hiding/showing right panel
 * Mobile:
     * First load doesn't render at 100% height (No Signal)
@@ -35,6 +36,7 @@ Sketchbook is a web app that presents an ever growing series of programmatic art
     * Save your own (local storage), and remove them
     * Add asterisk to title display when sliders are edited
     * Double click to return to preset/default value
+    * URL option to pre-select a preset
 * Float bounds search test for quadtree: something funky this way comes?
 
 ## To consider

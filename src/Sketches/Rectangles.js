@@ -1,9 +1,9 @@
 import Random from 'canvas-sketch-util/random';
+import Color from 'canvas-sketch-util/color';
 
 import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam, EventParam, ColorParam } from './Base/SketchParam.js';
 
-import Util from './Util/Util.js';
 import Quadtree from './Util/Quadtree.js';
 import CanvasUtil from './Util/CanvasUtil.js';
 import { Point, Rect } from './Util/Geometry.js';
@@ -12,9 +12,9 @@ import { Point, Rect } from './Util/Geometry.js';
 
 to do:
 
-- use other secondary color HSV values when randomizing hue
 - click event -> new shapes
 - better name ?
+- description & readme
 
 */
 
@@ -110,7 +110,6 @@ export default class Rectangles extends Sketch {
             const randomizeSecondaryColor = this.params.randomizeBHue.value;
 
             // Clear and initialize if needed
-            context.clearRect(0, 0, width, height);
             this.initializeIfNeeded(width, height);
             context.fillStyle = borderColor;
             context.rect(0, 0, width, height);
@@ -142,8 +141,11 @@ export default class Rectangles extends Sketch {
                 let fillStyle;
                 if (rect.primaryRandom < primaryColorLikelihood) {
                     fillStyle = primaryColor;
+                } else if (!randomizeSecondaryColor) {
+                    fillStyle = secondaryColor;
                 } else {
-                    fillStyle = randomizeSecondaryColor ? Util.hsl(rect.colorRandom, 1, 0.6) : secondaryColor;
+                    const secondaryHSL = Color.parse(secondaryColor).hsl;
+                    fillStyle = 'hsl(' + rect.colorRandom * 360 + ', ' + secondaryHSL[1] + '%, ' + secondaryHSL[2] + '%)';
                 }
                 CanvasUtil.drawShape(context, vertices, fillStyle);
             });

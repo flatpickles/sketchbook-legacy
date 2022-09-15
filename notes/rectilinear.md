@@ -1,4 +1,4 @@
-#### <sup>[sketchbook] → Notes → Rectilinear</sup>
+#### <sup>[sketchbook](../README.md) → [Notes](./README.md) → Rectilinear</sup>
 
 ---
 

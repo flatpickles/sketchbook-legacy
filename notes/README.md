@@ -1,4 +1,4 @@
-#### <sup>[sketchbook] → Notes</sup>
+#### <sup>[sketchbook](../README.md) → Notes</sup>
 
 ---
 

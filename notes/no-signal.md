@@ -1,4 +1,4 @@
-#### <sup>[sketchbook] → Notes → No Signal</sup>
+#### <sup>[sketchbook](../README.md) → [Notes](./README.md) → No Signal</sup>
 
 ---
 

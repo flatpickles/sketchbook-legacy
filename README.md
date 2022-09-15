@@ -16,9 +16,9 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Left panel scrolling behavior doesn't work as desired with small window heights
 
 ## To do
-* Color:
-    * Custom color class, w/ `toStyle` string generation (for canvas styles)
-    * Integrate with ColorParam, including store/restore & constructor
+* Sketch details (top right)
+    * Enable collapsing description (like top left)
+    * Link out to sketch-specific readme on github
 * UX improvements:
     * Hide panel tabs when both collapsed w/ no mouse movement
     * Crossfade when switching sketches

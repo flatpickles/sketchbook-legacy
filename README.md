@@ -14,6 +14,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Behavior is undefined with an empty sketch index, or one with only WIP sketches (though perhaps this will never be a problem).
 * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency. 
 * Left panel scrolling behavior doesn't work as desired with small window heights
+* Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 
 ## To do
 * Sketch details (top right)
@@ -31,7 +32,6 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
     * FPS meter (probably in left panel settings)
     * Command-Z to undo parameter changes
 * Parameter UI:
-    * Parameter tooltips
     * Number display for slider inputs
     * More space for parameter name (marquee for long names?)
 * Presets:

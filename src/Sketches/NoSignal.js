@@ -8,13 +8,16 @@ export default class NoSignal extends Sketch {
     type = SketchType.Canvas;
     date = new Date("8/15/2022");
     description = `
-        A "no signal" graphic, inspired by VCRs and other classic image displays. This is the first sketch project created within Sketchbook, and is a simple demo of its capabilities and intent.
+        A "no signal" graphic, inspired by VCRs and other classic image displays. This was the first sketch project created within Sketchbook, and it is a simple demo of Sketchbook's capabilities and intent.
     `;
 
     params = {
-        colorCount: new FloatParam('Color Count', 19, 1, 32, 1),
-        bwCount: new FloatParam('B&W Count', 32, 1, 64, 1),
-        displayText: new BoolParam('Display Text', true)
+        colorCount: new FloatParam('Color Count', 19, 1, 32, 1, true,
+            'Number of vertical color stripes displayed in the upper segment of the screen.'),
+        bwCount: new FloatParam('B&W Count', 32, 1, 64, 1, true,
+            'Number of vertical black & white stripes displayed in the lower segment of the screen.'),
+        displayText: new BoolParam('Display Text', true,
+            'Hide or show the "No Signal" text in the middle of the screen.')
     };
 
     settings = {

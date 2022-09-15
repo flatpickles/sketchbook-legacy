@@ -2,7 +2,7 @@
 
 [Sketchbook](http://flatpickles.com/sketchbook/) is a web app that presents a growing collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
-For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/README.md) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space for the time being.
+For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/README.md) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
 
 ## Known Issues
 * If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload

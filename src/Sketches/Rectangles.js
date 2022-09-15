@@ -26,9 +26,9 @@ export default class Rectangles extends Sketch {
     `;
 
     params = {
-        fillWidth: new FloatParam('Width Max', 1, 0, 1, 0.01, false,
+        fillWidth: new FloatParam('Total Width', 1, 0, 1, 0.01, false,
             'Maximum percentage of canvas width that will be filled with rectangles.'),
-        fillHeight: new FloatParam('Height Max', 1, 0, 1, 0.01, false,
+        fillHeight: new FloatParam('Total Height', 1, 0, 1, 0.01, false,
             'Maximum percentage of canvas height that will be filled with rectangles.'),
         horizontalBorderSize: new FloatParam('H Border Px', 1, 0, 30, 1, true,
             'Size of rectangle top/bottom borders, in pixels.'),
@@ -36,7 +36,7 @@ export default class Rectangles extends Sketch {
             'Size of rectangle left/right borders, in pixels.'),
 
         borderColor: new ColorParam('BG Color', '#000',
-            'Color of background & borders between rectangles.'),
+            'Color of the background, and the borders between rectangles.'),
         primaryColor: new ColorParam('Rect Color A', '#239cd1',
             'Primary rectangle color, applied randomly to a subset of shapes.'),
         primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true,
@@ -50,13 +50,9 @@ export default class Rectangles extends Sketch {
 
         unitSize: new FloatParam('Unit Size Px', 20, 10, 100, 1, false,
             'Unit size in pixels. Rectangle size will be set in increments of this unit.'),
-        minWidthUnits: new FloatParam('H Min Units', 1, 1, 30, 1, false,
-            'Minimum number of units used for the width of each rectangle.'),
-        maxWidthUnits: new FloatParam('H Max Units', 30, 1, 30, 1, false,
+        maxWidthUnits: new FloatParam('H Max Units', 15, 1, 30, 1, false,
             'Maximum number of units used for the width of each rectangle.'),
-        minHeightUnits: new FloatParam('V Min Units', 1, 1, 30, 1, false,
-            'Minimum number of units used for the height of each rectangle.'),
-        maxHeightUnits: new FloatParam('V Max Units', 5, 1, 30, 1, false,
+        maxHeightUnits: new FloatParam('V Max Units', 15, 1, 30, 1, false,
             'Maximum number of units used for the height of each rectangle.'),
         newShapes: new EventParam('New Shapes', this.newShapes.bind(this),
             'Regenerate shapes. As a side effect, colors will also be regenerated.'),
@@ -69,9 +65,7 @@ export default class Rectangles extends Sketch {
         if (this.structure) {
             const paramsUpdated = this.structure.configIsDifferent(
                 this.params.unitSize.value,
-                this.params.minWidthUnits.value,
                 this.params.maxWidthUnits.value,
-                this.params.minHeightUnits.value,
                 this.params.maxHeightUnits.value,
                 this.params.fillWidth.value,
                 this.params.fillHeight.value);
@@ -84,9 +78,7 @@ export default class Rectangles extends Sketch {
                 width,
                 height,
                 this.params.unitSize.value,
-                this.params.minWidthUnits.value,
                 this.params.maxWidthUnits.value,
-                this.params.minHeightUnits.value,
                 this.params.maxHeightUnits.value,
                 this.params.fillWidth.value,
                 this.params.fillHeight.value);
@@ -192,20 +184,18 @@ export default class Rectangles extends Sketch {
 class RectStructure {
     constructor(
         fullWidth, fullHeight, // dimensions
-        unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, // configuration (units)
+        unitSize, maxWidthUnits, maxHeightUnits, // configuration (units)
         fillWidth, fillHeight // configuration (ratios)
     ) {
         this.fullWidth = fullWidth;
         this.fullHeight = fullHeight;
         [ // Assign all configuration instance variables:
             this.unitSize,
-            this.minWidthUnits,
             this.maxWidthUnits,
-            this.minHeightUnits,
             this.maxHeightUnits,
             this.fillWidth,
             this.fillHeight
-        ] = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight);
+        ] = this.parseConfig(unitSize, maxWidthUnits, maxHeightUnits, fillWidth, fillHeight);
         this.edgeToEdge = true; // No param for now; fill full space when fillWidth or fillHeight are full
         this.generateRects(this.internalTopLeft);
     }
@@ -239,24 +229,20 @@ class RectStructure {
         );
     }
 
-    configIsDifferent(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight) {
-        const parsedConfig = this.parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight);
+    configIsDifferent(unitSize, maxWidthUnits, maxHeightUnits, fillWidth, fillHeight) {
+        const parsedConfig = this.parseConfig(unitSize, maxWidthUnits, maxHeightUnits, fillWidth, fillHeight);
         return this.unitSize != parsedConfig[0] ||
-            this.minWidthUnits != parsedConfig[1] ||
-            this.maxWidthUnits != parsedConfig[2] ||
-            this.minHeightUnits != parsedConfig[3] ||
-            this.maxHeightUnits != parsedConfig[4] ||
-            this.fillWidth != parsedConfig[5] ||
-            this.fillHeight != parsedConfig[6];
+            this.maxWidthUnits != parsedConfig[1] ||
+            this.maxHeightUnits != parsedConfig[2] ||
+            this.fillWidth != parsedConfig[3] ||
+            this.fillHeight != parsedConfig[4];
     }
 
-    parseConfig(unitSize, minWidthUnits, maxWidthUnits, minHeightUnits, maxHeightUnits, fillWidth, fillHeight) {
+    parseConfig(unitSize, maxWidthUnits, maxHeightUnits, fillWidth, fillHeight) {
         return [
             Math.floor(unitSize),
-            Math.floor(minWidthUnits),
-            Math.floor(Math.max(minWidthUnits, maxWidthUnits)),
-            Math.floor(minHeightUnits),
-            Math.floor(Math.max(minHeightUnits, maxHeightUnits)),
+            Math.floor(maxWidthUnits),
+            Math.floor(maxHeightUnits),
             fillWidth,
             fillHeight
         ];
@@ -295,26 +281,30 @@ class RectStructure {
         if (!maxRectSize) return null;
 
         // Calculate width for next rect
+        const minWidthUnits = 1;
+        const maxWidthUnits = this.maxWidthUnits;
         const widthRemaining = this.internalBottomRight.x - fromPoint.x;
         let width = Math.min(
             widthRemaining,
             maxRectSize.x,
-            this.unitSize * Random.rangeFloor(this.minWidthUnits, this.maxWidthUnits)
+            this.unitSize * Random.rangeFloor(minWidthUnits, maxWidthUnits)
         );
         const widthLeftover = this.internalBottomRight.x - (fromPoint.x + width);
-        if (widthLeftover < this.unitSize * this.minWidthUnits) {
+        if (widthLeftover < this.unitSize * minWidthUnits) {
             width += widthLeftover;
         }
 
         // Calculate height for next rect
+        const minHeightUnits = 1;
+        const maxHeightUnits = this.maxHeightUnits;
         const heightRemaining = this.internalBottomRight.y - fromPoint.y;
         let height = Math.min(
             heightRemaining,
             maxRectSize.y,
-            this.unitSize * Random.rangeFloor(this.minHeightUnits, this.maxHeightUnits)
+            this.unitSize * Random.rangeFloor(minHeightUnits, maxHeightUnits)
         );
         const heightLeftover = this.internalBottomRight.y - (fromPoint.y + height);
-        if (heightLeftover < this.unitSize * this.minHeightUnits) {
+        if (heightLeftover < this.unitSize * minHeightUnits) {
             height += heightLeftover;
         }
 

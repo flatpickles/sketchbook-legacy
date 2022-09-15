@@ -121,7 +121,7 @@ export class QTNode {
 
     search(northWestCorner, southEastCorner) {
         if (!northWestCorner.lte(southEastCorner)) {
-            throw 'both dimensions of NW corner must be less than or equal to SE corner.';
+            throw 'both dimensions of NW corner must be less than or equal to SE corner.\nNW: ' + northWestCorner.toString() + '\nSE: ' + southEastCorner.toString();
         }
 
         // If node is fully enclosed, return all objects

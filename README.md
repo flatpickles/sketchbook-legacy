@@ -1,4 +1,4 @@
-# :notebook: sketchbook
+# :notebook: `sketchbook`
 
 [Sketchbook](http://flatpickles.com/sketchbook/) is a web app that presents a growing collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
@@ -29,6 +29,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
     * Import JSON parameter settings (bottom right panel)
     * Option to set canvas size, inc. fit to window size (bottom right panel)
     * FPS meter (probably in left panel settings)
+    * Command-Z to undo parameter changes
 * Parameter UI:
     * Parameter tooltips
     * Number display for slider inputs

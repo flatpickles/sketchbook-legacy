@@ -8,21 +8,12 @@ import Quadtree from './Util/Quadtree.js';
 import CanvasUtil from './Util/CanvasUtil.js';
 import { Point, Rect } from './Util/Geometry.js';
 
-/*
-
-to do:
-
-- better name ?
-- description & readme
-
-*/
-
 export default class Rectangles extends Sketch {
     name = 'Rectangles';
     type = SketchType.Canvas;
     // date = new Date('8/24/2022');
     description = `
-        I'm experimenting with rectangle packing! This is a work in progress.
+        Randomly sized rectangles, fit together edge-to-edge, with configurable color palettes. This can generate patterns in a Mondrian-like style, and can achieve many other looks as well.
     `;
 
     params = {

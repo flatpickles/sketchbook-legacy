@@ -8,10 +8,10 @@ import Quadtree from './Util/Quadtree.js';
 import CanvasUtil from './Util/CanvasUtil.js';
 import { Point, Rect } from './Util/Geometry.js';
 
-export default class Rectangles extends Sketch {
-    name = 'Rectangles';
+export default class Rectilinear extends Sketch {
+    name = 'Rectilinear';
     type = SketchType.Canvas;
-    // date = new Date('8/24/2022');
+    date = new Date('9/14/2022');
     description = `
         Randomly sized rectangles, fit together edge-to-edge, with configurable color palettes. This can generate patterns in a Mondrian-like style, and can achieve many other looks as well.
     `;
@@ -19,20 +19,20 @@ export default class Rectangles extends Sketch {
     params = {
         fillWidth: new FloatParam('Total Width', 1, 0, 1, 0.01, false,
             'Maximum percentage of canvas width that will be filled with rectangles.'),
-        fillHeight: new FloatParam('Total Height', 1, 0, 1, 0.01, false,
+        fillHeight: new FloatParam('Total Height', 0.8, 0, 1, 0.01, false,
             'Maximum percentage of canvas height that will be filled with rectangles.'),
-        horizontalBorderSize: new FloatParam('H Border Px', 1, 0, 30, 1, true,
+        horizontalBorderSize: new FloatParam('H Border Px', 3, 0, 30, 1, true,
             'Size of rectangle top/bottom borders, in pixels.'),
-        verticalBorderSize: new FloatParam('V Border Px', 1, 0, 30, 1, true,
+        verticalBorderSize: new FloatParam('V Border Px', 3, 0, 30, 1, true,
             'Size of rectangle left/right borders, in pixels.'),
 
-        borderColor: new ColorParam('BG Color', '#000',
+        borderColor: new ColorParam('BG Color', '#ffe2d6',
             'Color of the background, and the borders between rectangles.'),
-        primaryColor: new ColorParam('Rect Color A', '#239cd1',
+        primaryColor: new ColorParam('Rect Color A', '#003b57',
             'Primary rectangle color, applied randomly to a subset of shapes.'),
         primaryColorLikelihood: new FloatParam('A Likelihood', 0.5, 0, 1, 0.01, true,
             'Likelihood of each rectangle being the primary color, i.e. rough percentage of primary color coverage.'),
-        secondaryColor: new ColorParam('Rect Color B', '#fd221c',
+        secondaryColor: new ColorParam('Rect Color B', '#ff4000',
             'Secondary rectangle color, applied to non-primary shapes.'),
         randomizeBHue: new BoolParam('Random B Hue', false,
             'Randomize secondary color hue in HSV color space. Saturation & value are still respected.'),
@@ -41,7 +41,7 @@ export default class Rectangles extends Sketch {
 
         unitSize: new FloatParam('Unit Size Px', 20, 10, 100, 1, false,
             'Unit size in pixels. Rectangle size will be set in increments of this unit.'),
-        maxWidthUnits: new FloatParam('H Max Units', 15, 1, 30, 1, false,
+        maxWidthUnits: new FloatParam('H Max Units', 10, 1, 30, 1, false,
             'Maximum number of units used for the width of each rectangle.'),
         maxHeightUnits: new FloatParam('V Max Units', 15, 1, 30, 1, false,
             'Maximum number of units used for the height of each rectangle.'),
@@ -113,8 +113,6 @@ export default class Rectangles extends Sketch {
             context.fill();
 
             // Translate canvas if resized from actual structure dimensions
-            // This doesn't take the above into account, so the scaling can be slightly too small
-            // todo: revisit this edge case
             const widthScale = width / this.structure.fullWidth;
             const heightScale = height / this.structure.fullHeight;
             if (widthScale < heightScale) {

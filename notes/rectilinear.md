@@ -1,11 +1,11 @@
 #### <sup>:notebook: [sketchbook](../README.md) → [Notes](./README.md) → Rectilinear</sup>
 ---
 
-## Rectilinear
+## [Rectilinear](http://flatpickles.com/sketchbook/#rectilinear)
 
 Randomly sized rectangles, fit together edge-to-edge, with configurable color palettes. This can generate patterns in a Mondrian-like style, and can achieve many other looks as well.
 
-## Parameters
+### Parameters
 * `Total Width`: Maximum percentage of canvas width that will be filled with rectangles.
 * `Total Height`: Maximum percentage of canvas height that will be filled with rectangles.
 * `H Border Px`: Size of rectangle top/bottom borders, in pixels.

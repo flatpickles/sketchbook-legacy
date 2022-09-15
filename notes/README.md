@@ -1,4 +1,4 @@
-#### <sup>:notebook_with_decorative_cover: [sketchbook](../README.md) → Notes</sup>
+#### <sup>:notebook: [sketchbook](../README.md) → Notes</sup>
 ---
 
 ## Notes

@@ -5,8 +5,9 @@
 For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/README.md) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
 
 ## Known Issues
-* If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
+* Latest sketch isn't being shown when opening web app for the first time
 * Color parameter inputs have a weird internal margin after hiding/showing right panel
+* If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
 * Mobile:
     * First load doesn't render at 100% height (No Signal)
     * Swipes on sliders can scroll page
@@ -17,6 +18,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 
 ## To do
+* Double click: capture state (e.g. just one panel open) and resume that state
 * Sketch details (top right)
     * Enable collapsing description (like top left)
     * Link out to sketch-specific readme on github

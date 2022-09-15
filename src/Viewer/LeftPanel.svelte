@@ -22,7 +22,7 @@
 
     // WIP sketches!
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
-    let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : true; // default true for now
+    let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
     $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
 
     onMount(async () => {

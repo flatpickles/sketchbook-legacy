@@ -200,5 +200,4 @@
         border-left: var(--border);
         border-radius: 0 0 0 2px;
     }
-
 </style>

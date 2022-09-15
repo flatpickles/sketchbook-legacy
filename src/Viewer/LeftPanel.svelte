@@ -1,6 +1,7 @@
 <script>
 	import { createEventDispatcher, onMount } from 'svelte';
-    import Button from './InputComponents/Button.svelte';
+    import Expandable from './Components/Expandable.svelte';
+    import Button from './Components/Button.svelte';
 
     export let sketches;
     export let selected;
@@ -16,23 +17,11 @@
     // Settings panel!
     let storedSettingsPanelState = localStorage.getItem('settingsPanelOpen');
     let settingsPanelOpen = storedSettingsPanelState ? (storedSettingsPanelState === 'true') : false;
-    let settingsPanelHeight = undefined;
-    let settingsPanelBorderSize = undefined;
-    $: settingsPanelHeightPx = settingsPanelHeight + settingsPanelBorderSize + 'px';
 
     // WIP sketches!
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
     let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
     $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
-
-    onMount(async () => {
-        // Compute settings panel border size for use in height calculation
-        // Currently this is styled at zero, but I'll leave this just in case.
-        settingsPanelBorderSize = parseInt(
-            getComputedStyle(document.getElementById('settings_panel'), null)
-            .getPropertyValue('border-top-width')
-        );
-    })
 
     function toggleSettingsPanel() {
         settingsPanelOpen = !settingsPanelOpen;
@@ -63,7 +52,7 @@
     }
 </script>
 
-<div id='panel_container' style='--settings-panel-height: {settingsPanelHeightPx}'>
+<div id='panel_container'>
     <div id='title'>
         Sketchbook
     </div>
@@ -81,8 +70,8 @@
         </div>
     </div>
 
-    <div id='settings_panel_container' class:open={settingsPanelOpen}>
-        <div id='settings_panel' bind:clientHeight={settingsPanelHeight}>
+    <Expandable open={settingsPanelOpen}>
+        <div id='settings_container'>
             <p>
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
@@ -93,7 +82,7 @@
             </div>
             <!-- todo: copyright here? -->
         </div>
-    </div>
+    </Expandable>
     
     <div id='list_container'>
         {#each sketches as sketch}
@@ -145,24 +134,12 @@
 
     /* Settings panel */
 
-    #settings_panel {
+    #settings_container {
         font-size: var(--description-font-size);
         padding: var(--spacing);
         padding-top: 0;
         display: flex;
         flex-direction: column;
-    }
-
-    #settings_panel_container {
-        box-sizing: content-box;
-        height: 0;
-        transition: height 0.3s ease-in-out;
-        overflow: hidden;
-    }
-
-    #settings_panel_container.open {
-        /* CSS cannot transition height to `auto`, so use computed height */
-        height: var(--settings-panel-height);
     }
 
     p {

@@ -1,5 +1,5 @@
 <script>
-    import SketchViewer from './Viewer/SketchViewer.svelte';
+    import Viewer from './Viewer/Viewer.svelte';
     import LeftPanel from './Viewer/LeftPanel.svelte';
     import RightPanel from './Viewer/RightPanel.svelte';
     import sketches from './SketchIndex.js';
@@ -68,7 +68,7 @@
 </script>
 
 <main>
-    <SketchViewer sketch={currentSketch} bind:this={viewerComponent}>
+    <Viewer sketch={currentSketch} bind:this={viewerComponent}>
         <span slot="left">
             <LeftPanel
                 sketches={sketches}
@@ -82,7 +82,7 @@
                 on:update={update}
             />
         </span>
-    </SketchViewer>
+    </Viewer>
 </main>
 
 <style>

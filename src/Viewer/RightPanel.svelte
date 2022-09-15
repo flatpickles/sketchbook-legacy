@@ -1,10 +1,10 @@
 <script>
     import { createEventDispatcher } from 'svelte';
 
-    import SliderInput from './InputComponents/SliderInput.svelte';
-    import ColorInput from './InputComponents/ColorInput.svelte';
-    import CheckboxInput from './InputComponents/CheckboxInput.svelte';
-    import EventInput from './InputComponents/EventInput.svelte';
+    import SliderInput from './ParamInputs/SliderInput.svelte';
+    import ColorInput from './ParamInputs/ColorInput.svelte';
+    import CheckboxInput from './ParamInputs/CheckboxInput.svelte';
+    import EventInput from './ParamInputs/EventInput.svelte';
     import { ColorParam, FloatParam, BoolParam, EventParam } from '../Sketches/Base/SketchParam.js';
 
     export let sketch;

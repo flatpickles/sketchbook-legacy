@@ -44,16 +44,19 @@
 
     .subtitle {
         display: flex;
+        align-items: baseline;
+        padding-top: var(--subtitle-top-spacing);
     }
 
     .subtitle_text {
         flex-grow: 1;
         font-size: var(--subtitle-font-size);
         padding: var(--spacing);
-        padding-top: var(--subtitle-top-spacing);
+        padding-top: 0;
     }
 
     .subtitle_button {
+        line-height: 0.5em; /* unicode chars can be too tall */
         padding-right: var(--spacing);
         cursor: pointer;
         user-select: none;

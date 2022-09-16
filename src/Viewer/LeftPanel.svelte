@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher, onMount } from 'svelte';
-    import Expandable from './Components/Expandable.svelte';
     import Button from './Components/Button.svelte';
+    import PanelHeader from './PanelHeader.svelte';
 
     export let sketches;
     export let selected;
@@ -14,19 +14,10 @@
         });
     }
 
-    // Settings panel!
-    let storedSettingsPanelState = localStorage.getItem('settingsPanelOpen');
-    let settingsPanelOpen = storedSettingsPanelState ? (storedSettingsPanelState === 'true') : false;
-
     // WIP sketches!
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
     let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
     $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
-
-    function toggleSettingsPanel() {
-        settingsPanelOpen = !settingsPanelOpen;
-        localStorage.setItem('settingsPanelOpen', settingsPanelOpen ? 'true' : 'false');
-    }
 
     function toggleWIP() {
         // Toggle the state
@@ -53,25 +44,21 @@
 </script>
 
 <div id='panel_container'>
-    <div id='title'>
-        Sketchbook
-    </div>
-
-    <div id='subtitle'>
-        <div id='subtitle_text'>
+    <PanelHeader openStateKey='SketchbookHeader'>
+        <span slot='title'>
+            Sketchbook
+        </span>
+        <span slot='subtitle'>
             by <a href='http://flatpickles.com'>flatpickles</a>
-        </div>
-        <div id='subtitle_button' on:click={toggleSettingsPanel}>
-            {#if settingsPanelOpen}
+        </span>
+        <span slot='click_to_expand' let:open={open}>
+            {#if open}
                 &#9733;
             {:else}
                 &#9734;
             {/if}
-        </div>
-    </div>
-
-    <Expandable open={settingsPanelOpen}>
-        <div id='settings_container'>
+        </span>
+        <span slot='contents'>
             <p>
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
@@ -80,9 +67,8 @@
                 <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
                 <Button name='Reset Sketchbook' on:click={resetState}></Button>
             </div>
-            <!-- todo: copyright here? -->
-        </div>
-    </Expandable>
+        </span>
+    </PanelHeader>
     
     <div id='list_container'>
         {#each sketches as sketch}
@@ -107,40 +93,7 @@
         max-height: 100vh;
     }
 
-    /* Header */
-
-    #title {
-        font-size: var(--title-font-size);
-        padding: var(--spacing);
-        padding-bottom: 0;
-    }
-
-    #subtitle {
-        display: flex;
-    }
-
-    #subtitle_text {
-        flex-grow: 1;
-        font-size: var(--subtitle-font-size);
-        padding: var(--spacing);
-        padding-top: var(--subtitle-top-spacing);
-    }
-
-    #subtitle_button {
-        padding-right: var(--spacing);
-        cursor: pointer;
-        user-select: none;
-    }
-
     /* Settings panel */
-
-    #settings_container {
-        font-size: var(--description-font-size);
-        padding: var(--spacing);
-        padding-top: 0;
-        display: flex;
-        flex-direction: column;
-    }
 
     p {
         margin: 0;

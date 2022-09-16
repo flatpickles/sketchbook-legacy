@@ -19,6 +19,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 
 ## To do
 * Double click: capture state (e.g. just one panel open) and resume that state
+* Link styling
 * Sketch details (top right)
     * Enable collapsing description (like top left)
     * Link out to sketch-specific readme on github

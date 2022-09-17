@@ -6,6 +6,7 @@
     import CheckboxInput from './ParamInputs/CheckboxInput.svelte';
     import EventInput from './ParamInputs/EventInput.svelte';
     import { ColorParam, FloatParam, BoolParam, EventParam } from '../Sketches/Base/SketchParam.js';
+    import PanelHeader from './PanelHeader.svelte';
 
     export let sketch;
 
@@ -18,25 +19,33 @@
 </script>
 
 <div id="panel_container">
-    <div id="sketch_name">
-        {sketch.name}
-    </div>
-    <div id="sketch_date">
-        {#if sketch.date}
-            {sketch.date.toLocaleDateString('en-us', {
-                year: 'numeric',
-                month: 'long'
-            })}
-        {:else}
-            [Work in Progress]
-        {/if}
-    </div>
-
-    {#if sketch.description}
-        <div id='description'>
-            {sketch.description.trim()}
-        </div>
-    {/if}
+    <PanelHeader id={sketch.name} openDefault={true}>
+        <span slot='title'>
+            {sketch.name}
+        </span>
+        <span slot='subtitle'>
+            {#if sketch.date}
+                {sketch.date.toLocaleDateString('en-us', {
+                    year: 'numeric',
+                    month: 'long'
+                })}
+            {:else}
+                [Work in Progress]
+            {/if}
+        </span>
+        <span slot='click_to_expand' let:open={open}>
+            {#if open}
+                &dtrif;
+            {:else}
+                &dtri;
+            {/if}
+        </span>
+        <span slot='contents'>
+            {#if sketch.description}
+                {sketch.description.trim()}
+            {/if}
+        </span>
+    </PanelHeader>
 
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>
@@ -90,27 +99,8 @@
         max-height: 100vh;
     }
 
-    #sketch_name {
-        font-size: var(--title-font-size);
-        padding: var(--spacing);
-        padding-bottom: 0;
-    }
-
-    #sketch_date {
-        font-size: var(--subtitle-font-size);
-        padding: var(--spacing);
-        padding-top: var(--subtitle-top-spacing);
-    }
-
     #params_container {
         padding: var(--spacing);
         border-top: var(--border);
-    }
-
-    #description {
-        padding: var(--spacing);
-        padding-top: 0;
-        font-size: var(--description-font-size);
-        white-space: pre-line;
     }
 </style>

@@ -1,9 +1,21 @@
 <script>
     import Expandable from './Components/Expandable.svelte';
 
-    export let openStateKey = 'PanelHeader';
-    let storedOpenState = localStorage.getItem(openStateKey);
-    let openState = storedOpenState ? (storedOpenState === 'true') : false;
+    export let id = undefined
+    export let openDefault = false;
+
+    // Determine openness from stored state for this id
+    $: openStateKey = id + '_HeaderOpen';
+    let openState = getStoredOpenState(openDefault);
+    $: idChanged(id);
+    function idChanged(id) {
+        openState = getStoredOpenState(openDefault)
+    }
+
+    function getStoredOpenState(defaultState) {
+        let storedOpenState = localStorage.getItem(openStateKey);
+        return storedOpenState ? (storedOpenState === 'true') : defaultState;
+    }
 
     function toggleOpenState() {
         openState = !openState;

@@ -44,7 +44,7 @@
 </script>
 
 <div id='panel_container'>
-    <PanelHeader openStateKey='SketchbookHeader'>
+    <PanelHeader id='Sketchbook' openDefault={false}>
         <span slot='title'>
             Sketchbook
         </span>

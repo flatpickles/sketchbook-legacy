@@ -28,6 +28,7 @@
         box-sizing: content-box;
         height: 0;
         overflow: hidden;
+        flex-shrink: 0;
     }
 
     .expand_animation {

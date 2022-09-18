@@ -17,6 +17,9 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 
 ## To do
+* Parameter UI:
+    * Number display for slider inputs
+    * More space for parameter name (marquee for long names?)
 * Double click: capture state (e.g. just one panel open) and resume that state
 * Link styling
 * UX improvements:
@@ -30,9 +33,6 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
     * Option to set canvas size, inc. fit to window size (bottom right panel)
     * FPS meter (probably in left panel settings)
     * Command-Z to undo parameter changes
-* Parameter UI:
-    * Number display for slider inputs
-    * More space for parameter name (marquee for long names?)
 * Presets:
     * Choose from curated parameter settings (replace defaults?)
     * Save your own (local storage), and remove them

@@ -18,8 +18,10 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 
 ## To do
 * Parameter UI:
-    * Number display for slider inputs
-    * More space for parameter name (marquee for long names?)
+    * Allow editing parameters via number readouts
+    * Fix flex sizing for sliders: not expanding far enough
+    * Automatic fit label: size all label widths to largest one, to maximize slider room. Cap at a certain size.
+    * Automatic fit slider number: similarly to above w/ number labels on the right of sliders.
 * Double click: capture state (e.g. just one panel open) and resume that state
 * Link styling
 * UX improvements:

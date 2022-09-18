@@ -117,7 +117,7 @@
         margin: 0;
         padding: 0;
         overscroll-behavior: none;
-        font-family: monospace;
+        font-family: 'Lucida Console', monospace;
         font-size: 20px;
     }
     

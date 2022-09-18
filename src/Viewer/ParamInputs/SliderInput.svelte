@@ -8,7 +8,8 @@
     export let max = 1;
     export let step = 0.01;
 
-    $: inputString = value.toFixed(1)
+    $: fixedDecimals = Math.ceil(Math.log10(1/step));
+    $: inputString = value.toFixed(fixedDecimals);
 </script>
 
 <ParamInput {label} {title}>
@@ -18,7 +19,7 @@
             bind:value={value} {min} {max} {step}
             on:input on:change
         />
-        <input type='text' class='number_display' value={inputString} readonly>
+        <div contenteditable='false' class='number_display' bind:innerHTML={inputString}/>
     </div>
 </ParamInput>
 
@@ -43,6 +44,21 @@
     border: none;
 }
 
+.number_display {
+    border: 0;
+    background-color: #0000;
+    margin: 0;
+    margin-left: var(--spacing);
+    font-size: var(--param-font-size);
+    width: auto;
+    text-align: right;
+    flex-basis: 18px; /* todo: un-hardcode 2 char width */
+}
+
+.number_display:focus {
+    outline: 0;
+}
+
 .slider::-webkit-slider-thumb {
     appearance: none;
     width: 10px;
@@ -59,15 +75,6 @@
     cursor: pointer;
     background-color: #000;
     border: none;
-}
-
-.number_display {
-    border: 0;
-    background-color: #0000;
-    margin: 0;
-    margin-left: var(--spacing);
-    font-size: 10px;
-    width: 30px;
 }
 
 </style>

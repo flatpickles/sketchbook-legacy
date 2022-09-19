@@ -3,16 +3,17 @@
     export let title = undefined;
     export let labelBasis = undefined;
     export let labelWidth = undefined;
-
-    $: inputID = label.split(" ")[0]
 </script>
 
 <div class='param' title={title} style='--label-basis: {labelBasis}'>
-    {#if label}<label for={label} bind:clientWidth={labelWidth}>{label}</label>{/if}
-    <div class='param-wrapper'>
+    {#if label}<label for={label} class='param_name'>{label}</label>{/if}
+    <div class='param_wrapper'>
         <slot></slot>
     </div>
 </div>
+
+<!-- An invisible div that we use to measure the label width, for common basis calculation -->
+<div class='param_name text_measurement' bind:clientWidth={labelWidth}>{label}</div>
 
 <style>
     .param {
@@ -33,19 +34,19 @@
         padding-bottom: 0;
     }
 
-    .param-wrapper {
+    .param_wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-shrink: 1;
-        flex-grow: 1;
-        flex-basis: 60%;
+        flex-grow: 0;
+        flex-basis: 100%;
         box-sizing: border-box;
     }
 
-    label {
+    .param_name {
         font-size: var(--param-font-size);
-        flex-shrink: 1;
+        flex-shrink: 0;
         flex-grow: 1;
         white-space: nowrap;
         overflow: hidden;
@@ -54,5 +55,13 @@
         padding-right: var(--spacing);
         flex-basis: var(--label-basis);
         box-sizing: border-box;
+    }
+
+    .text_measurement {
+        position: absolute;
+        visibility: hidden;
+        height: auto;
+        width: auto;
+        white-space: nowrap;
     }
 </style>

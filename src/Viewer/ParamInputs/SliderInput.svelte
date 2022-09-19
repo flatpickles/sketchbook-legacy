@@ -9,12 +9,13 @@
     export let min = 0;
     export let max = 1;
     export let step = 0.01;
+    export let labelWidth = undefined;
 
     $: fixedDecimals = Math.ceil(Math.log10(1/step));
     $: inputString = value.toFixed(fixedDecimals);
 </script>
 
-<ParamInput {label} {title} {labelBasis}>
+<ParamInput {label} {title} {labelBasis} bind:labelWidth={labelWidth}>
     <div class='slider_wrapper'>
         <input
             type='range' class='slider' id={label}
@@ -32,6 +33,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    flex-grow: 1;
 }
 
 .slider {

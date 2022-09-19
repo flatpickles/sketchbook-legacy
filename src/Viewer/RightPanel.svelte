@@ -10,7 +10,9 @@
 
     export let sketch;
 
-    let labelBasis = '100px';
+    let labelWidths = new Array();
+    $: paramCount = Object.keys(sketch.params).length;
+    $: labelBasis = (Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
 
     const dispatch = createEventDispatcher();
     function paramUpdated(event) {
@@ -51,12 +53,13 @@
 
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>
-            {#each Object.values(sketch.params) as param}
+            {#each Object.values(sketch.params) as param, index}
                 {#if (param instanceof FloatParam)}
                     <SliderInput
                         label={param.name}
                         title={param.description}
                         labelBasis={labelBasis}
+                        bind:labelWidth={labelWidths[index]}
                         on:input={param.continuousUpdate ? paramUpdated : null}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -69,6 +72,7 @@
                         label={param.name}
                         title={param.description}
                         labelBasis={labelBasis}
+                        bind:labelWidth={labelWidths[index]}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -78,6 +82,7 @@
                         label={param.name}
                         title={param.description}
                         labelBasis={labelBasis}
+                        bind:labelWidth={labelWidths[index]}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -87,6 +92,7 @@
                         label={param.name}
                         title={param.description}
                         labelBasis={labelBasis}
+                        bind:labelWidth={labelWidths[index]}
                         on:click={paramUpdated}
                         bind:value={param.value}
                     />
@@ -94,7 +100,6 @@
             {/each}
         </div>
     {/if}
-
 </div>
 
 <style>

@@ -7,6 +7,7 @@
     export let title = undefined;
     export let value = undefined;
     export let labelBasis = undefined;
+    export let labelWidth = undefined;
 
     const dispatch = createEventDispatcher();
     function buttonClicked(event) {
@@ -16,7 +17,7 @@
     }
 </script>
 
-<ParamInput {label} {title} {labelBasis}>
+<ParamInput {label} {title} {labelBasis} bind:labelWidth={labelWidth}>
     <button on:click={buttonClicked}>
     </button>
 </ParamInput>

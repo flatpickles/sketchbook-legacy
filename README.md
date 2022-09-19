@@ -17,11 +17,6 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 
 ## To do
-* Parameter UI:
-    * Allow editing parameters via number readouts
-    * Fix flex sizing for sliders: not expanding far enough
-    * Automatic fit label: size all label widths to largest one, to maximize slider room. Cap at a certain size.
-    * Automatic fit slider number: similarly to above w/ number labels on the right of sliders.
 * Double click: capture state (e.g. just one panel open) and resume that state
 * Link styling
 * UX improvements:
@@ -54,6 +49,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
     * Folders for sketch index display organization
     * Sketch sorting options: alphabetical or most recent
 * Parameters / param display:
+    * Allow editing parameters via number readouts
     * Foldable parameter groups
     * Calculate parameter defaults based on initial size
     * Min/max range slider (new param type)

@@ -16,7 +16,7 @@ export default class NoSignal extends Sketch {
             'Number of vertical color stripes displayed in the upper segment of the screen.'),
         bwCount: new FloatParam('B&W Count', 32, 1, 64, 1, true,
             'Number of vertical black & white stripes displayed in the lower segment of the screen.'),
-        displayText: new BoolParam('Display Text', true,
+        displayText: new BoolParam('Show Text', true,
             'Hide or show the "No Signal" text in the middle of the screen.')
     };
 

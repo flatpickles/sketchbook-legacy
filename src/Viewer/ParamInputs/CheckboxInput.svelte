@@ -5,9 +5,10 @@
     export let title = undefined;
     export let value = false;
     export let labelBasis = undefined;
+    export let labelWidth = undefined;
 </script>
 
-<ParamInput {label} {title} {labelBasis}>
+<ParamInput {label} {title} {labelBasis} bind:labelWidth={labelWidth}>
     <label class='custom_checkbox'>
         <input type='checkbox' class='checkbox' id={label} bind:checked={value} on:input on:change />
         <span></span>

@@ -6,6 +6,7 @@
     export let label = '';
     export let title = undefined;
     export let value = undefined;
+    export let labelBasis = undefined;
 
     const dispatch = createEventDispatcher();
     function buttonClicked(event) {
@@ -15,7 +16,7 @@
     }
 </script>
 
-<ParamInput {label} {title}>
+<ParamInput {label} {title} {labelBasis}>
     <button on:click={buttonClicked}>
     </button>
 </ParamInput>

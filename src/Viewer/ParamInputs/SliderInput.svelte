@@ -3,6 +3,8 @@
 
     export let label = '';
     export let title = undefined;
+    export let labelBasis = undefined;
+
     export let value = 0;
     export let min = 0;
     export let max = 1;
@@ -12,7 +14,7 @@
     $: inputString = value.toFixed(fixedDecimals);
 </script>
 
-<ParamInput {label} {title}>
+<ParamInput {label} {title} {labelBasis}>
     <div class='slider_wrapper'>
         <input
             type='range' class='slider' id={label}

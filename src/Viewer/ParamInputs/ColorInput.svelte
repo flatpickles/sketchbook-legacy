@@ -4,9 +4,10 @@
     export let label = '';
     export let title = undefined;
     export let value = 0;
+    export let labelBasis = undefined;
 </script>
 
-<ParamInput {label} {title}>
+<ParamInput {label} {title} {labelBasis}>
   <input type='color' id={label} bind:value={value} on:input on:change />
 </ParamInput>
 

@@ -10,6 +10,8 @@
 
     export let sketch;
 
+    let labelBasis = '100px';
+
     const dispatch = createEventDispatcher();
     function paramUpdated(event) {
         dispatch('update', {
@@ -54,6 +56,7 @@
                     <SliderInput
                         label={param.name}
                         title={param.description}
+                        labelBasis={labelBasis}
                         on:input={param.continuousUpdate ? paramUpdated : null}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -65,6 +68,7 @@
                     <CheckboxInput
                         label={param.name}
                         title={param.description}
+                        labelBasis={labelBasis}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -73,6 +77,7 @@
                     <ColorInput
                         label={param.name}
                         title={param.description}
+                        labelBasis={labelBasis}
                         on:input={paramUpdated}
                         on:change={paramUpdated}
                         bind:value={param.value}
@@ -81,6 +86,7 @@
                     <EventInput
                         label={param.name}
                         title={param.description}
+                        labelBasis={labelBasis}
                         on:click={paramUpdated}
                         bind:value={param.value}
                     />

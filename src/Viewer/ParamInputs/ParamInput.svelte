@@ -1,11 +1,14 @@
 <script>
     export let label = '';
     export let title = undefined;
+    export let labelBasis = undefined;
+    export let labelWidth = undefined;
+
     $: inputID = label.split(" ")[0]
 </script>
 
-<div class='param' title={title}>
-    {#if label}<label for={label}>{label}</label>{/if}
+<div class='param' title={title} style='--label-basis: {labelBasis}'>
+    {#if label}<label for={label} bind:clientWidth={labelWidth}>{label}</label>{/if}
     <div class='param-wrapper'>
         <slot></slot>
     </div>
@@ -49,7 +52,7 @@
         text-overflow: ellipsis;
         color: black;
         padding-right: var(--spacing);
-        flex-basis: 120px;
+        flex-basis: var(--label-basis);
         box-sizing: border-box;
     }
 </style>

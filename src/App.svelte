@@ -114,7 +114,7 @@
     }
 
     :global(html) {
-        height: 100%;
+        height: -webkit-fill-available;
         min-height: 100%;
         margin: 0;
     }
@@ -126,10 +126,10 @@
         overscroll-behavior: none;
         font-family: 'Lucida Console', monospace;
         font-size: 20px;
-        height: 100%;
-        min-height: 100%;
         position: absolute;
         width: 100%;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
     }
     
     main {

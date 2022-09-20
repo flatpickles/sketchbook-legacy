@@ -55,6 +55,7 @@
         padding-right: var(--spacing);
         flex-basis: var(--label-basis);
         box-sizing: border-box;
+        background-color: brown;
     }
 
     .text_measurement {

@@ -47,6 +47,7 @@
     .param_name {
         font-size: var(--param-font-size);
         flex-shrink: 0;
+        width: auto;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -54,7 +55,7 @@
         padding-right: var(--spacing);
         flex-basis: var(--label-basis);
         box-sizing: border-box;
-        background-color: lime;
+        background-color: pink;
     }
 
     .text_measurement {

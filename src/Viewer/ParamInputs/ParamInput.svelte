@@ -22,6 +22,7 @@
         padding-bottom: var(--spacing);
         box-sizing: border-box;
         display: flex;
+        flex-grow: 1;
         justify-content: flex-start;
         align-items: center;
     }
@@ -38,8 +39,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-shrink: 1;
-        flex-grow: 0;
+        flex-grow: 1;
         flex-basis: 100%;
         box-sizing: border-box;
     }

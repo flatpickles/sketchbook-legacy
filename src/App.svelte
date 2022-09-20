@@ -113,18 +113,30 @@
         --selected-bg-color: rgb(0, 0, 0, 10%);
     }
 
+    :global(html) {
+        height: 100%;
+        min-height: 100%;
+        margin: 0;
+    }
+
     :global(body) {
+        background-color: #000;
         margin: 0;
         padding: 0;
         overscroll-behavior: none;
         font-family: 'Lucida Console', monospace;
         font-size: 20px;
+        height: 100%;
+        min-height: 100%;
+        position: absolute;
+        width: 100%;
     }
     
     main {
         width: 100%;
         height: 100%;
         display: flex;
+        flex-grow: 1;
         justify-content: center;
         align-items: center;
         flex-direction: row;

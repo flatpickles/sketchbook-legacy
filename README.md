@@ -8,7 +8,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Color parameter inputs have a weird internal margin after hiding/showing right panel
 * If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
 * Mobile:
-    * First load doesn't render at 100% height (No Signal)
+    * First load doesn't render at 100% height (maybe fixed?)
     * Swipes on sliders can scroll page
 * Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason.
 * Behavior is undefined with an empty sketch index, or one with only WIP sketches (though perhaps this will never be a problem).

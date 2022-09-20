@@ -41,7 +41,6 @@
         justify-content: center;
         align-items: center;
         flex-grow: 1;
-        flex-basis: 100%;
         box-sizing: border-box;
     }
 
@@ -55,7 +54,7 @@
         padding-right: var(--spacing);
         flex-basis: var(--label-basis);
         box-sizing: border-box;
-        background-color: orange;
+        background-color: lime;
     }
 
     .text_measurement {

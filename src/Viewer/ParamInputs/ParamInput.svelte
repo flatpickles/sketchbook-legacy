@@ -23,6 +23,7 @@
         box-sizing: border-box;
         display: flex;
         flex-grow: 1;
+        flex-basis: 100%;
         justify-content: flex-start;
         align-items: center;
     }
@@ -54,7 +55,7 @@
         padding-right: var(--spacing);
         flex-basis: var(--label-basis);
         box-sizing: border-box;
-        background-color: blue;
+        background-color: orange;
     }
 
     .text_measurement {

@@ -55,7 +55,7 @@
         padding-right: var(--spacing);
         flex-basis: var(--label-basis);
         box-sizing: border-box;
-        background-color: pink;
+        /* background-color: pink; */
     }
 
     .text_measurement {

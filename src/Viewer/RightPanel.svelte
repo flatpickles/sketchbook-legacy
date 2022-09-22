@@ -12,7 +12,7 @@
 
     let labelWidths = new Array();
     $: paramCount = Object.keys(sketch.params).length;
-    $: labelBasis = (Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
+    $: labelBasis = '50%';//(Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
 
     const dispatch = createEventDispatcher();
     function paramUpdated(event) {

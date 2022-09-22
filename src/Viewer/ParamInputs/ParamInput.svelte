@@ -1,8 +1,23 @@
 <script>
+    import { onMount } from "svelte";
+
     export let label = '';
     export let title = undefined;
     export let labelBasis = undefined;
     export let labelWidth = undefined;
+
+    let textMeasurementDiv = undefined;
+    onMount(setLabelWidth);
+    $: labelUpdated(label);
+
+    function labelUpdated(l) {
+        setTimeout(setLabelWidth, 0);
+    }
+
+    function setLabelWidth() {
+        if (!textMeasurementDiv) return;
+        labelWidth = textMeasurementDiv.offsetWidth
+    }
 </script>
 
 <div class='param' title={title} style='--label-basis: {labelBasis}'>
@@ -13,7 +28,7 @@
 </div>
 
 <!-- An invisible div that we use to measure the label width, for common basis calculation -->
-<div class='param_name text_measurement' bind:clientWidth={labelWidth}>{label}</div>
+<div class='param_name text_measurement' bind:this={textMeasurementDiv}>{label}</div>
 
 <style>
     .param {

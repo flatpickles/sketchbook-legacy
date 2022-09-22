@@ -23,7 +23,6 @@
 </script>
 
 <div id="panel_container">
-    {labelBasis}
     <PanelHeader id={sketch.name} openDefault={true}>
         <span slot='title'>
             {sketch.name}

@@ -6,6 +6,10 @@
     export let labelBasis = undefined;
     export let labelWidth = undefined;
 
+    // Use size of hidden textMeasurementDiv to publish display width for this label
+    // Previously I was using bind:clientWidth, but this value can be inaccurate for
+    // occasional initial page loads in mobile Safari (iOS). What a world.
+
     let textMeasurementDiv = undefined;
     onMount(setLabelWidth);
     $: labelUpdated(label);

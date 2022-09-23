@@ -52,6 +52,7 @@
         font-size: var(--title-font-size);
         padding: var(--spacing);
         padding-bottom: 0;
+        padding-top: var(--title-top-spacing);
     }
 
     .subtitle {

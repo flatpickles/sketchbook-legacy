@@ -109,7 +109,7 @@
     .viewport {
         width: 100%;
         height: 100%;
-        background-color: teal;
+        background-color: #0000;
     }
 
     .panel {
@@ -131,7 +131,7 @@
     .button_container {
         width: 50px;
         flex-shrink: 0;
-        background-color: rgb(0, 0, 0, 0%);
+        background-color: #0000;
         display: flex;
         flex-direction: row;
         height: fit-content;

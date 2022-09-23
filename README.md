@@ -5,11 +5,12 @@
 For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/README.md) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
 
 ## Known Issues
+* Can scroll full page just a little bit, revealing a strip of non-canvas at the bottom
 * Color parameter inputs have a weird internal margin after hiding/showing right panel
 * If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
 * Mobile:
-    * First load doesn't render at 100% height - related to use of getBoundingClientRect in canvas-sketch, maybe can be solved with explicit dimensions
     * Swipes on sliders can scroll page
+    * Color preview block has strange corners
 * Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason.
 * Behavior is undefined with an empty sketch index, or one with only WIP sketches (though perhaps this will never be a problem).
 * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.

@@ -6,6 +6,15 @@
     let canvas, loadedSketch, canvasSketchManager;
     
     onMount(async () => {
+        // On the first load of the page, specifically on mobile Safari (iOS), the canvas
+        // can be sized incorrectly – not filling the full screen vertically. The root of
+        // this is in canvas-sketch/lib/core/resizeCanvas.js#L24, wherein the function
+        // getBoundingClientRect() can seemingly return incorrectly at the first instant
+        // of a page load. I worked around a similar issue in ParamInput.svelte, when the
+        // clientWidth element binding wasn't working under the same circumstances.
+
+        // There's probably a more elegant solution here, but it seems like setTimeout
+        // has come to the rescue yet again. What a world.
         setTimeout(loadCurrentSketch, 0);
     });
 
@@ -28,14 +37,11 @@
 
     async function loadCurrentSketch() {
         if (canvasSketchManager) canvasSketchManager.unload();
-        // sketch.settings.dimensions = [window.innerWidth, window.innerHeight];
         const opt = {
             ...sketch.settings,
             canvas,
-            parent: canvas.parentElement,
-            // dimensions: [window.innerWidth, window.innerHeight]
+            parent: canvas.parentElement
         };
-        // console.log(opt);
         canvasSketchManager = await canvasSketch(sketch.sketchFn, opt);
         loadedSketch = sketch;
     }

@@ -3,6 +3,7 @@
 
     export let id = undefined
     export let openDefault = false;
+    export let showContents = true;
 
     // Determine openness from stored state for this id
     $: openStateKey = id + '_HeaderOpen';
@@ -34,18 +35,20 @@
         </slot>
     </div>
 
-    <div class='subtitle_button' on:click={toggleOpenState}>
+    <div class='subtitle_button' on:click={toggleOpenState} class:hidden={!showContents}>
         <slot name='click_to_expand' open={openState}>
         </slot>
     </div>
 </div>
 
-<Expandable open={openState}>
-    <div class='contents_container'>
-        <slot name='contents'>
-        </slot>
-    </div>
-</Expandable>
+{#if showContents}
+    <Expandable open={openState}>
+        <div class='contents_container'>
+            <slot name='contents'>
+            </slot>
+        </div>
+    </Expandable>
+{/if}
 
 <style>
     .title {
@@ -82,5 +85,9 @@
         padding-top: 0;
         display: flex;
         flex-direction: column;
+    }
+
+    .hidden {
+        visibility: hidden;
     }
 </style>

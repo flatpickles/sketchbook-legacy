@@ -23,7 +23,7 @@
 </script>
 
 <div id="panel_container">
-    <PanelHeader id={sketch.name} openDefault={true}>
+    <PanelHeader id={sketch.name} openDefault={true} showContents={!!sketch.description}>
         <span slot='title'>
             {sketch.name}
         </span>

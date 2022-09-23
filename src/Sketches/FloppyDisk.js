@@ -38,6 +38,7 @@ export default class FloppyDisk extends Sketch {
             frag,
             uniforms: {
                 time: ({ time }) => time,
+                renderSize: ({}) => [window.innerWidth, window.innerHeight],
                 innerSize: ({}) => this.params.innerSize.value,
                 outerSize: ({}) => this.params.outerSize.value,
                 wobbleShape1: ({}) => this.params.wobbleShape1.value,

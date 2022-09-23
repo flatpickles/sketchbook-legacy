@@ -3,7 +3,7 @@
 
 ## [Floppy Disk](http://flatpickles.com/sketchbook/#floppy-disk)
 
-A wobbly warpy floppy disk. Ported over to Sketchbook from the [original version] on ISF.video.
+A wobbly warpy floppy disk. Ported over to Sketchbook from the [original version](https://editor.isf.video/shaders/62506e017917e40014095a49) on ISF.video.
 
 Floppy Disk is implemented as a shader, taking a playful approach to abstract shapes created within a polar coordinate system. Two underlying shapes are phased against each other with configurable influence factors, creating an undulating motion that's both good, and good for you.
 

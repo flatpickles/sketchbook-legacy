@@ -52,4 +52,8 @@
 {/key}
 
 <style>
+    canvas {
+        display: block;
+        margin: 0;
+    }
 </style>

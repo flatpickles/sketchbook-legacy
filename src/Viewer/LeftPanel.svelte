@@ -18,6 +18,9 @@
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
     let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
     $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
+    $: showWorksInProgressButton = sketches.reduce((incrementalState, currentSketch) => {
+        return !currentSketch.date || incrementalState;
+    }, false);
 
     function toggleWIP() {
         // Toggle the state
@@ -64,7 +67,9 @@
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
             </p>
             <div id='buttons'>
-                <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
+                {#if showWorksInProgressButton}
+                    <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
+                {/if}
                 <Button name='Reset Sketchbook' on:click={resetState}></Button>
             </div>
         </span>

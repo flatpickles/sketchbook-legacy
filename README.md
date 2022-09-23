@@ -21,7 +21,6 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * UX improvements:
     * Hide panel tabs when both collapsed w/ no mouse movement
     * Crossfade when switching sketches
-    * Only show "WIP" button when there are WIP sketches
 * Global options:
     * Additional link out to per-sketch readmes from right panel
     * Export frame option (also exports param JSON; bottom right panel)

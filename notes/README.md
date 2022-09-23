@@ -7,3 +7,4 @@ Creative notes, usage details, and further considerations for each of the sketch
 
 - [Rectilinear](./rectilinear.md)
 - [No Signal](./no-signal.md)
+- [Floppy Disk](./floppy-disk.md)

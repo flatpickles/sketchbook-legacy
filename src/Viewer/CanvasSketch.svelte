@@ -6,7 +6,7 @@
     let canvas, loadedSketch, canvasSketchManager;
     
     onMount(async () => {
-        setTimeout(loadCurrentSketch, 500);
+        setTimeout(loadCurrentSketch, 0);
     });
 
     export function update() {

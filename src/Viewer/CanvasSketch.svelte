@@ -6,7 +6,7 @@
     let canvas, loadedSketch, canvasSketchManager;
     
     onMount(async () => {
-        loadCurrentSketch();
+        setTimeout(loadCurrentSketch, 500);
     });
 
     export function update() {
@@ -28,11 +28,14 @@
 
     async function loadCurrentSketch() {
         if (canvasSketchManager) canvasSketchManager.unload();
+        // sketch.settings.dimensions = [window.innerWidth, window.innerHeight];
         const opt = {
             ...sketch.settings,
             canvas,
-            parent: canvas.parentElement
+            parent: canvas.parentElement,
+            // dimensions: [window.innerWidth, window.innerHeight]
         };
+        // console.log(opt);
         canvasSketchManager = await canvasSketch(sketch.sketchFn, opt);
         loadedSketch = sketch;
     }

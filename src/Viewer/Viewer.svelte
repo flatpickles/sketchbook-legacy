@@ -2,6 +2,7 @@
     import CanvasSketch from './CanvasSketch.svelte';
 
     export let sketch;
+    export let directLink; // true when viewer started with a specific sketch
     let sketchComponent;
     let viewportWidth;
     $: viewportWidthString = viewportWidth + "px";
@@ -40,8 +41,8 @@
     }
 
     // Only allow one open panel at a time for narrow screens
-    preventPanelCollision();
-    function preventPanelCollision(preferRight = true) {
+    preventPanelCollision(directLink);
+    function preventPanelCollision(preferRight = false) {
         // todo: fix hardcoded width threshold
         if (leftPanelOpen && rightPanelOpen && window.innerWidth < 600) {
             leftPanelOpen = !preferRight;

@@ -8,6 +8,7 @@
     let currentSketch;
 
     // Select sketch on page load, and on hash change (fwd/back nav etc)
+    let initialDirectLink = false;
     loadInitialSketch();
     window.onhashchange = loadInitialSketch;
 
@@ -28,6 +29,7 @@
         const normalizedLinkName = window.location.hash
             ? normalizeString(window.location.hash.substring(1))
             : undefined;
+        if (normalizedLinkName) initialDirectLink = true;
         const storedName = localStorage.getItem('currentSketchName');
         const normalizedStoredName = storedName
             ? normalizeString(storedName)
@@ -68,7 +70,7 @@
 </script>
 
 <main>
-    <Viewer sketch={currentSketch} bind:this={viewerComponent}>
+    <Viewer sketch={currentSketch} directLink={initialDirectLink} bind:this={viewerComponent}>
         <span slot="left">
             <LeftPanel
                 sketches={sketches}

@@ -46,7 +46,7 @@
         </span>
         <span slot='contents'>
             {#if sketch.description}
-                {sketch.description.trim()}
+                {@html sketch.description.trim()}
             {/if}
         </span>
     </PanelHeader>

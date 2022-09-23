@@ -9,7 +9,10 @@ import shaderString from './FloppyDisk.frag';
 export default class FloppyDisk extends Sketch {
     name = 'Floppy Disk';
     type = SketchType.Shader;
-    // date = new Date('9/23/23');
+    date = new Date('4/08/22');
+    description = `
+        A wobbly warpy floppy disk. Ported over to Sketchbook from the <a href="https://editor.isf.video/shaders/62506e017917e40014095a49">original version</a> on ISF.video.
+    `;
 
     settings = {
         context: 'webgl',
@@ -20,9 +23,9 @@ export default class FloppyDisk extends Sketch {
     params = {
         innerSize: new FloatParam('Inner Size', 0.3, 0.0, 1.0),
         outerSize: new FloatParam('Outer Size', 0.8, 0.0, 1.0),
-        wobbleShape1: new FloatParam('Shape 1', 5.0, 3.0, 10.0),
+        wobbleShape1: new FloatParam('Shape 1', 5.0, 3.0, 10.0, 1.0),
         wobbleFactor1: new FloatParam('Factor 1', 0.02, 0.0, 0.2),
-        wobbleShape2: new FloatParam('Shape 2', 5.0, 3.0, 10.0),
+        wobbleShape2: new FloatParam('Shape 2', 8.0, 3.0, 10.0, 1.0),
         wobbleFactor2: new FloatParam('Factor 2', 0.02, 0.0, 0.2),
         centerColor: new ColorParam('Center Color', '#431F0E'),
         color1: new ColorParam('Color 1', '#CC8154'),

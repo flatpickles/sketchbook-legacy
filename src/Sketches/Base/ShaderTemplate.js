@@ -28,6 +28,7 @@ export default class ShaderTemplate extends Sketch {
             frag,
             uniforms: {
                 time: ({ time }) => time,
+                renderSize: ({}) => [window.innerWidth, window.innerHeight],
                 blueness: ({}) => this.params.blueness.value
             }
         });

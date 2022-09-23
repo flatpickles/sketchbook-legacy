@@ -99,7 +99,7 @@
         --title-font-size: 24px;
         --subtitle-font-size: 14px;
         --title-top-spacing: 6px;
-        --subtitle-top-spacing: 0px;
+        --subtitle-top-spacing: 2px;
         --description-font-size: 14px;
         --param-font-size: 12px;
 

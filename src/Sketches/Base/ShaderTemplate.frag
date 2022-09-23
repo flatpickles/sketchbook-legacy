@@ -1,7 +1,10 @@
 precision highp float;
 
 uniform float time;
+uniform vec2 renderSize;
+
 uniform float blueness;
+
 varying vec2 vUv;
 
 void main () {

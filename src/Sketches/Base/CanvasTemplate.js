@@ -3,10 +3,10 @@
 import Sketch, { SketchType } from './Base/Sketch.js';
 import { FloatParam, BoolParam } from './Base/SketchParam.js';
 
-export default class SketchTemplate extends Sketch {
+export default class CanvasTemplate extends Sketch {
     name = 'Sketch Name';
     type = SketchType.Canvas;
-    date = new Date("8/15/2022");
+    // date = new Date("8/15/2022");
     description = `
         Include a multiline description here, or leave it empty.
     `;

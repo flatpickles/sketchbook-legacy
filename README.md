@@ -38,6 +38,7 @@ For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/R
 * Copyright somewhere on the page
 
 ## To consider
+* CSS triage: clean everything up
 * Key commands
     * Hide/show panels (both or each)
 * Sketch details display

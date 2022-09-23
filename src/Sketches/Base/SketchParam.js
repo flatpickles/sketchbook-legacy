@@ -1,3 +1,5 @@
+import Color from 'canvas-sketch-util/color';
+
 export class SketchParam {
     constructor(name, defaultValue, description = undefined) {
         this.name = name;
@@ -24,6 +26,10 @@ export class EventParam extends SketchParam {
 }
 
 export class ColorParam extends SketchParam {
+    get vec4() {
+        const rgba = Color.parse(this.value).rgba;
+        return [rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]];
+    }
 }
 
 export class BoolParam extends SketchParam {

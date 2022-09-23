@@ -38,7 +38,17 @@ export default class FloppyDisk extends Sketch {
             frag,
             uniforms: {
                 time: ({ time }) => time,
-                blueness: ({}) => this.params.innerSize.value
+                innerSize: ({}) => this.params.innerSize.value,
+                outerSize: ({}) => this.params.outerSize.value,
+                wobbleShape1: ({}) => this.params.wobbleShape1.value,
+                wobbleFactor1: ({}) => this.params.wobbleFactor1.value,
+                wobbleShape2: ({}) => this.params.wobbleShape2.value,
+                wobbleFactor2: ({}) => this.params.wobbleFactor2.value,
+                centerColor: ({}) => this.params.centerColor.vec4,
+                color1: ({}) => this.params.color1.vec4,
+                color2: ({}) => this.params.color2.vec4,
+                color3: ({}) => this.params.color3.vec4,
+                backgroundColor: ({}) => this.params.backgroundColor.vec4
             }
         });
     };

@@ -21,6 +21,9 @@ export default class Mandelbrot extends Sketch {
     };
 
     params = {
+        zoom: new FloatParam('Zoom', 0.35, 0, 1),
+        xOffset: new FloatParam('X Offset', 0, -1, 1),
+        yOffset: new FloatParam('Y Offset', 0.752, -1, 1)
     };
 
     sketchFn = ({ gl }) => {
@@ -30,7 +33,9 @@ export default class Mandelbrot extends Sketch {
             frag,
             uniforms: {
                 time: ({ time }) => time,
-                resolution: ({}) => [window.innerWidth, window.innerHeight]
+                resolution: ({}) => [window.innerWidth, window.innerHeight],
+                zoom: () => this.params.zoom.value,
+                renderOffset: () => [this.params.xOffset.value, this.params.yOffset.value],
             }
         });
     };

@@ -3,6 +3,9 @@ precision highp float;
 uniform float time;
 uniform vec2 resolution;
 
+uniform float zoom;
+uniform vec2 renderOffset;
+
 varying vec2 vUv;
 
 const float PI = 3.1415926535897932384626433832795;
@@ -24,10 +27,10 @@ void main(void) {
     c.y *= resolution.y / resolution.x;
 
     // Zoom in
-    float zoomGenerator = 0.35;// (sin(time * ((2. * PI) / animationLength)) + 1.0) / 2.;
+    float zoomGenerator = zoom;// 0.35;// (sin(time * ((2. * PI) / animationLength)) + 1.0) / 2.;
     float zoomLevel = (zoomBounds.y - zoomBounds.x) * zoomGenerator + zoomBounds.x;
     c = c / pow(2.0, zoomLevel);
-    c += vec2(-0., 0.752);
+    c += renderOffset;
 
     // https://en.wikibooks.org/wiki/Fractals/shadertoy#Mandelbrot_set
 

@@ -19,6 +19,29 @@ vec3 hsv(float h, float s, float v) {
     return v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), s);
 }
 
+// References:
+// - https://en.wikibooks.org/wiki/Fractals/shadertoy#Mandelbrot_set
+// - https://www.codingame.com/playgrounds/2358/how-to-plot-the-mandelbrot-set/adding-some-colors
+float mandelbrot(vec2 c) {
+    const int maxIter = 100;
+
+    vec2 z = vec2(0.0);
+    int escapeTime = 0;
+    float absZ = 0.0;
+    for (int i = 0; i < maxIter; i++) {
+        absZ = sqrt(z.x * z.x + z.y * z.y);
+        if (absZ >= 2.) break;
+        z = vec2(z.x * z.x - z.y * z.y, 2. * z.x * z.y) + c;
+        escapeTime += 1;
+    }
+
+    if (escapeTime == maxIter) {
+        return float(maxIter);
+    } else {
+        return float(escapeTime) + 1.0 - log(log2(absZ));
+    }
+}
+
 void main(void) {
     vec2 c = vUv;
 
@@ -32,17 +55,8 @@ void main(void) {
     c = c / pow(2.0, zoomLevel);
     c += renderOffset;
 
-    // https://en.wikibooks.org/wiki/Fractals/shadertoy#Mandelbrot_set
-
-    vec2 z = vec2(0);
-    int escapeTime = 0;
-    
-    for (int i=0; i<100; i++) {
-        if (z.x * z.x + z.y * z.y >= 4.) break;
-        z = vec2(z.x * z.x - z.y * z.y, 2. * z.x * z.y) + c;
-        escapeTime += 1;
-    }
-
+    // Calculate Mandelbrot color
+    float escapeTime = mandelbrot(c);
     float hue = (0.97 + float(escapeTime)) / 3.;
-    gl_FragColor = vec4(hsv(hue, 0.99, 0.9), 1.0);
+    gl_FragColor = vec4(vec3(fract(escapeTime)), 1.0);
 }

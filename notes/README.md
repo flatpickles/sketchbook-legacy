@@ -5,6 +5,7 @@
 
 Creative notes, usage details, and further considerations for each of the sketches within Sketchbook. These notes may mirror the descriptions & parameter hover-text available via the Sketchbook web app, but may also elaborate further.
 
+- [Mandelbrot Set](./mandelbrot-set.md)
 - [Rectilinear](./rectilinear.md)
 - [No Signal](./no-signal.md)
 - [Floppy Disk](./floppy-disk.md)

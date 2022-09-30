@@ -2,7 +2,7 @@
 
 [Sketchbook](http://flatpickles.com/sketchbook/) is a web app that presents a growing collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
-For notes on each of the sketches within Sketchbook, visit the [Notes](./notes/README.md) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
+For notes on each of the sketches within Sketchbook, visit the `[notes](./notes/README.md)` directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
 
 ## Known Issues
 * Sliders changing size when a number goes from positive to negative is causing jumpy issues

@@ -7,11 +7,11 @@ import createShader from  'canvas-sketch-util/shader';
 import shaderString from './Mandelbrot.frag';
 
 export default class Mandelbrot extends Sketch {
-    name = "Mandelbrot";
+    name = "Mandelbrot Set";
     type = SketchType.Shader;
-    // date = new Date("9/23/23");
+    date = new Date("9/29/22");
     description = `
-        Mandelbrot set sandbox, building off of a project from June 2022.
+        Standard low-precision Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow! 
     `
 
     settings = {
@@ -21,9 +21,10 @@ export default class Mandelbrot extends Sketch {
     };
 
     params = {
-        zoom: new FloatParam('Zoom', 0.35, 0, 1),
-        xOffset: new FloatParam('X Offset', 0, -1, 1),
-        yOffset: new FloatParam('Y Offset', 0.752, -1, 1)
+        zoom: new FloatParam('Zoom', 0.5, 0, 1),
+        xOffset: new FloatParam('X Offset', 0.14, -1, 1),
+        yOffset: new FloatParam('Y Offset', 0.65, -1, 1),
+        colorCycles: new FloatParam('Color Cycles', 8, 1, 100),
     };
 
     sketchFn = ({ gl }) => {
@@ -36,6 +37,7 @@ export default class Mandelbrot extends Sketch {
                 resolution: ({}) => [window.innerWidth, window.innerHeight],
                 zoom: () => this.params.zoom.value,
                 renderOffset: () => [this.params.xOffset.value, this.params.yOffset.value],
+                colorCycles: () => this.params.colorCycles.value,
             }
         });
     };

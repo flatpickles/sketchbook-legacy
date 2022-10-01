@@ -13,16 +13,30 @@
 
     $: fixedDecimals = Math.ceil(Math.log10(1/step));
     $: inputString = value.toFixed(fixedDecimals);
+
+    // Never let the number display get smaller than an original minimum width
+    // This keeps the slider value from jumping around, e.g. when crossing 0
+    let numberDisplayBasis = 18; // minimum width
+    let numberDisplayBasisPx = numberDisplayBasis.toString() + 'px';
+    let numberDisplayDiv = undefined;
+    $: valueUpdated(value);
+    function valueUpdated() {
+        if (numberDisplayDiv) {
+            let ceilWidth = numberDisplayDiv.offsetWidth;
+            numberDisplayBasis = Math.max(numberDisplayBasis, ceilWidth);
+            numberDisplayBasisPx = (numberDisplayBasis).toString() + 'px';
+        };
+    };
 </script>
 
 <ParamInput {label} {title} {labelBasis} bind:labelWidth={labelWidth}>
-    <div class='slider_wrapper'>
+    <div class='slider_wrapper' style='--number-display-basis: {numberDisplayBasisPx}'>
         <input
             type='range' class='slider' id={label}
             bind:value={value} {min} {max} {step}
             on:input on:change
         />
-        <div contenteditable='false' class='number_display' bind:innerHTML={inputString}/>
+        <div contenteditable='false' class='number_display' bind:this={numberDisplayDiv} bind:innerHTML={inputString}/>
     </div>
 </ParamInput>
 
@@ -56,7 +70,8 @@
     font-size: var(--param-font-size);
     width: auto;
     text-align: right;
-    flex-basis: 18px; /* todo: un-hardcode 2 char width */
+    flex-basis: var(--number-display-basis);
+    flex-shrink: 0;
 }
 
 .number_display:focus {

@@ -17,6 +17,6 @@ If I were to keep working on this (which I may, someday), I'd explore the follow
 ### Parameters
 
 * `Zoom`: Zoom depth, as a percentage of the deepest allowable zoom within this rendering.
-* `X Offset`: Effectively the horizontal scroll location.
-* `Y Offset`: Effectively the vertical scroll location.
+* `X Offset`: Effectively the horizontal scroll position.
+* `Y Offset`: Effectively the vertical scroll position.
 * `Color Cycles`: How many times the we cycle through the color wheel between the outer and inner boundaries of the fractal.

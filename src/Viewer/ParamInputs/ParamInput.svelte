@@ -20,7 +20,7 @@
 
     function setLabelWidth() {
         if (!textMeasurementDiv) return;
-        labelWidth = textMeasurementDiv.offsetWidth
+        labelWidth = textMeasurementDiv.offsetWidth;
     }
 </script>
 

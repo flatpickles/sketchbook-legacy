@@ -53,7 +53,7 @@
 
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>
-            {#each Object.values(sketch.params) as param, index}
+            {#each Object.values(sketch.params) as param, index (param.name)}
                 {#if (param instanceof FloatParam)}
                     <SliderInput
                         label={param.name}

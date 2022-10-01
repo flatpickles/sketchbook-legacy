@@ -11,7 +11,7 @@ export default class Mandelbrot extends Sketch {
     type = SketchType.Shader;
     date = new Date("9/29/22");
     description = `
-        Standard low-precision Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow! 
+        Standard Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow! 
     `
 
     settings = {

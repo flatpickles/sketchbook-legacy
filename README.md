@@ -10,7 +10,7 @@ For notes on each of the sketches within Sketchbook, visit the [`notes`](./notes
 * Mobile:
     * Swipes on sliders can scroll page
     * Color preview block has strange corners
-* Resizing the window can leave the CanvasSketch HTML canvas at the wrong size – seems like this sets a non-zero `margin` value for some reason.
+* Resizing the window can leave the canvas element at the wrong size. It seems this is literal canvas size and not padding, and happens only when the window is getting smaller in one dimension, every other time it seems.
 * Behavior is undefined with an empty sketch index, or one with only WIP sketches (though perhaps this will never be a problem).
 * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.
 * Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?

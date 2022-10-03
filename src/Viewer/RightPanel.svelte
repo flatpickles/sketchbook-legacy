@@ -7,6 +7,7 @@
     import EventInput from './ParamInputs/EventInput.svelte';
     import { ColorParam, FloatParam, BoolParam, EventParam } from '../Sketches/Base/SketchParam.js';
     import PanelHeader from './PanelHeader.svelte';
+    import PresetSelector from './PresetSelector.svelte';
 
     export let sketch;
 
@@ -51,9 +52,13 @@
         </span>
     </PanelHeader>
 
+    <PresetSelector>
+        
+    </PresetSelector>
+
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>
-            {#each Object.values(sketch.params) as param, index (param.name)}
+            {#each Object.values(sketch.params) as param, index (sketch.name + param.name)}
                 {#if (param instanceof FloatParam)}
                     <SliderInput
                         label={param.name}

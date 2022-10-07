@@ -4,6 +4,7 @@ export class SketchParam {
     constructor(name, defaultValue, description = undefined) {
         this.name = name;
         this.value = defaultValue;
+        this.defaultValue = defaultValue;
         this.description = description;
     }
 

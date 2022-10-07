@@ -52,9 +52,7 @@
         </span>
     </PanelHeader>
 
-    <PresetSelector>
-        
-    </PresetSelector>
+    <PresetSelector />
 
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>

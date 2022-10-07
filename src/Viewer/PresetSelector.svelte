@@ -1,3 +1,7 @@
+<script>
+    
+</script>
+
 <div id='preset_selector'>
     <div id='select_container'>
         <select>
@@ -53,5 +57,6 @@
     #new_button {
         padding: var(--spacing);
         text-align: right;
+        
     }
 </style>

@@ -12,9 +12,10 @@
     loadInitialSketch();
     window.onhashchange = loadInitialSketch;
 
-    // Restore parameter values for all loaded sketches
+    // Restore state for all loaded sketches
     sketches.forEach((sketch) => {
         sketch.restoreParamValues();
+        sketch.restorePresets();
     });
 
     // Select directly linked sketch OR last viewed sketch

@@ -84,7 +84,6 @@ export default class Sketch {
 
         // Set parameter state
         const selectedPreset = this.availablePresets[this.selectedPresetName];
-        console.log(this.availablePresets);
         Object.keys(this.params).forEach((paramName) => {
             this.params[paramName].value = selectedPreset[paramName];
         });

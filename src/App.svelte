@@ -62,8 +62,10 @@
         selectSketch(selectedSketch);
     }
 
-    function update() {
-        currentSketch.storeParamValues();
+    function update(event) {
+        if (!event.detail || !event.detail.incomplete) {
+            currentSketch.storeParamValues();
+        }
         viewerComponent.update();
     }
 </script>

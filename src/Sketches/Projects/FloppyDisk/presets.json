@@ -1,0 +1,41 @@
+{
+    "Preset Uno": {
+        "innerSize": 0.51,
+        "outerSize": 1,
+        "wobbleShape1": 3,
+        "wobbleFactor1": 0.2,
+        "wobbleShape2": 8,
+        "wobbleFactor2": 0.2,
+        "centerColor": "#431F0E",
+        "color1": "#CC8154",
+        "color2": "#96542E",
+        "color3": "#622E0F",
+        "backgroundColor": "#431F0E"
+    },
+    "Preset Dos": {
+        "innerSize": 0.57,
+        "outerSize": 0.73,
+        "wobbleShape1": 7,
+        "wobbleFactor1": 0.06,
+        "wobbleShape2": 9,
+        "wobbleFactor2": 0.07,
+        "centerColor": "#07170a",
+        "color1": "#179694",
+        "color2": "#81ab78",
+        "color3": "#042f2a",
+        "backgroundColor": "#c2ffdf"
+    },
+    "Preset El Fin": {
+        "innerSize": 0.36,
+        "outerSize": 0.73,
+        "wobbleShape1": 7,
+        "wobbleFactor1": 0.06,
+        "wobbleShape2": 3,
+        "wobbleFactor2": 0.13,
+        "centerColor": "#ffffff",
+        "color1": "#000000",
+        "color2": "#ffffff",
+        "color3": "#732cdd",
+        "backgroundColor": "#ffffff"
+    }
+}

@@ -1,4 +1,4 @@
-#### <sup>:notebook: [sketchbook](../README.md) → [Notes](./README.md) → Rectilinear</sup>
+#### <sup>:notebook: [sketchbook](../../../../) → [Projects](../) → Rectilinear</sup>
 ---
 
 ## [Rectilinear](http://flatpickles.com/sketchbook/#rectilinear)

@@ -1,4 +1,4 @@
-#### <sup>:notebook: [sketchbook](../README.md) → [Notes](./README.md) → Floppy Disk</sup>
+#### <sup>:notebook: [sketchbook](../../../../) → [Projects](../) → Floppy Disk</sup>
 ---
 
 ## [Floppy Disk](http://flatpickles.com/sketchbook/#floppy-disk)

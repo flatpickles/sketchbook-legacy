@@ -1,4 +1,4 @@
-#### <sup>:notebook: [sketchbook](~/) → [Projects](../) → Mandelbrot Set</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Mandelbrot Set</sup>
 ---
 
 ## [Mandelbrot Set](http://flatpickles.com/sketchbook/#mandelbrot-set)

@@ -1,4 +1,4 @@
-#### <sup>:notebook: [sketchbook](../../../) → Projects</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → Projects</sup>
 ---
 
 ## Notes

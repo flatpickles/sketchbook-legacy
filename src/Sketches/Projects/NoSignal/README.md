@@ -1,4 +1,4 @@
-#### <sup>:notebook: [sketchbook](../../../../../) → [Projects](../) → No Signal</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → No Signal</sup>
 ---
 
 ## [No Signal](http://flatpickles.com/sketchbook/#no-signal)

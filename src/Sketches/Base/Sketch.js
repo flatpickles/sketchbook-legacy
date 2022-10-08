@@ -32,15 +32,15 @@ export default class Sketch {
 
     /* Presets */
 
-    selectedPresetIndex = -1;
+    selectedPresetName = undefined;
     availablePresets = {};
 
     get presetModified() {
         // todo: see if this should be redesigned more efficiently (dirty bit, etc)
-        if (selectedPresetIndex < 0) throw 'Presets not yet available.'
+        if (!this.selectedPresetName) throw 'Presets not yet available.'
 
         let modified = false;
-        const selectedPreset = this.availablePresets[selectedPresetIndex];
+        const selectedPreset = this.availablePresets[this.selectedPresetName];
         Object.keys(this.params).forEach((paramName) => {
             if (selectedPreset[paramName] != this.params[paramName].value) {
                 modified = true;
@@ -50,9 +50,11 @@ export default class Sketch {
     }
 
     restorePresets() {
+        const defaultValuesTitle = 'Default Values';
+    
         // Restore currently selected
         const storedSelectedPresetState = localStorage.getItem(this.name + ' currentlySelected');
-        this.selectedPresetIndex = storedSelectedPresetState ? JSON.parse(storedSelectedPresetState) : 0;
+        this.selectedPresetName = storedSelectedPresetState ?? defaultValuesTitle;
 
         // Reset available presets
         this.availablePresets = {};
@@ -62,7 +64,7 @@ export default class Sketch {
         Object.keys(this.params).forEach((paramName) => {
             defaultPreset[paramName] = this.params[paramName].defaultValue;
         });
-        this.availablePresets['Default Values'] = defaultPreset;
+        this.availablePresets[defaultValuesTitle] = defaultPreset;
 
         // Bundled presets next 
         Object.assign(this.availablePresets, this.presets);
@@ -70,16 +72,19 @@ export default class Sketch {
         // Local storage (user presets)
         // Todo
 
-        console.log(this.availablePresets);
+        // console.log(this.availablePresets);
     }
 
-    selectPreset(index) {
+    selectPreset(presetName) {
+        // todo: check to make sure it exists? here and/or elsewhere
+
         // Set selection state
-        this.selectedPresetIndex = index;
-        localStorage.setItem(this.name + ' currentlySelected', JSON.stringify(index));
+        this.selectedPresetName = presetName;
+        localStorage.setItem(this.name + ' currentlySelected', presetName);
 
         // Set parameter state
-        const selectedPreset = this.availablePresets[selectedPresetIndex];
+        const selectedPreset = this.availablePresets[this.selectedPresetName];
+        console.log(this.availablePresets);
         Object.keys(this.params).forEach((paramName) => {
             this.params[paramName].value = selectedPreset[paramName];
         });

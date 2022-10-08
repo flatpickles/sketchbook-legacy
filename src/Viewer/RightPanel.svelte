@@ -21,6 +21,12 @@
             domEvent: event
         });
     }
+
+    function presetSelected(event) {
+        const selectedPresetName = event.detail.name;
+        sketch.selectPreset(selectedPresetName);
+        // todo: update UI with new values
+    }
 </script>
 
 <div id="panel_container">
@@ -52,7 +58,10 @@
         </span>
     </PanelHeader>
 
-    <PresetSelector />
+    <PresetSelector
+        bind:presets={sketch.availablePresets}
+        on:selection={presetSelected}
+    />
 
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>

@@ -1,5 +1,5 @@
 <script>
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
     import Button from './Components/Button.svelte';
     import PanelHeader from './PanelHeader.svelte';
 

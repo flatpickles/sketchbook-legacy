@@ -10,22 +10,23 @@
     import PresetSelector from './PresetSelector.svelte';
 
     export let sketch;
+    const dispatch = createEventDispatcher();
 
     let labelWidths = new Array();
     $: paramCount = Object.keys(sketch.params).length;
     $: labelBasis = (Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
 
-    const dispatch = createEventDispatcher();
     function paramUpdated(event) {
-        dispatch('update', {
-            domEvent: event
-        });
+        if (event.type === 'change') {
+            dispatch('update');
+        }
     }
 
     function presetSelected(event) {
         const selectedPresetName = event.detail.name;
         sketch.selectPreset(selectedPresetName);
-        // todo: update UI with new values
+        sketch.params = sketch.params; // Svelte reactivity: update UI
+        dispatch('update'); // new param values will be saved
     }
 </script>
 

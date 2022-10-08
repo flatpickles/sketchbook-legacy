@@ -60,7 +60,6 @@
     function sketchSelection(event) {
         const selectedSketch = event.detail.sketch;
         selectSketch(selectedSketch);
-        selectedSketch.exportPreset();
     }
 
     function update(event) {

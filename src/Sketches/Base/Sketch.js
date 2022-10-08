@@ -13,6 +13,7 @@ export default class Sketch {
     description = undefined;
     params = {};
     settings = {};
+    presets = {};
     showPresets = true;
 
     /* Param value state */
@@ -35,6 +36,7 @@ export default class Sketch {
     availablePresets = {};
 
     get presetModified() {
+        // todo: see if this should be redesigned more efficiently (dirty bit, etc)
         if (selectedPresetIndex < 0) throw 'Presets not yet available.'
 
         let modified = false;
@@ -62,13 +64,13 @@ export default class Sketch {
         });
         this.availablePresets['Default Values'] = defaultPreset;
 
-        // Bundled JSON files as next presets 
-        // Todo (file list property? relative paths?)
+        // Bundled presets next 
+        Object.assign(this.availablePresets, this.presets);
 
         // Local storage (user presets)
         // Todo
 
-        // Todo: determine presetModified here as well
+        console.log(this.availablePresets);
     }
 
     selectPreset(index) {

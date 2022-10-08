@@ -5,6 +5,7 @@ import { FloatParam, ColorParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
 import shaderString from './index.frag';
+import presetsObject from './presets.json';
 
 export default class FloppyDisk extends Sketch {
     name = 'Floppy Disk';
@@ -19,6 +20,7 @@ export default class FloppyDisk extends Sketch {
         scaleToView: true,
         animate: true
     };
+    presets = presetsObject;
 
     params = {
         innerSize: new FloatParam('Inner Size', 0.3, 0.0, 1.0),

@@ -62,10 +62,8 @@
         selectSketch(selectedSketch);
     }
 
-    function update(event) {
-        if (event.detail.domEvent.type === 'change') {
-            currentSketch.storeParamValues();
-        };
+    function update() {
+        currentSketch.storeParamValues();
         viewerComponent.update();
     }
 </script>

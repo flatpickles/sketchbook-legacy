@@ -17,9 +17,9 @@
     $: labelBasis = (Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
 
     function paramUpdated(event) {
-        if (event.type === 'change') {
-            dispatch('update');
-        }
+        dispatch('update', {
+            incomplete: event.type !== 'change'
+        });
     }
 
     function presetSelected(event) {

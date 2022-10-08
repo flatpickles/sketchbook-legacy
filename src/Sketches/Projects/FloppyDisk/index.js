@@ -1,10 +1,10 @@
 /** Imports assume file is contained within Sketches **/
 
-import Sketch, { SketchType } from './Base/Sketch.js';
-import { FloatParam, ColorParam } from './Base/SketchParam.js';
+import Sketch, { SketchType } from '../../Base/Sketch.js';
+import { FloatParam, ColorParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
-import shaderString from './FloppyDisk.frag';
+import shaderString from './index.frag';
 
 export default class FloppyDisk extends Sketch {
     name = 'Floppy Disk';

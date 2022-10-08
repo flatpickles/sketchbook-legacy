@@ -1,7 +1,7 @@
-import NoSignal from './Sketches/NoSignal.js';
-import Rectilinear from './Sketches/Rectilinear.js';
-import FloppyDisk from './Sketches/FloppyDisk.js';
-import Mandelbrot from './Sketches/Mandelbrot.js';
+import NoSignal from './Sketches/Projects/NoSignal/index.js';
+import Rectilinear from './Sketches/Projects/Rectilinear/index.js';
+import FloppyDisk from './Sketches/Projects/FloppyDisk/index.js';
+import Mandelbrot from './Sketches/Projects/Mandelbrot/index.js';
 
 const sketches = [
     new Mandelbrot(),

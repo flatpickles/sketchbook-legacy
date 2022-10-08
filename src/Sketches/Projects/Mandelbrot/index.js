@@ -1,10 +1,10 @@
 /** Imports assume file is contained within Sketches **/
 
-import Sketch, { SketchType } from './Base/Sketch.js';
-import { FloatParam, BoolParam } from './Base/SketchParam.js';
+import Sketch, { SketchType } from '../../Base/Sketch.js';
+import { FloatParam, BoolParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
-import shaderString from './Mandelbrot.frag';
+import shaderString from './index.frag';
 
 export default class Mandelbrot extends Sketch {
     name = "Mandelbrot Set";

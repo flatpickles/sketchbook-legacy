@@ -1,12 +1,12 @@
 import Random from 'canvas-sketch-util/random';
 import Color from 'canvas-sketch-util/color';
 
-import Sketch, { SketchType } from './Base/Sketch.js';
-import { FloatParam, BoolParam, EventParam, ColorParam } from './Base/SketchParam.js';
+import Sketch, { SketchType } from '../../Base/Sketch.js';
+import { FloatParam, BoolParam, EventParam, ColorParam } from '../../Base/SketchParam.js';
 
-import Quadtree from './Util/Quadtree.js';
-import CanvasUtil from './Util/CanvasUtil.js';
-import { Point, Rect } from './Util/Geometry.js';
+import Quadtree from '../../Util/Quadtree.js';
+import CanvasUtil from '../../Util/CanvasUtil.js';
+import { Point, Rect } from '../../Util/Geometry.js';
 
 export default class Rectilinear extends Sketch {
     name = 'Rectilinear';

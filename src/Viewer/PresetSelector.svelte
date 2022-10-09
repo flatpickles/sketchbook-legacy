@@ -1,22 +1,29 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-    export let presets = undefined;
-    // export let presetSelectedIndex = 0; // todo: select last selected, add asterisk if modified
+    export let sketch = undefined;
+    let selectElement = undefined;
 
 	const dispatch = createEventDispatcher();
-    let selectElement = undefined;
     function presetSelected() {
         dispatch('selection', {
             name: selectElement.value
         });
+    }
+
+    // Update selection after sketch changes (and after DOM updates)
+    $: sketchChanged(sketch);
+    function sketchChanged(sketch) {
+        setTimeout(() => {
+            if (selectElement) selectElement.value = sketch.selectedPresetName;
+        }, 0);
     }
 </script>
 
 <div id='preset_selector'>
     <div id='select_container'>
         <select bind:this={selectElement} on:change={presetSelected}>
-            {#each Object.keys(presets) as presetName, idx}
+            {#each Object.keys(sketch.availablePresets) as presetName}
                 <option value={presetName}>{presetName}</option>
             {/each}
         </select>

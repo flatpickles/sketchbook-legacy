@@ -60,7 +60,7 @@
     </PanelHeader>
 
     <PresetSelector
-        bind:presets={sketch.availablePresets}
+        bind:sketch={sketch}
         on:selection={presetSelected}
     />
 

@@ -10,21 +10,17 @@
             name: selectElement.value
         });
     }
-
-    // Update selection after sketch changes (and after DOM updates)
-    $: sketchChanged(sketch);
-    function sketchChanged(sketch) {
-        setTimeout(() => {
-            if (selectElement) selectElement.value = sketch.selectedPresetName;
-        }, 0);
-    }
 </script>
 
 <div id='preset_selector'>
     <div id='select_container'>
         <select bind:this={selectElement} on:change={presetSelected}>
             {#each Object.keys(sketch.availablePresets) as presetName}
-                <option value={presetName}>{presetName}</option>
+                {#if presetName === sketch.selectedPresetName}
+                    <option value={presetName} selected>{presetName}</option>
+                {:else}
+                    <option value={presetName}>{presetName}</option>
+                {/if}
             {/each}
         </select>
     </div>

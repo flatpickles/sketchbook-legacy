@@ -93,6 +93,7 @@
     :global(:root) {
         /* General */
         --spacing: 8px;
+        --half-spacing: 4px;
         --border: 1px solid rgb(0, 0, 0, 90%);
         --panel-background: rgb(255, 255, 255, 80%);
         --panel-filter: blur(8px);

@@ -1,14 +1,22 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
     export let sketch = undefined;
     let selectElement = undefined;
 
+    // Dispatch selection event
 	const dispatch = createEventDispatcher();
     function presetSelected() {
         dispatch('selection', {
             name: selectElement.value
         });
+    }
+
+    // Update modified asterisk when parameters are updated
+    let modifiedText = undefined;
+    onMount(paramsUpdated);
+    export function paramsUpdated() {
+        modifiedText = sketch.presetModified ? ' *' : '';
     }
 </script>
 
@@ -17,7 +25,7 @@
         <select bind:this={selectElement} on:change={presetSelected}>
             {#each Object.keys(sketch.availablePresets) as presetName}
                 {#if presetName === sketch.selectedPresetName}
-                    <option value={presetName} selected>{presetName}</option>
+                    <option value={presetName} selected>{presetName + modifiedText}</option>
                 {:else}
                     <option value={presetName}>{presetName}</option>
                 {/if}

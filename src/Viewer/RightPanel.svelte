@@ -11,22 +11,24 @@
 
     export let sketch;
     const dispatch = createEventDispatcher();
+    let presetSelector = undefined;
 
     let labelWidths = new Array();
     $: paramCount = Object.keys(sketch.params).length;
     $: labelBasis = (Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
 
-    function paramUpdated(event) {
+    function updateSketch(event) {
         dispatch('update', {
-            incomplete: event.type !== 'change'
+            incomplete: event && event.type !== 'change'
         });
+        presetSelector.paramsUpdated();
     }
 
     function presetSelected(event) {
         const selectedPresetName = event.detail.name;
         sketch.selectPreset(selectedPresetName);
         sketch.params = sketch.params; // Svelte reactivity: update UI
-        dispatch('update'); // new param values will be saved
+        updateSketch() // new param values will be saved
     }
 </script>
 
@@ -60,6 +62,7 @@
     </PanelHeader>
 
     <PresetSelector
+        bind:this={presetSelector}
         bind:sketch={sketch}
         on:selection={presetSelected}
     />
@@ -73,8 +76,8 @@
                         title={param.description}
                         labelBasis={labelBasis}
                         bind:labelWidth={labelWidths[index]}
-                        on:input={param.continuousUpdate ? paramUpdated : null}
-                        on:change={paramUpdated}
+                        on:input={param.continuousUpdate ? updateSketch : null}
+                        on:change={updateSketch}
                         bind:value={param.value}
                         min={param.min}
                         max={param.max}
@@ -86,8 +89,8 @@
                         title={param.description}
                         labelBasis={labelBasis}
                         bind:labelWidth={labelWidths[index]}
-                        on:input={paramUpdated}
-                        on:change={paramUpdated}
+                        on:input={updateSketch}
+                        on:change={updateSketch}
                         bind:value={param.value}
                     />
                 {:else if (param instanceof ColorParam)}
@@ -96,8 +99,8 @@
                         title={param.description}
                         labelBasis={labelBasis}
                         bind:labelWidth={labelWidths[index]}
-                        on:input={paramUpdated}
-                        on:change={paramUpdated}
+                        on:input={updateSketch}
+                        on:change={updateSketch}
                         bind:value={param.value}
                     />
                 {:else if (param instanceof EventParam)}
@@ -106,7 +109,7 @@
                         title={param.description}
                         labelBasis={labelBasis}
                         bind:labelWidth={labelWidths[index]}
-                        on:click={paramUpdated}
+                        on:click={updateSketch}
                         bind:value={param.value}
                     />
                 {/if}

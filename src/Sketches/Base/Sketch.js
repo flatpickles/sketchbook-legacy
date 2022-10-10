@@ -35,18 +35,20 @@ export default class Sketch {
     selectedPresetName = undefined;
     availablePresets = {};
 
-    get presetModified() {
-        // todo: see if this should be redesigned more efficiently (dirty bit, etc)
+    presetModified = false;
+    updatePresetModified() {
         if (!this.selectedPresetName) throw 'Presets not yet available.'
 
-        let modified = false;
+        this.presetModified = false;
         const selectedPreset = this.availablePresets[this.selectedPresetName];
-        Object.keys(this.params).forEach((paramName) => {
+        const paramNames = Object.keys(this.params);
+        for (let paramIndex = 0; paramIndex < paramNames.length; paramIndex++) {
+            const paramName = paramNames[paramIndex];
             if (selectedPreset[paramName] != this.params[paramName].value) {
-                modified = true;
+                this.presetModified = true;
+                return;
             }
-        });
-        return modified;
+        }
     }
 
     restorePresets() {
@@ -72,7 +74,7 @@ export default class Sketch {
         // Local storage (user presets)
         // Todo
 
-        // console.log(this.availablePresets);
+        this.updatePresetModified();
     }
 
     selectPreset(presetName) {

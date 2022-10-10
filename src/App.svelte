@@ -65,6 +65,7 @@
     function update(event) {
         if (!event.detail || !event.detail.incomplete) {
             currentSketch.storeParamValues();
+            currentSketch.updatePresetModified();
         }
         viewerComponent.update();
     }

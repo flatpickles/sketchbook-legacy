@@ -18,10 +18,10 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 * Presets:
-    * Choose from curated parameter settings (replace defaults?)
+    * Add an asterisk when selected preset has been modified
+    * Click the same preset in the selector again to reset
     * Save your own (local storage), and remove them
         * Gray out the + button when unmodified
-    * Add asterisk to title display when sliders are edited
     * Double click to return to preset/default value
     * URL option to pre-select a preset
 * Double click: capture state (e.g. just one panel open) and resume that state

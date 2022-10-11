@@ -104,6 +104,10 @@ export default class Sketch {
         console.log(JSON.stringify(presetObj));
     }
 
+    importPreset() {
+        throw 'Import not yet enabled.'
+    }
+
     /* Dummy sketch function */
 
     sketchFn = ({}) => {

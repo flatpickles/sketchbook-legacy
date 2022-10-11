@@ -3,8 +3,14 @@
 
     export let sketch = undefined;
     let selectElement = undefined;
+    let presetModified = false;
 
     let menuVisible = false;
+    $: resetEnabled = presetModified;
+    $: createEnabled = presetModified;
+    let removeEnabled = false; // todo: enable for custom or imported presets
+    let importEnabled = true; // todo: pick local json file via dialog 
+    let exportEnabled = true; // todo: save json file via dialog
 
     // Dispatch selection event
 	const dispatch = createEventDispatcher();
@@ -15,10 +21,10 @@
     }
 
     // Update modified asterisk when parameters are updated
-    let modifiedText = undefined;
     onMount(paramsUpdated);
     export function paramsUpdated() {
-        modifiedText = sketch.presetModified ? ' *' : '';
+        // Tricky to use Svelte reactivity here, so update function it is
+        presetModified = sketch.presetModified;
     }
 
     // Show & hide the preset actions menu
@@ -40,6 +46,33 @@
             hideMenu();
         };
     });
+
+    // Button click events
+
+    function resetClicked() {
+        hideMenu();
+        throw 'Reset not yet enabled.'
+    }
+
+    function createClicked() {
+        hideMenu();
+        throw 'Create not yet enabled.'
+    }
+
+    function removeClicked() {
+        hideMenu();
+        throw 'Remove not yet enabled.'
+    }
+
+    function importClicked() {
+        hideMenu();
+        throw 'Import not yet enabled.'
+    }
+
+    function exportClicked() {
+        hideMenu();
+        throw 'Export not yet enabled.'
+    }
 </script>
 
 <div class='preset_selector'>
@@ -47,7 +80,7 @@
         <select bind:this={selectElement} on:change={presetSelected}>
             {#each Object.keys(sketch.availablePresets) as presetName}
                 {#if presetName === sketch.selectedPresetName}
-                    <option value={presetName} selected>{presetName + modifiedText}</option>
+                    <option value={presetName} selected>{presetName + (presetModified ? ' *' : '')}</option>
                 {:else}
                     <option value={presetName}>{presetName}</option>
                 {/if}
@@ -58,21 +91,31 @@
     <div class='menu'>
         <div class='menu_button' on:click={toggleMenu}>&ctdot;</div>
         <div class='menu_content' class:open={menuVisible}>
-            <div class='menu_item'>
-                Reset
-            </div>
-            <div class='menu_item'>
-                Create
-            </div>
-            <div class='menu_item'>
-                Remove
-            </div>
-            <div class='menu_item'>
-                Import
-            </div>
-            <div class='menu_item'>
-                Export
-            </div>
+            {#if resetEnabled}
+                <div class='menu_item' on:click={resetClicked}>
+                    Reset
+                </div>
+            {/if}
+            {#if createEnabled}
+                <div class='menu_item' on:click={createClicked}>
+                    Create
+                </div>
+            {/if}
+            {#if removeEnabled}
+                <div class='menu_item' on:click={removeClicked}>
+                    Remove
+                </div>
+            {/if}
+            {#if importEnabled}
+                <div class='menu_item' on:click={importClicked}>
+                    Import
+                </div>
+            {/if}
+            {#if exportEnabled}
+                <div class='menu_item' on:click={exportClicked}>
+                    Export
+                </div>
+            {/if}
         </div>
     </div>
 </div>

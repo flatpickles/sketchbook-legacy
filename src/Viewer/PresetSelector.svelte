@@ -4,6 +4,8 @@
     export let sketch = undefined;
     let selectElement = undefined;
 
+    let menuVisible = false;
+
     // Dispatch selection event
 	const dispatch = createEventDispatcher();
     function presetSelected() {
@@ -20,19 +22,24 @@
     }
 
     // Show & hide the preset actions menu
-    let menuVisible = false;
-    function toggleMenu() {
-        menuVisible = !menuVisible;
-    }
+    function showMenu() { menuVisible = true; }
+    function hideMenu() { menuVisible = false; }
+    function toggleMenu() { menuVisible = !menuVisible; }
 
     /*
 
-    * Hide menu when choosing new preset, switching sketch
     * Increase tap target size
     * Make the menu actions do things!
     * Hide/show menu actions when relevant
 
     */
+
+    // Close menu when clicking outside of it
+    window.addEventListener('mousedown', function(event) {
+        if (menuVisible && !event.target.classList.contains('menu_item') && !event.target.classList.contains('menu_button')) {
+            hideMenu();
+        };
+    });
 </script>
 
 <div class='preset_selector'>
@@ -47,6 +54,7 @@
             {/each}
         </select>
     </div>
+
     <div class='menu'>
         <div class='menu_button' on:click={toggleMenu}>&ctdot;</div>
         <div class='menu_content' class:open={menuVisible}>
@@ -54,7 +62,7 @@
                 Reset
             </div>
             <div class='menu_item'>
-                New
+                Create
             </div>
             <div class='menu_item'>
                 Remove
@@ -113,7 +121,7 @@
         display: none;
         flex-direction: column;
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         right: 0;
         border: var(--border);
         font-size: var(--description-font-size);

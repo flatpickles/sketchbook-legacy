@@ -51,7 +51,7 @@
 
     function resetClicked() {
         hideMenu();
-        throw 'Reset not yet enabled.'
+        presetSelected();
     }
 
     function createClicked() {

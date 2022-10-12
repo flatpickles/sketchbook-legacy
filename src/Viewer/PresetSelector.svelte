@@ -78,7 +78,7 @@
 <div class='preset_selector'>
     <div class='select_container'>
         <select bind:this={selectElement} on:change={presetSelected}>
-            {#each Object.keys(sketch.availablePresets) as presetName}
+            {#each Object.keys(sketch.presets) as presetName}
                 {#if presetName === sketch.selectedPresetName}
                     <option value={presetName} selected>{presetName + (presetModified ? ' *' : '')}</option>
                 {:else}

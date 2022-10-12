@@ -13,7 +13,7 @@ export default class Sketch {
     description = undefined;
     params = {};
     settings = {};
-    presets = {};
+    bundledPresets = {};
     showPresets = true;
 
     /* Param value state */
@@ -33,14 +33,43 @@ export default class Sketch {
     /* Presets */
 
     selectedPresetName = undefined;
-    availablePresets = {};
+    defaultPreset = undefined;
+    userPresets = undefined;
+
+    get presets() {
+        if (!this.defaultPreset || !this.userPresets) {
+            throw 'restorePresets must be called before accessing presets.';
+        }
+
+        let allPresets = {'Default Values': this.defaultPreset};
+        Object.assign(allPresets, this.bundledPresets, this.userPresets);
+        return allPresets;
+    };
+
+    restorePresets() {
+        // Restore currently selected state
+        const storedSelectedPresetState = localStorage.getItem(this.name + ' currentlySelected');
+        this.selectedPresetName = storedSelectedPresetState ?? 'Default Values';
+
+        // Default values as first preset
+        this.defaultPreset = {};
+        Object.keys(this.params).forEach((paramName) => {
+            this.defaultPreset[paramName] = this.params[paramName].defaultValue;
+        });
+
+        // Local storage (user presets)
+        this.userPresets = localStorage.getItem(this.name + ' userPresets') ?? {};
+
+        // Update modified state bit
+        this.updatePresetModified();
+    }
 
     presetModified = false;
     updatePresetModified() {
         if (!this.selectedPresetName) throw 'Presets not yet available.'
 
         this.presetModified = false;
-        const selectedPreset = this.availablePresets[this.selectedPresetName];
+        const selectedPreset = this.presets[this.selectedPresetName];
         const paramNames = Object.keys(this.params);
         for (let paramIndex = 0; paramIndex < paramNames.length; paramIndex++) {
             const paramName = paramNames[paramIndex];
@@ -51,41 +80,19 @@ export default class Sketch {
         }
     }
 
-    restorePresets() {
-        const defaultValuesTitle = 'Default Values';
-    
-        // Restore currently selected
-        const storedSelectedPresetState = localStorage.getItem(this.name + ' currentlySelected');
-        this.selectedPresetName = storedSelectedPresetState ?? defaultValuesTitle;
-
-        // Reset available presets
-        this.availablePresets = {};
-
-        // Default values as first preset
-        let defaultPreset = {};
-        Object.keys(this.params).forEach((paramName) => {
-            defaultPreset[paramName] = this.params[paramName].defaultValue;
-        });
-        this.availablePresets[defaultValuesTitle] = defaultPreset;
-
-        // Bundled presets next 
-        Object.assign(this.availablePresets, this.presets);
-
-        // Local storage (user presets)
-        // Todo
-
-        this.updatePresetModified();
-    }
-
     selectPreset(presetName) {
-        // todo: check to make sure it exists? here and/or elsewhere
+        // Check if the preset exists - shouldn't happen
+        if (!Object.keys(this.presets).includes(presetName)) {
+            console.warn(presetName + ' is not a valid preset name.');
+            return;
+        }
 
         // Set selection state
         this.selectedPresetName = presetName;
         localStorage.setItem(this.name + ' currentlySelected', presetName);
 
         // Set parameter state
-        const selectedPreset = this.availablePresets[this.selectedPresetName];
+        const selectedPreset = this.presets[this.selectedPresetName];
         Object.keys(this.params).forEach((paramName) => {
             this.params[paramName].value = selectedPreset[paramName];
         });

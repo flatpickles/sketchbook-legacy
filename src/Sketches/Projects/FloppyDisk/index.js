@@ -20,7 +20,7 @@ export default class FloppyDisk extends Sketch {
         scaleToView: true,
         animate: true
     };
-    presets = presetsObject;
+    bundledPresets = presetsObject;
 
     params = {
         innerSize: new FloatParam('Inner Size', 0.3, 0.0, 1.0),

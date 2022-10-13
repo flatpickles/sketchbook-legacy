@@ -5,6 +5,7 @@ import { FloatParam, BoolParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
 import shaderString from './index.frag';
+import presetsObject from './presets.json';
 
 export default class Mandelbrot extends Sketch {
     name = "Mandelbrot Set";
@@ -13,6 +14,7 @@ export default class Mandelbrot extends Sketch {
     description = `
         Standard Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow! 
     `
+    bundledPresets = presetsObject;
 
     settings = {
         context: 'webgl',
@@ -21,10 +23,10 @@ export default class Mandelbrot extends Sketch {
     };
 
     params = {
-        zoom: new FloatParam('Zoom', 0.5, 0, 1),
-        xOffset: new FloatParam('X Offset', 0.14, -1, 1),
-        yOffset: new FloatParam('Y Offset', 0.65, -1, 1),
-        colorCycles: new FloatParam('Color Cycles', 8, 1, 100),
+        zoom: new FloatParam('Zoom', 0.07, 0, 1),
+        xOffset: new FloatParam('X Offset', -0.7, -1, 1),
+        yOffset: new FloatParam('Y Offset', 0.0, -1, 1),
+        colorCycles: new FloatParam('Color Cycles', 42, 1, 100),
     };
 
     sketchFn = ({ gl }) => {

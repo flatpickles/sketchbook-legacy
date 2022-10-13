@@ -18,11 +18,9 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 * Presets:
-    * Add an asterisk when selected preset has been modified
-    * Click the same preset in the selector again to reset
-    * Save your own (local storage), and remove them
-        * Gray out the + button when unmodified
-    * Double click to return to preset/default value
+    * Enable optional showing of presets (configurable per sketch)
+    * Enable saving / loading / importing / exporting
+    * Double click param to return to preset/default value
     * URL option to pre-select a preset
 * Double click: capture state (e.g. just one panel open) and resume that state
 * Link styling

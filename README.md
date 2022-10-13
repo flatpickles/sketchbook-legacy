@@ -18,7 +18,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 * Presets:
-    * Enable optional showing of presets (configurable per sketch)
     * Enable saving / loading / importing / exporting
     * Double click param to return to preset/default value
     * URL option to pre-select a preset

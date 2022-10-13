@@ -46,7 +46,7 @@ void main(void) {
 
     // Normalize coordinates
     c = c * 2. - 1.0;
-    c.y *= resolution.y / resolution.x;
+    c.x *= resolution.x / resolution.y;
 
     // Zoom in
     float zoomGenerator = zoom;

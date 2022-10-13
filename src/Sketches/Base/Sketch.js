@@ -51,7 +51,7 @@ export default class Sketch {
     restorePresets() {
         // Restore currently selected state
         const storedSelectedPresetState = localStorage.getItem(this.name + ' currentlySelected');
-        this.selectedPresetName = storedSelectedPresetState ?? 'Default Values';
+        this.selectedPresetName = storedSelectedPresetState;
 
         // Default values as first preset
         this.defaultPreset = {};
@@ -61,6 +61,12 @@ export default class Sketch {
 
         // Local storage (user presets)
         this.userPresets = localStorage.getItem(this.name + ' userPresets') ?? {};
+
+        // Select default if selectedPresetName is invalid
+        const allPresetNames = Object.keys(this.presets);
+        if (!this.selectedPresetName || !allPresetNames.includes(this.selectedPresetName)) {
+            this.selectedPresetName = allPresetNames[0];
+        }
 
         // Update modified state bit
         this.updatePresetModified();

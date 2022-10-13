@@ -71,7 +71,7 @@
 
     function exportClicked() {
         hideMenu();
-        throw 'Export not yet enabled.'
+        sketch.exportPreset();
     }
 </script>
 

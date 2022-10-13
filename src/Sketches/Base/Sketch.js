@@ -1,3 +1,5 @@
+import { fileSave } from 'browser-fs-access'
+
 export const SketchType = {
     Undefined: 'Undefined',
     Canvas: 'Canvas',
@@ -103,12 +105,21 @@ export default class Sketch {
     }
 
     exportPreset() {
-        // Todo save a file w/ current param values
+        // Generate backing object for export
         const presetObj = {};
         Object.keys(this.params).forEach((paramName) => {
             presetObj[paramName] = this.params[paramName].value;
         });
-        console.log(JSON.stringify(presetObj));
+        
+        // Stringify, blob-ify, and save the backing object
+        const objString = JSON.stringify(presetObj, null, 4);
+        const objBlob = new Blob([objString], {type: "application/json"});
+        fileSave(objBlob, {
+            fileName: this.name + ' - ' + this.selectedPresetName,
+            extensions: ['.json'],
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     importPreset() {

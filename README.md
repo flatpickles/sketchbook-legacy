@@ -5,7 +5,6 @@
 For notes on each of the sketches within Sketchbook, visit the [`Projects`](./src/Sketches/Projects/) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
 
 ## Known Issues
-* Switching from Floppy Disk to Mandelbrot Set causes the description height to animate, only when Floppy Disk description is collapsed
 * Color parameter inputs have a weird internal margin after hiding/showing right panel
 * If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
 * Mobile:

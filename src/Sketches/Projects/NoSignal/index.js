@@ -10,6 +10,7 @@ export default class NoSignal extends Sketch {
     description = `
         A "no signal" graphic, inspired by VCRs and other classic image displays. This was the first sketch project created within Sketchbook, and it is a simple demo of Sketchbook's capabilities and intent.
     `;
+    showPresets = false;
 
     params = {
         colorCount: new FloatParam('Color Count', 19, 1, 32, 1, true,

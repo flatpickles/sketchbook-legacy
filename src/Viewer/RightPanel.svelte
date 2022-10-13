@@ -21,13 +21,15 @@
         dispatch('update', {
             incomplete: event && event.type !== 'change'
         });
-        presetSelector.paramsUpdated();
+        if (presetSelector) {
+            presetSelector.paramsUpdated();
+        }
     }
 
     function presetSelected(event) {
         const selectedPresetName = event.detail.name;
         sketch.selectPreset(selectedPresetName);
-        sketch.params = sketch.params; // Svelte reactivity: update UI
+        sketch = sketch; // Svelte reactivity: update UI
         updateSketch() // new param values will be saved
     }
 </script>
@@ -61,11 +63,13 @@
         </span>
     </PanelHeader>
 
-    <PresetSelector
-        bind:this={presetSelector}
-        bind:sketch={sketch}
-        on:selection={presetSelected}
-    />
+    {#if sketch.showPresets}
+        <PresetSelector
+            bind:this={presetSelector}
+            sketch={sketch}
+            on:selection={presetSelected}
+        />
+    {/if}
 
     {#if sketch.params && Object.values(sketch.params).length > 0}
         <div id='params_container'>

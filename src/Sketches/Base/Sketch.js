@@ -60,7 +60,8 @@ export default class Sketch {
         });
 
         // Local storage (user presets)
-        this.userPresets = localStorage.getItem(this.name + ' userPresets') ?? {};
+        const storedUserPresetState = localStorage.getItem(this.name + ' userPresets');
+        this.userPresets = storedUserPresetState ? JSON.parse(storedUserPresetState) : {};
 
         // Select default if selectedPresetName is invalid
         const allPresetNames = Object.keys(this.presets);
@@ -106,16 +107,20 @@ export default class Sketch {
         });
     }
 
-    savePreset() {
-        // Todo: add to data model + local storage
+    createPreset() {
+        const defaultName = 'User Preset ' + (Object.keys(this.userPresets).length + 1).toString();
+        const newPresetName = prompt('New preset name:', defaultName);
+        if (!newPresetName) return null; // Canceled
+
+        const presetObj = this.currentPresetObject();
+        this.userPresets[newPresetName] = presetObj;
+        localStorage.setItem(this.name + ' userPresets', JSON.stringify(this.userPresets));
+        return newPresetName;
     }
 
     exportPreset() {
         // Generate backing object for export
-        const presetObj = {};
-        Object.keys(this.params).forEach((paramName) => {
-            presetObj[paramName] = this.params[paramName].value;
-        });
+        const presetObj = this.currentPresetObject();
         
         // Stringify, blob-ify, and save the backing object
         const objString = JSON.stringify(presetObj, null, 4);
@@ -130,6 +135,14 @@ export default class Sketch {
 
     importPreset() {
         throw 'Import not yet enabled.'
+    }
+
+    currentPresetObject() {
+        const presetObj = {};
+        Object.keys(this.params).forEach((paramName) => {
+            presetObj[paramName] = this.params[paramName].value;
+        });
+        return presetObj;
     }
 
     /* Dummy sketch function */

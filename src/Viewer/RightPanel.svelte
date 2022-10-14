@@ -30,7 +30,7 @@
         const selectedPresetName = event.detail.name;
         sketch.selectPreset(selectedPresetName);
         sketch = sketch; // Svelte reactivity: update UI
-        updateSketch() // new param values will be saved
+        updateSketch(); // new param values will be saved
     }
 </script>
 

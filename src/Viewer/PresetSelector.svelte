@@ -56,7 +56,14 @@
 
     function createClicked() {
         hideMenu();
-        throw 'Create not yet enabled.'
+        const newPresetName = sketch.createPreset();
+        if (newPresetName) {
+            sketch = sketch; // Svelte reactivity (smelly but idiomatic, perhaps)
+            setTimeout(() => { // After DOM updates with new preset in selector...
+                selectElement.value = newPresetName;
+                presetSelected();
+            }, 0);
+        }
     }
 
     function removeClicked() {

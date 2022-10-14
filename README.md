@@ -17,7 +17,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 * Presets:
-    * Enable saving / loading / importing
+    * Enable importing from file
     * Double click param to return to preset/default value
     * URL option to pre-select a preset
 * Double click: capture state (e.g. just one panel open) and resume that state

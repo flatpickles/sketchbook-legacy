@@ -57,6 +57,9 @@
     function createClicked() {
         hideMenu();
         const newPresetName = sketch.createPreset();
+    
+        // todo: should anything other than triggering svelte reactivity be necessary here?
+    
         if (newPresetName) {
             sketch = sketch; // Svelte reactivity (smelly but idiomatic, perhaps)
             setTimeout(() => { // After DOM updates with new preset in selector...
@@ -73,7 +76,11 @@
 
     function importClicked() {
         hideMenu();
-        throw 'Import not yet enabled.'
+        sketch.importPreset().then((preset) => {
+            console.log(preset);
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     function exportClicked() {

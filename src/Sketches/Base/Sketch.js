@@ -1,10 +1,12 @@
-import { fileSave } from 'browser-fs-access'
+import { fileSave, fileOpen } from 'browser-fs-access'
 
 export const SketchType = {
     Undefined: 'Undefined',
     Canvas: 'Canvas',
     Shader: 'Shader'
 }
+
+const fileNameDivider = ' - ';
 
 export default class Sketch {
     /* Defaults to be overridden by subclass */
@@ -17,6 +19,7 @@ export default class Sketch {
     settings = {};
     bundledPresets = {};
     showPresets = true;
+    defaultPresetName = 'Default Values';
 
     /* Param value state */
 
@@ -32,6 +35,16 @@ export default class Sketch {
         });   
     }
 
+    /* Dummy sketch function */
+
+    sketchFn = ({}) => {
+        return ({ context, width, height }) => {
+            context.clearRect(0, 0, width, height);
+            context.fillStyle = '#ffffff';
+            context.fillRect(0, 0, width, height);
+        }
+    };
+
     /* Presets */
 
     selectedPresetName = undefined;
@@ -43,7 +56,7 @@ export default class Sketch {
             throw 'restorePresets must be called before accessing presets.';
         }
 
-        let allPresets = {'Default Values': this.defaultPreset};
+        let allPresets = { [this.defaultPresetName]: this.defaultPreset };
         Object.assign(allPresets, this.bundledPresets, this.userPresets);
         return allPresets;
     };
@@ -128,16 +141,53 @@ export default class Sketch {
         // Stringify, blob-ify, and save the backing object
         const objString = JSON.stringify(presetObj, null, 4);
         const objBlob = new Blob([objString], {type: "application/json"});
-        fileSave(objBlob, {
-            fileName: this.name + ' - ' + this.selectedPresetName,
+        return fileSave(objBlob, {
+            fileName: this.name + fileNameDivider + this.selectedPresetName,
             extensions: ['.json'],
-        }).catch((err) => {
-            console.log(err);
         });
     }
 
     importPreset() {
-        throw 'Import not yet enabled.'
+        return fileOpen({
+            mimeTypes: ['application/json'],
+            extensions: ['.json']
+        }).then((file) => {
+            // Validate the file name
+            const fileNameTrimmed = file.name.split('.').slice(0, -1).join('.');
+            const nameComponents = fileNameTrimmed.split(fileNameDivider);
+            if (nameComponents.length != 2 || nameComponents[0] != this.name) {
+                throw 'Imported preset files must be named like "' + this.name + fileNameDivider + 'Preset Name.json"';
+            }
+            const presetName = nameComponents[1];
+            if (Object.keys(this.presets).includes(nameComponents[1])) {
+                throw 'A preset named "' + nameComponents[1] + '" already exists.'
+            }
+            return Promise.all([presetName, file.text()]);
+        }).then(([presetName, presetString]) => {
+            // Validate the JSON object
+            let presetObject = undefined;
+            let genericErrorString = 'Preset file could not be parsed.';
+            try {
+                presetObject = JSON.parse(presetString);
+            } catch (error) {
+                console.log(error);
+                throw genericErrorString;
+            }
+            if (!presetObject) throw genericErrorString;
+            // Validate the contents of the object (best effort)
+            const importedPresetKeys = Object.keys(presetObject);
+            const paramNames = Object.keys(this.params);
+            let invalidParamsErrorString = 'Imported preset file parameter names don\'t match.';
+            if (importedPresetKeys.length != paramNames.length) throw invalidParamsErrorString;
+            for (let paramIdx = 0; paramIdx < paramNames.length; paramIdx++) {
+                if (!importedPresetKeys.includes(paramNames[paramIdx])) {
+                    throw invalidParamsErrorString;
+                }
+            }
+
+            // todo: apply and select the preset, and return the name
+            return presetObject;
+        });
     }
 
     currentPresetObject() {
@@ -147,15 +197,5 @@ export default class Sketch {
         });
         return presetObj;
     }
-
-    /* Dummy sketch function */
-
-    sketchFn = ({}) => {
-        return ({ context, width, height }) => {
-            context.clearRect(0, 0, width, height);
-            context.fillStyle = '#ffffff';
-            context.fillRect(0, 0, width, height);
-        }
-    };
 }
 

@@ -108,9 +108,12 @@ export default class Sketch {
     }
 
     createPreset() {
-        const defaultName = 'User Preset ' + (Object.keys(this.userPresets).length + 1).toString();
+        const currentPresetNames = Object.keys(this.userPresets);
+        const defaultName = 'User Preset ' + (currentPresetNames.length + 1).toString();
         const newPresetName = prompt('New preset name:', defaultName);
-        if (!newPresetName) return null; // Canceled
+
+        // Return null if canceled or invalid. Todo: appropriate alert(s)
+        if (!newPresetName || currentPresetNames.includes(newPresetName)) return null;
 
         const presetObj = this.currentPresetObject();
         this.userPresets[newPresetName] = presetObj;

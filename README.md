@@ -17,9 +17,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 * Presets:
-    * Enable importing from file
-    * Enable removal
-    * Hide/show/disable menu items when relevant
+    * Create presets for sketches
     * Increase tap target size
     * Double click param to return to preset/default value
     * URL option to pre-select a preset

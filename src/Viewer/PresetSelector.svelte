@@ -76,8 +76,11 @@
         sketch.importPreset().then((presetName) => {
             selectPreset(presetName);
         }).catch((errorMessage) => {
-            // todo: graceful cancelation error
-            alert(errorMessage);
+            if (!errorMessage.name || errorMessage.name != 'AbortError') {
+                // The user did not cancel, and there was an error nonetheless
+                const message = errorMessage.message ?? errorMessage;
+                alert(message);
+            }
         });
     }
 

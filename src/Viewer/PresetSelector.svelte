@@ -64,9 +64,10 @@
     }
 
     function removeClicked() {
-        if (sketch.canRemove(sketch.selectedPresetName)) {
+        if (sketch.canRemoveSelectedPreset()) {
             hideMenu();
-            throw 'Remove not yet implemented.'
+            sketch.removeSelectedPreset();
+            selectPreset(sketch.defaultPresetName);
         }
     }
 
@@ -108,7 +109,7 @@
             <div class='menu_item' on:click={createClicked} class:disabled={!presetModified}>
                 Create
             </div>
-            <div class='menu_item' on:click={removeClicked} class:disabled={!sketch.canRemove(sketch.selectedPresetName)}>
+            <div class='menu_item' on:click={removeClicked} class:disabled={!sketch.canRemoveSelectedPreset()}>
                 Remove
             </div>
             <div class='menu_item' on:click={importClicked}>

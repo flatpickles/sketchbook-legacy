@@ -141,13 +141,13 @@ export default class Sketch {
         return this.#addPreset(newPresetName, presetObj);
     }
 
-    canRemove(presetName) {
-        return Object.keys(this.userPresets).includes(presetName);
+    canRemoveSelectedPreset() {
+        return Object.keys(this.userPresets).includes(this.selectedPresetName);
     }
 
-    removeUserPreset(presetName) {
-        if (!this.canRemove(presetName)) throw 'Preset does not exist.';
-        delete this.userPresets[presetName];
+    removeSelectedPreset() {
+        if (!this.canRemoveSelectedPreset) throw 'Preset cannot be removed.';
+        delete this.userPresets[this.selectedPresetName];
         localStorage.setItem(this.#userPresetsKey, JSON.stringify(this.userPresets));
     }
 

@@ -118,6 +118,7 @@ export default class Sketch {
         Object.keys(this.params).forEach((paramName) => {
             this.params[paramName].value = selectedPreset[paramName];
         });
+        this.presetModified = false;
     }
 
     createPreset() {
@@ -128,15 +129,13 @@ export default class Sketch {
         // Return null if canceled or invalid. Todo: appropriate alert(s)
         if (!newPresetName || currentPresetNames.includes(newPresetName)) return null;
 
-        const presetObj = this.currentPresetObject();
-        this.userPresets[newPresetName] = presetObj;
-        localStorage.setItem(this.name + ' userPresets', JSON.stringify(this.userPresets));
-        return newPresetName;
+        const presetObj = this.#currentPresetObject();
+        return this.#addPreset(newPresetName, presetObj);
     }
 
     exportPreset() {
         // Generate backing object for export
-        const presetObj = this.currentPresetObject();
+        const presetObj = this.#currentPresetObject();
         
         // Stringify, blob-ify, and save the backing object
         const objString = JSON.stringify(presetObj, null, 4);
@@ -170,10 +169,10 @@ export default class Sketch {
             try {
                 presetObject = JSON.parse(presetString);
             } catch (error) {
-                console.log(error);
                 throw genericErrorString;
             }
             if (!presetObject) throw genericErrorString;
+
             // Validate the contents of the object (best effort)
             const importedPresetKeys = Object.keys(presetObject);
             const paramNames = Object.keys(this.params);
@@ -185,17 +184,24 @@ export default class Sketch {
                 }
             }
 
-            // todo: apply and select the preset, and return the name
-            return presetObject;
+            // Add to presets and return the name
+            return this.#addPreset(presetName, presetObject);
         });
     }
 
-    currentPresetObject() {
+    /* Private methods */
+
+    #currentPresetObject() {
         const presetObj = {};
         Object.keys(this.params).forEach((paramName) => {
             presetObj[paramName] = this.params[paramName].value;
         });
         return presetObj;
     }
-}
 
+    #addPreset(newPresetName, presetObject) {
+        this.userPresets[newPresetName] = presetObject;
+        localStorage.setItem(this.name + ' userPresets', JSON.stringify(this.userPresets));
+        return newPresetName;
+    }
+}

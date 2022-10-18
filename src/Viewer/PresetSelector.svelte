@@ -12,6 +12,8 @@
     let importEnabled = true; // todo: pick local json file via dialog 
     let exportEnabled = true; // todo: save json file via dialog
 
+    /* Selection & state management */
+
     // Dispatch selection event
 	const dispatch = createEventDispatcher();
     function presetSelected() {
@@ -27,18 +29,20 @@
         presetModified = sketch.presetModified;
     }
 
+    function selectPreset(presetName) {
+        if (presetName) {
+            sketch.selectPreset(presetName);
+            paramsUpdated();
+            sketch = sketch; // Svelte reactivity
+        }
+    }
+
+    /* Menu visibility */
+
     // Show & hide the preset actions menu
     function showMenu() { menuVisible = true; }
     function hideMenu() { menuVisible = false; }
     function toggleMenu() { menuVisible = !menuVisible; }
-
-    /*
-
-    * Increase tap target size
-    * Make the menu actions do things!
-    * Hide/show menu actions when relevant
-
-    */
 
     // Close menu when clicking outside of it
     window.addEventListener('mousedown', function(event) {
@@ -47,7 +51,7 @@
         };
     });
 
-    // Button click events
+    /* Button click events */
 
     function resetClicked() {
         hideMenu();
@@ -57,16 +61,7 @@
     function createClicked() {
         hideMenu();
         const newPresetName = sketch.createPreset();
-    
-        // todo: should anything other than triggering svelte reactivity be necessary here?
-    
-        if (newPresetName) {
-            sketch = sketch; // Svelte reactivity (smelly but idiomatic, perhaps)
-            setTimeout(() => { // After DOM updates with new preset in selector...
-                selectElement.value = newPresetName;
-                presetSelected();
-            }, 0);
-        }
+        selectPreset(newPresetName);
     }
 
     function removeClicked() {
@@ -76,10 +71,10 @@
 
     function importClicked() {
         hideMenu();
-        sketch.importPreset().then((preset) => {
-            console.log(preset);
-        }).catch((error) => {
-            console.log(error);
+        sketch.importPreset().then((presetName) => {
+            selectPreset(presetName);
+        }).catch((errorMessage) => {
+            alert(errorMessage);
         });
     }
 

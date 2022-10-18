@@ -6,11 +6,6 @@
     let presetModified = false;
 
     let menuVisible = false;
-    $: resetEnabled = presetModified;
-    $: createEnabled = presetModified;
-    let removeEnabled = false; // todo: enable for custom or imported presets
-    let importEnabled = true; // todo: pick local json file via dialog 
-    let exportEnabled = true; // todo: save json file via dialog
 
     /* Selection & state management */
 
@@ -54,19 +49,25 @@
     /* Button click events */
 
     function resetClicked() {
-        hideMenu();
-        presetSelected();
+        if (presetModified) {
+            hideMenu();
+            presetSelected();
+        }
     }
 
     function createClicked() {
-        hideMenu();
-        const newPresetName = sketch.createPreset();
-        selectPreset(newPresetName);
+        if (presetModified) {
+            hideMenu();
+            const newPresetName = sketch.createPreset();
+            selectPreset(newPresetName);
+        }
     }
 
     function removeClicked() {
-        hideMenu();
-        throw 'Remove not yet enabled.'
+        if (sketch.canRemove(sketch.selectedPresetName)) {
+            hideMenu();
+            throw 'Remove not yet implemented.'
+        }
     }
 
     function importClicked() {
@@ -74,6 +75,7 @@
         sketch.importPreset().then((presetName) => {
             selectPreset(presetName);
         }).catch((errorMessage) => {
+            // todo: graceful cancelation error
             alert(errorMessage);
         });
     }
@@ -100,31 +102,21 @@
     <div class='menu'>
         <div class='menu_button' on:click={toggleMenu}>&ctdot;</div>
         <div class='menu_content' class:open={menuVisible}>
-            {#if resetEnabled}
-                <div class='menu_item' on:click={resetClicked}>
-                    Reset
-                </div>
-            {/if}
-            {#if createEnabled}
-                <div class='menu_item' on:click={createClicked}>
-                    Create
-                </div>
-            {/if}
-            {#if removeEnabled}
-                <div class='menu_item' on:click={removeClicked}>
-                    Remove
-                </div>
-            {/if}
-            {#if importEnabled}
-                <div class='menu_item' on:click={importClicked}>
-                    Import
-                </div>
-            {/if}
-            {#if exportEnabled}
-                <div class='menu_item' on:click={exportClicked}>
-                    Export
-                </div>
-            {/if}
+            <div class='menu_item' on:click={resetClicked} class:disabled={!presetModified}>
+                Reset
+            </div>
+            <div class='menu_item' on:click={createClicked} class:disabled={!presetModified}>
+                Create
+            </div>
+            <div class='menu_item' on:click={removeClicked} class:disabled={!sketch.canRemove(sketch.selectedPresetName)}>
+                Remove
+            </div>
+            <div class='menu_item' on:click={importClicked}>
+                Import
+            </div>
+            <div class='menu_item' on:click={exportClicked}>
+                Export
+            </div>
         </div>
     </div>
 </div>
@@ -198,5 +190,11 @@
 
     .menu_item:hover {
         background-color: var(--selected-bg-color);
+    }
+
+    .menu_item.disabled {
+        cursor: default;
+        color: #AAA;
+        background-color: #0000;
     }
 </style>

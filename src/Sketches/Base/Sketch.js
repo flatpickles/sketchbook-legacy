@@ -21,6 +21,14 @@ export default class Sketch {
     showPresets = true;
     defaultPresetName = 'Default Values';
 
+    get #userPresetsKey() {
+        return this.name + ' userPresets';
+    }
+
+    get #currentlySelectedKey() {
+        return this.name + ' currentlySelected';
+    }
+
     /* Param value state */
 
     storeParamValues() {
@@ -63,7 +71,7 @@ export default class Sketch {
 
     restorePresets() {
         // Restore currently selected state
-        const storedSelectedPresetState = localStorage.getItem(this.name + ' currentlySelected');
+        const storedSelectedPresetState = localStorage.getItem(this.#currentlySelectedKey);
         this.selectedPresetName = storedSelectedPresetState;
 
         // Default values as first preset
@@ -73,7 +81,7 @@ export default class Sketch {
         });
 
         // Local storage (user presets)
-        const storedUserPresetState = localStorage.getItem(this.name + ' userPresets');
+        const storedUserPresetState = localStorage.getItem(this.#userPresetsKey);
         this.userPresets = storedUserPresetState ? JSON.parse(storedUserPresetState) : {};
 
         // Select default if selectedPresetName is invalid
@@ -111,7 +119,7 @@ export default class Sketch {
 
         // Set selection state
         this.selectedPresetName = presetName;
-        localStorage.setItem(this.name + ' currentlySelected', presetName);
+        localStorage.setItem(this.#currentlySelectedKey, presetName);
 
         // Set parameter state
         const selectedPreset = this.presets[this.selectedPresetName];
@@ -131,6 +139,16 @@ export default class Sketch {
 
         const presetObj = this.#currentPresetObject();
         return this.#addPreset(newPresetName, presetObj);
+    }
+
+    canRemove(presetName) {
+        return Object.keys(this.userPresets).includes(presetName);
+    }
+
+    removeUserPreset(presetName) {
+        if (!this.canRemove(presetName)) throw 'Preset does not exist.';
+        delete this.userPresets[presetName];
+        localStorage.setItem(this.#userPresetsKey, JSON.stringify(this.userPresets));
     }
 
     exportPreset() {
@@ -201,7 +219,7 @@ export default class Sketch {
 
     #addPreset(newPresetName, presetObject) {
         this.userPresets[newPresetName] = presetObject;
-        localStorage.setItem(this.name + ' userPresets', JSON.stringify(this.userPresets));
+        localStorage.setItem(this.#userPresetsKey, JSON.stringify(this.userPresets));
         return newPresetName;
     }
 }

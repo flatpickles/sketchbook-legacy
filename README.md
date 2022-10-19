@@ -17,8 +17,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 * Presets (pre-merge):
-    * Create presets for sketches
-    * Align right pane icons
     * Increase tap target size
 * Reimplement older projects within Sketchbook
 * Presets

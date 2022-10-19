@@ -156,13 +156,15 @@
 
     .menu {
         position: relative;
-        padding: var(--spacing);
+        padding: 0;
+        padding-right: var(--spacing);
         display: inline-block;
     }
 
     .menu_button {
         text-align: right;
         cursor: pointer;
+        padding-right: 2px; /* align with header expand icon */
     }
 
     .menu_content {

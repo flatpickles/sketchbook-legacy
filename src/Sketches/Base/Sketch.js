@@ -1,4 +1,5 @@
 import { fileSave, fileOpen } from 'browser-fs-access'
+import { EventParam } from './SketchParam';
 
 export const SketchType = {
     Undefined: 'Undefined',
@@ -69,6 +70,12 @@ export default class Sketch {
         return allPresets;
     };
 
+    get nonEventParamNames() {
+        return Object.keys(this.params).filter((paramName) => {
+            return !(this.params[paramName] instanceof EventParam);
+        })
+    }
+
     restorePresets() {
         // Restore currently selected state
         const storedSelectedPresetState = localStorage.getItem(this.#currentlySelectedKey);
@@ -76,7 +83,7 @@ export default class Sketch {
 
         // Default values as first preset
         this.defaultPreset = {};
-        Object.keys(this.params).forEach((paramName) => {
+        this.nonEventParamNames.forEach((paramName) => {
             this.defaultPreset[paramName] = this.params[paramName].defaultValue;
         });
 
@@ -100,7 +107,7 @@ export default class Sketch {
 
         this.presetModified = false;
         const selectedPreset = this.presets[this.selectedPresetName];
-        const paramNames = Object.keys(this.params);
+        const paramNames = this.nonEventParamNames;
         for (let paramIndex = 0; paramIndex < paramNames.length; paramIndex++) {
             const paramName = paramNames[paramIndex];
             if (selectedPreset[paramName] != this.params[paramName].value) {
@@ -123,7 +130,7 @@ export default class Sketch {
 
         // Set parameter state
         const selectedPreset = this.presets[this.selectedPresetName];
-        Object.keys(this.params).forEach((paramName) => {
+        this.nonEventParamNames.forEach((paramName) => {
             this.params[paramName].value = selectedPreset[paramName];
         });
         this.presetModified = false;
@@ -193,7 +200,7 @@ export default class Sketch {
 
             // Validate the contents of the object (best effort)
             const importedPresetKeys = Object.keys(presetObject);
-            const paramNames = Object.keys(this.params);
+            const paramNames = this.nonEventParamNames;
             let invalidParamsErrorString = 'Imported preset file parameter names don\'t match.';
             if (importedPresetKeys.length != paramNames.length) throw invalidParamsErrorString;
             for (let paramIdx = 0; paramIdx < paramNames.length; paramIdx++) {
@@ -211,7 +218,7 @@ export default class Sketch {
 
     #currentPresetObject() {
         const presetObj = {};
-        Object.keys(this.params).forEach((paramName) => {
+        this.nonEventParamNames.forEach((paramName) => {
             presetObj[paramName] = this.params[paramName].value;
         });
         return presetObj;

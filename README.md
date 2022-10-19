@@ -16,9 +16,12 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 
 ## To do
-* Presets:
+* Presets (pre-merge):
     * Create presets for sketches
+    * Align right pane icons
     * Increase tap target size
+* Reimplement older projects within Sketchbook
+* Presets
     * Double click param to return to preset/default value
     * URL option to pre-select a preset
 * Double click: capture state (e.g. just one panel open) and resume that state
@@ -38,6 +41,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To consider
 * CSS triage: clean everything up
+* Cleanup: documentation, naming, etc.
 * Key commands
     * Hide/show panels (both or each)
 * Sketch details display

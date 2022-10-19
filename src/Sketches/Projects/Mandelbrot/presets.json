@@ -16,5 +16,17 @@
         "xOffset": -0.02,
         "yOffset": 0.71,
         "colorCycles": 2.0
+    },
+    "Somewhere Between": {
+        "zoom": 0.79,
+        "xOffset": -0.69,
+        "yOffset": 0.38,
+        "colorCycles": 90.52
+    },
+    "Porous Another": {
+        "zoom": 0.82,
+        "xOffset": 0.33,
+        "yOffset": -0.04,
+        "colorCycles": 28
     }
 }

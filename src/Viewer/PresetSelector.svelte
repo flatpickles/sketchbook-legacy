@@ -145,6 +145,7 @@
         background: #0000;
         margin: 0;
         padding: var(--spacing);
+        padding-right: 0;
         width: 100%;
     }
 
@@ -157,14 +158,14 @@
     .menu {
         position: relative;
         padding: 0;
-        padding-right: var(--spacing);
         display: inline-block;
     }
 
     .menu_button {
         text-align: right;
         cursor: pointer;
-        padding-right: 2px; /* align with header expand icon */
+        padding: var(--spacing);
+        padding-right: 10px; /* todo: calculate as --spacing + 2px */
     }
 
     .menu_content {
@@ -173,6 +174,7 @@
         position: absolute;
         z-index: 2;
         right: 0;
+        top: var(--spacing);
         border: var(--border);
         font-size: var(--description-font-size);
         color: #000;
@@ -180,6 +182,7 @@
         backdrop-filter: var(--panel-filter);
         -webkit-backdrop-filter: var(--panel-filter);
         border-radius: 2px;
+        box-shadow: 0 0 var(--spacing) #CCC;
     }
 
     .menu .open {

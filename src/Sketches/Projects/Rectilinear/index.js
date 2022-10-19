@@ -8,6 +8,8 @@ import Quadtree from '../../Util/Quadtree.js';
 import CanvasUtil from '../../Util/CanvasUtil.js';
 import { Point, Rect } from '../../Util/Geometry.js';
 
+import presetsObject from './presets.json';
+
 export default class Rectilinear extends Sketch {
     name = 'Rectilinear';
     type = SketchType.Canvas;
@@ -15,6 +17,7 @@ export default class Rectilinear extends Sketch {
     description = `
         Randomly sized rectangles, fit together edge-to-edge, with configurable color palettes. This can generate patterns in a Mondrian-like style, and can achieve many other looks as well.
     `;
+    bundledPresets = presetsObject;
 
     params = {
         fillWidth: new FloatParam('Total Width', 1, 0, 1, 0.01, false,

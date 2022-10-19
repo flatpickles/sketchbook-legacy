@@ -1,0 +1,44 @@
+{
+    "Mysterious Encoding": {
+        "fillWidth": 1,
+        "fillHeight": 0.15,
+        "horizontalBorderSize": 0,
+        "verticalBorderSize": 12,
+        "borderColor": "#d9f3f7",
+        "primaryColor": "#211d4e",
+        "primaryColorLikelihood": 0.6,
+        "secondaryColor": "#30975d",
+        "randomizeBHue": false,
+        "unitSize": 12,
+        "maxWidthUnits": 5,
+        "maxHeightUnits": 10
+    },
+    "Defrag Skyline": {
+        "fillWidth": 1,
+        "fillHeight": 1,
+        "horizontalBorderSize": 1,
+        "verticalBorderSize": 0,
+        "borderColor": "#ffffff",
+        "primaryColor": "#000000",
+        "primaryColorLikelihood": 0.89,
+        "secondaryColor": "#ffffff",
+        "randomizeBHue": false,
+        "unitSize": 10,
+        "maxWidthUnits": 7,
+        "maxHeightUnits": 21
+    },
+    "Stripe Season": {
+        "fillWidth": 0.5,
+        "fillHeight": 1,
+        "horizontalBorderSize": 0,
+        "verticalBorderSize": 10,
+        "borderColor": "#ffffff",
+        "primaryColor": "#063c65",
+        "primaryColorLikelihood": 0.5,
+        "secondaryColor": "#209fee",
+        "randomizeBHue": true,
+        "unitSize": 20,
+        "maxWidthUnits": 5,
+        "maxHeightUnits": 15
+    }
+}

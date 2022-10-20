@@ -134,6 +134,7 @@ export default class Sketch {
             this.params[paramName].value = selectedPreset[paramName];
         });
         this.presetModified = false;
+        this.storeParamValues(); // todo: is this redundant?
     }
 
     createPreset() {

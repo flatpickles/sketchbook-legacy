@@ -11,9 +11,10 @@
 
     // Dispatch selection event
 	const dispatch = createEventDispatcher();
-    function presetSelected() {
+    function selectPreset(selection) {
+        const presetName = selection instanceof Event ? selectElement.value : selection;
         dispatch('selection', {
-            name: selectElement.value
+            name: presetName
         });
     }
 
@@ -22,14 +23,6 @@
     export function paramsUpdated() {
         // Tricky to use Svelte reactivity here, so update function it is
         presetModified = sketch.presetModified;
-    }
-
-    function selectPreset(presetName) {
-        if (presetName) {
-            sketch.selectPreset(presetName);
-            paramsUpdated();
-            sketch = sketch; // Svelte reactivity
-        }
     }
 
     /* Menu visibility */
@@ -51,7 +44,7 @@
     function resetClicked() {
         if (presetModified) {
             hideMenu();
-            presetSelected();
+            selectPreset(selectElement.value);
         }
     }
 
@@ -92,7 +85,7 @@
 
 <div class='preset_selector'>
     <div class='select_container'>
-        <select bind:this={selectElement} on:change={presetSelected}>
+        <select bind:this={selectElement} on:change={selectPreset}>
             {#each Object.keys(sketch.presets) as presetName}
                 {#if presetName === sketch.selectedPresetName}
                     <option value={presetName} selected>{presetName + (presetModified ? ' *' : '')}</option>

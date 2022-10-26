@@ -133,5 +133,6 @@
     #params_container {
         padding: var(--spacing);
         border-top: var(--border);
+        user-select: none;
     }
 </style>

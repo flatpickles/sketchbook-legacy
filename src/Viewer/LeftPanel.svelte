@@ -126,6 +126,7 @@
         flex-grow: 1;
         border-bottom: var(--border);
         padding: var(--spacing);
+        user-select: none;
     }
 
     .sketch_item:first-of-type {

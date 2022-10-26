@@ -125,6 +125,7 @@
         font-size: var(--description-font-size);
         display: flex;
         align-items: baseline;
+        user-select: none;
     }
 
     .select_container {

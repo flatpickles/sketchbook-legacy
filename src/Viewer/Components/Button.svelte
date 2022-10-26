@@ -18,6 +18,7 @@
         cursor: pointer;
         font-size: var(--description-font-size);
         border-radius: 2px;
+        user-select: none;
     }
 
     button:active {

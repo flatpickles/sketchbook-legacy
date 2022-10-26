@@ -16,7 +16,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 
 ## To do
-* Only select description text in panels/headers
 * Reimplement older projects within Sketchbook
 * Presets
     * Double click param to return to preset/default value

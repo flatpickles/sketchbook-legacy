@@ -1,22 +1,11 @@
-#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Floppy Disk</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Shader Template</sup>
 ---
 
-## [Floppy Disk](http://flatpickles.com/sketchbook/#floppy-disk)
+## [Shader Template](http://flatpickles.com/sketchbook/#shader-template)
 
-A wobbly warpy floppy disk. Ported over to Sketchbook from the [original version](https://editor.isf.video/shaders/62506e017917e40014095a49) on ISF.video.
-
-Floppy Disk is implemented as a shader, taking a playful approach to abstract shapes created within a polar coordinate system. Two underlying shapes are phased against each other with configurable influence factors, creating an undulating motion that's both good, and good for you.
+This is a template project for a shader-based sketch. This shouldn't be published in its current form, but should instead be duplicated and used as a starting point for new projects.
 
 ### Parameters
 
-* `Inner Size`: The size (relative to display space radius) of the inner border of the form.
-* `Outer Size`: The size of the outer border of the form.
-* `Shape 1`: Number of polygon vertices for the first of two underlying shapes.
-* `Factor 1`: The influence that the first shape has on the overall form.
-* `Shape 2`: Number of polygon vertices for the second of two underlying shapes.
-* `Factor 2`: The influence that the second shape has on the overall form.
-* `Center Color`: The color at the center.
-* `Color 1`: Innermost ring color, repeated several times.
-* `Color 2`: Second innermost ring color, repeated several times.
-* `Color 3`: Third innermost ring color, repeated several times.
-* `BG Color`: The color outside of the form.
+* `Demo Float`: In the template project, this is mapped to the size of the circle.
+* `Demo Color`: In the template project, this is mapped to the color of the circle.

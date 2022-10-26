@@ -1,11 +1,12 @@
-#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Shader Template</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Ethereal Goop</sup>
 ---
 
-## [Shader Template](http://flatpickles.com/sketchbook/#shader-template)
+## [Ethereal Goop](http://flatpickles.com/sketchbook/#ethereal-goop)
 
-This is a template project for a shader-based sketch. This shouldn't be published in its current form, but should instead be duplicated and used as a starting point for new projects.
+Ethereal Goop originated from some experimentation with layered noise textures in 2021. I've recently updated it to include configurable parameters, and a few new features!
+
+More notes coming soon.
 
 ### Parameters
 
-* `Demo Float`: In the template project, this is mapped to the size of the circle.
-* `Demo Color`: In the template project, this is mapped to the color of the circle.
+Coming soon...

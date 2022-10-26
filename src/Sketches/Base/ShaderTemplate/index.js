@@ -10,7 +10,7 @@ export default class ShaderTemplate extends Sketch {
     type = SketchType.Shader;
     // date = new Date('10/25/2022');
     description = `
-        This is a demo shader sketch that can be used as a starting point.
+        This is a template project for a shader-based sketch.
     `;
     showPresets = false;
 

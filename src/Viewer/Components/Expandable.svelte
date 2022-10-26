@@ -1,15 +1,16 @@
 <script>
     export let open = false;
+    export let id = undefined;
 
     // CSS cannot transition height to `auto`, so generate and use computed height
     let expandableHeight = undefined;
     let expandableBorderSize = 0; // could be derived w/ getComputedStyle in onMount if need be
     $: expandableHeightPx = expandableHeight + expandableBorderSize + 'px';
 
-    // Disable animation when adjusting height, then re-enable it again
+    // Disable animation when adjusting content, then re-enable it again
     let animationEnabled = true;
-    $: expandableHeightUpdated(expandableHeight);
-    function expandableHeightUpdated() {
+    $: contentUpdated(expandableHeight, id);
+    function contentUpdated() {
         animationEnabled = false;
         setTimeout(() => { animationEnabled = true }, 0);
     }

@@ -9,7 +9,7 @@
     $: openStateKey = id + '_HeaderOpen';
     let openState = getStoredOpenState(openDefault);
     $: idChanged(id);
-    function idChanged(id) {
+    function idChanged() {
         openState = getStoredOpenState(openDefault)
     }
 
@@ -42,7 +42,7 @@
 </div>
 
 {#if showContents}
-    <Expandable open={openState}>
+    <Expandable open={openState} id={id}>
         <div class='contents_container'>
             <slot name='contents'>
             </slot>

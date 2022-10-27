@@ -8,6 +8,7 @@ uniform vec2 renderSize;
 uniform float goopScale;
 uniform float offsetX;
 uniform float offsetY;
+uniform float layerCount;
 uniform float noiseEdge;
 uniform float edgeTaper;
 uniform vec4 bgColor;
@@ -58,22 +59,25 @@ void main() {
     st *= goopScale;
 
     // Useful calculations for use within the layering loop
-    int numLayers = 7; // todo: paramify! must match for loop size, for now
+    // int numLayers = 7; // todo: paramify! must match for loop size, for now
     float scaledNoiseEdge = ((1.0 - noiseEdge) * 2.0) - 1.0;
-    float mixIncrement = 1.0 / float(numLayers - 1);
-    vec2 offsetIncrement = vec2(offsetX, offsetY) / float(numLayers - 1);
+    float mixIncrement = (layerCount > 1.0) ? 1.0 / (layerCount - 1.0) : 0.0;
+    float taperIncrement = (layerCount > 1.0) ? edgeTaper / (layerCount - 1.0) : 0.0;
+    vec2 offsetIncrement = (layerCount > 1.0) ? vec2(offsetX, offsetY) / (layerCount - 1.0) : vec2(0.0);
 
     // Calculate and add each layer
     float previousMaskInverse = 1.0;
     vec3 compositeColor = vec3(0.0);
-    for (int i = 0; i < 7; i += 1) {
+    for (int i = 0; i < 10; i += 1) { // must run to max value for layerCount
         vec3 color = colorMix(FG_COLOR, BASE_COLOR, mixIncrement * float(i));
         vec2 stOffset = st + offsetIncrement * float(i);
         float noiseVal = noise(vec3(time * TIME_MULT, stOffset.x, stOffset.y));
-        float mask = step(scaledNoiseEdge + edgeTaper * float(i), noiseVal);
+        float mask = step(scaledNoiseEdge + taperIncrement * float(i), noiseVal);
 
         compositeColor += mask * previousMaskInverse * color;
         previousMaskInverse *= (1.0 - mask);
+
+        if (float(i + 1) >= layerCount) break;
     }
 
     // Add background color and output

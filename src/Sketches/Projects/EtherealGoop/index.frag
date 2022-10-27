@@ -43,31 +43,39 @@ vec3 colorMix(vec3 rgb1, vec3 rgb2, float mixVal) {
 float TIME_MULT = 0.2;
 
 void main() {
+    // todo: rename / distribute these
     vec3 BASE_COLOR = bottomColor.rgb;
     vec3 FG_COLOR = topColor.rgb;
     vec3 BG_COLOR = bgColor.rgb;
     vec3 MID_COLOR = colorMix(BASE_COLOR, FG_COLOR, 0.5);
 
+    // Adjust coordinate space
 	float aspectRatio = float(renderSize.x) / float(renderSize.y);
 	vec2 st = vUv;
 	st = st * 2.0 - 1.;
 	st.x *= aspectRatio;
     st *= goopScale;
 
-    float noiseVal = noise(vec3(time * TIME_MULT, st.x, st.y));
-    float offsetNoiseVal = noise(vec3(time * TIME_MULT, st.x + offsetX, st.y + offsetY));
-    float offsetNoiseVal2 = noise(vec3(time * TIME_MULT, st.x + offsetX * 2.0, st.y + offsetY * 2.));
-
+    // Useful calculations for use within the layering loop
+    int numLayers = 7; // todo: paramify! must match for loop size, for now
     float scaledNoiseEdge = ((1.0 - noiseEdge) * 2.0) - 1.0;
-    float mask = step(scaledNoiseEdge, noiseVal);
-    float offsetMask = step(scaledNoiseEdge, offsetNoiseVal);
-    float offsetMask2 = step(scaledNoiseEdge, offsetNoiseVal2);
+    float mixIncrement = 1.0 / float(numLayers - 1);
+    vec2 offsetIncrement = vec2(offsetX, offsetY) / float(numLayers - 1);
 
-    vec3 bgComponent = (1.0 - mask) * ((1.0 - (1.0 - mask) * offsetMask)) * (1.0 - ((1.0 - mask) * (1.0 - offsetMask) * offsetMask2)) * BG_COLOR;
-    vec3 edge2Component = (1.0 - mask) * (1.0 - offsetMask) * offsetMask2 * BASE_COLOR;
-    vec3 edgeComponent = (1.0 - mask) * offsetMask * MID_COLOR;
-    vec3 fgComponent = mask * FG_COLOR;
+    // Calculate and add each layer
+    float previousMaskInverse = 1.0;
+    vec3 compositeColor = vec3(0.0);
+    for (int i = 0; i < 7; i += 1) {
+        vec3 color = colorMix(FG_COLOR, BASE_COLOR, mixIncrement * float(i));
+        vec2 stOffset = st + offsetIncrement * float(i);
+        float noiseVal = noise(vec3(time * TIME_MULT, stOffset.x, stOffset.y));
+        float mask = step(scaledNoiseEdge, noiseVal); // todo: subtract a little bit from edge each time (param)
 
-    vec3 compositeColor = bgComponent + edgeComponent + edge2Component + fgComponent;
+        compositeColor += mask * previousMaskInverse * color;
+        previousMaskInverse *= (1.0 - mask);
+    }
+
+    // Add background color and output
+    compositeColor += previousMaskInverse * BG_COLOR;
     gl_FragColor = vec4(compositeColor, 1.0);
 }

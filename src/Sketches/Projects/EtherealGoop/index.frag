@@ -9,6 +9,7 @@ uniform float goopScale;
 uniform float offsetX;
 uniform float offsetY;
 uniform float noiseEdge;
+uniform float edgeTaper;
 uniform vec4 bgColor;
 uniform vec4 bottomColor;
 uniform vec4 topColor;
@@ -69,7 +70,7 @@ void main() {
         vec3 color = colorMix(FG_COLOR, BASE_COLOR, mixIncrement * float(i));
         vec2 stOffset = st + offsetIncrement * float(i);
         float noiseVal = noise(vec3(time * TIME_MULT, stOffset.x, stOffset.y));
-        float mask = step(scaledNoiseEdge, noiseVal); // todo: subtract a little bit from edge each time (param)
+        float mask = step(scaledNoiseEdge + edgeTaper * float(i), noiseVal);
 
         compositeColor += mask * previousMaskInverse * color;
         previousMaskInverse *= (1.0 - mask);

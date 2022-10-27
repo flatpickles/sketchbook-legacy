@@ -26,7 +26,9 @@ export default class EtherealGoop extends Sketch {
         offsetX: new FloatParam('X Offset', -0.2, -0.5, 0.5),
         offsetY: new FloatParam('Y Offset', 0.2, -0.5, 0.5),
         noiseEdge: new FloatParam('Noise Edge', 0.5, 0.3, 0.7),
-        // demoColor: new ColorParam('Demo Color', '#00FF00'),
+        bgColor: new ColorParam('BG Color', '#247144'),
+        bottomColor: new ColorParam('Bottom Color', '#ED2E2E'),
+        topColor: new ColorParam('Top Color', '#F3EF53'),
     };
 
     sketchFn = ({ gl }) => {
@@ -41,7 +43,9 @@ export default class EtherealGoop extends Sketch {
                 offsetX: ({}) => this.params.offsetX.value,
                 offsetY: ({}) => this.params.offsetY.value,
                 noiseEdge: ({}) => this.params.noiseEdge.value,
-                // demoColor: ({}) => this.params.demoColor.vec4,
+                bgColor: ({}) => this.params.bgColor.vec4,
+                bottomColor: ({}) => this.params.bottomColor.vec4,
+                topColor: ({}) => this.params.topColor.vec4,
             }
         });
     };

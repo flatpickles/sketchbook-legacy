@@ -5,11 +5,11 @@ import Mandelbrot from './Sketches/Projects/Mandelbrot/index.js';
 import EtherealGoop from './Sketches/Projects/EtherealGoop/index.js';
 
 const sketches = [
+    new EtherealGoop(),
     new Mandelbrot(),
     new Rectilinear(),
     new NoSignal(),
     new FloppyDisk(),
-    new EtherealGoop(),
 ];
 
 export default sketches;

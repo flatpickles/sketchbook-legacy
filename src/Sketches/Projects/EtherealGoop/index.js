@@ -23,8 +23,8 @@ export default class EtherealGoop extends Sketch {
 
     params = {
         goopScale: new FloatParam('Goop Scale', 4.0, 1.0, 10.0),
-        offsetX: new FloatParam('X Offset', -0.2, -2.0, 2.0),
-        offsetY: new FloatParam('Y Offset', 0.2, -2.0, 2.0),
+        offsetX: new FloatParam('X Offset', -0.4, -2.0, 2.0),
+        offsetY: new FloatParam('Y Offset', 1.0, -2.0, 2.0),
         noiseEdge: new FloatParam('Noise Edge', 0.5, 0.3, 0.7),
         bgColor: new ColorParam('BG Color', '#247144'),
         bottomColor: new ColorParam('Bottom Color', '#ED2E2E'),

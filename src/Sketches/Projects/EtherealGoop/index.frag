@@ -46,12 +46,6 @@ vec3 colorMix(vec3 rgb1, vec3 rgb2, float mixVal) {
 float TIME_MULT = 0.2;
 
 void main() {
-    // todo: rename / distribute these
-    vec3 BASE_COLOR = bottomColor.rgb;
-    vec3 FG_COLOR = topColor.rgb;
-    vec3 BG_COLOR = bgColor.rgb;
-    vec3 MID_COLOR = colorMix(BASE_COLOR, FG_COLOR, 0.5);
-
     // Adjust coordinate space
 	float aspectRatio = float(renderSize.x) / float(renderSize.y);
 	vec2 st = vUv;
@@ -69,19 +63,24 @@ void main() {
     float previousMaskInverse = 1.0;
     vec3 compositeColor = vec3(0.0);
     for (int i = 0; i < 10; i += 1) { // must run to layerCount maxValue
-        vec3 color = colorMix(FG_COLOR, BASE_COLOR, mixIncrement * float(i));
+        vec3 color = colorMix(topColor.rgb, bottomColor.rgb, mixIncrement * float(i));
         vec2 stOffset = st + offsetIncrement * float(i);
         float noiseVal = noise(vec3(time * TIME_MULT, stOffset.x, stOffset.y));
         float edgeVal = scaledNoiseEdge + taperIncrement * float(i);
         float mask = smoothstep(edgeVal - edgeSoftness, edgeVal + edgeSoftness, noiseVal);
 
+        // Accumulate mask & color
         compositeColor += mask * previousMaskInverse * color;
         previousMaskInverse *= (1.0 - mask);
 
+        // Break once we've painted the right number of layers
         if (float(i + 1) >= layerCount) break;
+
+        // Break if further iterations won't be used anyway
+        if (previousMaskInverse == 0.0) break;
     }
 
     // Add background color and output
-    compositeColor += previousMaskInverse * BG_COLOR;
+    compositeColor += previousMaskInverse * bgColor.rgb;
     gl_FragColor = vec4(compositeColor, 1.0);
 }

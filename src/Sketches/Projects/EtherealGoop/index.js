@@ -10,9 +10,9 @@ export default class EtherealGoop extends Sketch {
     type = SketchType.Shader;
     // date = new Date('05/02/2021');
     description = `
-        This is the beginnings of a Sketchbook port for Ethereal Goop! Needs colors exposed in params, description, readme, etc.
+        Ethereal Goop is based on an <a href='https://flatpickles.com/image/ethereal-goop.jpg'>experiment</a> from 2021.
     `;
-    showPresets = false;
+    showPresets = true;
 
     settings = {
         context: 'webgl',

@@ -8,9 +8,9 @@ import presetsObject from './presets.json';
 export default class EtherealGoop extends Sketch {
     name = 'Ethereal Goop';
     type = SketchType.Shader;
-    // date = new Date('05/02/2021');
+    // date = new Date('10/28/2022');
     description = `
-        Ethereal Goop is based on an <a href='https://flatpickles.com/image/ethereal-goop.jpg'>experiment</a> from 2021.
+        Ethereal Goop is based on an <a href='https://flatpickles.com/image/ethereal-goop.jpg'>experiment</a> from 2021. I've built upon that for a fresh Sketchbook version, adding new features and improving performance.
     `;
     showPresets = true;
 
@@ -28,7 +28,7 @@ export default class EtherealGoop extends Sketch {
         layerCount: new FloatParam('Layer Count', 3.0, 1.0, 10.0, 1.0),
         noiseEdge: new FloatParam('Noise Edge', 0.5, 0.2, 0.8),
         edgeTaper: new FloatParam('Edge Taper', 0.0, -1.0, 1.0),
-        edgeSoftness: new FloatParam('Edge Softness', 0.0, 0.0, 0.3),
+        edgeSoftness: new FloatParam('Edge Softness', 0.0, 0.0, 1.0),
         bgColor: new ColorParam('BG Color', '#247144'),
         bottomColor: new ColorParam('Bottom Color', '#ED2E2E'),
         topColor: new ColorParam('Top Color', '#F3EF53'),

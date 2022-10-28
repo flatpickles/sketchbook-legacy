@@ -67,7 +67,8 @@ void main() {
         vec2 stOffset = st + offsetIncrement * float(i);
         float noiseVal = noise(vec3(time * TIME_MULT, stOffset.x, stOffset.y));
         float edgeVal = scaledNoiseEdge + taperIncrement * float(i);
-        float mask = smoothstep(edgeVal - edgeSoftness, edgeVal + edgeSoftness, noiseVal);
+        float smoothingGap = 0.1 * edgeSoftness * goopScale;
+        float mask = smoothstep(edgeVal - smoothingGap/2.0, edgeVal + smoothingGap/2.0, noiseVal);
 
         // Accumulate mask & color
         compositeColor += mask * previousMaskInverse * color;

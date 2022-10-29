@@ -24,9 +24,9 @@ export default class Mandelbrot extends Sketch {
     };
 
     params = {
-        zoom: new FloatParam('Zoom', 0.07, 0, 1),
-        xOffset: new FloatParam('X Offset', -0.7, -1, 1),
-        yOffset: new FloatParam('Y Offset', 0.0, -1, 1),
+        zoom: new FloatParam('Zoom', 0.07, 0, 1, 0.001),
+        xOffset: new FloatParam('X Offset', -0.7, -1, 1, 0.001),
+        yOffset: new FloatParam('Y Offset', 0.0, -1, 1, 0.001),
         colorCycles: new FloatParam('Color Cycles', 42, 1, 100),
     };
 

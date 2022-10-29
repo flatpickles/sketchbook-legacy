@@ -34,6 +34,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Copyright somewhere on the page
 
 ## To consider
+* Link previews! Can we show a preview image for each sketch?
 * CSS triage: clean everything up
 * Cleanup: documentation, naming, etc.
 * Key commands

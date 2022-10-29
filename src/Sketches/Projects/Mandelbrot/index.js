@@ -19,7 +19,8 @@ export default class Mandelbrot extends Sketch {
     settings = {
         context: 'webgl',
         scaleToView: true,
-        animate: true
+        animate: true,
+        pixelRatio: 2
     };
 
     params = {

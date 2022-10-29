@@ -65,13 +65,8 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Probably get rid of global.css
 * Avoid bundling `public` dir in main branch
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte
-* Parameter improvements: `this.params.paramName.value` is awkward, but providing a generated `this.paramName` property has proved difficult.
-* An easy way to capture current parameter values for use as defaults
+* Parameter improvements: `this.params.paramName.value` is awkward, but providing a generated `this.paramName` property seems tricky.
 * Make it easier for others to create their own sketchbooks. Potential approach:
     * Master branch is just the sketchbook tool, gh-pages branch includes sketches
     * Allow forking of master branch, updates to & rebases on master branch
-
-## Utility function wishlist
-* HSV
-* Kernel applicator
-* Blur(s)
+* Port to SvelteKit for better routing, and/or explore a Jamstack approach

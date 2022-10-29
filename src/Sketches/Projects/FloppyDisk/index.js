@@ -16,7 +16,8 @@ export default class FloppyDisk extends Sketch {
     settings = {
         context: 'webgl',
         scaleToView: true,
-        animate: true
+        animate: true,
+        pixelRatio: 2
     };
     bundledPresets = presetsObject;
 

@@ -17,7 +17,8 @@ export default class EtherealGoop extends Sketch {
     settings = {
         context: 'webgl',
         scaleToView: true,
-        animate: true
+        animate: true,
+        pixelRatio: 2
     };
     bundledPresets = presetsObject;
 

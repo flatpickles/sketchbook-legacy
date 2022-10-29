@@ -3,7 +3,7 @@
 
 ## [Ethereal Goop](http://flatpickles.com/sketchbook/#ethereal-goop)
 
-Ethereal Goop is based on a noise layering (experiment)[https://flatpickles.com/image/ethereal-goop.jpg] from 2021. I've built upon that for a fresh Sketchbook version, adding new features and presets, and improving performance.
+Ethereal Goop is based on a noise layering [experiment](https://flatpickles.com/image/ethereal-goop.jpg) from 2021. I've built upon that for a fresh Sketchbook version, adding new features and presets, and improving performance.
 
 ### Parameters
 

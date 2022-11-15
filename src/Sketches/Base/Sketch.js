@@ -4,7 +4,7 @@ import { EventParam } from './SketchParam';
 export const SketchType = {
     Undefined: 'Undefined',
     Canvas: 'Canvas',
-    Shader: 'Shader'
+    GL: 'GL'
 }
 
 const fileNameDivider = ' - ';

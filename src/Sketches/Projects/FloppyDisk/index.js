@@ -7,7 +7,7 @@ import presetsObject from './presets.json';
 
 export default class FloppyDisk extends Sketch {
     name = 'Floppy Disk';
-    type = SketchType.Shader;
+    type = SketchType.GL;
     date = new Date('4/08/22');
     description = `
         A wobbly warpy floppy disk. Ported over to Sketchbook from the <a href="https://editor.isf.video/shaders/62506e017917e40014095a49">original version</a> on ISF.video.

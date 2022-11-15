@@ -7,7 +7,7 @@ import presetsObject from './presets.json';
 
 export default class ShaderTemplate extends Sketch {
     name = 'Shader Template';
-    type = SketchType.Shader;
+    type = SketchType.GL;
     // date = new Date('10/25/2022');
     description = `
         This is a template project for a shader-based sketch.

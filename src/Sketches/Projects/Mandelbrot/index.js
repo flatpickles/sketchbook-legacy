@@ -9,7 +9,7 @@ import presetsObject from './presets.json';
 
 export default class Mandelbrot extends Sketch {
     name = "Mandelbrot Set";
-    type = SketchType.Shader;
+    type = SketchType.GL;
     date = new Date("9/29/22");
     description = `
         Standard Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow! 

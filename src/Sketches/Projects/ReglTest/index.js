@@ -32,18 +32,63 @@ export default class ReglTest extends Sketch {
     sketchFn = ({ gl }) => {
         const regl = createRegl({ gl });
 
+        const drawTriangle = regl({
+          // Shaders in regl are just strings.  You can use glslify or whatever you want
+          // to define them.  No need to manually create shader objects.
+          frag: `
+            precision mediump float;
+            uniform vec4 color;
+            void main() {
+              gl_FragColor = color;
+            }`,
+        
+          vert: `
+            precision mediump float;
+            attribute vec2 position;
+            void main() {
+              gl_Position = vec4(position, 0, 1);
+            }`,
+        
+          // Here we define the vertex attributes for the above shader
+          attributes: {
+            // regl.buffer creates a new array buffer object
+            position: regl.buffer([
+              [-0.5, -0.5],   // no need to flatten nested arrays, regl automatically
+              [0.5, -0.5],    // unrolls them into a typedarray (default Float32)
+              [0,  0.5]
+            ])
+            // regl automatically infers sane defaults for the vertex attribute pointers
+          },
+        
+          uniforms: {
+            // This defines the color of the triangle to be a dynamic variable
+            color: regl.prop('color')
+          },
+        
+          // This tells regl the number of vertices to draw in this command
+          count: 3
+        });
+
         // Return the renderer function
-        return () => {
+        return ({ time }) => {
           // Update regl sizes
           regl.poll();
       
           // Clear back buffer with red
           regl.clear({
-            color: [ 1, 1, 0, 1 ]
+            color: [ 0, 0, 0, 1 ],
+            depth: 1
           });
       
-          // Draw your meshes
-          // ...
+          // draw a triangle using the command defined above
+          drawTriangle({
+            color: [
+              Math.cos(time * 0.1),
+              Math.sin(time * 0.2),
+              Math.cos(time * 0.3),
+              1
+            ]
+          })
         };
     };
 }

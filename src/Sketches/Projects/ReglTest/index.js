@@ -59,35 +59,34 @@ export default class ReglTest extends Sketch {
           vert: `
             precision highp float;
             uniform mat4 projection, view;
+            uniform float time;
             attribute vec3 position, normal;
             varying vec3 color;
             void main () {
               color = 0.5 * (1.0 + normal);
-              gl_Position = projection * view * vec4(position, 1.0);
+              gl_Position = projection * view * vec4(position * (1.0 + sin(time) / 5.0), 1.0);
             }
           `,
+          elements: box.cells,
           attributes: {
             position: box.positions,
-            normal: boxNormals
+            normal: boxNormals,
           },
-        
-          elements: box.cells
+          uniforms: {
+            time: regl.prop('time')
+          }
         });
 
-        // Return the renderer function
         return ({ time }) => {
-          // Update regl sizes
           regl.poll();
-      
-          // Clear back buffer with red
           regl.clear({
             color: [ 0, 0, 0, 1 ],
             depth: 1
           });
       
           camera(() => {
-            draw();
-          })
+            draw({ time: time });
+          });
         };
     };
 }

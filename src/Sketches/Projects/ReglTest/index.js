@@ -2,8 +2,9 @@ import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, ColorParam } from '../../Base/SketchParam.js'
 
 import createRegl from 'regl';
-import reglCamera from 'regl-camera';
+// import reglCamera from 'regl-camera';
 import angleNormals from 'angle-normals';
+import { mat4 } from 'gl-matrix';
 
 import presetsObject from './presets.json';
 
@@ -37,7 +38,7 @@ export default class ReglTest extends Sketch {
           gl: gl,
           extensions: []
         });
-        const camera = reglCamera(regl, { phi: 0.5, theta: 0.7, distance: 3.0 });
+        // const camera = reglCamera(regl, { phi: 0.5, theta: 0.7, distance: 3.0 });
 
         const box = {
           positions: [[+0.5,-0.5,+0.5],[+0.5,-0.5,-0.5],[-0.5,-0.5,-0.5],
@@ -47,6 +48,14 @@ export default class ReglTest extends Sketch {
             [2,3,6],[7,6,3],[7,3,0],[0,4,7],[4,5,6],[4,6,7]]
         };
         const boxNormals = angleNormals(box.cells, box.positions);
+
+        // Camera stuff...
+        const model = mat4.create();
+        const view = mat4.create();
+        const projection = mat4.create();
+        mat4.lookAt(view, [.6,.6,.6], [0,0,0], [0,1,0]);
+        // todo: generate with screen aspect ratio in mind...
+        mat4.ortho(projection, -2,2, -1,1, -1,2);
 
         const draw = regl({
           frag: `
@@ -58,13 +67,14 @@ export default class ReglTest extends Sketch {
           `,
           vert: `
             precision highp float;
-            uniform mat4 projection, view;
+            uniform mat4 projection, view, model;
             uniform float time;
             attribute vec3 position, normal;
             varying vec3 color;
             void main () {
               color = 0.5 * (1.0 + normal);
-              gl_Position = projection * view * vec4(position * (1.0 + sin(time) / 5.0), 1.0);
+              gl_Position = projection * view * model * vec4(position, 1.0);
+              // gl_Position = projection * view * vec4(position * (1.0 + sin(time) / 5.0), 1.0);
             }
           `,
           elements: box.cells,
@@ -73,7 +83,10 @@ export default class ReglTest extends Sketch {
             normal: boxNormals,
           },
           uniforms: {
-            time: regl.prop('time')
+            time: regl.prop('time'),
+            projection: projection,
+            view: view,
+            model: regl.prop('model')
           }
         });
 
@@ -84,9 +97,13 @@ export default class ReglTest extends Sketch {
             depth: 1
           });
       
-          camera(() => {
-            draw({ time: time });
-          });
+          // camera(() => {
+            mat4.rotate(model, model, 0.02, [1,1,0]);
+            draw({
+              time: time,
+              model: model // put this in here so it updates on each call
+            });
+          // });
         };
     };
 }

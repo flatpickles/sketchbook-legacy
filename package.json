@@ -29,6 +29,7 @@
     "browser-fs-access": "^0.31.1",
     "canvas-sketch-util": "^1.10.0",
     "gh-pages": "^4.0.0",
+    "gl-matrix": "^3.4.3",
     "glsl-noise": "^0.0.0",
     "regl": "^2.1.0",
     "regl-camera": "^2.1.1",

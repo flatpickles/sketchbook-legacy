@@ -1,6 +1,9 @@
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, ColorParam } from '../../Base/SketchParam.js'
+
 import createRegl from 'regl';
+import reglCamera from 'regl-camera';
+import angleNormals from 'angle-normals';
 
 import presetsObject from './presets.json';
 
@@ -30,43 +33,45 @@ export default class ReglTest extends Sketch {
     };
 
     sketchFn = ({ gl }) => {
-        const regl = createRegl({ gl });
+        const regl = createRegl({ 
+          gl: gl,
+          extensions: []
+        });
+        const camera = reglCamera(regl, { phi: 0.5, theta: 0.7, distance: 3.0 });
 
-        const drawTriangle = regl({
-          // Shaders in regl are just strings.  You can use glslify or whatever you want
-          // to define them.  No need to manually create shader objects.
+        const box = {
+          positions: [[+0.5,-0.5,+0.5],[+0.5,-0.5,-0.5],[-0.5,-0.5,-0.5],
+            [-0.5,-0.5,+0.5],[+0.5,+0.5,+0.5],[+0.5,+0.5,-0.5],
+            [-0.5,+0.5,-0.5],[-0.5,+0.5,+0.5]],
+          cells: [[2,1,0],[3,2,0],[0,1,4],[5,4,1],[1,2,5],[6,5,2],
+            [2,3,6],[7,6,3],[7,3,0],[0,4,7],[4,5,6],[4,6,7]]
+        };
+        const boxNormals = angleNormals(box.cells, box.positions);
+
+        const draw = regl({
           frag: `
-            precision mediump float;
-            uniform vec4 color;
-            void main() {
-              gl_FragColor = color;
-            }`,
-        
+            precision highp float;
+            varying vec3 color;
+            void main () {
+              gl_FragColor = vec4(color, 1.0);
+            }
+          `,
           vert: `
-            precision mediump float;
-            attribute vec2 position;
-            void main() {
-              gl_Position = vec4(position, 0, 1);
-            }`,
-        
-          // Here we define the vertex attributes for the above shader
+            precision highp float;
+            uniform mat4 projection, view;
+            attribute vec3 position, normal;
+            varying vec3 color;
+            void main () {
+              color = 0.5 * (1.0 + normal);
+              gl_Position = projection * view * vec4(position, 1.0);
+            }
+          `,
           attributes: {
-            // regl.buffer creates a new array buffer object
-            position: regl.buffer([
-              [-0.5, -0.5],   // no need to flatten nested arrays, regl automatically
-              [0.5, -0.5],    // unrolls them into a typedarray (default Float32)
-              [0,  0.5]
-            ])
-            // regl automatically infers sane defaults for the vertex attribute pointers
+            position: box.positions,
+            normal: boxNormals
           },
         
-          uniforms: {
-            // This defines the color of the triangle to be a dynamic variable
-            color: regl.prop('color')
-          },
-        
-          // This tells regl the number of vertices to draw in this command
-          count: 3
+          elements: box.cells
         });
 
         // Return the renderer function
@@ -80,14 +85,8 @@ export default class ReglTest extends Sketch {
             depth: 1
           });
       
-          // draw a triangle using the command defined above
-          drawTriangle({
-            color: [
-              Math.cos(time * 0.1),
-              Math.sin(time * 0.2),
-              Math.cos(time * 0.3),
-              1
-            ]
+          camera(() => {
+            draw();
           })
         };
     };

@@ -17,7 +17,7 @@
     // WIP sketches!
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
     let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
-    $: worksInProgressButtonText = showWorksInProgress ? '~ Hide Experiments ~' : 'Show Experiments';
+    $: worksInProgressButtonText = showWorksInProgress ? '~ Hide Experiments ~' : 'Experimental Mode';
     $: showWorksInProgressButton = sketches.reduce((incrementalState, currentSketch) => {
         return !currentSketch.date || incrementalState;
     }, false);
@@ -66,6 +66,11 @@
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
             </p>
+            {#if showWorksInProgress}
+                <p>
+                    You've enabled experimental mode! Experimental sketches and features are likely incomplete or unimpressive, but hopefully they're intersting nonetheless.
+                </p>
+            {/if}
             <div id='buttons'>
                 {#if showWorksInProgressButton}
                     <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
@@ -103,15 +108,12 @@
 
     p {
         margin: 0;
+        margin-bottom: var(--spacing);
     }
 
     :global(#buttons > *) {
         margin-top: calc(var(--spacing) / 4);
         width: 100%;
-    }
-
-    :global(#buttons > :first-child) {
-        margin-top: var(--spacing);
     }
 
     /* Sketch list */

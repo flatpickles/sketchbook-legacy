@@ -6,8 +6,6 @@ import createRegl from 'regl';
 import angleNormals from 'angle-normals';
 import { mat4 } from 'gl-matrix';
 
-import presetsObject from './presets.json';
-
 export default class ReglTest extends Sketch {
     name = 'regl test';
     type = SketchType.GL;
@@ -26,7 +24,7 @@ export default class ReglTest extends Sketch {
           antialias: true
         }
     };
-    bundledPresets = presetsObject;
+    bundledPresets = {};
 
     params = {
         // demoFloat: new FloatParam('Demo Float', 0.5, 0.0, 1.0),
@@ -54,8 +52,6 @@ export default class ReglTest extends Sketch {
         const view = mat4.create();
         const projection = mat4.create();
         mat4.lookAt(view, [.6,.6,.6], [0,0,0], [0,1,0]);
-        // todo: generate with screen aspect ratio in mind...
-        mat4.ortho(projection, -2,2, -1,1, -1,2);
 
         const draw = regl({
           frag: `
@@ -84,26 +80,31 @@ export default class ReglTest extends Sketch {
           },
           uniforms: {
             time: regl.prop('time'),
-            projection: projection,
+            projection: regl.prop('projection'),
             view: view,
             model: regl.prop('model')
           }
         });
 
-        return ({ time }) => {
+        return ({ time, width, height }) => {
+          // basic setup
           regl.poll();
           regl.clear({
             color: [ 0, 0, 0, 1 ],
             depth: 1
           });
       
-          // camera(() => {
-            mat4.rotate(model, model, 0.02, [1,1,0]);
-            draw({
-              time: time,
-              model: model // put this in here so it updates on each call
-            });
-          // });
+          // adjust model & projection matrixes each frame
+          mat4.rotate(model, model, 0.02, [1,1,0]);
+          const aspectRatio = width/height; // is there a regl native way to do this?
+          mat4.ortho(projection, -aspectRatio, aspectRatio, -1,1, -1,2);
+
+          // draw with regl
+          draw({
+            time: time,
+            model: model,
+            projection: projection
+          });
         };
     };
 }

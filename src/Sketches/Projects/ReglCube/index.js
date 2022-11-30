@@ -6,8 +6,8 @@ import createRegl from 'regl';
 import angleNormals from 'angle-normals';
 import { mat4 } from 'gl-matrix';
 
-export default class ReglTest extends Sketch {
-    name = 'regl test';
+export default class ReglCube extends Sketch {
+    name = 'regl Cube';
     type = SketchType.GL;
     // date = new Date('10/25/2022');
     description = `

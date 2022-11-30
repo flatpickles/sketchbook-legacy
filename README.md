@@ -15,12 +15,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Seems like the panel open/close tabs don't always work reliably with narrow screens.
 
 ## To do
-* "Experimental" sketches
-    * Replace "Work in Progress" sketches
-    * Make compatible with date being both set and unset (and make No Signal an experiment)
-        * Experimental; August 2022 // Experimental; Work in Progress (too long?)
-    * Decide if tildes are permanent, or if a different textual indicator would be better
-    * Maybe: add a footnote describing what experiments are (show/hide with experiments)
 * The star is too reminiscent of starring on github, masto, etc. New icon probably.
 * Replace panel hide/show tabs with something cooler
 * Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
@@ -73,6 +67,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
     * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.
 
 ## Workflow / project wishlist
+* "Experimental" flag for Sketchbook features (not just sketches)
 * Probably get rid of global.css
 * Avoid bundling `public` dir in main branch
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte

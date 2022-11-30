@@ -14,6 +14,7 @@ export default class Rectilinear extends Sketch {
     name = 'Rectilinear';
     type = SketchType.Canvas;
     date = new Date('9/14/2022');
+    experimental = false;
     description = `
         Randomly sized rectangles, fit together edge-to-edge, with configurable color palettes. This can generate patterns in a Mondrian-like style, and can achieve many other looks as well.
     `;

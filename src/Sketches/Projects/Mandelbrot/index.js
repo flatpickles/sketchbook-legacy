@@ -11,6 +11,7 @@ export default class Mandelbrot extends Sketch {
     name = "Mandelbrot Set";
     type = SketchType.GL;
     date = new Date("9/29/22");
+    experimental = false;
     description = `
         Standard Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow! 
     `

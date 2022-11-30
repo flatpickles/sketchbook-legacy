@@ -14,7 +14,8 @@ export default class Sketch {
 
     name = 'Unnamed Sketch';
     type = SketchType.Undefined;
-    date = undefined; // "Work in Progress" until date is defined
+    date = undefined;
+    experimental = true;
     description = undefined;
     params = {};
     settings = {};

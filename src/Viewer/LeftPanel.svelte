@@ -14,24 +14,24 @@
         });
     }
 
-    // WIP sketches!
-    let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
-    let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
-    $: worksInProgressButtonText = showWorksInProgress ? '~ Hide Experiments ~' : 'Experimental Mode';
-    $: showWorksInProgressButton = sketches.reduce((incrementalState, currentSketch) => {
-        return !currentSketch.date || incrementalState;
+    // Experimental mode
+    let storedExperimentalState = localStorage.getItem('showExperimental');
+    let showExperimental = storedExperimentalState ? (storedExperimentalState === 'true') : false;
+    $: worksInProgressButtonText = showExperimental ? '~ Hide Experiments ~' : 'Experimental Mode';
+    $: showExperimentalButton = sketches.reduce((incrementalState, currentSketch) => {
+        return currentSketch.experimental || incrementalState;
     }, false);
 
-    function toggleWIP() {
+    function toggleExperimentalMode() {
         // Toggle the state
-        showWorksInProgress = !showWorksInProgress;
-        localStorage.setItem('showWorksInProgress', showWorksInProgress ? 'true' : 'false');
+        showExperimental = !showExperimental;
+        localStorage.setItem('showExperimental', showExperimental ? 'true' : 'false');
 
-        // Select a different non-WIP sketch if currently selected is WIP
-        if (!selected.date) {
+        // Select a different non-experimental sketch if currently selected is experimental
+        if (!showExperimental && selected.experimental) {
             for (let sketchIdx = 0; sketchIdx < sketches.length; sketchIdx++) {
                 const sketch = sketches[sketchIdx];
-                if (sketch.date) {
+                if (!sketch.experimental) {
                     selectSketch(sketch);
                     break;
                 }
@@ -66,14 +66,14 @@
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
             </p>
-            {#if showWorksInProgress}
+            {#if showExperimental}
                 <p>
-                    You've enabled experimental mode! Experimental sketches and features are likely incomplete or unimpressive, but hopefully they're intersting nonetheless.
+                    You've enabled experimental mode! Experimental sketches are generally incomplete or unimpressive, but might be interesting nonetheless.
                 </p>
             {/if}
             <div id='buttons'>
-                {#if showWorksInProgressButton}
-                    <Button name={worksInProgressButtonText} on:click={toggleWIP}></Button>
+                {#if showExperimentalButton}
+                    <Button name={worksInProgressButtonText} on:click={toggleExperimentalMode}></Button>
                 {/if}
                 <Button name='Reset Sketchbook' on:click={resetState}></Button>
             </div>
@@ -82,14 +82,14 @@
     
     <div id='list_container'>
         {#each sketches as sketch}
-            {#if sketch.date || showWorksInProgress || sketch == selected}
+            {#if !sketch.experimental || showExperimental || sketch == selected}
                 <div
                     class='sketch_item'
                     class:sketch_selected={sketch == selected}
                     on:click={selectSketch.bind(this, sketch)}>
-                        {#if !sketch.date}~{/if}
+                        {#if sketch.experimental}~{/if}
                         {sketch.name}
-                        {#if !sketch.date}~{/if}
+                        {#if sketch.experimental}~{/if}
                 </div>
             {/if}
         {/each}

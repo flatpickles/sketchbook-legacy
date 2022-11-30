@@ -17,7 +17,7 @@
     // WIP sketches!
     let storedWorksInProgressState = localStorage.getItem('showWorksInProgress');
     let showWorksInProgress = storedWorksInProgressState ? (storedWorksInProgressState === 'true') : false;
-    $: worksInProgressButtonText = (showWorksInProgress ? 'Hide ' : 'Show') + ' Works in Progress';
+    $: worksInProgressButtonText = showWorksInProgress ? '~ Hide Experiments ~' : 'Show Experiments';
     $: showWorksInProgressButton = sketches.reduce((incrementalState, currentSketch) => {
         return !currentSketch.date || incrementalState;
     }, false);
@@ -82,8 +82,9 @@
                     class='sketch_item'
                     class:sketch_selected={sketch == selected}
                     on:click={selectSketch.bind(this, sketch)}>
+                        {#if !sketch.date}~{/if}
                         {sketch.name}
-                        {#if !sketch.date}[WIP]{/if}
+                        {#if !sketch.date}~{/if}
                 </div>
             {/if}
         {/each}

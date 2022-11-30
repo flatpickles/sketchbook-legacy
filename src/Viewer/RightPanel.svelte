@@ -17,6 +17,22 @@
     $: paramCount = Object.keys(sketch.params).length;
     $: labelBasis = (Math.min(Math.max(...labelWidths.slice(0, paramCount)) + 1, 200)).toString() + 'px';
 
+    // Generate subtitle text
+    $: subtitleText = (() => {
+        if (sketch.date) {
+            let subtitle = sketch.date.toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: sketch.experimental ? 'short' : 'long'
+            });
+            if (sketch.experimental) {
+                subtitle = subtitle + ' // Experimental';
+            }
+            return subtitle;
+        } else {
+            return "Work in Progress";
+        }
+    })();
+
     function updateSketch(event) {
         dispatch('update', {
             incomplete: event && event.type !== 'change'
@@ -40,14 +56,7 @@
             {sketch.name}
         </span>
         <span slot='subtitle'>
-            {#if sketch.date}
-                {sketch.date.toLocaleDateString('en-us', {
-                    year: 'numeric',
-                    month: 'long'
-                })}
-            {:else}
-                [Work in Progress]
-            {/if}
+            {subtitleText}
         </span>
         <span slot='click_to_expand' let:open={open}>
             {#if open}

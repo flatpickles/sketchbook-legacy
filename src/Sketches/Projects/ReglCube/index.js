@@ -2,7 +2,7 @@ import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, ColorParam } from '../../Base/SketchParam.js'
 
 import createRegl from 'regl';
-// import reglCamera from 'regl-camera';
+import reglCamera from 'regl-camera';
 import angleNormals from 'angle-normals';
 import { mat4 } from 'gl-matrix';
 
@@ -32,26 +32,37 @@ export default class ReglCube extends Sketch {
     };
 
     sketchFn = ({ gl }) => {
-        const regl = createRegl({ 
-          gl: gl,
-          extensions: []
-        });
-        // const camera = reglCamera(regl, { phi: 0.5, theta: 0.7, distance: 3.0 });
+        const regl = createRegl({ gl });
+        const camera = reglCamera(regl, { phi: 0.5, theta: 0.7, distance: 5.0 });
 
-        const box = {
+        const box1 = {
           positions: [[+0.5,-0.5,+0.5],[+0.5,-0.5,-0.5],[-0.5,-0.5,-0.5],
             [-0.5,-0.5,+0.5],[+0.5,+0.5,+0.5],[+0.5,+0.5,-0.5],
             [-0.5,+0.5,-0.5],[-0.5,+0.5,+0.5]],
           cells: [[2,1,0],[3,2,0],[0,1,4],[5,4,1],[1,2,5],[6,5,2],
             [2,3,6],[7,6,3],[7,3,0],[0,4,7],[4,5,6],[4,6,7]]
         };
-        const boxNormals = angleNormals(box.cells, box.positions);
+        const box1Normals = angleNormals(box1.cells, box1.positions);
 
-        // Camera stuff...
-        const model = mat4.create();
-        const view = mat4.create();
-        const projection = mat4.create();
-        mat4.lookAt(view, [.6,.6,.6], [0,0,0], [0,1,0]);
+        const box2 = {
+          positions: [
+            [+1, +1, +1], [+1, +1, -1], [+1, -1, -1], [+1, -1, +1], // right face; x = 1
+            [-1, +1, +1], [-1, +1, -1], [-1, -1, -1], [-1, -1, +1], // left face; x = -1
+            [+1, +1, +1], [+1, +1, -1], [-1, +1, -1], [-1, +1, +1], // top face; y = 1
+            [+1, -1, +1], [+1, -1, -1], [-1, -1, -1], [-1, -1, +1], // bottom face; y = -1
+            [+1, +1, +1], [+1, -1, +1], [-1, -1, +1], [-1, +1, +1], // front face; z = 1
+            [+1, +1, -1], [+1, -1, -1], [-1, -1, -1], [-1, +1, -1]  // back face; z = -1
+          ],
+          cells: [
+            [0, 1, 3], [3, 1, 2], // right face
+            [7, 5, 4], [7, 6, 5], // left face
+            [8, 9, 11], [11, 9, 10], // top face
+            [15, 13, 12], [15, 14, 13], // bottom face
+            [16, 17, 18], [18, 19, 16], // front face
+            [20, 23, 21], [23, 22, 21] // back face
+          ]
+        }
+        const box2Normals = angleNormals(box2.cells, box2.positions);
 
         const draw = regl({
           frag: `
@@ -63,7 +74,7 @@ export default class ReglCube extends Sketch {
           `,
           vert: `
             precision highp float;
-            uniform mat4 projection, view, model;
+            uniform mat4 model, projection, view;
             uniform float time;
             attribute vec3 position, normal;
             varying vec3 color;
@@ -73,37 +84,27 @@ export default class ReglCube extends Sketch {
               // gl_Position = projection * view * vec4(position * (1.0 + sin(time) / 5.0), 1.0);
             }
           `,
-          elements: box.cells,
+          elements: box2.cells,
           attributes: {
-            position: box.positions,
-            normal: boxNormals,
+            position: box2.positions,
+            normal: box2Normals,
           },
           uniforms: {
-            time: regl.prop('time'),
-            projection: regl.prop('projection'),
-            view: view,
             model: regl.prop('model')
           }
         });
 
+        const model = mat4.create();
         return ({ time, width, height }) => {
-          // basic setup
           regl.poll();
           regl.clear({
             color: [ 0, 0, 0, 1 ],
             depth: 1
           });
-      
-          // adjust model & projection matrixes each frame
-          mat4.rotate(model, model, 0.02, [1,1,0]);
-          const aspectRatio = width/height; // is there a regl native way to do this?
-          mat4.ortho(projection, -aspectRatio, aspectRatio, -1,1, -1,2);
 
-          // draw with regl
-          draw({
-            time: time,
-            model: model,
-            projection: projection
+          mat4.rotate(model, model, 0.02, [0,1,0]);
+          camera(() => {
+            draw({ model });
           });
         };
     };

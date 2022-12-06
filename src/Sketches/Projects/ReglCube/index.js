@@ -6,6 +6,8 @@ import reglCamera from 'regl-camera';
 import angleNormals from 'angle-normals';
 import { mat4 } from 'gl-matrix';
 
+// import { glsl } from 'glslify'
+
 export default class ReglCube extends Sketch {
     name = 'regl Cube';
     type = SketchType.GL;
@@ -27,22 +29,23 @@ export default class ReglCube extends Sketch {
     bundledPresets = {};
 
     params = {
-        // demoFloat: new FloatParam('Demo Float', 0.5, 0.0, 1.0),
+        // demoFloat: new FloatParam('Demo Float', 1, 0.0, 1.0),
         // demoColor: new ColorParam('Demo Color', '#00FF00'),
     };
 
     sketchFn = ({ gl }) => {
         const regl = createRegl({ gl });
-        const camera = reglCamera(regl, { phi: 0.5, theta: 0.7, distance: 5.0 });
+        const camera = reglCamera(regl, { phi: 1, theta: 0.7, distance: 5.0 });
+
 
         const box1 = {
-          positions: [[+0.5,-0.5,+0.5],[+0.5,-0.5,-0.5],[-0.5,-0.5,-0.5],
-            [-0.5,-0.5,+0.5],[+0.5,+0.5,+0.5],[+0.5,+0.5,-0.5],
-            [-0.5,+0.5,-0.5],[-0.5,+0.5,+0.5]],
+          positions: [[+1,-1,+1],[+1,-1,-1],[-1,-1,-1],
+            [-1,-1,+1],[+1,+1,+1],[+1,+1,-1],
+            [-1,+1,-1],[-1,+1,+1]],
           cells: [[2,1,0],[3,2,0],[0,1,4],[5,4,1],[1,2,5],[6,5,2],
             [2,3,6],[7,6,3],[7,3,0],[0,4,7],[4,5,6],[4,6,7]]
         };
-        const box1Normals = angleNormals(box1.cells, box1.positions);
+        box1.normals = angleNormals(box1.cells, box1.positions);
 
         const box2 = {
           positions: [
@@ -62,7 +65,7 @@ export default class ReglCube extends Sketch {
             [20, 23, 21], [23, 22, 21] // back face
           ]
         }
-        const box2Normals = angleNormals(box2.cells, box2.positions);
+        box2.normals = angleNormals(box2.cells, box2.positions);
 
         const draw = regl({
           frag: `
@@ -87,7 +90,7 @@ export default class ReglCube extends Sketch {
           elements: box2.cells,
           attributes: {
             position: box2.positions,
-            normal: box2Normals,
+            normal: box2.normals,
           },
           uniforms: {
             model: regl.prop('model')
@@ -104,7 +107,12 @@ export default class ReglCube extends Sketch {
 
           mat4.rotate(model, model, 0.02, [0,1,0]);
           camera(() => {
-            draw({ model });
+            draw({ 
+              model: model, 
+              // elements: box1.elements,
+              // positions: box1.positions,
+              // normals: box1.normals
+            });
           });
         };
     };

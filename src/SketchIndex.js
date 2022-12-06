@@ -4,8 +4,10 @@ import FloppyDisk from './Sketches/Projects/FloppyDisk/index.js';
 import Mandelbrot from './Sketches/Projects/Mandelbrot/index.js';
 import EtherealGoop from './Sketches/Projects/EtherealGoop/index.js';
 import ReglCube from './Sketches/Projects/ReglCube/index.js';
+import Tunnel from './Sketches/Projects/Tunnel/index.js';
 
 const sketches = [
+    new Tunnel(),
     new ReglCube(),
     new EtherealGoop(),
     new Mandelbrot(),

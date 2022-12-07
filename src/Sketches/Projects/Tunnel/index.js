@@ -31,16 +31,21 @@ export default class Tunnel extends Sketch {
         const regl = createRegl({ gl });
 
         // todo: camera positioning / disable rotation / move camera or geometry with time
-        const camera = reglCamera(regl, { phi: 0, theta: 0, distance: 5.0 });
+        const camera = reglCamera(regl, {
+            center: [0, 0, 0],
+            theta: -Math.PI / 2,
+            distance: 1,
+            mouse: false
+          });
 
         // GEOMETRY (todo: stateful class for this?)
 
-        let headRing = [ // todo: generate as configurable polygon
-            vec3.fromValues(-1, 1, 0), // top left
-            vec3.fromValues(-1, -1, 0), // bottom left
-            vec3.fromValues(1, -1, 0), // bottom right
-            vec3.fromValues(1, 1, 0),  // top right
-        ];
+        const numSides = 11;
+        let headRing = [];
+        for (let vertexNum = 0; vertexNum < numSides; vertexNum += 1) {
+            const angle = Math.PI * 2 / numSides * vertexNum;
+            headRing.push(vec3.fromValues(Math.cos(angle), Math.sin(angle), 0));
+        }
         let positions = [];
         let cells = [];
 
@@ -52,13 +57,14 @@ export default class Tunnel extends Sketch {
                 return nextVertex;
             });
 
-            // Calculate center point (todo with a lerp)
+            // Calculate center point (todo with a lerp?)
             let segmentCenter = vec3.create();
             const pointSum = headRing.concat(nextRing).reduce((prev, curr) => vec3.add(prev, prev, curr), vec3.create());
             const pointCount = nextRing.length * 2;
             vec3.divide(segmentCenter, pointSum, vec3.fromValues(pointCount, pointCount, pointCount));
 
             // Generate mesh data
+            // todo: rotate head ring as new segments are added
             for (let ringPointIdx = 0; ringPointIdx < headRing.length; ringPointIdx += 1) {
                 // Calculate frame points (face of new section, base for inward pyramid)
                 const frameFarLeft = nextRing[ringPointIdx];
@@ -70,7 +76,7 @@ export default class Tunnel extends Sketch {
                 vec3.lerp(frameCenter, frameNearLeft, frameFarRight, 0.5);
                 // Calculate inward pyramid point
                 let pyramidPoint = vec3.create();
-                vec3.lerp(pyramidPoint, frameCenter, segmentCenter, Math.random()); // todo: configurable depth & randomness
+                vec3.lerp(pyramidPoint, frameCenter, segmentCenter, Math.random() * 0.5 + 0.2); // todo: configurable depth & randomness
                 // Create geometry (todo: optimize?)
                 positions = positions.concat([pyramidPoint, frameNearLeft, frameNearRight]);
                 cells.push([positions.length - 3, positions.length - 2, positions.length - 1]);
@@ -85,7 +91,7 @@ export default class Tunnel extends Sketch {
             headRing = nextRing;
         }
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 100; i++) {
             addSegment([0, 0, 0.5]);
         }
 
@@ -119,12 +125,17 @@ export default class Tunnel extends Sketch {
           });
 
           return () => {
+            // Update & clear 
             regl.poll();
             regl.clear({
               color: [ 0, 0, 0, 1 ],
               depth: 1
             });
-  
+
+            // Move camera & draw
+            // todo: add segments as camera moves
+            // todo: some sort of fog or lighting to obscure the distant segments
+            camera.center[2] = camera.center[2] + 0.01;
             camera(() => {
               draw();
             });

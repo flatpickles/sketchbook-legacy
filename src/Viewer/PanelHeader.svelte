@@ -1,4 +1,5 @@
 <script>
+    import Discloser from './Components/Discloser.svelte';
     import Expandable from './Components/Expandable.svelte';
 
     export let id = undefined
@@ -36,8 +37,7 @@
     </div>
 
     <div class='subtitle_button' on:click={toggleOpenState} class:hidden={!showContents}>
-        <slot name='click_to_expand' open={openState}>
-        </slot>
+        <Discloser bind:open={openState} />
     </div>
 </div>
 

@@ -1,6 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
     import Button from './Components/Button.svelte';
+    import Discloser from './Components/Discloser.svelte';
     import PanelHeader from './PanelHeader.svelte';
 
     export let sketches;
@@ -53,13 +54,6 @@
         </span>
         <span slot='subtitle'>
             by <a href='http://flatpickles.com'>flatpickles</a>
-        </span>
-        <span slot='click_to_expand' let:open={open}>
-            {#if open}
-                &#9733;
-            {:else}
-                &#9734;
-            {/if}
         </span>
         <span slot='contents'>
             <p>

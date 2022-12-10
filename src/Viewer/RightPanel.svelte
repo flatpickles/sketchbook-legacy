@@ -58,13 +58,6 @@
         <span slot='subtitle'>
             {subtitleText}
         </span>
-        <span slot='click_to_expand' let:open={open}>
-            {#if open}
-                &dtrif;
-            {:else}
-                &dtri;
-            {/if}
-        </span>
         <span slot='contents'>
             {#if sketch.description}
                 {@html sketch.description.trim()}

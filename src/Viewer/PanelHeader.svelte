@@ -60,8 +60,9 @@
 
     .subtitle {
         display: flex;
-        align-items: baseline;
+        align-items: center;
         padding-top: var(--subtitle-top-spacing);
+        padding-bottom: var(--spacing);
     }
 
     .subtitle_text {
@@ -69,6 +70,7 @@
         font-size: var(--subtitle-font-size);
         padding: var(--spacing);
         padding-top: 0;
+        padding-bottom: 0;
     }
 
     .subtitle_button {

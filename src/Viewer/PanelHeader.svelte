@@ -60,7 +60,7 @@
 
     .subtitle {
         display: flex;
-        align-items: center;
+        align-items: end;
         padding-top: var(--subtitle-top-spacing);
         padding-bottom: var(--spacing);
     }
@@ -74,6 +74,7 @@
     }
 
     .subtitle_button {
+        padding-bottom: 1px; /* lil zhuzh */
         padding-right: var(--spacing);
         cursor: pointer;
         user-select: none;

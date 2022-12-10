@@ -10,11 +10,14 @@
         width: calc(var(--size) * 1px);
         height: calc(var(--size) * 1px);
         background-color: black;
-        clip-path: polygon(0 6.7%, 100% 6.7%, 50% 93.3%);
+        clip-path: polygon(0 6.7%, 100% 6.7%, 50% 100%);
+        transition: transform var(--disclosure-animation-time) ease-out;
+        transform: translate(0%, -25%) rotate(0deg);
+        -webkit-transform: translate(0%, -25%) rotate(0deg);
     }
 
     .triangle.rotated {
-        transform: rotate(180deg);
-        -webkit-transform: rotate(180deg);
+        transform: translate(0%, 0%) rotate(60deg);
+        -webkit-transform: translate(0%, 0%) rotate(60deg);
     }
 </style>

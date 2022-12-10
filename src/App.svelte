@@ -97,6 +97,7 @@
         --border: 1px solid rgb(0, 0, 0, 90%);
         --panel-background: rgb(255, 255, 255, 80%);
         --panel-filter: blur(8px);
+        --disclosure-animation-time: 0.3s;
 
         /* Sidebars */
         --title-font-size: 24px;

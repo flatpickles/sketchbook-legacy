@@ -74,7 +74,6 @@
     }
 
     .subtitle_button {
-        line-height: 0.5em; /* unicode chars can be too tall */
         padding-right: var(--spacing);
         cursor: pointer;
         user-select: none;

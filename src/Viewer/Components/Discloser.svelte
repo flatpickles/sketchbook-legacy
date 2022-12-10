@@ -14,7 +14,7 @@
     }
 
     .triangle.rotated {
-        transform: rotate(90deg);
-        -webkit-transform: rotate(90deg);
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
     }
 </style>

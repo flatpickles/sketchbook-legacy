@@ -37,7 +37,7 @@
     </div>
 
     <div class='subtitle_button' on:click={toggleOpenState} class:hidden={!showContents}>
-        <Discloser bind:open={openState} />
+        <Discloser bind:id={id} bind:open={openState} />
     </div>
 </div>
 

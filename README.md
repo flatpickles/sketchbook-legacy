@@ -15,8 +15,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Seems like the panel open/close tabs don't always work reliably with narrow screens.
 
 ## To do
-* The star is too reminiscent of starring on github, masto, etc. New icon probably.
-* Replace panel hide/show tabs with something cooler
+* Replace panel hide/show tabs with something like the disclosure triangles
 * Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
 * Port some 2021 P3 projects into Sketchbook
 * Presets

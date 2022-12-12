@@ -6,51 +6,31 @@ import reglCamera from 'regl-camera';
 import angleNormals from 'angle-normals';
 import { mat4, vec3 } from 'gl-matrix';
 
-export default class Tunnel extends Sketch {
-    name = 'Tunnel';
-    type = SketchType.GL;
-    // date = new Date('10/25/2022');
-    description = `
-        Trying to make an endless tunnel, stay tuned.
-    `;
-    showPresets = false;
+class TunnelGeo {
+    static numSides = 11;
+    static segmentCount = 100;
+    static unitCount = 3;
 
-    settings = {
-        context: 'webgl',
-        scaleToView: true,
-        animate: true,
-        pixelRatio: 2,
-        attributes: {
-          antialias: true
-        }
-    };
-    bundledPresets = {};
-    params = {};
+    constructor(regl) {
+        this.generateGeo([0, 0, 0.5]);
+        this.initDraw(regl);
+    }
 
-    sketchFn = ({ gl }) => {
-        const regl = createRegl({ gl });
+    // Generate geometry
+    generateGeo(direction) {
+        this.positions = [];
+        this.cells = [];
 
-        // todo: camera positioning / disable rotation / move camera or geometry with time
-        const camera = reglCamera(regl, {
-            center: [0, 0, 0],
-            theta: -Math.PI / 2,
-            distance: 1,
-            mouse: false
-          });
-
-        // GEOMETRY (todo: stateful class for this?)
-
-        const numSides = 11;
+        // Generate first ring
         let headRing = [];
-        for (let vertexNum = 0; vertexNum < numSides; vertexNum += 1) {
-            const angle = Math.PI * 2 / numSides * vertexNum;
+        for (let vertexNum = 0; vertexNum < TunnelGeo.numSides; vertexNum += 1) {
+            const angle = Math.PI * 2 / TunnelGeo.numSides * vertexNum;
             headRing.push(vec3.fromValues(Math.cos(angle), Math.sin(angle), 0));
         }
-        let positions = [];
-        let cells = [];
 
-        function addSegment(direction) {
-            // Generate next ring values (straight extrusion for now)
+        // Add on segments to first ring
+        for (let segmentNum = 0; segmentNum < TunnelGeo.segmentCount; segmentNum += 1) {
+            // Generate next ring values
             const nextRing = headRing.map((vertex) => {
                 let nextVertex = vec3.create();
                 vec3.add(nextVertex, vertex, direction);
@@ -78,58 +58,94 @@ export default class Tunnel extends Sketch {
                 let pyramidPoint = vec3.create();
                 vec3.lerp(pyramidPoint, frameCenter, segmentCenter, Math.random() * 0.5 + 0.2); // todo: configurable depth & randomness
                 // Create geometry (todo: optimize?)
-                positions = positions.concat([pyramidPoint, frameNearLeft, frameNearRight]);
-                cells.push([positions.length - 3, positions.length - 2, positions.length - 1]);
-                positions = positions.concat([pyramidPoint, frameFarLeft, frameNearLeft]);
-                cells.push([positions.length - 3, positions.length - 2, positions.length - 1]);
-                positions = positions.concat([pyramidPoint, frameFarRight, frameFarLeft]);
-                cells.push([positions.length - 3, positions.length - 2, positions.length - 1]);
-                positions = positions.concat([pyramidPoint, frameNearRight, frameFarRight]);
-                cells.push([positions.length - 3, positions.length - 2, positions.length - 1]);
+                this.positions = this.positions.concat([pyramidPoint, frameNearLeft, frameNearRight]);
+                this.cells.push([this.positions.length - 3, this.positions.length - 2, this.positions.length - 1]);
+                this.positions = this.positions.concat([pyramidPoint, frameFarLeft, frameNearLeft]);
+                this.cells.push([this.positions.length - 3, this.positions.length - 2, this.positions.length - 1]);
+                this.positions = this.positions.concat([pyramidPoint, frameFarRight, frameFarLeft]);
+                this.cells.push([this.positions.length - 3, this.positions.length - 2, this.positions.length - 1]);
+                this.positions = this.positions.concat([pyramidPoint, frameNearRight, frameFarRight]);
+                this.cells.push([this.positions.length - 3, this.positions.length - 2, this.positions.length - 1]);
             }
 
+            // Reassign head
             headRing = nextRing;
         }
 
-        for (let i = 0; i < 100; i++) {
-            addSegment([0, 0, 0.5]);
-        }
+        // Create normals
+        this.normals = angleNormals(this.cells, this.positions);
+    }
 
-        // DRAWING
-
-        const draw = regl({
+    // Create draw function (requires regl, thus post-instantiation)
+    initDraw(regl) {
+        this.draw = regl({
             frag: `
-              precision highp float;
-              varying vec3 color;
-              void main () {
+                precision highp float;
+                varying vec3 color;
+                void main () {
                 gl_FragColor = vec4(color, 1.0);
-              }
+                }
             `,
             vert: `
-              precision highp float;
-              uniform mat4 projection, view;
-              uniform float time;
-              attribute vec3 position, normal;
-              varying vec3 color;
-              void main () {
+                precision highp float;
+                uniform mat4 projection, view;
+                uniform float time;
+                attribute vec3 position, normal;
+                varying vec3 color;
+                void main () {
                 color = 0.5 * (1.0 + normal);
                 gl_Position = projection * view * vec4(position, 1.0);
-              }
+                }
             `,
-            elements: cells,
+            elements: regl.this('cells'),
             attributes: {
-              position: positions,
-              normal: angleNormals(cells, positions),
+                position: regl.this('positions'),
+                normal: regl.this('normals'),
             },
             uniforms: {}
-          });
+        });
+    }
+}
 
-          return () => {
+export default class Tunnel extends Sketch {
+    name = 'Tunnel';
+    type = SketchType.GL;
+    // date = new Date('10/25/2022');
+    description = `
+        Trying to make an endless tunnel, stay tuned.
+    `;
+    showPresets = false;
+
+    settings = {
+        context: 'webgl',
+        scaleToView: true,
+        animate: true,
+        pixelRatio: 2,
+        attributes: {
+          antialias: true
+        }
+    };
+    bundledPresets = {};
+    params = {};
+
+    sketchFn = ({ gl }) => {
+        const regl = createRegl({ gl });
+
+        const camera = reglCamera(regl, {
+            center: [0, 0, 0],
+            theta: -Math.PI / 2,
+            distance: 1,
+            mouse: false
+        });
+
+        const geo = new TunnelGeo(regl);
+
+        return () => {
             // Update & clear 
             regl.poll();
             regl.clear({
-              color: [ 0, 0, 0, 1 ],
-              depth: 1
+                color: [ 0, 0, 0, 1 ],
+                depth: 1
             });
 
             // Move camera & draw
@@ -137,8 +153,8 @@ export default class Tunnel extends Sketch {
             // todo: some sort of fog or lighting to obscure the distant segments
             camera.center[2] = camera.center[2] + 0.01;
             camera(() => {
-              draw();
+                geo.draw();
             });
-          };
-        }
+        };
+    }
 }

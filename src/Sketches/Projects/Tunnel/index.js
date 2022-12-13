@@ -8,16 +8,46 @@ import { mat4, vec3 } from 'gl-matrix';
 
 class TunnelGeo {
     static numSides = 11;
-    static segmentCount = 100;
-    static unitCount = 3;
+    static segmentSize = 0.5;
+    static unitSize = 5;
+    static unitCount = 10;
 
     constructor(regl) {
-        this.generateGeo([0, 0, 0.5]);
-        this.initDraw(regl);
+        this.generateGeo();
+
+        // Create draw function (requires regl, thus post-instantiation)
+        this.draw = regl({
+            frag: `
+                precision highp float;
+                varying vec3 color;
+                void main () {
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `,
+            vert: `
+                precision highp float;
+                uniform mat4 projection, view, model;
+                uniform float time;
+                attribute vec3 position, normal;
+                varying vec3 color;
+                void main () {
+                    color = 0.5 * (1.0 + normal);
+                    gl_Position = projection * view * model * vec4(position, 1.0);
+                }
+            `,
+            elements: regl.this('cells'),
+            attributes: {
+                position: regl.this('positions'),
+                normal: regl.this('normals'),
+            },
+            uniforms: {
+                model: regl.prop('model')
+            }
+        });
     }
 
     // Generate geometry
-    generateGeo(direction) {
+    generateGeo() {
         this.positions = [];
         this.cells = [];
 
@@ -29,7 +59,9 @@ class TunnelGeo {
         }
 
         // Add on segments to first ring
-        for (let segmentNum = 0; segmentNum < TunnelGeo.segmentCount; segmentNum += 1) {
+        const segmentCount = (TunnelGeo.unitSize / TunnelGeo.segmentSize);
+        const direction = [0, 0, TunnelGeo.segmentSize];
+        for (let segmentNum = 0; segmentNum < segmentCount; segmentNum += 1) {
             // Generate next ring values
             const nextRing = headRing.map((vertex) => {
                 let nextVertex = vec3.create();
@@ -75,36 +107,6 @@ class TunnelGeo {
         // Create normals
         this.normals = angleNormals(this.cells, this.positions);
     }
-
-    // Create draw function (requires regl, thus post-instantiation)
-    initDraw(regl) {
-        this.draw = regl({
-            frag: `
-                precision highp float;
-                varying vec3 color;
-                void main () {
-                gl_FragColor = vec4(color, 1.0);
-                }
-            `,
-            vert: `
-                precision highp float;
-                uniform mat4 projection, view;
-                uniform float time;
-                attribute vec3 position, normal;
-                varying vec3 color;
-                void main () {
-                color = 0.5 * (1.0 + normal);
-                gl_Position = projection * view * vec4(position, 1.0);
-                }
-            `,
-            elements: regl.this('cells'),
-            attributes: {
-                position: regl.this('positions'),
-                normal: regl.this('normals'),
-            },
-            uniforms: {}
-        });
-    }
 }
 
 export default class Tunnel extends Sketch {
@@ -129,8 +131,8 @@ export default class Tunnel extends Sketch {
     params = {};
 
     sketchFn = ({ gl }) => {
+        // Create gl stuff
         const regl = createRegl({ gl });
-
         const camera = reglCamera(regl, {
             center: [0, 0, 0],
             theta: -Math.PI / 2,
@@ -138,7 +140,11 @@ export default class Tunnel extends Sketch {
             mouse: false
         });
 
+        // Prepare for drawing
         const geo = new TunnelGeo(regl);
+        let translation = mat4.create();
+        let identity = mat4.create();
+        mat4.identity(identity);
 
         return () => {
             // Update & clear 
@@ -148,13 +154,22 @@ export default class Tunnel extends Sketch {
                 depth: 1
             });
 
-            // Move camera & draw
-            // todo: add segments as camera moves
-            // todo: some sort of fog or lighting to obscure the distant segments
+            // Move camera and calculate starting position for tunnel units
             camera.center[2] = camera.center[2] + 0.01;
+            const firstUnitOffset = camera.center[2] - (camera.center[2] % TunnelGeo.unitSize) - TunnelGeo.unitSize;
+            
+            // Draw all tunnel units, with repeated draw calls and model uniform updates
+            // todo: some sort of fog or lighting to obscure the distant segments
             camera(() => {
-                geo.draw();
-            });
+                let currentDistance = firstUnitOffset;
+                for (let unitNum = 0; unitNum <= TunnelGeo.unitCount; unitNum += 1) {
+                    mat4.translate(translation, identity, [0, 0, currentDistance]);
+                    geo.draw({
+                        model: translation
+                    });
+                    currentDistance += TunnelGeo.unitSize;
+                }
+            })
         };
     }
 }

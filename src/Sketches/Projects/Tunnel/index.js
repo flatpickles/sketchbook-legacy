@@ -128,7 +128,9 @@ export default class Tunnel extends Sketch {
         }
     };
     bundledPresets = {};
-    params = {};
+    params = {
+        speed: new FloatParam('Speed', 0.2, 0.1, 1.0),
+    };
 
     sketchFn = ({ gl }) => {
         // Create gl stuff
@@ -155,7 +157,7 @@ export default class Tunnel extends Sketch {
             });
 
             // Move camera and calculate starting position for tunnel units
-            camera.center[2] = camera.center[2] + 0.01;
+            camera.center[2] = camera.center[2] + this.params.speed.value * 0.1;
             const firstUnitOffset = camera.center[2] - (camera.center[2] % TunnelGeo.unitSize) - TunnelGeo.unitSize;
             
             // Draw all tunnel units, with repeated draw calls and model uniform updates

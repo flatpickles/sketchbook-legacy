@@ -11,9 +11,9 @@
             case Direction.Down:
                 return new DisclosureConfig(0, -25, 0, 60);
             case Direction.Left:
-                return new DisclosureConfig(25, 0, -30, 30);
+                return new DisclosureConfig(0, 0, 90, 30);
             case Direction.Right:
-                return new DisclosureConfig(-25, 0, 30, -30);
+                return new DisclosureConfig(0, 0, 30, 90);
         }
     })(direction);
 

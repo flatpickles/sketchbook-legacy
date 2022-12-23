@@ -1,7 +1,6 @@
 <script>
     import Discloser from './Components/Discloser.svelte';
     import Expandable from './Components/Expandable.svelte';
-
     import { Direction } from './Components/Types.ts';
 
     export let id = undefined
@@ -39,7 +38,11 @@
     </div>
 
     <div class='subtitle_button' on:click={toggleOpenState} class:hidden={!showContents}>
-        <Discloser direction={Direction.Down} bind:id={id} bind:open={openState} />
+        <Discloser
+            direction={Direction.Down}
+            bind:id={id}
+            bind:open={openState}
+        />
     </div>
 </div>
 

@@ -1,5 +1,7 @@
 <script>
     import CanvasSketch from './CanvasSketch.svelte';
+    import Discloser from './Components/Discloser.svelte';
+    import { Direction } from './Components/Types.ts';
 
     export let sketch;
     export let directLink; // true when viewer started with a specific sketch
@@ -77,11 +79,11 @@
     </div>
     <div class='button_container'>
         <div class='panel_button' on:click={toggleLeft}>
-            {#if leftPanelOpen}
-                &lt;
-            {:else}
-                &gt;
-            {/if }
+            <Discloser
+                direction={Direction.Left}
+                id="left"
+                bind:open={leftPanelOpen}
+            />
         </div>
     </div>
 </div>
@@ -93,11 +95,11 @@
 <div id='right_panel' class='panel right_transition' class:open={rightPanelOpen} style='--viewport-width: {viewportWidthString}'>
     <div class='button_container'>
         <div class='panel_button' on:click={toggleRight}>
-            {#if rightPanelOpen}
-                &gt;
-            {:else}
-                &lt;
-            {/if }
+            <Discloser
+                direction={Direction.Right}
+                id="right"
+                bind:open={rightPanelOpen}
+            />
         </div>
     </div>
     <div class='panel_content'>

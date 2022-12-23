@@ -40,6 +40,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Link previews! Can we show a preview image for each sketch?
 * CSS triage: clean everything up
 * Cleanup: documentation, naming, etc.
+* Start moving stuff (core classes, Svelte files) to TypeScript
 * Key commands
     * Hide/show panels (both or each)
 * Sketch details display

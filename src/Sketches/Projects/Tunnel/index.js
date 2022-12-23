@@ -32,7 +32,9 @@ class TunnelGeo {
                 varying vec3 color;
                 void main () {
                     color = 0.5 * (1.0 + normal);
-                    gl_Position = projection * view * model * vec4(position, 1.0);
+                    vec4 spacePos = model * vec4(position, 1.0);
+                    vec4 tunnelCenter = vec4(0.0, 0.0, spacePos.z, 1.0);
+                    gl_Position = projection * view * spacePos;
                 }
             `,
             elements: regl.this('cells'),

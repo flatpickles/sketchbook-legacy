@@ -81,6 +81,8 @@
         <div class='panel_button' on:click={toggleLeft}>
             <Discloser
                 direction={Direction.Left}
+                solidStyle={false}
+                size={16}
                 id="left"
                 bind:open={leftPanelOpen}
             />
@@ -97,6 +99,8 @@
         <div class='panel_button' on:click={toggleRight}>
             <Discloser
                 direction={Direction.Right}
+                solidStyle={false}
+                size={18}
                 id="right"
                 bind:open={rightPanelOpen}
             />
@@ -134,21 +138,21 @@
     .button_container {
         width: 50px;
         flex-shrink: 0;
-        background-color: #0000;
+        /* background-color: #0000; */
         display: flex;
         flex-direction: row;
         height: fit-content;
     }
 
     .panel_button {
-        color: var(--collapse-tab-text-color);
-        font-size: var(--collapse-tab-font-size);
+        /* color: var(--collapse-tab-text-color);
+        font-size: var(--collapse-tab-font-size); */
         cursor: pointer;
         padding: var(--collapse-tab-padding);
-        border-bottom: var(--border);
-        background-color: var(--collapse-tab-bg-color);
+        /* border-bottom: var(--border); */
+        /* background-color: var(--collapse-tab-bg-color);
         backdrop-filter: var(--panel-filter);
-        -webkit-backdrop-filter: var(--collapse-tab-filter);
+        -webkit-backdrop-filter: var(--collapse-tab-filter); */
         text-align: center;
         flex-shrink: 2;
         user-select: none;
@@ -174,8 +178,8 @@
     }
 
     #left_panel .panel_button {
-        border-right: var(--border);
-        border-radius: 0 0 2px 0;
+        /* border-right: var(--border);
+        border-radius: 0 0 2px 0; */
     }
 
     /* Right panel */
@@ -201,7 +205,7 @@
     }
 
     #right_panel .panel_button {
-        border-left: var(--border);
-        border-radius: 0 0 0 2px;
+        /* border-left: var(--border);
+        border-radius: 0 0 0 2px; */
     }
 </style>

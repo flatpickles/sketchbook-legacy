@@ -2,10 +2,11 @@
     import { Direction, DisclosureConfig } from "./Types";
 
     export let direction: Direction;
+    export let solidStyle: boolean = true;
+    export let size: number = 12;
     export let open: boolean;
     export let id: string;
 
-    const size = 12;
     $: config = ((direction) => {
         switch (direction) {
             case Direction.Down:
@@ -36,7 +37,16 @@
     class="triangle"
     class:rotated={!open}
     class:rotate_animation={animationEnabled}
-/>
+    class:transparent={!solidStyle}
+>
+    {#if !solidStyle}
+        <div
+            style="--size: {size -  2 / Math.sin(Math.PI / 6)};"
+            class="triangle inner"
+        />
+    {/if}
+</div>
+
 
 <style>
     .triangle {
@@ -46,6 +56,11 @@
         clip-path: polygon(6.7% 25%, 93.3% 25%, 50% 100%);
         transform: translate(calc(var(--openTransX) * 1%), calc(var(--openTransY) * 1%)) rotate(calc(var(--openRotation) * 1deg));
         -webkit-transform: translate(calc(var(--openTransX) * 1%), calc(var(--openTransY) * 1%)) rotate(calc(var(--openRotation) * 1deg));
+        
+        /* Center contained objects (e.g. another triangle) */
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .triangle.rotate_animation {
@@ -55,5 +70,18 @@
     .triangle.rotated {
         transform: translate(0%, 0%) rotate(calc(var(--closeRotation) * 1deg));
         -webkit-transform: translate(0%, 0%) rotate(calc(var(--closeRotation) * 1deg));
+    }
+
+    .inner {
+        background-color: rgba(255, 255, 255, 100%);
+        transform: rotate(0deg);
+    }
+
+    .transparent {
+        opacity: 0.2;
+    }
+
+    .transparent:hover {
+        opacity: 0.5;
     }
 </style>

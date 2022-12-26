@@ -33,7 +33,7 @@
     }
 
     .expand_animation {
-        transition: height var(--disclosure-animation-time) ease-in-out;
+        transition: height var(--animation-time) ease-in-out;
     }
 
     #expandable_container.open {

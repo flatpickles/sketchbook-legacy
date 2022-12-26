@@ -1,7 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
     import Button from './Components/Button.svelte';
-    import Discloser from './Components/Discloser.svelte';
     import PanelHeader from './PanelHeader.svelte';
 
     export let sketches;

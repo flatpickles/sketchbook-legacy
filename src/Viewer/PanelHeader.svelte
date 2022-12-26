@@ -40,7 +40,6 @@
     <div class='subtitle_button' on:click={toggleOpenState} class:hidden={!showContents}>
         <Discloser
             direction={Direction.Down}
-            solidStyle={true}
             size={12}
             bind:id={id}
             bind:open={openState}

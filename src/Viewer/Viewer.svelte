@@ -70,6 +70,23 @@
         // Adjust panels if need be
         preventPanelCollision();
     }, true);
+
+    // Provide properties that can be used for fading open/close buttons in & out
+    const isTouchDevice = ('ontouchstart' in window) ||
+                          (navigator.maxTouchPoints > 0) ||
+                          (navigator.msMaxTouchPoints > 0);
+    
+    const mouseMoveTimeoutDuration = 2000; // milliseconds
+    let mouseMoveTimeout = undefined;
+    let mouseIsMoving = false;
+    document.onmousemove = () => {
+        mouseIsMoving = true;
+        clearTimeout(mouseMoveTimeout);
+        mouseMoveTimeout = setTimeout(() => {
+            mouseIsMoving = false;
+        }, mouseMoveTimeoutDuration);
+    };
+    
 </script>
 
 <div id='left_panel' class='panel' class:open={leftPanelOpen}>
@@ -78,10 +95,10 @@
         </slot>
     </div>
     <div class='button_container'>
-        <div class='panel_button' on:click={toggleLeft}>
+        <div class='panel_button' on:click={toggleLeft} class:opaque={mouseIsMoving || isTouchDevice}>
             <Discloser
                 direction={Direction.Left}
-                solidStyle={false}
+                borderStyle={true}
                 size={16}
                 id="left"
                 bind:open={leftPanelOpen}
@@ -96,11 +113,11 @@
 
 <div id='right_panel' class='panel right_transition' class:open={rightPanelOpen} style='--viewport-width: {viewportWidthString}'>
     <div class='button_container'>
-        <div class='panel_button' on:click={toggleRight}>
+        <div class='panel_button' on:click={toggleRight} class:opaque={mouseIsMoving || isTouchDevice}>
             <Discloser
                 direction={Direction.Right}
-                solidStyle={false}
-                size={18}
+                borderStyle={true}
+                size={16}
                 id="right"
                 bind:open={rightPanelOpen}
             />
@@ -138,31 +155,36 @@
     .button_container {
         width: 50px;
         flex-shrink: 0;
-        /* background-color: #0000; */
         display: flex;
         flex-direction: row;
         height: fit-content;
     }
 
     .panel_button {
-        /* color: var(--collapse-tab-text-color);
-        font-size: var(--collapse-tab-font-size); */
         cursor: pointer;
         padding: var(--collapse-tab-padding);
-        /* border-bottom: var(--border); */
-        /* background-color: var(--collapse-tab-bg-color);
-        backdrop-filter: var(--panel-filter);
-        -webkit-backdrop-filter: var(--collapse-tab-filter); */
         text-align: center;
         flex-shrink: 2;
         user-select: none;
+
+        /* opacity: 0.0 when panel is closed, 0.2 when open, 0.7 when has class `opaque` */
+        opacity: 0.0;
+        transition: opacity var(--animation-time) ease-out;
+    }
+
+    .panel.open .panel_button:not(.opaque) {
+        opacity: 0.2;
+    }
+
+    .panel_button.opaque, .panel_button:hover {
+        opacity: 0.7;
     }
 
     /* Left panel */
 
     #left_panel {
         left: -250px;
-        transition: left 0.3s ease-in-out;
+        transition: left var(--animation-time) ease-in-out;
     }
 
     #left_panel.open {
@@ -177,11 +199,6 @@
         border-right: var(--border);
     }
 
-    #left_panel .panel_button {
-        /* border-right: var(--border);
-        border-radius: 0 0 2px 0; */
-    }
-
     /* Right panel */
 
     #right_panel {
@@ -189,7 +206,7 @@
     }
 
     .right_transition {
-        transition: left 0.3s ease-in-out;
+        transition: left var(--animation-time) ease-in-out;
     }
 
     #right_panel.open {
@@ -202,10 +219,5 @@
 
     #right_panel .panel_content {
         border-left: var(--border);
-    }
-
-    #right_panel .panel_button {
-        /* border-left: var(--border);
-        border-radius: 0 0 0 2px; */
     }
 </style>

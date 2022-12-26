@@ -15,7 +15,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Seems like the panel open/close tabs don't always work reliably with narrow screens.
 
 ## To do
-* Replace panel hide/show tabs with something like the disclosure triangles
 * Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
 * Port some 2021 P3 projects into Sketchbook
 * Presets
@@ -23,9 +22,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
     * URL option to pre-select a preset
 * Double click: capture state (e.g. just one panel open) and resume that state
 * Link styling
-* UX improvements:
-    * Hide panel tabs when both collapsed w/ no mouse movement
-    * Crossfade when switching sketches
 * Global options:
     * Additional link out to per-sketch readmes from right panel
     * Export frame option (also exports param JSON; bottom right panel)
@@ -63,6 +59,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
     * MIDI (+ output?)
     * Image (browse & load)
 * Assorted:
+    * Crossfade when switching sketches
     * Export a sub-section of the canvas (smaller renders)
     * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.
 

@@ -2,7 +2,7 @@
     import { Direction, DisclosureConfig } from "./Types";
 
     export let direction: Direction;
-    export let solidStyle: boolean = true;
+    export let borderStyle: boolean = false;
     export let size: number = 12;
     export let open: boolean;
     export let id: string;
@@ -37,9 +37,8 @@
     class="triangle"
     class:rotated={!open}
     class:rotate_animation={animationEnabled}
-    class:transparent={!solidStyle}
 >
-    {#if !solidStyle}
+    {#if borderStyle}
         <div
             style="--size: {size -  2 / Math.sin(Math.PI / 6)};"
             class="triangle inner"
@@ -64,7 +63,7 @@
     }
 
     .triangle.rotate_animation {
-        transition: transform var(--disclosure-animation-time) ease-out;
+        transition: transform var(--animation-time) ease-out;
     }
 
     .triangle.rotated {
@@ -75,13 +74,5 @@
     .inner {
         background-color: rgba(255, 255, 255, 100%);
         transform: rotate(0deg);
-    }
-
-    .transparent {
-        opacity: 0.2;
-    }
-
-    .transparent:hover {
-        opacity: 0.5;
     }
 </style>

@@ -8,6 +8,8 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Color parameter inputs have a weird internal margin after hiding/showing right panel
 * If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload
 * Mobile:
+    * Preset selector is blue?!
+    * Taps on disclosure triangles flash an odd tap target
     * Swipes on sliders can scroll page
     * Color preview block has strange corners
 * Resizing the window can leave the canvas element at the wrong size. It seems this is literal canvas size and not padding, and happens only when the window is getting smaller in one dimension, every other time it seems.

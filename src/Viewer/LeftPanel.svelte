@@ -56,7 +56,7 @@
         </span>
         <span slot='contents'>
             <p>
-                Sketchbook is a collection of programmatic art pieces.
+                Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
             </p>
             {#if showExperimental}

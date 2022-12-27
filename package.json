@@ -6,7 +6,6 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
-    "deploy": "node ./gh-pages.js",
     "test": "jest"
   },
   "devDependencies": {
@@ -34,7 +33,6 @@
     "angle-normals": "^1.0.0",
     "browser-fs-access": "^0.31.1",
     "canvas-sketch-util": "^1.10.0",
-    "gh-pages": "^4.0.0",
     "gl-matrix": "^3.4.3",
     "glsl-noise": "^0.0.0",
     "glslify": "^7.1.1",

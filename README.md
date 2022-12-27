@@ -68,7 +68,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 ## Workflow / project wishlist
 * "Experimental" flag for Sketchbook features (not just sketches)
 * Probably get rid of global.css
-* Avoid bundling `public` dir in main branch
 * A sketch type that doesn't use canvas-sketch - just vanilla svelte
 * Parameter improvements: `this.params.paramName.value` is awkward, but providing a generated `this.paramName` property seems tricky.
 * Make it easier for others to create their own sketchbooks. Potential approach:

@@ -17,6 +17,11 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Seems like the panel open/close tabs don't always work reliably with narrow screens.
 
 ## To do
+* Move things to $lib folder (Sketch.js, etc)
+* Use class names in file names for projects
+* Import contents of Sketches/Projects automatically!? (Vite glob import maybe)
+* Generator (npm run new)
+    * Automatically add to SketchIndex.js (if automatic import isn't possible)
 * Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
 * Port some 2021 P3 projects into Sketchbook
 * Presets
@@ -35,6 +40,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Copyright somewhere on the page
 
 ## To consider
+* Make this a SvelteKit project?!
 * Link previews! Can we show a preview image for each sketch?
 * CSS triage: clean everything up
 * Cleanup: documentation, naming, etc.

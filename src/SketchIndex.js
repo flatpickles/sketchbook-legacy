@@ -13,7 +13,7 @@ const sketches = [
     new Mandelbrot(),
     new Rectilinear(),
     new NoSignal(),
-    new FloppyDisk(),
+    new FloppyDisk()
 ];
 
 export default sketches;

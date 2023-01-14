@@ -6,7 +6,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
-    "test": "jest"
+    "test": "jest",
+    "new": "node tools/generate.js"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.10",
@@ -16,6 +17,7 @@
     "@rollup/plugin-typescript": "^10.0.1",
     "@tsconfig/svelte": "^3.0.0",
     "canvas-sketch": "latest",
+    "generate-template-files": "^3.2.1",
     "jest": "^29.0.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",

@@ -22,6 +22,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 * Import contents of Sketches/Projects automatically!? (Vite glob import maybe)
 * Generator (npm run new)
     * Automatically add to SketchIndex.js (if automatic import isn't possible)
+    * Remove templates in Base (once incorporated)
 * Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
 * Port some 2021 P3 projects into Sketchbook
 * Presets

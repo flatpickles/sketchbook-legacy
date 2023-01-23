@@ -11,7 +11,7 @@ export default class EtherealGoop extends Sketch {
     date = new Date('10/29/2022');
     experimental = false;
     description = `
-        Ethereal Goop is based on a noise layering <a href='https://flatpickles.com/image/ethereal-goop.jpg'>experiment</a> from 2021. I've built upon that for a fresh Sketchbook version, adding new features and presets, and improving performance.
+        Ethereal Goop is based on a noise layering <a href='https://flatpickles.com/media/ethereal-goop'>experiment</a> from 2021. I've built upon that for a fresh Sketchbook version, adding new features and presets, and improving performance.
     `;
     showPresets = true;
 

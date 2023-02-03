@@ -5,8 +5,10 @@ import Mandelbrot from './Sketches/Projects/Mandelbrot/index.js';
 import EtherealGoop from './Sketches/Projects/EtherealGoop/index.js';
 import ReglCube from './Sketches/Projects/ReglCube/index.js';
 import Tunnel from './Sketches/Projects/Tunnel/index.js';
+import AuroraVibes from './Sketches/Projects/AuroraVibes/AuroraVibes.js';
 
 const sketches = [
+    new AuroraVibes(),
     new Tunnel(),
     new ReglCube(),
     new EtherealGoop(),

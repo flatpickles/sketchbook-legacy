@@ -1,1 +1,18 @@
-{}
+{
+    "Dark Shiny": {
+        "timeScale": 0.18,
+        "xScale": 0.94,
+        "yScale": 4.45,
+        "baseColor": "#160078",
+        "mixMin1": 0.13,
+        "mixMax1": 0.44,
+        "color1": "#7556D8",
+        "mixMin2": 0.32,
+        "mixMax2": 0.57,
+        "color2": "#3C0F56",
+        "mixMin3": 0.33,
+        "mixMax3": 0.68,
+        "color3": "#000000",
+        "seedOffset": 2
+    }
+}

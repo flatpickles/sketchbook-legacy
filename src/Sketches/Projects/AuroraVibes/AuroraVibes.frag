@@ -1,12 +1,12 @@
 precision highp float;
 
-#pragma glslify: noise = require(glsl-noise/classic/4d)
-#pragma glslify: blend = require(glsl-blend/add)
+#pragma glslify: noise = require(glsl-noise/classic/3d)
 
 uniform vec2 renderSize;
 uniform float seedOffset;
 uniform float scaledTime;
-
+uniform float xScale;
+uniform float yScale;
 uniform vec4 baseColor;
 uniform vec4 color1;
 uniform float mixMin1;
@@ -20,32 +20,26 @@ uniform float mixMax3;
 
 varying vec2 vUv;
 
+// Mix in a new layerColor over background; mix value is noise, scaled between mixMin & mixMax
 vec3 addLayer(vec3 background, vec3 layerColor, vec2 uv, float seed, float mixMin, float mixMax) {
-	float noiseVal = noise(vec4(uv, scaledTime, seed));
+	float noiseVal = noise(vec3(uv, seed));
 	noiseVal = mix(mixMin, mixMax, noiseVal);
 	return mix(background, layerColor, noiseVal);
 }
 
 void main()	{
+	// Scale the coordinate space
 	float aspectRatio = float(renderSize.x) / float(renderSize.y);
 	vec2 uv = vUv;
 	uv = uv * 2.0 - 1.;
 	uv.x *= aspectRatio;
+	uv.x *= xScale;
+	uv.y *= yScale;
 
-	// todo: paramify aspect ratios
-	uv.x /= 2.0;
-	uv.y *= 4.0;
-
+	// Create the blended final color
 	vec3 blended = baseColor.rgb;
-	blended = addLayer(blended, color1.rgb, uv, 0.0, mixMin1, mixMax1);
-	blended = addLayer(blended, color2.rgb, uv, seedOffset * 1.0, mixMin2, mixMax2);
-	blended = addLayer(blended, color3.rgb, uv, seedOffset * 2.0, mixMin3, mixMax3);
-
-	// blended = addLayer(blended, vec3(0.066, 0.163, 0.522), uv, 0.0);
-	// vec3(0.1412, 0.3961, 0.8078)
-	// blended = addLayer(blended, vec3(0.458, 0.336, 0.849), uv, seedOffset * 2.0);
-	// vec3(0.236, 0.058, 0.339)
-	// blended = addLayer(blended, vec3(0.085, 0.001, 0.471), uv, seedOffset * 4.0);
-
+	blended = addLayer(blended, color1.rgb, uv, scaledTime + seedOffset * 0.0, mixMin1, mixMax1);
+	blended = addLayer(blended, color2.rgb, uv, scaledTime + seedOffset * 1.0, mixMin2, mixMax2);
+	blended = addLayer(blended, color3.rgb, uv, scaledTime + seedOffset * 2.0, mixMin3, mixMax3);
 	gl_FragColor = vec4(blended, 1.0);
 }

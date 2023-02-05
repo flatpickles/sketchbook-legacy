@@ -10,7 +10,7 @@ export default class AuroraVibes extends Sketch {
     type = SketchType.GL;
     // date = new Date('10/25/2022');
     description = `
-        Wavy foggy aurora sorta thing, or wherever this ends up.
+        Wavy foggy subtle vibey aurora sorta thing, if you dig. Seeking dopeness, without being too interesting.
     `;
     showPresets = false;
 
@@ -23,20 +23,32 @@ export default class AuroraVibes extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        // demoFloat: new FloatParam('Demo Float', 0.5, 0.0, 1.0),
-        // demoColor: new ColorParam('Demo Color', '#00FF00'),
+        mixMin: new FloatParam('Mix Min', 0.2, 0.0, 1.0),
+        mixMax: new FloatParam('Mix Max', 0.4, 0.0, 1.0),
+        seedOffset: new FloatParam('Seed Offset', 0.5, 0.0, 10.0),
+        timeScale: new FloatParam('Time Scale', 0.2, 0.1, 1.0),
     };
 
     sketchFn = ({ gl }) => {
         const frag = shaderString;
+        let lastFrameTime = Date.now();
+        let totalScaledTime = 0;
         return createShader({
             gl,
             frag,
             uniforms: {
                 time: ({ time }) => time,
+                scaledTime: ({}) => {
+                    const curTime = Date.now();
+                    const elapsed = lastFrameTime - curTime;
+                    lastFrameTime = curTime;
+                    totalScaledTime += elapsed * this.params.timeScale.value / 1000.;
+                    return totalScaledTime;
+                },
                 renderSize: ({}) => [window.innerWidth, window.innerHeight],
-                // demoFloat: ({}) => this.params.demoFloat.value,
-                // demoColor: ({}) => this.params.demoColor.vec4,
+                mixMin: ({}) => this.params.mixMin.value,
+                mixMax: ({}) => this.params.mixMax.value,
+                seedOffset: ({}) => this.params.seedOffset.value,
             }
         });
     };

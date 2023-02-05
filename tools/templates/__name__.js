@@ -5,7 +5,7 @@ import createShader from  'canvas-sketch-util/shader';
 import shaderString from './__name__.frag';
 import presetsObject from './presets.json';
 
-export default class __name__Template extends Sketch {
+export default class __name__ extends Sketch {
     name = '__name__(noCase)';
     type = SketchType.GL;
     // date = new Date('10/25/2022');

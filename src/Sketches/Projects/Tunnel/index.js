@@ -114,9 +114,9 @@ class TunnelGeo {
 export default class Tunnel extends Sketch {
     name = 'Tunnel';
     type = SketchType.GL;
-    // date = new Date('10/25/2022');
+    date = new Date('12/12/2022');
     description = `
-        Trying to make an endless tunnel, stay tuned.
+        An endless tunnel of sorts, WebGL 3D via regl. I'd like to come back to this one.
     `;
     showPresets = false;
 

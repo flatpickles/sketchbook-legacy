@@ -11,9 +11,9 @@ import { mat4 } from 'gl-matrix';
 export default class ReglCube extends Sketch {
     name = 'regl Cube';
     type = SketchType.GL;
-    // date = new Date('10/25/2022');
+    date = new Date('12/05/2022');
     description = `
-        Playing around with a direct regl instantiation.
+        Playing around with a direct regl instantiation, and mouse interactions.
     `;
     showPresets = false;
 

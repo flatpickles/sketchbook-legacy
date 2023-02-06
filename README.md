@@ -73,6 +73,9 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
     * When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.
 
 ## Workflow / project wishlist
+* Preset values etc
+    * Easily create defaults from an export
+    * Update presets when params are updated?
 * Run tests in CI before deploying, something like [this](https://medium.com/@jjzcru/building-a-ci-cd-pipeline-with-vercel-and-github-actions-f80d3a4a7de3)
 * "Experimental" flag for Sketchbook features (not just sketches)
 * Probably get rid of global.css

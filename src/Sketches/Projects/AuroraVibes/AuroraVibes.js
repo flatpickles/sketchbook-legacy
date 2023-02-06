@@ -1,5 +1,5 @@
 import Sketch, { SketchType } from '../../Base/Sketch.js';
-import { FloatParam, ColorParam } from '../../Base/SketchParam.js';
+import { FloatParam, ColorParam, BoolParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
 import shaderString from './AuroraVibes.frag';
@@ -23,21 +23,22 @@ export default class AuroraVibes extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        timeScale: new FloatParam('Time Scale', 0.2, 0.01, 1.0),
+        timeScale: new FloatParam('Time Scale', 0.2, 0.0, 1.0),
         xScale: new FloatParam('X Scale', 1.0, 0.01, 10.0),
         yScale: new FloatParam('Y Scale', 4.0, 0.01, 10.0),
+        seedOffset: new FloatParam('Noise Offset', 0.3, 0.0, 3.0),
+        simplexNoise: new BoolParam('Simplex Noise', true),
         baseColor: new ColorParam('Base Color', '#000000'),
-        mixMin1: new FloatParam('Mix Min 1', 0.3, 0.0, 1.0),
-        mixMax1: new FloatParam('Mix Max 1', 0.9, 0.0, 1.0),
+        mixMin1: new FloatParam('Mix Min 1', 0.3, -1.0, 1.0),
+        mixMax1: new FloatParam('Mix Max 1', 0.9, -1.0, 1.0),
         color1: new ColorParam('Color 1', '#FF0000'),
-        mixMin2: new FloatParam('Mix Min 2', 0.3, 0.0, 1.0),
-        mixMax2: new FloatParam('Mix Max 2', 0.9, 0.0, 1.0),
+        mixMin2: new FloatParam('Mix Min 2', -0.1, -1.0, 1.0),
+        mixMax2: new FloatParam('Mix Max 2', 0.9, -1.0, 1.0),
         color2: new ColorParam('Color 2', '#00FF00'),
-        mixMin3: new FloatParam('Mix Min 3', 0.2, 0.0, 1.0),
-        mixMax3: new FloatParam('Mix Max 3', 0.5, 0.0, 1.0),
+        mixMin3: new FloatParam('Mix Min 3', 0.2, -1.0, 1.0),
+        mixMax3: new FloatParam('Mix Max 3', 0.5, -1.0, 1.0),
         color3: new ColorParam('Color 3', '#0000FF'),
-        seedOffset: new FloatParam('Seed Offset', 0.7, 0.0, 3.0),
-        easing: new FloatParam('Easing', 1.0, 0.01, 10.0),
+        easing: new FloatParam('Mix Easing', 1.0, 0.01, 5.0),
     };
 
     sketchFn = ({ gl }) => {
@@ -70,6 +71,7 @@ export default class AuroraVibes extends Sketch {
                 mixMin3: ({}) => this.params.mixMin3.value,
                 mixMax3: ({}) => this.params.mixMax3.value,
                 easing: ({}) => this.params.easing.value,
+                useSimplex: ({}) => this.params.simplexNoise.value,
             }
         });
     };

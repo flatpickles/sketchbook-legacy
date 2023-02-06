@@ -1,6 +1,7 @@
 precision highp float;
 
-#pragma glslify: noise = require(glsl-noise/simplex/3d)
+#pragma glslify: simplexNoise = require(glsl-noise/simplex/3d)
+#pragma glslify: classicNoise = require(glsl-noise/classic/3d)
 
 uniform vec2 renderSize;
 uniform float seedOffset;
@@ -8,6 +9,7 @@ uniform float scaledTime;
 uniform float xScale;
 uniform float yScale;
 uniform float easing;
+uniform bool useSimplex;
 
 uniform vec4 baseColor;
 uniform vec4 color1;
@@ -21,7 +23,6 @@ uniform float mixMin3;
 uniform float mixMax3;
 
 varying vec2 vUv;
-
 
 // Sigmoid easing adapted from:
 // https://medium.com/hackernoon/ease-in-out-the-sigmoid-factory-c5116d8abce9
@@ -37,10 +38,15 @@ float sigmoidEasing(float t, float k) {
 
 // Mix in a new layerColor over background; mix value is noise, scaled between mixMin & mixMax
 vec3 addLayer(vec3 background, vec3 layerColor, vec2 uv, float seed, float mixMin, float mixMax) {
-	float noiseVal = (noise(vec3(uv, seed)) + 1.0) / 2.0; // within [0, 1] for easing
-	noiseVal = sigmoidEasing(noiseVal, easing);
-	noiseVal = noiseVal * 2.0 - 1.0; // back to [-1, 1] - todo
-	noiseVal = mix(mixMin, mixMax, noiseVal);
+	float noiseVal;
+	if (useSimplex) {
+		noiseVal = simplexNoise(vec3(uv, seed));
+	} else {
+		noiseVal = classicNoise(vec3(uv, seed));
+	}
+	noiseVal = (noiseVal + 1.0) / 2.0; // within [0, 1]
+	noiseVal = sigmoidEasing(noiseVal, easing); // apply easing
+	noiseVal = mix(mixMin, mixMax, noiseVal); // determine mix
 	return mix(background, layerColor, noiseVal);
 }
 
@@ -52,11 +58,13 @@ void main()	{
 	uv.x *= aspectRatio;
 	uv.x *= xScale;
 	uv.y *= yScale;
+	uv /= useSimplex ? 1.5 : 1.0;
 
 	// Create the blended final color
 	vec3 blended = baseColor.rgb;
-	blended = addLayer(blended, color1.rgb, uv, scaledTime + seedOffset * 0.0, mixMin1, mixMax1);
-	blended = addLayer(blended, color2.rgb, uv, scaledTime + seedOffset * 1.0, mixMin2, mixMax2);
-	blended = addLayer(blended, color3.rgb, uv, scaledTime + seedOffset * 2.0, mixMin3, mixMax3);
+	float noiseTime = scaledTime / (useSimplex ? 1.5 : 1.0);
+	blended = addLayer(blended, color1.rgb, uv, noiseTime + seedOffset * 0.0, mixMin1, mixMax1);
+	blended = addLayer(blended, color2.rgb, uv, noiseTime + seedOffset * 1.0, mixMin2, mixMax2);
+	blended = addLayer(blended, color3.rgb, uv, noiseTime + seedOffset * 2.0, mixMin3, mixMax3);
 	gl_FragColor = vec4(blended, 1.0);
 }

@@ -13,6 +13,7 @@
         "mixMin3": 0.33,
         "mixMax3": 0.68,
         "color3": "#000000",
-        "seedOffset": 2
+        "seedOffset": 2,
+        "easing": 0.01
     }
 }

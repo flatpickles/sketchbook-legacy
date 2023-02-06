@@ -13,9 +13,13 @@ export class SketchParam {
     }
 
     restoreValue(parentKey) {
-        const storedString = localStorage.getItem(parentKey + ' ' + this.name);
-        if (storedString) {
-            this.value = JSON.parse(storedString);
+        try {
+            const storedString = localStorage.getItem(parentKey + ' ' + this.name);
+            if (storedString) {
+                this.value = JSON.parse(storedString);
+            }
+        } catch (e) {
+            console.log(e.message);
         }
     }
 }

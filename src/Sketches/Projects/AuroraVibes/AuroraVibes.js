@@ -37,6 +37,7 @@ export default class AuroraVibes extends Sketch {
         mixMax3: new FloatParam('Mix Max 3', 0.5, 0.0, 1.0),
         color3: new ColorParam('Color 3', '#0000FF'),
         seedOffset: new FloatParam('Seed Offset', 0.7, 0.0, 3.0),
+        easing: new FloatParam('Easing', 1.0, 0.01, 10.0),
     };
 
     sketchFn = ({ gl }) => {
@@ -68,6 +69,7 @@ export default class AuroraVibes extends Sketch {
                 color3: ({}) => this.params.color3.vec4,
                 mixMin3: ({}) => this.params.mixMin3.value,
                 mixMax3: ({}) => this.params.mixMax3.value,
+                easing: ({}) => this.params.easing.value,
             }
         });
     };

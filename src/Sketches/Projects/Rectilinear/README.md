@@ -1,7 +1,7 @@
 #### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Rectilinear</sup>
 ---
 
-## [Rectilinear](http://flatpickles.com/sketchbook/#rectilinear)
+## [Rectilinear](https://sketchbook.flatpickles.com/#rectilinear)
 
 Randomly sized rectangles, fit together edge-to-edge, with configurable color palettes. This can generate patterns in a Mondrian-like style, and can achieve many other looks as well.
 

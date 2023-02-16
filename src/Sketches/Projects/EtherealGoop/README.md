@@ -1,7 +1,7 @@
 #### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Ethereal Goop</sup>
 ---
 
-## [Ethereal Goop](http://flatpickles.com/sketchbook/#ethereal-goop)
+## [Ethereal Goop](https://sketchbook.flatpickles.com/#ethereal-goop)
 
 Ethereal Goop is based on a noise layering [experiment](https://flatpickles.com/image/ethereal-goop.jpg) from 2021. I've built upon that for a fresh Sketchbook version, adding new features and presets, and improving performance.
 

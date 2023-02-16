@@ -1,7 +1,7 @@
 #### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Aurora Vibes</sup>
 ---
 
-## [Aurora Vibes](http://flatpickles.com/sketchbook/#aurora-vibes)
+## [Aurora Vibes](https://sketchbook.flatpickles.com/#aurora-vibes)
 
 Aurora Vibes was originally designed as the background for a friend's web project. My goal was to create something interesting without demanding too much attention, using the aurora borealis as inspiration. Though vivid results are within easy reach, more mellow outputs can maintain the same richness and depth.
 

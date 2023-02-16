@@ -1,7 +1,7 @@
 #### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → No Signal</sup>
 ---
 
-## [No Signal](http://flatpickles.com/sketchbook/#no-signal)
+## [No Signal](https://sketchbook.flatpickles.com/#no-signal)
 
 A "no signal" graphic, inspired by VCRs and other classic image displays. This was the first sketch project created within Sketchbook, and it is a simple demo of Sketchbook's capabilities and intent.
 

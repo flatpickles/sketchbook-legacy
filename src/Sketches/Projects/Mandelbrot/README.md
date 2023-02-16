@@ -1,7 +1,7 @@
 #### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Mandelbrot Set</sup>
 ---
 
-## [Mandelbrot Set](http://flatpickles.com/sketchbook/#mandelbrot-set)
+## [Mandelbrot Set](https://sketchbook.flatpickles.com/#mandelbrot-set)
 
 Standard Mandelbrot fare, with basic navigation and a little bit extra. Look, a rainbow!
 

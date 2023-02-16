@@ -9,6 +9,7 @@ export default class AuroraVibes extends Sketch {
     name = 'Aurora Vibes';
     type = SketchType.GL;
     date = new Date('2/15/2023');
+    experimental = false;
     description = `
         A washy aurora sorta thing, mixing between colors with a series of offset noise functions. Whatever you're looking for, maybe it's in here somewhere.
     `;

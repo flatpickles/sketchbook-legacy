@@ -8,9 +8,9 @@ import presetsObject from './presets.json';
 export default class AuroraVibes extends Sketch {
     name = 'Aurora Vibes';
     type = SketchType.GL;
-    // date = new Date('10/25/2022');
+    date = new Date('2/15/2023');
     description = `
-        A washy aurora sorta thing, ya dig? Whatever you're looking for, gotta believe it's out there somewhere.
+        A washy aurora sorta thing, mixing between colors with a series of offset noise functions. Whatever you're looking for, maybe it's in here somewhere.
     `;
     showPresets = true;
 
@@ -26,19 +26,19 @@ export default class AuroraVibes extends Sketch {
         timeScale: new FloatParam('Time Scale', 0.2, 0.0, 1.0),
         xScale: new FloatParam('X Scale', 1.0, 0.01, 10.0),
         yScale: new FloatParam('Y Scale', 4.0, 0.01, 10.0),
-        seedOffset: new FloatParam('Noise Offset', 0.3, 0.0, 3.0),
         simplexNoise: new BoolParam('Simplex Noise', true),
+        seedOffset: new FloatParam('Noise Offset', 0.3, 0.0, 3.0),
+        easing: new FloatParam('Mix Easing', 1.5, 0.01, 10.0),
         baseColor: new ColorParam('Base Color', '#000000'),
-        mixMin1: new FloatParam('Mix Min 1', 0.3, -1.0, 1.0),
+        mixMin1: new FloatParam('Mix Min 1', -0.1, -1.0, 1.0),
         mixMax1: new FloatParam('Mix Max 1', 0.9, -1.0, 1.0),
         color1: new ColorParam('Color 1', '#FF0000'),
-        mixMin2: new FloatParam('Mix Min 2', -0.1, -1.0, 1.0),
+        mixMin2: new FloatParam('Mix Min 2', -0.4, -1.0, 1.0),
         mixMax2: new FloatParam('Mix Max 2', 0.9, -1.0, 1.0),
         color2: new ColorParam('Color 2', '#00FF00'),
-        mixMin3: new FloatParam('Mix Min 3', 0.2, -1.0, 1.0),
+        mixMin3: new FloatParam('Mix Min 3', -0.1, -1.0, 1.0),
         mixMax3: new FloatParam('Mix Max 3', 0.5, -1.0, 1.0),
         color3: new ColorParam('Color 3', '#0000FF'),
-        easing: new FloatParam('Mix Easing', 1.0, 0.01, 5.0),
     };
 
     sketchFn = ({ gl }) => {

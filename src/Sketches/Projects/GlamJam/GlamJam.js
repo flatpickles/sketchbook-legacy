@@ -12,7 +12,7 @@ export default class GlamJam extends Sketch {
     description = `
         This is a template project for a shader-based sketch.
     `;
-    showPresets = false;
+    showPresets = true;
 
     settings = {
         context: 'webgl',

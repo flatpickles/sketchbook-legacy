@@ -1,7 +1,7 @@
 #### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → __name__(noCase)</sup>
 ---
 
-## [__name__(noCase)](http://flatpickles.com/sketchbook/#shader-template)
+## [__name__(noCase)](http://flatpickles.com/sketchbook/#__name__(snake-case))
 
 This is a demo shader, generated from a template. Documentation should be filled out before publishing (todo).
 

@@ -23,26 +23,45 @@ export default class GlamJam extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        drain: new FloatParam('Drain', 1, -10, 10),
+        drainSpeed: new FloatParam('Drain', 0.1, -1.0, 1.0),
         colorCycles: new FloatParam('Color Cycles', 1, 1, 20, 1),
         noiseAmount: new FloatParam('Noise Amount', 2, 0, 5),
-        noiseSpeed: new FloatParam('Noise Speed', 0.1, 0, 1),
+        noiseSpeed: new FloatParam('Noise Speed', 0.2, 0.0, 1.0),
         noiseCycles: new FloatParam('Noise Cycles', 5, 0, 20, 1.0),
         noiseDensity: new FloatParam('Noise Density', 5, 0, 10),
     };
 
     sketchFn = ({ gl }) => {
         const frag = shaderString;
+
+        // This allows smooth speed values when changed
+        let lastDrainTime = Date.now();
+        let lastNoiseTime = Date.now();
+        let drainSpeedAcc = 0;
+        let noiseSpeedAcc = 0;
+
         return createShader({
             gl,
             frag,
             uniforms: {
                 time: ({ time }) => time,
+                drainTime: ({}) => {
+                    const curTime = Date.now();
+                    const elapsed = lastDrainTime - curTime;
+                    lastDrainTime = curTime;
+                    drainSpeedAcc += elapsed * this.params.drainSpeed.value / 500.;
+                    return drainSpeedAcc;
+                },
+                noiseTime: ({}) => {
+                    const curTime = Date.now();
+                    const elapsed = lastNoiseTime - curTime;
+                    lastNoiseTime = curTime;
+                    noiseSpeedAcc += elapsed * this.params.noiseSpeed.value / 1000.;
+                    return noiseSpeedAcc;
+                },
                 renderSize: ({}) => [window.innerWidth, window.innerHeight],
-                drain: ({}) => this.params.drain.value,
                 colorCycles: ({}) => this.params.colorCycles.value,
                 noiseAmount: ({}) => this.params.noiseAmount.value,
-                noiseSpeed: ({}) => this.params.noiseSpeed.value,
                 noiseCycles: ({}) => this.params.noiseCycles.value,
                 noiseDensity: ({}) => this.params.noiseDensity.value,
             }

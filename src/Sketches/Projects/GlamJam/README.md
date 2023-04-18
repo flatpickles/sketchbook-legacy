@@ -6,7 +6,6 @@
 
 To Do:
 
-- Continuous noise adjustments (from Aurora Vibes)
 - Taper noise amount at origin?
 - Spin of some sort
 - Color Cycles isn't usually too interesting, maybe adapt

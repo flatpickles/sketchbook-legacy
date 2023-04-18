@@ -3,10 +3,10 @@ precision highp float;
 uniform float time;
 uniform vec2 renderSize;
 
-uniform float drain;
+uniform float drainTime;
+uniform float noiseTime;
 uniform float colorCycles;
 uniform float noiseAmount;
-uniform float noiseSpeed;
 uniform float noiseDensity;
 uniform float noiseCycles;
 
@@ -36,7 +36,10 @@ void main()	{
     float theta = atan(uv.y, uv.x);
 
     // Noise calculations
-    vec3 noiseSeed = vec3(noiseSpeed * time, sin(theta * noiseCycles), r * noiseDensity + time * drain);
+    float timeSeed = noiseTime;
+    float thetaSeed = sin(theta * noiseCycles);
+    float rSeed = r * noiseDensity + drainTime;
+    vec3 noiseSeed = vec3(timeSeed, thetaSeed, rSeed);
     float noise = noiseAmount * classicNoise(noiseSeed);
 
     // Color calculations

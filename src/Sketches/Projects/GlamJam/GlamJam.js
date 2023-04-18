@@ -1,5 +1,5 @@
 import Sketch, { SketchType } from '../../Base/Sketch.js';
-import { FloatParam, ColorParam } from '../../Base/SketchParam.js';
+import { FloatParam, BoolParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
 import shaderString from './GlamJam.frag';
@@ -29,6 +29,8 @@ export default class GlamJam extends Sketch {
         noiseSpeed: new FloatParam('Noise Speed', 0.2, 0.0, 1.0),
         noiseCycles: new FloatParam('Noise Cycles', 5, 0, 20, 1.0),
         noiseDensity: new FloatParam('Noise Density', 5, 0, 10),
+        centerRadius: new FloatParam('Center Radius', 0.2, 0, 1),
+        brightCenter: new BoolParam('Bright Center', true),
     };
 
     sketchFn = ({ gl }) => {
@@ -64,6 +66,8 @@ export default class GlamJam extends Sketch {
                 noiseAmount: ({}) => this.params.noiseAmount.value,
                 noiseCycles: ({}) => this.params.noiseCycles.value,
                 noiseDensity: ({}) => this.params.noiseDensity.value,
+                centerRadius: ({}) => this.params.centerRadius.value,
+                brightCenter: ({}) => this.params.brightCenter.value,
             }
         });
     };

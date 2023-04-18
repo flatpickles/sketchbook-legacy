@@ -3,6 +3,7 @@ precision highp float;
 uniform float time;
 uniform vec2 renderSize;
 
+uniform float spin;
 uniform float drainTime;
 uniform float noiseTime;
 uniform float colorCycles;
@@ -50,7 +51,7 @@ void main()	{
 
     // Polar coordinates
     float r = sqrt(uv.x * uv.x + uv.y * uv.y);
-    float theta = atan(uv.y, uv.x);
+    float theta = atan(uv.y, uv.x) + r * spin;
 
     // Noise calculations
     float timeSeed = noiseTime;

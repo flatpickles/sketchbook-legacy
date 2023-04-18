@@ -23,6 +23,7 @@ export default class GlamJam extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
+        spin: new FloatParam('Spin', 0, -1.0, 1.0),
         drainSpeed: new FloatParam('Drain', 0.1, -1.0, 1.0),
         colorCycles: new FloatParam('Color Cycles', 1, 1, 20, 1),
         noiseAmount: new FloatParam('Noise Amount', 2, 0, 5),
@@ -47,6 +48,7 @@ export default class GlamJam extends Sketch {
             frag,
             uniforms: {
                 time: ({ time }) => time,
+                renderSize: ({}) => [window.innerWidth, window.innerHeight],
                 drainTime: ({}) => {
                     const curTime = Date.now();
                     const elapsed = lastDrainTime - curTime;
@@ -61,7 +63,7 @@ export default class GlamJam extends Sketch {
                     noiseSpeedAcc += elapsed * this.params.noiseSpeed.value / 1000.;
                     return noiseSpeedAcc;
                 },
-                renderSize: ({}) => [window.innerWidth, window.innerHeight],
+                spin: ({}) => this.params.spin.value * 3.0,
                 colorCycles: ({}) => this.params.colorCycles.value,
                 noiseAmount: ({}) => this.params.noiseAmount.value,
                 noiseCycles: ({}) => this.params.noiseCycles.value,

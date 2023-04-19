@@ -12,6 +12,10 @@ uniform float noiseDensity;
 uniform float noiseCycles;
 uniform float centerRadius;
 uniform bool brightCenter;
+uniform vec4 color1;
+uniform vec4 color2;
+uniform vec4 color3;
+uniform bool rainbow;
 
 varying vec2 vUv;
 
@@ -49,7 +53,7 @@ void main()	{
 	uv = uv * 2.0 - 1.;
 	uv.x *= aspectRatio;
 
-    // Polar coordinates
+    // Polar coordinates (with spin)
     float r = sqrt(uv.x * uv.x + uv.y * uv.y);
     float theta = atan(uv.y, uv.x) + r * spin;
 
@@ -61,11 +65,23 @@ void main()	{
     float noise = noiseAmount * classicNoise(noiseSeed);
 
     // Color calculations
-    float hue = noise + theta * colorCycles / PI / 2.0;
-    vec3 color = hsv2rgb(vec3(hue, 1.0, 1.0));
+    float colorTheta = mod(theta * colorCycles + noise, 2.0 * PI);
+    float color1Mask = step(0.0, colorTheta) * step(colorTheta, 2.0 * PI / 3.0);
+    float color2Mask = step(2.0 * PI / 3.0, colorTheta) * step(colorTheta, 4.0 * PI / 3.0);
+    float color3Mask = step(4.0 * PI / 3.0, colorTheta) * step(colorTheta, 2.0 * PI);
+    vec4 color123 = color1Mask * color1 + color2Mask * color2 + color3Mask * color3;
+
+    // Rainbow calculations
+    float rainbowTheta = noise + theta * colorCycles / PI / 2.0;
+    vec3 colorRainbow = hsv2rgb(vec3(rainbowTheta, 1.0, 1.0));
+
+    // Center calculations
     float centerMixVal = smoothstep(0.0, centerRadius, r);
     centerMixVal = ease(centerMixVal);
-    vec3 centerColor = brightCenter ? vec3(1.0) : vec3(0.0);
-    color = mix(centerColor, color, centerMixVal);
-	gl_FragColor = vec4(color, 1.0);
+    vec4 centerColor = brightCenter ? vec4(1.0) : vec4(0.0);
+
+    // Final color
+    vec4 finalColor = rainbow ? vec4(colorRainbow, 1.0) : color123;
+    vec4 colorWithCenter = mix(centerColor, finalColor, centerMixVal);
+	gl_FragColor = colorWithCenter;
 }

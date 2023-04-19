@@ -1,5 +1,5 @@
 import Sketch, { SketchType } from '../../Base/Sketch.js';
-import { FloatParam, BoolParam } from '../../Base/SketchParam.js';
+import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
 import shaderString from './GlamJam.frag';
@@ -10,7 +10,7 @@ export default class GlamJam extends Sketch {
     type = SketchType.GL;
     // date = new Date('10/25/2022');
     description = `
-        This is a template project for a shader-based sketch.
+        Gaze into the center of the storm. Free your mind, and your ass will follow.
     `;
     showPresets = true;
 
@@ -32,6 +32,10 @@ export default class GlamJam extends Sketch {
         noiseDensity: new FloatParam('Noise Density', 5, 0, 10),
         centerRadius: new FloatParam('Center Radius', 0.2, 0, 1),
         brightCenter: new BoolParam('Bright Center', true),
+        color1: new ColorParam('Color 1', '#FFCB8F'),
+        color2: new ColorParam('Color 2', '#1F0075'),
+        color3: new ColorParam('Color 3', '#12A566'),
+        rainbow: new BoolParam('Rainbow', true),
     };
 
     sketchFn = ({ gl }) => {
@@ -70,6 +74,10 @@ export default class GlamJam extends Sketch {
                 noiseDensity: ({}) => this.params.noiseDensity.value,
                 centerRadius: ({}) => this.params.centerRadius.value,
                 brightCenter: ({}) => this.params.brightCenter.value,
+                color1: ({}) => this.params.color1.vec4,
+                color2: ({}) => this.params.color2.vec4,
+                color3: ({}) => this.params.color3.vec4,
+                rainbow: ({}) => this.params.rainbow.value,
             }
         });
     };

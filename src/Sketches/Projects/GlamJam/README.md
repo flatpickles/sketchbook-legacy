@@ -6,6 +6,8 @@
 
 To Do:
 
+- Three colors option (vs. rainbow)
+- Center color
 - "Color Cycles" isn't usually too interesting, maybe adapt
 - Should "Noise Density" be some sort of "zoom"? Should we have zoom for the backing pattern as well?
 - How do we approach customizable color? Maybe creating radial gradients between two or more colors + a center color ...

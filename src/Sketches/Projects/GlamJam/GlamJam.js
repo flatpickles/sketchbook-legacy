@@ -23,19 +23,19 @@ export default class GlamJam extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        spin: new FloatParam('Spin', 0, -1.0, 1.0),
-        drainSpeed: new FloatParam('Drain', 0.1, -1.0, 1.0),
-        colorCycles: new FloatParam('Color Cycles', 1, 1, 20, 1),
+        spin: new FloatParam('Spin Amount', 0, -1.0, 1.0),
+        drainSpeed: new FloatParam('Drain Speed', 0.1, -1.0, 1.0),
         noiseAmount: new FloatParam('Noise Amount', 2, 0, 5),
         noiseSpeed: new FloatParam('Noise Speed', 0.2, 0.0, 1.0),
-        noiseCycles: new FloatParam('Noise Cycles', 5, 0, 20, 1.0),
         noiseDensity: new FloatParam('Noise Density', 5, 0, 10),
-        centerRadius: new FloatParam('Center Radius', 0.2, 0, 1),
-        brightCenter: new BoolParam('Bright Center', true),
+        noiseCycles: new FloatParam('Noise Cycles', 5, 0, 20, 1.0),
+        colorCycles: new FloatParam('Color Cycles', 1, 1, 20, 1),
+        rainbow: new BoolParam('Rainbow Colors', true),
         color1: new ColorParam('Color 1', '#FFCB8F'),
         color2: new ColorParam('Color 2', '#1F0075'),
         color3: new ColorParam('Color 3', '#12A566'),
-        rainbow: new BoolParam('Rainbow', true),
+        centerRadius: new FloatParam('Center Radius', 0.2, 0, 1),
+        centerColor: new ColorParam('Center Color', '#FFFFFF'),
     };
 
     sketchFn = ({ gl }) => {
@@ -73,10 +73,10 @@ export default class GlamJam extends Sketch {
                 noiseCycles: ({}) => this.params.noiseCycles.value,
                 noiseDensity: ({}) => this.params.noiseDensity.value,
                 centerRadius: ({}) => this.params.centerRadius.value,
-                brightCenter: ({}) => this.params.brightCenter.value,
                 color1: ({}) => this.params.color1.vec4,
                 color2: ({}) => this.params.color2.vec4,
                 color3: ({}) => this.params.color3.vec4,
+                centerColor: ({}) => this.params.centerColor.vec4,
                 rainbow: ({}) => this.params.rainbow.value,
             }
         });

@@ -11,10 +11,10 @@ uniform float noiseAmount;
 uniform float noiseDensity;
 uniform float noiseCycles;
 uniform float centerRadius;
-uniform bool brightCenter;
 uniform vec4 color1;
 uniform vec4 color2;
 uniform vec4 color3;
+uniform vec4 centerColor;
 uniform bool rainbow;
 
 varying vec2 vUv;
@@ -78,7 +78,6 @@ void main()	{
     // Center calculations
     float centerMixVal = smoothstep(0.0, centerRadius, r);
     centerMixVal = ease(centerMixVal);
-    vec4 centerColor = brightCenter ? vec4(1.0) : vec4(0.0);
 
     // Final color
     vec4 finalColor = rainbow ? vec4(colorRainbow, 1.0) : color123;

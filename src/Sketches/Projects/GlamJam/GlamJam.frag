@@ -62,14 +62,18 @@ void main()	{
     float thetaSeed = sin(theta * noiseCycles);
     float rSeed = r * noiseDensity + drainTime;
     vec3 noiseSeed = vec3(timeSeed, thetaSeed, rSeed);
-    float noise = noiseAmount * classicNoise(noiseSeed);
+    float processedNoise = rainbow ? noiseAmount : noiseAmount * 4.0; // More in non-rainbow mode
+    float noise = processedNoise * classicNoise(noiseSeed);
 
     // Color calculations
     float colorTheta = mod(theta * colorCycles + noise, 2.0 * PI);
     float color1Mask = step(0.0, colorTheta) * step(colorTheta, 2.0 * PI / 3.0);
     float color2Mask = step(2.0 * PI / 3.0, colorTheta) * step(colorTheta, 4.0 * PI / 3.0);
     float color3Mask = step(4.0 * PI / 3.0, colorTheta) * step(colorTheta, 2.0 * PI);
-    vec4 color123 = color1Mask * color1 + color2Mask * color2 + color3Mask * color3;
+    vec4 color1Mixed = mix(color1, color2, clamp(colorTheta / (2.0 * PI / 3.0), 0.0, 1.0));
+    vec4 color2Mixed = mix(color2, color3, clamp((colorTheta - (2.0 * PI / 3.0)) / (2.0 * PI / 3.0), 0.0, 1.0));
+    vec4 color3Mixed = mix(color3, color1, clamp((colorTheta - (4.0 * PI / 3.0)) / (2.0 * PI / 3.0), 0.0, 1.0));
+    vec4 color123 = color1Mask * color1Mixed + color2Mask * color2Mixed + color3Mask * color3Mixed;
 
     // Rainbow calculations
     float rainbowTheta = noise + theta * colorCycles / PI / 2.0;

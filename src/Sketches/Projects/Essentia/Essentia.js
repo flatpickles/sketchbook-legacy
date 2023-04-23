@@ -16,7 +16,7 @@ const defaultPreset = {
     'colorCycles': 7,
     'rainbow': false,
     'color1': '#a7edfb',
-    'color2': '#0d21ba',
+    'color2': '#000E75',
     'color3': '#D77B65',
     'centerColor': '#a7edfb',
     'centerRadius': 0.2

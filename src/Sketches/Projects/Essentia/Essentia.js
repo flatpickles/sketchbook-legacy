@@ -2,7 +2,7 @@ import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import createShader from  'canvas-sketch-util/shader';
 
-import shaderString from './GlamJam.frag';
+import shaderString from './Essentia.frag';
 import presetsObject from './presets.json';
 
 // Copy/pasted from an export...
@@ -17,17 +17,18 @@ const defaultPreset = {
     'rainbow': false,
     'color1': '#a7edfb',
     'color2': '#0d21ba',
-    'color3': '#D54848',
+    'color3': '#D77B65',
     'centerColor': '#a7edfb',
     'centerRadius': 0.2
 };
 
-export default class GlamJam extends Sketch {
-    name = 'Glam Jam';
+export default class Essentia extends Sketch {
+    name = 'Essentia';
     type = SketchType.GL;
-    // date = new Date('10/25/2022');
+    date = new Date('4/23/2023');
+    experimental = false;
     description = `
-        Gaze into the center of the storm. Free your mind, and your ass will follow.
+        Colorful chaos via polar math and noise functions, as if it were meant to be. Emissions of a mind unwinding, meandering ever closer to the source.
     `;
     showPresets = true;
 

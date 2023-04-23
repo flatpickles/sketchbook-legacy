@@ -6,10 +6,10 @@ import EtherealGoop from './Sketches/Projects/EtherealGoop/index.js';
 import ReglCube from './Sketches/Projects/ReglCube/index.js';
 import Tunnel from './Sketches/Projects/Tunnel/index.js';
 import AuroraVibes from './Sketches/Projects/AuroraVibes/AuroraVibes.js';
-import GlamJam from './Sketches/Projects/GlamJam/GlamJam.js';
+import Essentia from './Sketches/Projects/Essentia/Essentia.js';
 
 const sketches = [
-    new GlamJam(),
+    new Essentia(),
     new AuroraVibes(),
     new Tunnel(),
     new ReglCube(),

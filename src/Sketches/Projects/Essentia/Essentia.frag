@@ -21,7 +21,6 @@ varying vec2 vUv;
 
 #define PI 3.1415926538
 
-#pragma glslify: simplexNoise = require(glsl-noise/simplex/3d)
 #pragma glslify: classicNoise = require(glsl-noise/classic/3d)
 #pragma glslify: ease = require(glsl-easings/sine-out)
 
@@ -45,6 +44,8 @@ float sigmoidEasing(float t, float k) {
 	float correction = 0.5 / sigmoidBase(1.0, k);
 	return correction * sigmoidBase(2.0 * t - 1.0, k) + 0.5;
 }
+
+// Main!
 
 void main()	{
     // Coordinate system adjustment

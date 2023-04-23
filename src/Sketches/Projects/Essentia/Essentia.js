@@ -16,8 +16,8 @@ const defaultPreset = {
     'colorCycles': 7,
     'rainbow': false,
     'color1': '#a7edfb',
-    'color2': '#000E75',
-    'color3': '#D77B65',
+    'color2': '#000e75',
+    'color3': '#d77b65',
     'centerColor': '#a7edfb',
     'centerRadius': 0.2
 };
@@ -53,7 +53,7 @@ export default class Essentia extends Sketch {
         color2: new ColorParam('Color 2', defaultPreset.color2),
         color3: new ColorParam('Color 3', defaultPreset.color3),
         centerColor: new ColorParam('Center Color', defaultPreset.centerColor),
-        centerRadius: new FloatParam('Center Spread', defaultPreset.centerRadius, 0, 1),
+        centerRadius: new FloatParam('Center Spread', defaultPreset.centerRadius, 0.0, 1.0),
     };
 
     sketchFn = ({ gl }) => {

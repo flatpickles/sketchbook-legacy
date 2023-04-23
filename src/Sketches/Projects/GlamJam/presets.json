@@ -11,8 +11,8 @@
     "color1": "#fff70a",
     "color2": "#940074",
     "color3": "#18915c",
-    "centerColor": "#000000",
-    "centerRadius": 0.5
+    "centerColor": "#540342",
+    "centerRadius": 0.25
   },
   "Connected Below": {
     "spin": 0,
@@ -23,11 +23,26 @@
     "noiseCycles": 0,
     "colorCycles": 1,
     "rainbow": false,
-    "color1": "#e19d9d",
+    "color1": "#e1adad",
     "color2": "#3d138b",
-    "color3": "#a7ddd2",
+    "color3": "#0e7762",
     "centerColor": "#ffffff",
     "centerRadius": 0
+  },
+  "Barbecued Berries": {
+    "spin": 0.35,
+    "drainSpeed": -0.15,
+    "noiseAmount": 0.5,
+    "noiseSpeed": 0.1,
+    "noiseDensity": 0.35,
+    "noiseCycles": 5,
+    "colorCycles": 8,
+    "rainbow": false,
+    "color1": "#500707",
+    "color2": "#ff841f",
+    "color3": "#292386",
+    "centerColor": "#231d7c",
+    "centerRadius": 0.1
   },
   "Salvador's Pinwheel": {
     "spin": -0.15,

@@ -17,8 +17,8 @@ const defaultPreset = {
     'rainbow': false,
     'color1': '#a7edfb',
     'color2': '#0d21ba',
-    'color3': '#290000',
-    'centerColor': '#000000',
+    'color3': '#D54848',
+    'centerColor': '#a7edfb',
     'centerRadius': 0.2
 };
 

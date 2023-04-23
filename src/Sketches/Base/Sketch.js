@@ -111,9 +111,13 @@ export default class Sketch {
         const paramNames = this.nonEventParamNames;
         for (let paramIndex = 0; paramIndex < paramNames.length; paramIndex++) {
             const paramName = paramNames[paramIndex];
-            if (selectedPreset[paramName] != this.params[paramName].value) {
-                this.presetModified = true;
-                return;
+            const presetValue = selectedPreset[paramName];
+            const paramValue = this.params[paramName].value;
+            // Lower case string comparison for string params; direct comparison for others
+            if ((presetValue instanceof String && presetValue.toLowerCase !== paramValue.toLowerCase) ||
+                (presetValue !== paramValue)) { // todo: tolerance within step value
+                    this.presetModified = true;
+                    return;
             }
         }
     }

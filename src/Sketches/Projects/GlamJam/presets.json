@@ -1,1 +1,62 @@
-{}
+{
+  "Connected Above": {
+    "spin": 0,
+    "drainSpeed": 0.1,
+    "noiseAmount": 0.5,
+    "noiseSpeed": 0.1,
+    "noiseDensity": 0.4,
+    "noiseCycles": 20,
+    "colorCycles": 2,
+    "rainbow": false,
+    "color1": "#fff70a",
+    "color2": "#940074",
+    "color3": "#18915c",
+    "centerColor": "#000000",
+    "centerRadius": 0.5
+  },
+  "Connected Below": {
+    "spin": 0,
+    "drainSpeed": -0.2,
+    "noiseAmount": 0.7,
+    "noiseSpeed": 0.04,
+    "noiseDensity": 1.0,
+    "noiseCycles": 0,
+    "colorCycles": 1,
+    "rainbow": false,
+    "color1": "#e19d9d",
+    "color2": "#3d138b",
+    "color3": "#a7ddd2",
+    "centerColor": "#ffffff",
+    "centerRadius": 0
+  },
+  "Salvador's Pinwheel": {
+    "spin": -0.15,
+    "drainSpeed": 0.2,
+    "noiseAmount": 0.33,
+    "noiseSpeed": 0,
+    "noiseDensity": 0.05,
+    "noiseCycles": 0,
+    "colorCycles": 3,
+    "rainbow": false,
+    "color1": "#e1e7da",
+    "color2": "#99b37a",
+    "color3": "#290020",
+    "centerColor": "#290020",
+    "centerRadius": 0.01
+  },
+  "Come Back Soon": {
+    "spin": 0,
+    "drainSpeed": 0.1,
+    "noiseAmount": 0.5,
+    "noiseSpeed": 0.1,
+    "noiseDensity": 1.0,
+    "noiseCycles": 10,
+    "colorCycles": 7,
+    "rainbow": true,
+    "color1": "#FFCB8F",
+    "color2": "#1F0075",
+    "color3": "#12A566",
+    "centerColor": "#ffffff",
+    "centerRadius": 0.05
+  }
+}

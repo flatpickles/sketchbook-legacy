@@ -5,6 +5,23 @@ import createShader from  'canvas-sketch-util/shader';
 import shaderString from './GlamJam.frag';
 import presetsObject from './presets.json';
 
+// Copy/pasted from an export...
+const defaultPreset = {
+    'spin': -0.2,
+    'drainSpeed': 0.2,
+    'noiseAmount': 0.15,
+    'noiseSpeed': 0.2,
+    'noiseDensity': 0.7,
+    'noiseCycles': 5,
+    'colorCycles': 7,
+    'rainbow': false,
+    'color1': '#a7edfb',
+    'color2': '#0d21ba',
+    'color3': '#290000',
+    'centerColor': '#000000',
+    'centerRadius': 0.2
+};
+
 export default class GlamJam extends Sketch {
     name = 'Glam Jam';
     type = SketchType.GL;
@@ -23,19 +40,19 @@ export default class GlamJam extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        spin: new FloatParam('Spin Amount', 0, -1.0, 1.0),
-        drainSpeed: new FloatParam('Drain Speed', 0.1, -1.0, 1.0),
-        noiseAmount: new FloatParam('Noise Amount', 2, 0, 5),
-        noiseSpeed: new FloatParam('Noise Speed', 0.2, 0.0, 1.0),
-        noiseDensity: new FloatParam('Noise Density', 5, 0, 10),
-        noiseCycles: new FloatParam('Noise Cycles', 5, 0, 20, 1.0),
-        colorCycles: new FloatParam('Color Cycles', 1, 1, 20, 1),
-        rainbow: new BoolParam('Rainbow Colors', true),
-        color1: new ColorParam('Color 1', '#FFCB8F'),
-        color2: new ColorParam('Color 2', '#1F0075'),
-        color3: new ColorParam('Color 3', '#12A566'),
-        centerRadius: new FloatParam('Center Radius', 0.2, 0, 1),
-        centerColor: new ColorParam('Center Color', '#FFFFFF'),
+        spin: new FloatParam('Spin Amount', defaultPreset.spin, -1.0, 1.0),
+        drainSpeed: new FloatParam('Drain Speed', defaultPreset.drainSpeed, -1.0, 1.0),
+        noiseAmount: new FloatParam('Noise Amount', defaultPreset.noiseAmount, 0, 1.0),
+        noiseSpeed: new FloatParam('Noise Speed', defaultPreset.noiseSpeed, 0.0, 1.0),
+        noiseDensity: new FloatParam('Noise Density', defaultPreset.noiseDensity, 0.0, 1.0),
+        noiseCycles: new FloatParam('Noise Cycles', defaultPreset.noiseCycles, 0, 20, 1),
+        colorCycles: new FloatParam('Color Cycles', defaultPreset.colorCycles, 1, 20, 1),
+        rainbow: new BoolParam('Rainbow Mode', defaultPreset.rainbow),
+        color1: new ColorParam('Color 1', defaultPreset.color1),
+        color2: new ColorParam('Color 2', defaultPreset.color2),
+        color3: new ColorParam('Color 3', defaultPreset.color3),
+        centerColor: new ColorParam('Center Color', defaultPreset.centerColor),
+        centerRadius: new FloatParam('Center Spread', defaultPreset.centerRadius, 0, 1),
     };
 
     sketchFn = ({ gl }) => {
@@ -67,7 +84,7 @@ export default class GlamJam extends Sketch {
                     noiseSpeedAcc += elapsed * this.params.noiseSpeed.value / 1000.;
                     return noiseSpeedAcc;
                 },
-                spin: ({}) => this.params.spin.value * 3.0,
+                spin: ({}) => this.params.spin.value,
                 colorCycles: ({}) => this.params.colorCycles.value,
                 noiseAmount: ({}) => this.params.noiseAmount.value,
                 noiseCycles: ({}) => this.params.noiseCycles.value,

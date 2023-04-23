@@ -23,7 +23,7 @@ varying vec2 vUv;
 
 #pragma glslify: simplexNoise = require(glsl-noise/simplex/3d)
 #pragma glslify: classicNoise = require(glsl-noise/classic/3d)
-#pragma glslify: ease = require(glsl-easings/quadratic-out)
+#pragma glslify: ease = require(glsl-easings/sine-out)
 
 // HSV to RGB adapted from:
 // https://gist.github.com/983/e170a24ae8eba2cd174f
@@ -47,7 +47,7 @@ float sigmoidEasing(float t, float k) {
 }
 
 void main()	{
-    // Coordinate system conversion
+    // Coordinate system adjustment
 	float aspectRatio = float(renderSize.x) / float(renderSize.y);
 	vec2 uv = vUv;
 	uv = uv * 2.0 - 1.;
@@ -55,14 +55,14 @@ void main()	{
 
     // Polar coordinates (with spin)
     float r = sqrt(uv.x * uv.x + uv.y * uv.y);
-    float theta = atan(uv.y, uv.x) + r * spin;
+    float theta = atan(uv.y, uv.x) + r * spin * 3.0;
 
     // Noise calculations
     float timeSeed = noiseTime;
     float thetaSeed = sin(theta * noiseCycles);
-    float rSeed = r * noiseDensity + drainTime;
+    float rSeed = r * noiseDensity * 10.0 + drainTime;
     vec3 noiseSeed = vec3(timeSeed, thetaSeed, rSeed);
-    float processedNoise = rainbow ? noiseAmount : noiseAmount * 4.0; // More in non-rainbow mode
+    float processedNoise = noiseAmount * (rainbow ? 5.0 : 20.0); // More for non-rainbow mode
     float noise = processedNoise * classicNoise(noiseSeed);
 
     // Color calculations

@@ -10,7 +10,7 @@ export default class __name__ extends Sketch {
     type = SketchType.GL;
     // date = new Date('10/25/2022');
     description = `
-        This is a template project for a shader-based sketch.
+        This is a shader-based sketch.
     `;
     showPresets = false;
 

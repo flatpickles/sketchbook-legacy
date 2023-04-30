@@ -1,14 +1,14 @@
-import Sketch, { SketchType } from '../Sketch.js';
-import { FloatParam, BoolParam, ColorParam } from '../SketchParam.js';
+import Sketch, { SketchType } from '../../Base/Sketch.js';
+import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 
 import presetsObject from './presets.json';
 
-export default class CanvasTemplate extends Sketch {
-    name = 'Canvas Template';
+export default class __name__ extends Sketch {
+    name = '__name__(noCase)';
     type = SketchType.Canvas;
-    // date = new Date('10/25/2022');
+    // date = new Date('04/30/2023');
     description = `
-        This is a template project for a canvas-based sketch.
+        This is a canvas-based sketch.
     `;
     showPresets = false;
 

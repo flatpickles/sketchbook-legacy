@@ -24,18 +24,16 @@ export default class Contours extends Sketch {
         return ({ context, width, height }) => {
             // Reset the canvas
             context.clearRect(0, 0, width, height);
-            context.lineWidth = 2;
 
             // Draw a white background
             context.fillStyle = '#FFFFFF';
             context.fillRect(0, 0, width, height);
 
             // Draw the generated paths
-            context.strokeStyle = '#000000';
             const paths = contourGenerator.generate();
             paths.forEach(path => {
                 const scaledPath = path.map(point => [point[0] * width, point[1] * height]);
-                CanvasUtil.drawSpline(context, scaledPath, 1, '#000');
+                CanvasUtil.drawBezierSpline(context, scaledPath, 2, '#000', true);
             });
         };
     };

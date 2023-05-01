@@ -1,7 +1,7 @@
 import BezierSpline from "bezier-spline";
 
 export default class CanvasUtil {
-    static drawSpline(
+    static drawBezierSpline(
         context: CanvasRenderingContext2D,
         points: [number, number][],
         strokeWeight = 1,
@@ -11,6 +11,11 @@ export default class CanvasUtil {
         if (points.length < 3) {
             throw "Spline can only be drawn with three or more points.";
         }
+
+        // Set up styling
+        context.save();
+        context.lineWidth = strokeWeight;
+        context.strokeStyle = strokeStyle;
 
         // If the spline is closed, expand with points from the opposite end
         const leadingSize = 3; // number of adjacent points for path close smoothing
@@ -59,12 +64,21 @@ export default class CanvasUtil {
                 curve[3][0],
                 curve[3][1]
             );
+        }
 
-            // Draw the control points (in debug mode)
-            if (debug) {
-                context.save();
-                context.lineWidth = 2;
-                const indicatorSize = 4;
+        // Close (if relevant) and draw!
+        if (closed) splinePath.closePath();
+        context.stroke(splinePath);
+        context.restore();
+
+        // Draw knots and control points in debug mode
+        if (debug) {
+            context.save();
+
+            // Draw control points
+            spline.curves.forEach((curve: [number, number][]) => {
+                context.lineWidth = 1;
+                const indicatorSize = 2;
 
                 // Control Line 1
                 context.strokeStyle = "#f00";
@@ -103,28 +117,19 @@ export default class CanvasUtil {
                     2 * Math.PI
                 );
                 context.fill();
+            });
 
-                context.restore();
-            }
-        }
-
-        // Draw the knot points (in debug mode)
-        if (debug) {
-            const indicatorSize = 5;
+            // Draw knots
+            const indicatorSize = 4;
             spline.knots.forEach((knot: [number, number]) => {
-                context.save();
-                context.fillStyle = "#000";
+                context.fillStyle = strokeStyle;
                 context.beginPath();
                 context.arc(knot[0], knot[1], indicatorSize, 0, 2 * Math.PI);
                 context.fill();
-                context.restore();
             });
-        }
 
-        // Close (if relevant) and draw
-        if (closed) splinePath.closePath();
-        context.strokeStyle = strokeStyle;
-        context.stroke(splinePath);
+            context.restore();
+        }
     }
 
     static drawLine(
@@ -134,6 +139,7 @@ export default class CanvasUtil {
         strokeWeight = 1,
         strokeStyle = "#000"
     ) {
+        context.save();
         if (strokeWeight <= 0) return;
         const linePath = new Path2D();
         linePath.moveTo(pointA.x, pointA.y);
@@ -141,6 +147,7 @@ export default class CanvasUtil {
         context.lineWidth = strokeWeight;
         context.strokeStyle = strokeStyle;
         context.stroke(linePath);
+        context.restore();
     }
 
     static drawShape(
@@ -164,11 +171,13 @@ export default class CanvasUtil {
         shapeRegion.closePath();
 
         // Fill and stroke the region
+        context.save();
         context.fillStyle = fillStyle;
         context.fill(shapeRegion);
         if (strokeWeight > 0) {
             context.strokeStyle = strokeStyle;
             context.stroke(shapeRegion);
         }
+        context.restore();
     }
 }

@@ -11,7 +11,7 @@ export default class CanvasUtil {
         const closed = leadingSize > 0 && 
                        points[0][0] == points[points.length - 1][0] &&
                        points[0][1] == points[points.length - 1][1];
-        if (closed && points.length <= 3) { throw 'Spline can only be closed with three or more points.'}
+        if (closed && points.length <= 3) { throw 'Spline can only be closed with four or more points (including duplicated endpoint).'}
         if (closed) {
             // Collect leading and trailing knots, accommodating wrap-around for small paths
             let trailingIndex = 1;

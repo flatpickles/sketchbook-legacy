@@ -1,4 +1,23 @@
+import BezierSpline from 'bezier-spline';
+
 export default class CanvasUtil {
+    static drawSpline(context, points, strokeWeight = 1, strokeStyle = '#000') {
+        if (points.length < 2) { throw 'Spline can only be drawn with two or more points.'; }
+        const closed = points[0].x === points[points.length - 1].x && points[0].y === points[points.length - 1].y;
+        // todo - implement closed splines
+    
+        const spline = new BezierSpline(points);
+        const splinePath = new Path2D();
+        splinePath.moveTo(spline.knots[0][0], spline.knots[0][1]);
+        for (let curveIdx = 0; curveIdx < spline.curves.length; curveIdx++) {
+            const curve = spline.curves[curveIdx];
+            splinePath.bezierCurveTo(curve[1][0], curve[1][1], curve[2][0], curve[2][1], curve[3][0], curve[3][1]);
+        }
+        console.log(spline);
+        if (closed) splinePath.closePath();
+        context.stroke(splinePath);
+    }
+
     static drawLine(context, pointA, pointB, strokeWeight = 1, strokeStyle = '#000') {
         if (strokeWeight <= 0) return;
         const linePath = new Path2D();

@@ -7,8 +7,10 @@ import ReglCube from './Sketches/Projects/ReglCube/index.js';
 import Tunnel from './Sketches/Projects/Tunnel/index.js';
 import AuroraVibes from './Sketches/Projects/AuroraVibes/AuroraVibes.js';
 import Essentia from './Sketches/Projects/Essentia/Essentia.js';
+import Contours from './Sketches/Projects/Contours/Contours.js';
 
 const sketches = [
+    new Contours(),
     new Essentia(),
     new AuroraVibes(),
     new Tunnel(),

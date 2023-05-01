@@ -22,8 +22,9 @@ export default class Contours extends Sketch {
         const contourGenerator = new ContourGenerator();
         const paths = contourGenerator.generate();
         return ({ context, width, height }) => {
-            // Clear the previous frame
+            // Reset the canvas
             context.clearRect(0, 0, width, height);
+            context.lineWidth = 2;
 
             // Draw a white background
             context.fillStyle = '#FFFFFF';
@@ -36,7 +37,6 @@ export default class Contours extends Sketch {
                 const scaledPath = path.map(point => [point[0] * width, point[1] * height]);
                 CanvasUtil.drawSpline(context, scaledPath, 1, '#000');
             });
-
         };
     };
 }

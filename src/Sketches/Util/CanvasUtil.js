@@ -8,8 +8,24 @@ export default class CanvasUtil {
         const closed = points[0].x === points[points.length - 1].x && points[0].y === points[points.length - 1].y;
         // todo - implement closed splines
     
-        // Create the spline object and begin a path at the first knot
+        // If the spline is closed, add points from either end to the other
+        const leadingSize = 3;
+        if (closed) {
+            // todo - bounds checks
+            const leadingKnots = points.slice(-(leadingSize + 1));
+            const trailingKnots = points.slice(0, leadingSize + 1);
+            const centerKnots = points.slice(1, -1);
+            points = [...leadingKnots, ...centerKnots, ...trailingKnots];
+        }
+
+        // Create the spline, remove first and last curves if closed
         const spline = new BezierSpline(points);
+        if (closed) {
+            spline.knots = spline.knots.slice(leadingSize, -leadingSize);
+            spline.curves = spline.curves.slice(leadingSize, -leadingSize);
+        }
+
+        // Create the path object and begin a path at the first knot
         const splinePath = new Path2D();
         splinePath.moveTo(spline.knots[0][0], spline.knots[0][1]);
 

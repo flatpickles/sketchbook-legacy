@@ -4,18 +4,27 @@ const DEBUG = true;
 
 export default class CanvasUtil {
     static drawSpline(context, points, strokeWeight = 1, strokeStyle = '#000') {
-        if (points.length < 2) { throw 'Spline can only be drawn with two or more points.'; }
-        const closed = points[0].x === points[points.length - 1].x && points[0].y === points[points.length - 1].y;
-        // todo - implement closed splines
-    
-        // If the spline is closed, add points from either end to the other
-        const leadingSize = 3;
+        if (points.length < 3) { throw 'Spline can only be drawn with three or more points.'; }
+        
+        // If the spline is closed, expand with points from the opposite end
+        const leadingSize = 3; // number of adjacent points for path close smoothing
+        const closed = leadingSize > 0 && 
+                       points[0][0] == points[points.length - 1][0] &&
+                       points[0][1] == points[points.length - 1][1];
+        if (closed && points.length <= 3) { throw 'Spline can only be closed with three or more points.'}
         if (closed) {
-            // todo - bounds checks
-            const leadingKnots = points.slice(-(leadingSize + 1));
-            const trailingKnots = points.slice(0, leadingSize + 1);
-            const centerKnots = points.slice(1, -1);
-            points = [...leadingKnots, ...centerKnots, ...trailingKnots];
+            // Collect leading and trailing knots, accommodating wrap-around for small paths
+            let trailingIndex = 1;
+            let leadingIndex = points.length - 2;
+            let leadingKnots = [];
+            let trailingKnots = [];
+            for (let lead = 0; lead < leadingSize; lead++) {
+                trailingKnots.push(points[trailingIndex]);
+                leadingKnots.unshift(points[leadingIndex]);
+                trailingIndex = (trailingIndex + 1) % points.length;
+                leadingIndex = (leadingIndex > 0) ? (leadingIndex - 1) : (points.length - 1) ;
+            }
+            points = [...leadingKnots, ...points, ...trailingKnots];
         }
 
         // Create the spline, remove first and last curves if closed

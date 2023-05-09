@@ -1,6 +1,7 @@
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import { createPath, renderPaths } from 'canvas-sketch-util/penplot';
+import CanvasUtil from '../../Util/CanvasUtil.js';
 
 import presetsObject from './presets.json';
 
@@ -9,7 +10,7 @@ export default class Concentric extends Sketch {
     type = SketchType.Canvas;
     // date = new Date('04/30/2023');
     description = `
-        This is a canvas-based sketch.
+        Working out a demo workflow for Sketchbook -> SVG for pen plotting.
     `;
     showPresets = false;
 
@@ -20,21 +21,22 @@ export default class Concentric extends Sketch {
       };
     bundledPresets = presetsObject;
 
-    params = {
-        demoFloat: new FloatParam('Demo Float', 0.5, 0.0, 1.0),
-        demoColor: new ColorParam('Demo Color', '#00FF00'),
-    };
+    params = {};
     
     sketchFn = ({}) => {
         return (props) => {
-            // Create shapes with path interface
-            const shape0 = createPath(ctx => ctx.arc(0, 0, 50, 0, Math.PI * 2));
-            // And/or with polylines or plain SVGStrings, e.g. from a .svg file
-            const shape1 = [ [ 0, 0 ], [ 50, 25 ] ];
-            // Combine into an array or nested array
-            const paths = [ shape0, shape1 ];
+            const splinePath = CanvasUtil.createBezierSpline([
+                [ 1, 1],
+                [ 10, 10],
+                [ 10, 5],
+                [ 5, 10],
+                [ 1, 1],
+            ]);
 
-            return renderPaths(paths, props);
+            return renderPaths([splinePath], {
+                lineWidth: 0.1,
+                ...props
+            });
         };
     };
 }

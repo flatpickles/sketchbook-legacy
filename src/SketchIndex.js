@@ -12,7 +12,7 @@ import Concentric from './Sketches/Projects/Concentric/Concentric.js';
 
 const sketches = [
     new Concentric(),
-    new Contours(),
+    // new Contours(), // TODO: Fix this sketch
     new Essentia(),
     new AuroraVibes(),
     new Tunnel(),

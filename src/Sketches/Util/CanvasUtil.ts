@@ -1,21 +1,11 @@
 import BezierSpline from "bezier-spline";
+import { createPath } from "canvas-sketch-util/penplot";
 
 export default class CanvasUtil {
-    static drawBezierSpline(
-        context: CanvasRenderingContext2D,
-        points: [number, number][],
-        strokeWeight = 1,
-        strokeStyle = "#000",
-        debug = false
-    ) {
+    static createBezierSpline(points: [number, number][]) {
         if (points.length < 3) {
             throw "Spline can only be drawn with three or more points.";
         }
-
-        // Set up styling
-        context.save();
-        context.lineWidth = strokeWeight;
-        context.strokeStyle = strokeStyle;
 
         // If the spline is closed, expand with points from the opposite end
         const leadingSize = 3; // number of adjacent points for path close smoothing
@@ -48,6 +38,41 @@ export default class CanvasUtil {
             spline.knots = spline.knots.slice(leadingSize, -leadingSize);
             spline.curves = spline.curves.slice(leadingSize, -leadingSize);
         }
+
+        // Create path with canvas-sketch-util
+        const splinePath = createPath();
+        splinePath.moveTo(spline.knots[0][0], spline.knots[0][1]);
+        for (let curveIdx = 0; curveIdx < spline.curves.length; curveIdx++) {
+            const curve = spline.curves[curveIdx];
+            splinePath.bezierCurveTo(
+                curve[1][0],
+                curve[1][1],
+                curve[2][0],
+                curve[2][1],
+                curve[3][0],
+                curve[3][1]
+            );
+        }
+        return splinePath;
+    }
+
+    static drawBezierSpline(
+        context: CanvasRenderingContext2D,
+        points: [number, number][],
+        strokeWeight = 1,
+        strokeStyle = "#000",
+        debug = false
+    ) {
+        throw new Error("Method not currently functional!");
+
+        // Set up styling
+        context.save();
+        context.lineWidth = strokeWeight;
+        context.strokeStyle = strokeStyle;
+
+        // Create the spline
+        // TODO: now returns a canvas-sketch-util path, so this will error
+        const spline = CanvasUtil.createBezierSpline(points);
 
         // Create the path object and begin a path at the first knot
         const splinePath = new Path2D();

@@ -32,6 +32,7 @@
             } else {
                 loadCurrentSketch();
             }
+            loadedSketch = null;
         }
     }
 
@@ -47,14 +48,31 @@
     }
 </script>
 
-{#key sketch.type}
-    <canvas bind:this={canvas} />
-{/key}
+<div class='canvas-container'>
+    {#key sketch.type}
+        <canvas bind:this={canvas} class:canvas-loaded={!!loadedSketch} />
+    {/key}
+</div>
 
 <style>
     canvas {
         display: block;
         margin: 0;
+    }
+
+    .canvas-loaded {
+        /* outline: 1px solid black; */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        background-color: white;
+    }
+    
+    .canvas-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #C0C0C0;
         z-index: -1;
     }
 </style>

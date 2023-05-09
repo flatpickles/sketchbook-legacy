@@ -1,5 +1,6 @@
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
+import { createPath, renderPaths } from 'canvas-sketch-util/penplot';
 
 import presetsObject from './presets.json';
 
@@ -13,10 +14,10 @@ export default class Concentric extends Sketch {
     showPresets = false;
 
     settings = {
-        dimensions: [ 12, 12 ],
+        dimensions: 'A4',
         pixelsPerInch: 300,
         units: 'cm',
-    };
+      };
     bundledPresets = presetsObject;
 
     params = {
@@ -25,18 +26,15 @@ export default class Concentric extends Sketch {
     };
     
     sketchFn = ({}) => {
-        return ({ context, width, height }) => {
-            // Clear the previous frame
-            context.clearRect(0, 0, width, height);
+        return (props) => {
+            // Create shapes with path interface
+            const shape0 = createPath(ctx => ctx.arc(0, 0, 50, 0, Math.PI * 2));
+            // And/or with polylines or plain SVGStrings, e.g. from a .svg file
+            const shape1 = [ [ 0, 0 ], [ 50, 25 ] ];
+            // Combine into an array or nested array
+            const paths = [ shape0, shape1 ];
 
-            // Calculate circle radius
-            const radius = Math.min(width/2, height/2) * this.params.demoFloat.value;
-
-            // Draw a circle!
-            context.beginPath();
-            context.arc(width/2, height/2, radius, 0, Math.PI * 2);
-            context.fillStyle = this.params.demoColor.value;
-            context.fill();
+            return renderPaths(paths, props);
         };
     };
 }

@@ -18,32 +18,32 @@ export default class Concentric extends Sketch {
         dimensions: 'A4',
         pixelsPerInch: 300,
         units: 'cm',
-      };
+    };
     bundledPresets = presetsObject;
 
     params = {};
-    
-    sketchFn = ({}) => {
+
+    sketchFn = ({ }) => {
         return (props) => {
             const splinePath1 = CanvasUtil.createBezierSpline([
-                [ 5, 5],
-                [ 15, 15],
-                [ 10, 5],
-                [ 5, 20],
-                [ 5, 5],
+                [5, 5],
+                [15, 15],
+                [10, 5],
+                [5, 20],
+                [5, 5],
             ]);
 
             const splinePath2 = CanvasUtil.createBezierSpline([
-                [ 15, 5],
-                [ 5, 15],
-                [ 10, 5],
-                [ 5, 10],
-                [ 5, 5],
+                [15, 5],
+                [5, 15],
+                [10, 5],
+                [5, 10],
+                [5, 5],
             ]);
 
-            return renderPaths([splinePath1], {
+            return renderPaths([[splinePath1], [splinePath2]], {
                 lineWidth: 0.1,
-                strokeStyle: 'black',
+                strokeStyle: ['black', 'orange'],
                 ...props
             });
         };

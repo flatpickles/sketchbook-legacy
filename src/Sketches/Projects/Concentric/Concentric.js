@@ -22,7 +22,13 @@ export default class Concentric extends Sketch {
     };
     bundledPresets = presetsObject;
 
-    params = {};
+    params = {
+        size: new FloatParam('Size', 0.75, 0, 1, 0.01, false),
+        centerSize: new FloatParam('Center Size', 0.2, 0, 1, 0.01, false),
+        pathCount: new FloatParam('Path Count', 20, 1, 50, 1, false),
+        pathResolution: new FloatParam('Path Resolution', 20, 3, 100, 1, false),
+        noiseVariant: new FloatParam('Noise Variant', 0, 0, 100, 0.01, false),
+    };
 
     sketchFn = () => {
         // Create a util object
@@ -30,8 +36,15 @@ export default class Concentric extends Sketch {
 
         return (props) => {
             const center = [props.width / 2, props.height / 2];
-            const radius = Math.min(props.width, props.height) / 3;
-            const circlePaths = generator.generateCirclePaths(center, radius, 20);
+            const radius = Math.min(props.width, props.height) / 2 * this.params.size.value;
+            const circlePaths = generator.generateCirclePaths(
+                center,
+                radius,
+                this.params.pathCount.value,
+                this.params.centerSize.value,
+                this.params.noiseVariant.value,
+                this.params.pathResolution.value
+            );
 
             return renderPaths(circlePaths, {
                 lineWidth: 0.1,

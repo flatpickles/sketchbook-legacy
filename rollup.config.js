@@ -56,7 +56,10 @@ export default {
 		// Adding in TypeScript, via instructions on svelte.dev
 		// Emits a warning on production builds ("must be set"),
 		// but I think we don't in fact want this for production.
-		typescript({ sourceMap: !production }),
+		typescript({
+			sourceMap: !production,
+			inlineSources: true
+		}),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In

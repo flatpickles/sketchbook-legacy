@@ -17,11 +17,12 @@ export default class ConcentricUtil {
         radius: number,
         pathCount = 10,
         centerSize = 0.2,
-        resolution = 30
+        noiseVariant = 0,
+        resolution = 20
     ): Path[] {
         const paths: Path[] = [];
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
-            const progress = pathIdx / (pathCount - 1);
+            const progress = pathCount > 1 ? pathIdx / (pathCount - 1) : 1;
             const incrementalRadius =
                 radius * ((1 - centerSize) * progress + centerSize);
             paths.push(
@@ -29,6 +30,7 @@ export default class ConcentricUtil {
                     center,
                     incrementalRadius,
                     progress,
+                    noiseVariant,
                     resolution
                 )
             );
@@ -40,13 +42,15 @@ export default class ConcentricUtil {
         center: [number, number],
         radius: number,
         warble: number,
-        resolution = 30
+        noiseVariant = 0,
+        resolution = 20
     ): Path {
         const circlePoints: [number, number][] = [];
         for (let i = 0; i <= resolution; i++) {
             const modI = i % resolution;
             const angle = (modI / resolution) * Math.PI * 2;
-            const modifiedR = radius + this.noise(angle, 0) * warble;
+            const normalizedNoise = (this.noise(angle, noiseVariant) + 1) / 2;
+            const modifiedR = radius - normalizedNoise * warble;
             const x = center[0] + Math.cos(angle) * modifiedR;
             const y = center[1] + Math.sin(angle) * modifiedR;
             circlePoints.push([x, y]);

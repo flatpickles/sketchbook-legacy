@@ -1,7 +1,14 @@
 import BezierSpline from "bezier-spline";
-import { createPath } from "canvas-sketch-util/penplot";
+import { createPath, eachPath, drawSVGPath } from "canvas-sketch-util/penplot";
+import type { Path } from "d3-path";
 
 export default class CanvasUtil {
+    // static drawLayer(paths: Path[], context: CanvasRenderingContext2D) {
+    //     eachPath(paths, (path: Path) => {
+    //         drawSVGPath(context, path);
+    //     });
+    // }
+
     static createBezierSpline(points: [number, number][]) {
         if (points.length < 3) {
             throw "Spline can only be drawn with three or more points.";
@@ -53,6 +60,9 @@ export default class CanvasUtil {
                 curve[3][1]
             );
         }
+
+        // Close it if need be, and return
+        if (closed) splinePath.closePath();
         return splinePath;
     }
 

@@ -23,11 +23,12 @@ export default class Concentric extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        size: new FloatParam('Size', 0.75, 0, 1, 0.01, false),
-        centerSize: new FloatParam('Center Size', 0.2, 0, 1, 0.01, false),
-        pathCount: new FloatParam('Path Count', 20, 1, 50, 1, false),
+        size1: new FloatParam('Size 1', 0.2, 0.01, 1, 0.01, false),
+        size2: new FloatParam('Size 2', 0.8, 0.01, 1, 0.01, false),
+        pathCount: new FloatParam('Path Count', 20, 2, 50, 1, false),
         pathResolution: new FloatParam('Path Resolution', 20, 3, 100, 1, false),
         noiseVariant: new FloatParam('Noise Variant', 0, 0, 100, 0.01, false),
+        noiseDepth: new FloatParam('Noise Depth', 0.25, 0, 0.5, 0.01, false),
     };
 
     sketchFn = () => {
@@ -35,15 +36,14 @@ export default class Concentric extends Sketch {
         const generator = new ConcentricUtil();
 
         return (props) => {
-            const center = [props.width / 2, props.height / 2];
-            const radius = Math.min(props.width, props.height) / 2 * this.params.size.value;
             const circlePaths = generator.generateCirclePaths(
-                center,
-                radius,
+                [props.width, props.height],
+                this.params.size1.value,
+                this.params.size2.value,
                 this.params.pathCount.value,
-                this.params.centerSize.value,
                 this.params.noiseVariant.value,
-                this.params.pathResolution.value
+                this.params.noiseDepth.value,
+                this.params.pathResolution.value,
             );
 
             return renderPaths(circlePaths, {

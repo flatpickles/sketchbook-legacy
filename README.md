@@ -17,6 +17,8 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 -   Resizing the window can leave the canvas element at the wrong size. It seems this is literal canvas size and not padding, and happens only when the window is getting smaller in one dimension, every other time it seems.
 -   Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
 -   Seems like the panel open/close tabs don't always work reliably with narrow screens.
+-   Sporadically (primarily mobile): canvas-sketch doesn't fill the full screen height. Perhaps a race condition w/ full-height settings?
+-   Once witnessed: switching between full-screen canvas sketches causes a repeated doubling of canvas scale until reset or resize. Resetting Sketchbook solves this problem.
 
 ## To do
 
@@ -46,7 +48,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To consider
 
--   Make this a SvelteKit project?!
+-   Make this a SvelteKit project & rebuild with TypeScript
 -   Link previews! Can we show a preview image for each sketch?
 -   CSS triage: clean everything up
 -   Cleanup: documentation, naming, etc.

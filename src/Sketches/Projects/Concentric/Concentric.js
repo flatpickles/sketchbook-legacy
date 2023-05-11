@@ -1,7 +1,8 @@
+import { createPath, renderPaths, eachPath, drawSVGPath } from 'canvas-sketch-util/penplot';
+
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
-import { createPath, renderPaths, eachPath, drawSVGPath } from 'canvas-sketch-util/penplot';
-import CanvasUtil from '../../Util/CanvasUtil.js';
+import ConcentricUtil from './ConcentricUtil.js';
 
 import presetsObject from './presets.json';
 
@@ -23,27 +24,18 @@ export default class Concentric extends Sketch {
 
     params = {};
 
-    sketchFn = ({ }) => {
+    sketchFn = () => {
+        // Create a util object
+        const generator = new ConcentricUtil();
+
         return (props) => {
-            const splinePath1 = CanvasUtil.createBezierSpline([
-                [5, 5],
-                [15, 15],
-                [10, 5],
-                [5, 20],
-                [5, 5],
-            ]);
+            const center = [props.width / 2, props.height / 2];
+            const radius = Math.min(props.width, props.height) / 4;
+            const circlePath = generator.generateCirclePath(center, radius, 0.5);
 
-            const splinePath2 = CanvasUtil.createBezierSpline([
-                [15, 5],
-                [5, 15],
-                [10, 5],
-                [5, 10],
-                [5, 5],
-            ]);
-
-            return renderPaths([[splinePath1], [splinePath2]], {
+            return renderPaths(circlePath, {
                 lineWidth: 0.1,
-                strokeStyle: ['black', 'orange'],
+                strokeStyle: 'black',
                 ...props
             });
         };

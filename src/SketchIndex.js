@@ -7,12 +7,10 @@ import ReglCube from './Sketches/Projects/ReglCube/index.js';
 import Tunnel from './Sketches/Projects/Tunnel/index.js';
 import AuroraVibes from './Sketches/Projects/AuroraVibes/AuroraVibes.js';
 import Essentia from './Sketches/Projects/Essentia/Essentia.js';
-import Contours from './Sketches/Projects/Contours/Contours.js';
 import Concentric from './Sketches/Projects/Concentric/Concentric.js';
 
 const sketches = [
     new Concentric(),
-    // new Contours(), // TODO: Fix this sketch
     new Essentia(),
     new AuroraVibes(),
     new Tunnel(),

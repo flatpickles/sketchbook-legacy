@@ -12,8 +12,28 @@ export default class ConcentricUtil {
         this.noise = createNoise2D(prng);
     }
 
-    generateCirclePaths() {
-        throw new Error('Not implemented');
+    generateCirclePaths(
+        center: [number, number],
+        radius: number,
+        pathCount = 10,
+        centerSize = 0.2,
+        resolution = 30
+    ): Path[] {
+        const paths: Path[] = [];
+        for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
+            const progress = pathIdx / (pathCount - 1);
+            const incrementalRadius =
+                radius * ((1 - centerSize) * progress + centerSize);
+            paths.push(
+                this.generateCirclePath(
+                    center,
+                    incrementalRadius,
+                    progress,
+                    resolution
+                )
+            );
+        }
+        return paths;
     }
 
     generateCirclePath(

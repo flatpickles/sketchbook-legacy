@@ -30,10 +30,10 @@ export default class Concentric extends Sketch {
 
         return (props) => {
             const center = [props.width / 2, props.height / 2];
-            const radius = Math.min(props.width, props.height) / 4;
-            const circlePath = generator.generateCirclePath(center, radius, 0.5);
+            const radius = Math.min(props.width, props.height) / 3;
+            const circlePaths = generator.generateCirclePaths(center, radius, 20);
 
-            return renderPaths(circlePath, {
+            return renderPaths(circlePaths, {
                 lineWidth: 0.1,
                 strokeStyle: 'black',
                 ...props

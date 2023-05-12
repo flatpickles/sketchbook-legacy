@@ -8,8 +8,10 @@ import Tunnel from './Sketches/Projects/Tunnel/index.js';
 import AuroraVibes from './Sketches/Projects/AuroraVibes/AuroraVibes.js';
 import Essentia from './Sketches/Projects/Essentia/Essentia.js';
 import Concentric from './Sketches/Projects/Concentric/Concentric.js';
+import BioBlobs from './Sketches/Projects/BioBlobs/BioBlobs.js';
 
 const sketches = [
+    new BioBlobs(),
     new Concentric(),
     new Essentia(),
     new AuroraVibes(),

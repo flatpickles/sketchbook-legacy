@@ -2,7 +2,9 @@
 
 [Sketchbook](https://sketchbook.flatpickles.com/) is a web app that presents a growing collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
-For notes on each of the sketches within Sketchbook, visit the [`Projects`](./src/Sketches/Projects/) directory. For notes on the web app itself, read on! Caveat lector: this readme is a rough brain-dump space at the moment.
+I aspire to rebuild Sketchbook with TypeScript & SvelteKit. I also plan to eventually split this into two repositories: the UI and development system as an open source repo, and my own personal artwork as a fork of this, maintaining copyright. For now, no open source license applies.
+
+Caveat lector: this readme is a rough brain-dump space from here on out!
 
 ## Known Issues
 
@@ -23,6 +25,7 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To do
 
+-   Make this a SvelteKit project & rebuild with TypeScript
 -   No defaults? Just presets?
 -   Move things to $lib folder (Sketch.js, etc)
 -   Use class names in file names for projects
@@ -49,7 +52,6 @@ For notes on each of the sketches within Sketchbook, visit the [`Projects`](./sr
 
 ## To consider
 
--   Make this a SvelteKit project & rebuild with TypeScript
 -   Link previews! Can we show a preview image for each sketch?
 -   CSS triage: clean everything up
 -   Cleanup: documentation, naming, etc.

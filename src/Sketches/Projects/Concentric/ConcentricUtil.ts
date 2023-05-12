@@ -4,11 +4,6 @@ import type { Path } from 'd3-path';
 import alea from 'alea';
 import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 
-/**
- * TODO:
- *  - There & back mode: rough -> smooth -> rough etc.
- */
-
 export default class ConcentricUtil {
     private noise: NoiseFunction3D;
 
@@ -33,13 +28,14 @@ export default class ConcentricUtil {
         const minDimension = Math.min(dimensions[0], dimensions[1]) / 2;
         const maxWarble = (noiseDepth * minDimension) / 2;
         const insideRadius = // smooth side
-            thereAndBack && size2 < size1
+            thereAndBack
                 ? maxWarble / 2 + size1 * (minDimension - maxWarble)
                 : size1 * minDimension;
         const outsideRadius = // rough side
-            thereAndBack && size2 > size1
-                ? size2 * minDimension
-                : maxWarble / 2 + size2 * (minDimension - maxWarble);
+            maxWarble / 2 + size2 * (minDimension - maxWarble);
+
+        // todo: with thereAndBack, the smooth sides should always be able
+        //       to go to the edges (without noise overshooting)
 
         // Generate paths
         const paths: Path[] = [];

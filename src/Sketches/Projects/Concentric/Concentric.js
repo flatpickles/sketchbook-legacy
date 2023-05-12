@@ -11,9 +11,9 @@ export default class Concentric extends Sketch {
     type = SketchType.Canvas;
     // date = new Date('04/30/2023');
     description = `
-        Working out a demo workflow for Sketchbook -> SVG for pen plotting.
+        Exploring new forms of continuity. Rendered as SVG paths, intended to be drawn mechanically with a pen plotter.
     `;
-    showPresets = false;
+    showPresets = true;
 
     settings = {
         dimensions: 'A4',
@@ -23,13 +23,13 @@ export default class Concentric extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        size1: new FloatParam('Size 1', 0.2, 0.01, 1, 0.01, false),
-        size2: new FloatParam('Size 2', 0.8, 0.01, 1, 0.01, false),
-        pathCount: new FloatParam('Path Count', 20, 2, 50, 1, false),
-        pathResolution: new FloatParam('Path Resolution', 20, 3, 300, 1, false),
-        noiseVariant: new FloatParam('Noise Variant', 0, 0, 1, 0.01, false),
+        size1: new FloatParam('Size 1', 0.25, 0.01, 1, 0.01, false),
+        size2: new FloatParam('Size 2', 1.0, 0.01, 1, 0.01, false),
+        pathCount: new FloatParam('Path Count', 14, 2, 50, 1, false),
+        pathResolution: new FloatParam('Path Resolution', 100, 3, 300, 1, false),
+        noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
         noiseDensity: new FloatParam('Noise Density', 0.5, 0, 1, 0.01, false),
-        noiseDepth: new FloatParam('Noise Depth', 0.5, 0, 1, 0.01, false),
+        noiseDepth: new FloatParam('Noise Depth', 0.3, 0, 1, 0.01, false),
     };
 
     sketchFn = () => {

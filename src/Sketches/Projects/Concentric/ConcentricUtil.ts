@@ -2,21 +2,20 @@ import CurveUtil from '../../Util/CurveUtil';
 import type { Path } from 'd3-path';
 
 import alea from 'alea';
-import { createNoise2D, type NoiseFunction2D } from 'simplex-noise';
+import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 
 /**
  * TODO:
  *  - Polar continuous noise
- *  - Noise depth that can't exceed the bounds
  *  - There & back mode: rough -> smooth -> rough etc.
  */
 
 export default class ConcentricUtil {
-    private noise: NoiseFunction2D;
+    private noise: NoiseFunction3D;
 
     constructor() {
         const prng = alea(0);
-        this.noise = createNoise2D(prng);
+        this.noise = createNoise3D(prng);
     }
 
     generateCirclePaths(
@@ -24,6 +23,7 @@ export default class ConcentricUtil {
         size1 = 1,
         size2 = 0.2,
         pathCount = 10,
+        noiseDensity = 1,
         noiseVariant = 0,
         noiseDepth = 0.5,
         resolution = 20
@@ -44,12 +44,13 @@ export default class ConcentricUtil {
             const incrementalRadius =
                 insideRadius + (outsideRadius - insideRadius) * progress;
             const warble = progress * maxWarble;
-
+            // Generate and add a new path
             paths.push(
                 this.generateCirclePath(
                     center,
                     incrementalRadius,
                     warble,
+                    noiseDensity,
                     noiseVariant,
                     resolution
                 )
@@ -62,6 +63,7 @@ export default class ConcentricUtil {
         center: [number, number],
         radius: number,
         warble: number,
+        noiseDensity = 1,
         noiseVariant = 0,
         resolution = 20
     ): Path {
@@ -69,7 +71,11 @@ export default class ConcentricUtil {
         for (let i = 0; i <= resolution; i++) {
             const modI = i % resolution;
             const angle = (modI / resolution) * Math.PI * 2;
-            const normalizedNoise = this.noise(angle, noiseVariant);
+            const normalizedNoise = this.noise(
+                noiseDensity * (Math.cos(angle) + 1),
+                noiseDensity * (Math.sin(angle) + 1),
+                noiseVariant
+            );
             const modifiedR = radius + normalizedNoise * warble;
             const x = center[0] + Math.cos(angle) * modifiedR;
             const y = center[1] + Math.sin(angle) * modifiedR;

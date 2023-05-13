@@ -27,28 +27,55 @@ export default class ConcentricUtil {
         const center: [number, number] = [dimensions[0] / 2, dimensions[1] / 2];
         const minDimension = Math.min(dimensions[0], dimensions[1]) / 2;
         const maxWarble = (noiseDepth * minDimension) / 2;
-        const insideRadius = // smooth side
-            thereAndBack
-                ? maxWarble / 2 + size1 * (minDimension - maxWarble)
-                : size1 * minDimension;
-        const outsideRadius = // rough side
-            maxWarble / 2 + size2 * (minDimension - maxWarble);
-
-        // todo: with thereAndBack, the smooth sides should always be able
-        //       to go to the edges (without noise overshooting)
 
         // Generate paths
         const paths: Path[] = [];
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
             // Calculate inputs for this circle
             const progress = pathCount > 1 ? pathIdx / (pathCount - 1) : 1;
-            const incrementalRadius =
-                insideRadius + (outsideRadius - insideRadius) * progress;
-            const warble = thereAndBack
-                ? size2 < size1
-                    ? maxWarble * Math.abs(progress - 0.5)
-                    : maxWarble / 2 - Math.abs(progress - 0.5) * maxWarble
-                : (maxWarble * progress) / 2;
+            var incrementalRadius, warble;
+            if (thereAndBack) {
+                // overlapping bounds don't look great in this mode; disabled
+                if (size1 < size2) {
+                    // rough to rough
+                    const insideRadius = Math.min(
+                        minDimension - maxWarble * 2,
+                        maxWarble / 2 + size1 * (minDimension - maxWarble)
+                    );
+                    const outsideRadius = Math.min(
+                        minDimension - maxWarble / 2,
+                        Math.max(
+                            insideRadius + maxWarble,
+                            maxWarble / 2 + size2 * (minDimension - maxWarble)
+                        )
+                    );
+                    warble = maxWarble * Math.abs(progress - 0.5);
+                    incrementalRadius =
+                        insideRadius +
+                        (outsideRadius - insideRadius) * progress;
+                } else {
+                    // smooth to smooth
+                    const outsideRadius = size1 * minDimension;
+                    const insideRadius = Math.min(
+                        size2 * minDimension,
+                        outsideRadius - maxWarble
+                    );
+                    warble =
+                        maxWarble / 2 - Math.abs(progress - 0.5) * maxWarble;
+                    incrementalRadius =
+                        outsideRadius +
+                        (insideRadius - outsideRadius) * progress;
+                }
+            } else {
+                // smooth to rough or rough to smooth (overlap is fine)
+                const smoothRadius = size1 * minDimension;
+                const noisyRadius =
+                    maxWarble / 2 + size2 * (minDimension - maxWarble);
+                incrementalRadius =
+                    smoothRadius + (noisyRadius - smoothRadius) * progress;
+                warble = (maxWarble * progress) / 2;
+            }
+
             // Generate and add a new path
             paths.push(
                 this.generateCirclePath(

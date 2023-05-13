@@ -21,60 +21,53 @@ export default class ConcentricUtil {
         noiseDensity = 1,
         noiseVariant = 0,
         noiseDepth = 0.5,
-        resolution = 20
+        resolution = 20,
+        minInnerSize = 0.01
     ): Path[] {
         // Calculate real dimensions from proportional inputs
         const center: [number, number] = [dimensions[0] / 2, dimensions[1] / 2];
         const minDimension = Math.min(dimensions[0], dimensions[1]) / 2;
-        const maxWarble = (noiseDepth * minDimension) / 2;
+
+        // Calculate maximum warble (noise offset)
+        // Noisy paths shouldn't be able to overflow bounds in thereAndBack mode
+        let maxWarble = (noiseDepth * minDimension) / 2;
+        if (thereAndBack) {
+            maxWarble = Math.min(
+                maxWarble,
+                Math.abs(minDimension * (size1 - size2)) /
+                    (size1 < size2 ? 2 : 1)
+            );
+        }
+
+        // Calculate bounds
+        let bound1, bound2: number;
+        if (thereAndBack) {
+            if (size1 < size2) {
+                // rough to rough
+                bound1 = maxWarble / 2 + size1 * (minDimension - maxWarble); // inside radius
+                bound2 = maxWarble / 2 + size2 * (minDimension - maxWarble); // outside radius
+            } else {
+                // smooth to smooth
+                bound1 = size1 * minDimension; // outside radius
+                bound2 = size2 * minDimension; // inside radius
+            }
+        } else {
+            // smooth to rough or rough to smooth
+            bound1 = size1 * minDimension; // smooth radius
+            bound2 = maxWarble / 2 + size2 * (minDimension - maxWarble); // rough radius
+        }
 
         // Generate paths
         const paths: Path[] = [];
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
             // Calculate inputs for this circle
             const progress = pathCount > 1 ? pathIdx / (pathCount - 1) : 1;
-            var incrementalRadius, warble;
-            if (thereAndBack) {
-                // overlapping bounds don't look great in this mode; disabled
-                if (size1 < size2) {
-                    // rough to rough
-                    const insideRadius = Math.min(
-                        minDimension - maxWarble * 2,
-                        maxWarble / 2 + size1 * (minDimension - maxWarble)
-                    );
-                    const outsideRadius = Math.min(
-                        minDimension - maxWarble / 2,
-                        Math.max(
-                            insideRadius + maxWarble,
-                            maxWarble / 2 + size2 * (minDimension - maxWarble)
-                        )
-                    );
-                    warble = maxWarble * Math.abs(progress - 0.5);
-                    incrementalRadius =
-                        insideRadius +
-                        (outsideRadius - insideRadius) * progress;
-                } else {
-                    // smooth to smooth
-                    const outsideRadius = size1 * minDimension;
-                    const insideRadius = Math.min(
-                        size2 * minDimension,
-                        outsideRadius - maxWarble
-                    );
-                    warble =
-                        maxWarble / 2 - Math.abs(progress - 0.5) * maxWarble;
-                    incrementalRadius =
-                        outsideRadius +
-                        (insideRadius - outsideRadius) * progress;
-                }
-            } else {
-                // smooth to rough or rough to smooth (overlap is fine)
-                const smoothRadius = size1 * minDimension;
-                const noisyRadius =
-                    maxWarble / 2 + size2 * (minDimension - maxWarble);
-                incrementalRadius =
-                    smoothRadius + (noisyRadius - smoothRadius) * progress;
-                warble = (maxWarble * progress) / 2;
-            }
+            const warble = thereAndBack
+                ? size1 < size2
+                    ? maxWarble * Math.abs(progress - 0.5)
+                    : maxWarble / 2 - Math.abs(progress - 0.5) * maxWarble
+                : (maxWarble * progress) / 2;
+            const incrementalRadius = bound1 + (bound2 - bound1) * progress;
 
             // Generate and add a new path
             paths.push(

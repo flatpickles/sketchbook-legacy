@@ -2,7 +2,7 @@ import { createPath, renderPaths, eachPath, drawSVGPath } from 'canvas-sketch-ut
 
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
-import ConcentricUtil from './ConcentricUtil.js';
+import ConcentricGenerator from './ConcentricGenerator.js';
 
 import presetsObject from './presets.json';
 
@@ -37,8 +37,7 @@ export default class Concentric extends Sketch {
     };
 
     sketchFn = () => {
-        // Create a util object
-        const generator = new ConcentricUtil();
+        const generator = new ConcentricGenerator();
 
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches

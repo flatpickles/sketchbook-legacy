@@ -4,7 +4,7 @@ import type { Path } from 'd3-path';
 import alea from 'alea';
 import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 
-export default class ConcentricUtil {
+export default class ConcentricGenerator {
     private noise: NoiseFunction3D;
     constructor() {
         const prng = alea(0);

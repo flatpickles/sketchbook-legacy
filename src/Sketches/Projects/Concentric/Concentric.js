@@ -16,9 +16,9 @@ export default class Concentric extends Sketch {
     showPresets = true;
 
     settings = {
-        dimensions: 'A4',
+        dimensions: [8.5, 11],
         pixelsPerInch: 300,
-        units: 'cm',
+        units: 'in',
     };
     bundledPresets = presetsObject;
 
@@ -31,7 +31,7 @@ export default class Concentric extends Sketch {
         noiseDensity: new FloatParam('Noise Density', 0.5, 0, 1, 0.01, false),
         pathCount: new FloatParam('Path Count', 14, 2, 50, 1, false),
         pathResolution: new FloatParam('Path Resolution', 50, 3, 300, 1, false),
-        pathWidth: new FloatParam('Path Width', 0.1, 0.01, 1, 0.01, false),
+        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
         xIterations: new FloatParam('X Iterations', 1, 1, 4, 1, false),
         yIterations: new FloatParam('Y Iterations', 1, 1, 6, 1, false),
     };
@@ -41,6 +41,7 @@ export default class Concentric extends Sketch {
         const generator = new ConcentricUtil();
 
         return (props) => {
+            const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
             const iterations = generator.generateIterations(
                     [this.params.xIterations.value, this.params.yIterations.value], 
                     [props.width, props.height],
@@ -52,11 +53,11 @@ export default class Concentric extends Sketch {
                     this.params.noiseVariant.value * 100,
                     this.params.noiseDepth.value,
                     this.params.pathResolution.value,
-                    this.params.pathWidth.value
+                    scaledNibSize
             );
 
             return renderPaths(iterations, {
-                lineWidth: this.params.pathWidth.value,
+                lineWidth: scaledNibSize,
                 strokeStyle: 'black',
                 ...props
             });

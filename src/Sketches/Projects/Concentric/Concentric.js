@@ -31,6 +31,7 @@ export default class Concentric extends Sketch {
         noiseDepth: new FloatParam('Noise Depth', 0.3, 0, 1, 0.01, false),
         pathCount: new FloatParam('Path Count', 14, 2, 50, 1, false),
         pathResolution: new FloatParam('Path Resolution', 100, 3, 300, 1, false),
+        pathWidth: new FloatParam('Path Width', 0.1, 0.01, 1, 0.01, false),
     };
 
     sketchFn = () => {
@@ -48,10 +49,11 @@ export default class Concentric extends Sketch {
                 this.params.noiseVariant.value * 100,
                 this.params.noiseDepth.value,
                 this.params.pathResolution.value,
+                this.params.pathWidth.value
             );
 
             return renderPaths(circlePaths, {
-                lineWidth: 0.1,
+                lineWidth: this.params.pathWidth.value,
                 strokeStyle: 'black',
                 ...props
             });

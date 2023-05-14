@@ -22,7 +22,7 @@ export default class ConcentricUtil {
         noiseVariant = 0,
         noiseDepth = 0.5,
         resolution = 20,
-        minInnerSize = 0.01
+        lineWidth = 0.01
     ): Path[] {
         // Calculate real dimensions from proportional inputs
         const center: [number, number] = [dimensions[0] / 2, dimensions[1] / 2];
@@ -41,21 +41,41 @@ export default class ConcentricUtil {
 
         // Calculate bounds
         let bound1, bound2: number;
+        const halfLineWidth = lineWidth / 2;
         if (thereAndBack) {
             if (size1 < size2) {
                 // rough to rough
-                bound1 = maxWarble / 2 + size1 * (minDimension - maxWarble); // inside radius
-                bound2 = maxWarble / 2 + size2 * (minDimension - maxWarble); // outside radius
+                bound1 =
+                    lineWidth / 2 +
+                    maxWarble / 2 +
+                    size1 * (minDimension - maxWarble - lineWidth); // inside radius
+                bound2 =
+                    lineWidth / 2 +
+                    maxWarble / 2 +
+                    size2 * (minDimension - maxWarble - lineWidth); // outside radius
             } else {
                 // smooth to smooth
-                bound1 = size1 * minDimension; // outside radius
-                bound2 = size2 * minDimension; // inside radius
+                bound1 = lineWidth / 2 + size1 * (minDimension - lineWidth); // outside radius
+                bound2 = lineWidth / 2 + size2 * (minDimension - lineWidth); // inside radius
             }
         } else {
             // smooth to rough or rough to smooth
-            bound1 = size1 * minDimension; // smooth radius
-            bound2 = maxWarble / 2 + size2 * (minDimension - maxWarble); // rough radius
+            bound1 = lineWidth / 2 + size1 * (minDimension - lineWidth); // smooth radius
+            bound2 =
+                lineWidth / 2 +
+                maxWarble / 2 +
+                size2 * (minDimension - maxWarble - lineWidth); // rough radius
         }
+
+        // Accommodate line width
+        // bound1 = Math.max(
+        //     Math.min(bound1, minDimension - halfLineWidth),
+        //     halfLineWidth
+        // );
+        // bound2 = Math.max(
+        //     Math.min(bound2, minDimension - halfLineWidth),
+        //     halfLineWidth
+        // );
 
         // Generate paths
         const paths: Path[] = [];

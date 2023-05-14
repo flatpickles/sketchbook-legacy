@@ -9,9 +9,10 @@ import presetsObject from './presets.json';
 export default class Concentric extends Sketch {
     name = 'Concentric';
     type = SketchType.Canvas;
-    // date = new Date('04/30/2023');
+    date = new Date('05/14/2023');
+    experimental = false;
     description = `
-        Exploring new forms of continuity. Rendered as SVG paths, intended to be drawn mechanically with a pen plotter.
+        Exploring new forms of continuity. Path-based generative designs, intended to be rendered to SVG and drawn mechanically with a pen plotter.
     `;
     showPresets = true;
 

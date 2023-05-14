@@ -27,11 +27,13 @@ export default class Concentric extends Sketch {
         size2: new FloatParam('Size 2', 1.0, 0.01, 1, 0.01, false),
         thereAndBack: new BoolParam('There and Back', false),
         noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
+        noiseDepth: new FloatParam('Noise Depth', 0.6, 0, 1, 0.01, false),
         noiseDensity: new FloatParam('Noise Density', 0.5, 0, 1, 0.01, false),
-        noiseDepth: new FloatParam('Noise Depth', 0.3, 0, 1, 0.01, false),
         pathCount: new FloatParam('Path Count', 14, 2, 50, 1, false),
-        pathResolution: new FloatParam('Path Resolution', 100, 3, 300, 1, false),
+        pathResolution: new FloatParam('Path Resolution', 50, 3, 300, 1, false),
         pathWidth: new FloatParam('Path Width', 0.1, 0.01, 1, 0.01, false),
+        xIterations: new FloatParam('X Iterations', 1, 1, 4, 1, false),
+        yIterations: new FloatParam('Y Iterations', 1, 1, 6, 1, false),
     };
 
     sketchFn = () => {
@@ -39,20 +41,21 @@ export default class Concentric extends Sketch {
         const generator = new ConcentricUtil();
 
         return (props) => {
-            const circlePaths = generator.generateCirclePaths(
-                [props.width, props.height],
-                this.params.size1.value,
-                this.params.size2.value,
-                this.params.thereAndBack.value,
-                this.params.pathCount.value,
-                this.params.noiseDensity.value * 3,
-                this.params.noiseVariant.value * 100,
-                this.params.noiseDepth.value,
-                this.params.pathResolution.value,
-                this.params.pathWidth.value
+            const iterations = generator.generateIterations(
+                    [this.params.xIterations.value, this.params.yIterations.value], 
+                    [props.width, props.height],
+                    this.params.size1.value,
+                    this.params.size2.value,
+                    this.params.thereAndBack.value,
+                    this.params.pathCount.value,
+                    this.params.noiseDensity.value * 3,
+                    this.params.noiseVariant.value * 100,
+                    this.params.noiseDepth.value,
+                    this.params.pathResolution.value,
+                    this.params.pathWidth.value
             );
 
-            return renderPaths(circlePaths, {
+            return renderPaths(iterations, {
                 lineWidth: this.params.pathWidth.value,
                 strokeStyle: 'black',
                 ...props

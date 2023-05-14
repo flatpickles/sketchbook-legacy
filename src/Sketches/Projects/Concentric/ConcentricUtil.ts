@@ -6,14 +6,80 @@ import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 
 export default class ConcentricUtil {
     private noise: NoiseFunction3D;
-
     constructor() {
         const prng = alea(0);
         this.noise = createNoise3D(prng);
     }
 
-    generateCirclePaths(
-        dimensions = [1, 1],
+    /**
+     * Generate a series of concentric designs, adjusting the noise varient for each
+     * @param iterationCounts - number of iterations in each dimension [x, y]
+     * @param fullDimensions - size of the full area [x, y]
+     * Other parameters the same as for generateCirclePaths
+     */
+    public generateIterations(
+        iterationCounts: [number, number],
+        fullDimensions: [number, number],
+        size1 = 1,
+        size2 = 0.2,
+        thereAndBack = false,
+        pathCount = 10,
+        noiseDensity = 1,
+        noiseVariant = 0,
+        noiseDepth = 0.5,
+        resolution = 20,
+        lineWidth = 0.01
+    ): Path[][] {
+        const iterations: Path[][] = [];
+        for (let x = 0; x < iterationCounts[0]; x++) {
+            for (let y = 0; y < iterationCounts[1]; y++) {
+                const iterationNumber = 1 + x * iterationCounts[1] + y;
+                const dimensions: [number, number] = [
+                    fullDimensions[0] / iterationCounts[0],
+                    fullDimensions[1] / iterationCounts[1],
+                ];
+                const center: [number, number] = [
+                    (x + 0.5) * dimensions[0],
+                    (y + 0.5) * dimensions[1],
+                ];
+                iterations.push(
+                    this.generateCirclePaths(
+                        dimensions,
+                        center,
+                        size1,
+                        size2,
+                        thereAndBack,
+                        pathCount,
+                        noiseDensity,
+                        noiseVariant * iterationNumber,
+                        noiseDepth,
+                        resolution,
+                        lineWidth
+                    )
+                );
+            }
+        }
+        return iterations;
+    }
+
+    /**
+     * Generate a concentric design as a series of paths
+     * @param dimensions - size of the area [x, y]
+     * @param center - center of the design location within dimensions [x, y]
+     * @param size1 - size of the first circle bound
+     * @param size2 - size of the second circle bound
+     * @param thereAndBack - thereAndBack mode (true/false)
+     * @param pathCount - number of paths to generate
+     * @param noiseDensity - smoothness/roughness of generated noise
+     * @param noiseVariant - noise variant
+     * @param noiseDepth - how far noise pushes the paths
+     * @param resolution - how many points to generate per path
+     * @param lineWidth - width of the path (for bounds adjustments)
+     * @returns - an array of Path objects
+     */
+    public generateCirclePaths(
+        dimensions: [number, number],
+        center: [number, number],
         size1 = 1,
         size2 = 0.2,
         thereAndBack = false,
@@ -24,8 +90,7 @@ export default class ConcentricUtil {
         resolution = 20,
         lineWidth = 0.01
     ): Path[] {
-        // Calculate real dimensions from proportional inputs
-        const center: [number, number] = [dimensions[0] / 2, dimensions[1] / 2];
+        // Always circular, along the smaller of the two dimensions
         const minDimension = Math.min(dimensions[0], dimensions[1]) / 2;
 
         // Calculate maximum warble (noise offset)
@@ -67,16 +132,6 @@ export default class ConcentricUtil {
                 size2 * (minDimension - maxWarble - lineWidth); // rough radius
         }
 
-        // Accommodate line width
-        // bound1 = Math.max(
-        //     Math.min(bound1, minDimension - halfLineWidth),
-        //     halfLineWidth
-        // );
-        // bound2 = Math.max(
-        //     Math.min(bound2, minDimension - halfLineWidth),
-        //     halfLineWidth
-        // );
-
         // Generate paths
         const paths: Path[] = [];
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
@@ -104,6 +159,9 @@ export default class ConcentricUtil {
         return paths;
     }
 
+    /**
+     * Calculate a single circle path from provided parameters
+     */
     private generateCirclePath(
         center: [number, number],
         radius: number,

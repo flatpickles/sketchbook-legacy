@@ -21,6 +21,7 @@ export default class Sketch {
     settings = {};
     bundledPresets = {};
     showPresets = true;
+    displayAsPrint = false;
     defaultPresetName = 'Default Values';
 
     get #userPresetsKey() {

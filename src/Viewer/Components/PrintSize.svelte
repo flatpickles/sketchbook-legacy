@@ -28,6 +28,7 @@
         border: 1px solid #000;
         border-radius: 2px;
         background-color: rgba(255, 255, 255, 0.8);
+        outline: none;
     }
 
     .inputs {

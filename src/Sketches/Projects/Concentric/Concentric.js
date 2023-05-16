@@ -15,13 +15,8 @@ export default class Concentric extends Sketch {
         Exploring new forms of continuity. Path-based generative designs, intended to be rendered to SVG and drawn mechanically with a pen plotter.
     `;
     showPresets = true;
-
-    settings = {
-        dimensions: [8.5, 11],
-        pixelsPerInch: 300,
-        units: 'in',
-    };
     bundledPresets = presetsObject;
+    displayAsPrint = true;
 
     params = {
         size1: new FloatParam('Size 1', 0.25, 0.01, 1, 0.01, false),

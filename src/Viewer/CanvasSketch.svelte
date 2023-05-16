@@ -1,10 +1,11 @@
 <script>
     import canvasSketch from 'canvas-sketch';
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
+    import { printDimensions } from './stores';
 
     export let sketch;
     let canvas, loadedSketch, canvasSketchManager;
-    
+
     onMount(async () => {
         // On the first load of the page, specifically on mobile Safari (iOS), the canvas
         // can be sized incorrectly – not filling the full screen vertically. The root of
@@ -17,6 +18,10 @@
         // has come to the rescue yet again. What a world.
         setTimeout(loadCurrentSketch, 0);
     });
+
+    // Update print dimensions when the canvas is resized
+    const dimensionsUnsubscribe = printDimensions.subscribe(loadCurrentSketch);
+    onDestroy(() => dimensionsUnsubscribe());
 
     export function update() {
         canvasSketchManager.render();
@@ -37,13 +42,20 @@
     }
 
     async function loadCurrentSketch() {
+        if (!canvas) return;
         if (canvasSketchManager) canvasSketchManager.unload();
         const opt = {
-            ...sketch.settings,
+            ... sketch.settings,
             canvas,
             parent: canvas.parentElement
         };
-        canvasSketchManager = await canvasSketch(sketch.sketchFn, opt);
+        const printOpt = { // todo: maybe make units & PPI configurable and/or config constants
+            ... opt,
+            pixelsPerInch: 300,
+            units: 'in',
+            dimensions: [$printDimensions.width, $printDimensions.height]
+        };
+        canvasSketchManager = await canvasSketch(sketch.sketchFn, sketch.displayAsPrint ? printOpt : opt);
         loadedSketch = sketch;
     }
 </script>
@@ -61,7 +73,6 @@
     }
 
     .canvas-loaded {
-        /* outline: 1px solid black; */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         background-color: white;
     }

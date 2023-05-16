@@ -1,0 +1,56 @@
+<fieldset class="inputs">
+    <legend>Print Size (Inches)</legend>
+    <div class="dimension-input">
+        <label for="size-width-input">W:</label>
+        <input type="value" class="size-input" id="size-width-input">
+    </div>
+    <div class="dimension-input">
+        <label for="size-height-input">H:</label>
+        <input type="number" class="size-input" id="size-height-input">
+    </div>
+</fieldset>
+
+<style lang="scss">
+    fieldset {
+        border: 1px solid #000;
+        border-radius: 2px;
+        margin: 0rem;
+    }
+
+    input {
+        width: 100%;
+        margin: 0;
+        text-align: right;
+        border: 1px solid #000;
+        border-radius: 2px;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .inputs {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        column-gap: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 0.5rem;
+    }
+
+    .dimension-input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    // Hide the input arrows
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+</style>

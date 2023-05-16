@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
     import Button from './Components/Button.svelte';
     import PanelHeader from './PanelHeader.svelte';
+    import PrintSize from './Components/PrintSize.svelte';
 
     export let sketches;
     export let selected;
@@ -63,6 +64,7 @@
                 <p>
                     You've enabled experimental mode! Experimental sketches are generally incomplete or unimpressive, but might be interesting nonetheless.
                 </p>
+                <PrintSize />
             {/if}
             <div id='buttons'>
                 {#if showExperimentalButton}

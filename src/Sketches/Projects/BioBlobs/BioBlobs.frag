@@ -40,9 +40,9 @@ void main()	{
     offset2 = smoothstep(0.3, 0.45, offset2);
     float offset3 = simplexNoise(seedB);
     offset3 = smoothstep(0.0, 0.5, offset3);
-    float h = fract(offset1 - offset2 * 1.0 - offset3 * 1.0 + 0.35);
+    float h = fract(offset1 - offset2 * 1.0 - offset3 * 1.0 + time / 10.);
     vec3 color = hsv(h, 0.95, 1.0);
-    color *= vec3(1., 0., 1.);
+    // color *= vec3(0.1216, 0.0706, 0.451);
 
     gl_FragColor = vec4(color, 1.0);
 }

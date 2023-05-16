@@ -64,8 +64,8 @@
                 <p>
                     You've enabled experimental mode! Experimental sketches are generally incomplete or unimpressive, but might be interesting nonetheless.
                 </p>
-                <PrintSize />
             {/if}
+            <PrintSize />
             <div id='buttons'>
                 {#if showExperimentalButton}
                     <Button name={worksInProgressButtonText} on:click={toggleExperimentalMode}></Button>

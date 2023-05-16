@@ -25,6 +25,7 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
 
 ## To do
 
+-   Allow opting into print presentation for full-screen sketches
 -   Make this a SvelteKit project & rebuild with TypeScript
 -   No defaults? Just presets?
 -   Move things to $lib folder (Sketch.js, etc)

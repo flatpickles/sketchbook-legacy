@@ -49,12 +49,14 @@
             canvas,
             parent: canvas.parentElement
         };
-        const printOpt = { // todo: maybe make units & PPI configurable and/or config constants
+        // todo: maybe make print units & PPI configurable and/or config constants
+        const printOpt = { 
             ... opt,
             pixelsPerInch: 300,
             units: 'in',
             dimensions: [$printDimensions.width, $printDimensions.height]
         };
+        // todo: allow opting into print display for full-screen sketches (PrintSize.svelte etc)
         canvasSketchManager = await canvasSketch(sketch.sketchFn, sketch.displayAsPrint ? printOpt : opt);
         loadedSketch = sketch;
     }

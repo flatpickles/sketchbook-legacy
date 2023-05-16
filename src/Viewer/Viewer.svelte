@@ -95,7 +95,7 @@
         </slot>
     </div>
     <div class='button_container'>
-        <div class='panel_button' on:click={toggleLeft} class:opaque={mouseIsMoving || isTouchDevice}>
+        <div class='panel_button' on:click={toggleLeft} on:keypress={toggleLeft} class:opaque={mouseIsMoving || isTouchDevice}>
             <Discloser
                 direction={Direction.Left}
                 borderStyle={true}
@@ -107,13 +107,13 @@
     </div>
 </div>
 
-<div class='viewport' bind:clientWidth={viewportWidth} on:click={viewportClicked}>
+<div class='viewport' bind:clientWidth={viewportWidth} on:click={viewportClicked} on:keypress={viewportClicked}>
     <CanvasSketch {sketch} bind:this={sketchComponent} />
 </div>
 
 <div id='right_panel' class='panel right_transition' class:open={rightPanelOpen} style='--viewport-width: {viewportWidthString}'>
     <div class='button_container'>
-        <div class='panel_button' on:click={toggleRight} class:opaque={mouseIsMoving || isTouchDevice}>
+        <div class='panel_button' on:click={toggleRight} on:keypress={toggleRight} class:opaque={mouseIsMoving || isTouchDevice}>
             <Discloser
                 direction={Direction.Right}
                 borderStyle={true}

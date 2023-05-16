@@ -1,12 +1,16 @@
+<script lang="ts">
+    import { printDimensions } from '../stores'
+</script>
+
 <fieldset class="inputs">
     <legend>Print Size (Inches)</legend>
     <div class="dimension-input">
         <label for="size-width-input">W:</label>
-        <input type="value" class="size-input" id="size-width-input">
+        <input type="number" class="size-input" id="size-width-input" bind:value={$printDimensions.width}>
     </div>
     <div class="dimension-input">
         <label for="size-height-input">H:</label>
-        <input type="number" class="size-input" id="size-height-input">
+        <input type="number" class="size-input" id="size-height-input" bind:value={$printDimensions.height}>
     </div>
 </fieldset>
 
@@ -50,7 +54,7 @@
         margin: 0;
     }
     input[type=number] {
+        appearance: textfield;
         -moz-appearance: textfield;
     }
-
 </style>

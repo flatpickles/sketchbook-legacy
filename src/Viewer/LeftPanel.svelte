@@ -81,7 +81,8 @@
                 <div
                     class='sketch_item'
                     class:sketch_selected={sketch == selected}
-                    on:click={selectSketch.bind(this, sketch)}>
+                    on:click={selectSketch.bind(this, sketch)}
+                    on:keypress={selectSketch.bind(this, sketch)}>
                         {#if sketch.experimental}~{/if}
                         {sketch.name}
                         {#if sketch.experimental}~{/if}

@@ -1,54 +1,51 @@
 import CurveUtil from '../../Util/CurveUtil';
 import type { Path } from 'd3-path';
 
-import alea from 'alea';
-import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
-
 export default class Generator {
-    private noise: NoiseFunction3D;
-    constructor() {
-        const prng = alea(0);
-        this.noise = createNoise3D(prng);
-    }
-
-    public generate(): Path[] {
-        const longLineCount = 10;
-        const longLineResolution = 30;
-        const radius = 2;
-        const center = [4, 4];
-
+    public generate(
+        lineCount = 10,
+        lineResolution = 20,
+        radius = 1,
+        center = [0, 0]
+    ): Path[] {
+        const latPaths: Path[] = [];
         const longPaths: Path[] = [];
-        for (
-            let longLineIndex = 0;
-            longLineIndex < longLineCount;
-            longLineIndex++
-        ) {
-            const longLinePoints: [number, number][] = [];
+        for (let lineIndex = 0; lineIndex < lineCount; lineIndex++) {
+            const latPoints: [number, number][] = [];
+            const longPoints: [number, number][] = [];
             for (
-                let linePointIndex = 0;
-                linePointIndex < longLineResolution;
-                linePointIndex++
+                let pointIndex = 0;
+                pointIndex < lineResolution;
+                pointIndex++
             ) {
-                const thetaProgress = linePointIndex / (longLineResolution - 1);
-                const phiProgress = longLineIndex / (longLineCount - 1);
+                const pathProgress = pointIndex / (lineResolution - 1);
+                const linesProgress = lineIndex / (lineCount - 1);
 
-                const theta = thetaProgress * Math.PI;
-                const phi = phiProgress * Math.PI - Math.PI / 2.0;
-                const warpedRadius =
-                    radius +
-                    this.noise(
-                        Math.sin(theta) * Math.cos(phi),
-                        Math.sin(theta) * Math.sin(phi),
-                        Math.cos(theta)
-                    );
-                const x = warpedRadius * Math.sin(theta) * Math.cos(phi);
-                const y = warpedRadius * Math.sin(theta) * Math.sin(phi);
-                const z = warpedRadius * Math.cos(theta);
-                longLinePoints.push([y + center[0], z + center[1]]); // upside down?
+                // Latitude
+                if (lineIndex > 0 && lineIndex < lineCount - 1) {
+                    const latTheta = linesProgress * Math.PI;
+                    const latPhi = pathProgress * Math.PI - Math.PI / 2.0;
+                    const x = radius * Math.sin(latTheta) * Math.cos(latPhi);
+                    const y = radius * Math.sin(latTheta) * Math.sin(latPhi);
+                    const z = radius * Math.cos(latTheta);
+                    latPoints.push([y + center[0], z + center[1]]);
+                }
+
+                // Longitude
+                const longTheta = pathProgress * Math.PI;
+                const longPhi = linesProgress * Math.PI - Math.PI / 2.0;
+                const x = radius * Math.sin(longTheta) * Math.cos(longPhi);
+                const y = radius * Math.sin(longTheta) * Math.sin(longPhi);
+                const z = radius * Math.cos(longTheta);
+                longPoints.push([y + center[0], z + center[1]]);
             }
-            longPaths.push(CurveUtil.createBezierSpline(longLinePoints));
+
+            // Add to paths
+            if (latPoints.length)
+                latPaths.push(CurveUtil.createBezierSpline(latPoints));
+            longPaths.push(CurveUtil.createBezierSpline(longPoints));
         }
 
-        return longPaths;
+        return [...longPaths, ...latPaths];
     }
 }

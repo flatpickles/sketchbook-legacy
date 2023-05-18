@@ -5,12 +5,12 @@ import { renderPaths } from 'canvas-sketch-util/penplot';
 import Generator from './Generator.js';
 import presetsObject from './presets.json';
 
-export default class Synecdoche extends Sketch {
-    name = 'Synecdoche';
+export default class Globe extends Sketch {
+    name = 'Globe';
     type = SketchType.Canvas;
-    // date = new Date('05/17/2023');
+    date = new Date('05/17/2023');
     description = `
-        This is a canvas-based sketch.
+        A simple spherical projection, rendering something like latitude & longitude lines on a globe.
     `;
     showPresets = false;
     experimental = true;
@@ -20,7 +20,7 @@ export default class Synecdoche extends Sketch {
 
     params = {
         radius: new FloatParam('Radius', 0.5, 0.1, 1, 0.01, false),
-        lineCount: new FloatParam('Line Count', 10, 2, 30, 1, false),
+        lineCount: new FloatParam('Line Count', 15, 2, 30, 1, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     

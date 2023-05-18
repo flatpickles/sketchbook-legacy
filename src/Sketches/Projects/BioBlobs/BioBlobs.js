@@ -8,7 +8,7 @@ import presetsObject from './presets.json';
 export default class BioBlobs extends Sketch {
     name = 'Bio Blobs';
     type = SketchType.GL;
-    date = new Date('06/12/2023');
+    date = new Date('05/12/2023');
     description = `
         Porting in an <a href="https://www.flatpickles.com/media/pathogen">experiment</a> from 2020. Could use some further experimentation, tweaks, parameterization, and assorted finesse.
     `;

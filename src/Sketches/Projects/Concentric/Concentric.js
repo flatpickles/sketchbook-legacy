@@ -1,4 +1,4 @@
-import { createPath, renderPaths, eachPath, drawSVGPath } from 'canvas-sketch-util/penplot';
+import { renderPaths } from 'canvas-sketch-util/penplot';
 
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';

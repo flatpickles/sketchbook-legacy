@@ -9,8 +9,10 @@ import AuroraVibes from './Sketches/Projects/AuroraVibes/AuroraVibes.js';
 import Essentia from './Sketches/Projects/Essentia/Essentia.js';
 import Concentric from './Sketches/Projects/Concentric/Concentric.js';
 import BioBlobs from './Sketches/Projects/BioBlobs/BioBlobs.js';
+import Synecdoche from './Sketches/Projects/Synecdoche/Synecdoche.js';
 
 const sketches = [
+    new Synecdoche(),
     new BioBlobs(),
     new Concentric(),
     new Essentia(),

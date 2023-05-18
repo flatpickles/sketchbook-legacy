@@ -6,6 +6,15 @@ I aspire to rebuild Sketchbook with TypeScript & SvelteKit. I also plan to event
 
 Caveat lector: this readme is a rough brain-dump space from here on out!
 
+## To do
+
+-   Page sizing:
+    -   Allow opting into print presentation for full-screen sketches
+    -   Inset sizing (visible as a background-colored border around the canvas)
+    -   Fix dimensions bug with shaders in this mode
+-   Export - additionally export JSON file with current param values
+-   Text parameters
+
 ## Known Issues
 
 -   Resizing can clear canvas; need to redraw upon window resize
@@ -23,40 +32,30 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
 -   Sporadically (primarily mobile): canvas-sketch doesn't fill the full screen height. Perhaps a race condition w/ full-height settings?
 -   Once witnessed: switching between full-screen canvas sketches causes a repeated doubling of canvas scale until reset or resize. Resetting Sketchbook solves this problem.
 
-## To do
+## To consider for v2
 
--   Allow opting into print presentation for full-screen sketches
 -   Make this a SvelteKit project & rebuild with TypeScript
--   No defaults? Just presets?
--   Move things to $lib folder (Sketch.js, etc)
--   Use class names in file names for projects
--   Import contents of Sketches/Projects automatically!? (Vite glob import maybe)
--   Generator (npm run new)
-    -   Automatically add to SketchIndex.js (if automatic import isn't possible)
-    -   Remove templates in Base (once incorporated)
--   Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
--   Port some 2021 P3 projects into Sketchbook
+-   Import contents of Sketches/Projects automatically!? (easier with SvelteKit)
 -   Presets
-    -   Double click param to return to preset/default value
+    -   Option to return param to return to preset/default value
     -   URL option to pre-select a preset
--   Double click: capture state (e.g. just one panel open) and resume that state
+-   Hide/show panels w/ double click:
+    -   Capture state (e.g. just one panel open) and resume that state
+    -   Doesn't work on mobile?
 -   Link styling
 -   Global options:
     -   Additional link out to per-sketch readmes from right panel
-    -   Export frame option (also exports param JSON; bottom right panel)
     -   Import JSON parameter settings (bottom right panel)
     -   Option to set canvas size, inc. fit to window size (bottom right panel)
     -   FPS meter (probably in left panel settings)
     -   Command-Z to undo parameter changes
--   Float bounds search test for quadtree: something funky this way comes?
--   Copyright somewhere on the page
-
-## To consider
-
+-   Test: Float bounds search for quadtree
+-   Use class names in file names for projects
+-   Port some 2021 P3 projects into Sketchbook
 -   Link previews! Can we show a preview image for each sketch?
 -   CSS triage: clean everything up
 -   Cleanup: documentation, naming, etc.
--   Start moving stuff (core classes, Svelte files) to TypeScript
+-   Copyright somewhere on the page
 -   Key commands
     -   Hide/show panels (both or each)
 -   Sketch details display
@@ -82,9 +81,11 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
     -   Crossfade when switching sketches
     -   Export a sub-section of the canvas (smaller renders)
     -   When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.
+    -   Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
 
 ## Workflow / project wishlist
 
+-   No defaults? Just presets - param default values are optional, first preset used otherwise
 -   Preset values etc
     -   Easily create defaults from an export
     -   Update presets when params are updated?

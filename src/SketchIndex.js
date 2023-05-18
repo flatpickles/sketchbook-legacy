@@ -10,8 +10,10 @@ import Essentia from './Sketches/Projects/Essentia/Essentia.js';
 import Concentric from './Sketches/Projects/Concentric/Concentric.js';
 import BioBlobs from './Sketches/Projects/BioBlobs/BioBlobs.js';
 import Globe from './Sketches/Projects/Globe/Globe.js';
+import ContourLines from './Sketches/Projects/ContourLines/ContourLines.js';
 
 const sketches = [
+    new ContourLines(),
     new Globe(),
     new BioBlobs(),
     new Concentric(),

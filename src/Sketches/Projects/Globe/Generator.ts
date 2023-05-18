@@ -1,4 +1,4 @@
-import CurveUtil from '../../Util/CurveUtil';
+import PathUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
 export default class Generator {
@@ -42,8 +42,8 @@ export default class Generator {
 
             // Add to paths
             if (latPoints.length)
-                latPaths.push(CurveUtil.createBezierSpline(latPoints));
-            longPaths.push(CurveUtil.createBezierSpline(longPoints));
+                latPaths.push(PathUtil.createBezierSpline(latPoints));
+            longPaths.push(PathUtil.createBezierSpline(longPoints));
         }
 
         return [...longPaths, ...latPaths];

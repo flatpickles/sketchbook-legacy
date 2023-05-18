@@ -2,7 +2,54 @@ import BezierSpline from 'bezier-spline';
 import type { Path } from 'd3-path';
 import { createPath } from 'canvas-sketch-util/penplot';
 
-export default class CurveUtil {
+export default class PathUtil {
+    static approximateCircle(center: [number, number], radius: number): Path {
+        // Implementation as described: https://stackoverflow.com/a/13338311/280404
+
+        const circlePoints = [
+            [center[0] + radius, center[1]], // right
+            [center[0], center[1] + radius], // bottom
+            [center[0] - radius, center[1]], // left
+            [center[0], center[1] - radius], // top
+        ];
+        const controlDistance = (radius * 4 * (Math.sqrt(2) - 1)) / 3;
+        const controlPoints = [
+            [
+                [center[0] + radius, center[1] - controlDistance], // right incoming
+                [center[0] + radius, center[1] + controlDistance], // right outgoing
+            ],
+            [
+                [center[0] + controlDistance, center[1] + radius], // bottom incoming
+                [center[0] - controlDistance, center[1] + radius], // bottom outgoing
+            ],
+            [
+                [center[0] - radius, center[1] + controlDistance], // left incoming
+                [center[0] - radius, center[1] - controlDistance], // left outgoing
+            ],
+            [
+                [center[0] - controlDistance, center[1] - radius], // top incoming
+                [center[0] + controlDistance, center[1] - radius], // top outgoing
+            ],
+        ];
+
+        const circlePath = createPath();
+        circlePath.moveTo(circlePoints[0][0], circlePoints[0][1]);
+        for (let i = 0; i < circlePoints.length; i++) {
+            const thisIndex = i;
+            const nextIndex = (i + 1) % circlePoints.length;
+            circlePath.bezierCurveTo(
+                controlPoints[thisIndex][1][0], // outgoing x
+                controlPoints[thisIndex][1][1], // outgoing y
+                controlPoints[nextIndex][0][0], // incoming x
+                controlPoints[nextIndex][0][1], // incoming y
+                circlePoints[nextIndex][0], // next x
+                circlePoints[nextIndex][1] // next y
+            );
+        }
+        circlePath.closePath();
+        return circlePath;
+    }
+
     static createBezierSpline(points: [number, number][]): Path {
         if (points.length < 3) {
             throw 'Spline can only be drawn with three or more points.';

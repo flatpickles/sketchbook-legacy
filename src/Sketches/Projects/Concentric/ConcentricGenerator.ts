@@ -1,4 +1,4 @@
-import CurveUtil from '../../Util/CurveUtil';
+import PathUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
 import alea from 'alea';
@@ -184,6 +184,6 @@ export default class ConcentricGenerator {
             const y = center[1] + Math.sin(angle) * modifiedR;
             circlePoints.push([x, y]);
         }
-        return CurveUtil.createBezierSpline(circlePoints);
+        return PathUtil.createBezierSpline(circlePoints);
     }
 }

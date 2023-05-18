@@ -19,9 +19,9 @@
         "noiseVariant": 0.19,
         "noiseDepth": 0.51,
         "noiseDensity": 0.5,
-        "pathCount": 5,
+        "pathCount": 10,
         "pathResolution": 70,
-        "lineWidth": 2,
+        "lineWidth": 1.7,
         "xIterations": 1,
         "yIterations": 1
     },
@@ -63,5 +63,31 @@
         "lineWidth": 1,
         "xIterations": 2,
         "yIterations": 3
+    },
+    "Sextuplet Deux": {
+        "size1": 0.75,
+        "size2": 1,
+        "thereAndBack": false,
+        "noiseVariant": 0.53,
+        "noiseDepth": 1,
+        "noiseDensity": 0.2,
+        "pathCount": 5,
+        "pathResolution": 25,
+        "lineWidth": 0.75,
+        "xIterations": 2,
+        "yIterations": 3
+    },
+    "Source Flow": {
+        "size1": 0.01,
+        "size2": 0.95,
+        "thereAndBack": false,
+        "noiseVariant": 0.56,
+        "noiseDepth": 0.74,
+        "noiseDensity": 0.77,
+        "pathCount": 14,
+        "pathResolution": 50,
+        "lineWidth": 1,
+        "xIterations": 1,
+        "yIterations": 1
     }
 }

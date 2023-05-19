@@ -160,11 +160,10 @@ class IsolineGridCell {
     }
 }
 
-class IsolineGrid {
+export default class IsolineGrid {
     private noise: NoiseFunction2D;
-    // todo: private
-    public gridCorners: GridCorner[][];
-    public gridCells: IsolineGridCell[][];
+    private gridCorners: GridCorner[][];
+    private gridCells: IsolineGridCell[][];
 
     constructor(gridResolution: number, dimensions: [number, number]) {
         // Create the noise function
@@ -230,8 +229,7 @@ class IsolineGrid {
         }
     }
 
-    // todo: private
-    updateAllConnections(noiseEdge: number) {
+    private updateAllConnections(noiseEdge: number) {
         for (let rowIdx = 0; rowIdx < this.gridCells.length; rowIdx++) {
             for (
                 let colIdx = 0;
@@ -244,39 +242,60 @@ class IsolineGrid {
         }
     }
 
-    drawContourLines(lineCount: number) {
-        // todo: for each contour line (0 to lineCount):
-        // * clear then update connections with appropriate noise edge
-        // * walk through all connections to form each path
-    }
-}
+    public generateIsolines(noiseEdge: number): Path[] {
+        // Update data model
+        this.clearAllConnections(); // todo: is this necessary?
+        this.updateAllConnections(noiseEdge);
 
-export default class Generator {
-    private grid: IsolineGrid;
-    constructor(gridResolution: number, dimensions: [number, number]) {
-        this.grid = new IsolineGrid(gridResolution, dimensions);
-        this.grid.updateAllConnections(0);
-    }
+        // Generate isoline layer (set) from data model
+        // todo: implement
+        const isolinePointSets: [number, number][][] = [];
 
-    public generate(): Path[] {
-        const paths: Path[] = [];
-        for (let rowIdx = 0; rowIdx < this.grid.gridCells.length; rowIdx++) {
-            for (
-                let colIdx = 0;
-                colIdx < this.grid.gridCells[rowIdx].length;
-                colIdx++
-            ) {
-                const cell = this.grid.gridCells[rowIdx][colIdx];
-                if (cell.topNode.connections.length)
-                    paths.push(this.makeDot(cell.topNode.position));
-            }
+        // Create bezier paths and return them
+        const isolinePaths: Path[] = [];
+        for (const pointSet of isolinePointSets) {
+            isolinePaths.push(PathUtil.createBezierSpline(pointSet));
         }
-        return paths;
+        return isolinePaths;
     }
 
-    private makeDot(center: [number, number]): Path {
-        const radius = 0.01;
-        const circlePath = PathUtil.approximateCircle(center, radius);
-        return circlePath;
+    public generateIsolineLayers(lineCount: number): Path[][] {
+        const isolineLayers: Path[][] = [];
+        for (let lineIndex = 0; lineIndex < lineCount; lineIndex++) {
+            const noiseEdge = (lineIndex / lineCount) * 2 - 1; // [-1, 1]
+            const isolines = this.generateIsolines(noiseEdge);
+            isolineLayers.push(isolines);
+        }
+        return isolineLayers;
     }
 }
+
+// export default class Generator {
+//     private grid: IsolineGrid;
+//     constructor(gridResolution: number, dimensions: [number, number]) {
+//         this.grid = new IsolineGrid(gridResolution, dimensions);
+//         this.grid.updateAllConnections(0);
+//     }
+
+//     public generate(): Path[] {
+//         const paths: Path[] = [];
+//         for (let rowIdx = 0; rowIdx < this.grid.gridCells.length; rowIdx++) {
+//             for (
+//                 let colIdx = 0;
+//                 colIdx < this.grid.gridCells[rowIdx].length;
+//                 colIdx++
+//             ) {
+//                 const cell = this.grid.gridCells[rowIdx][colIdx];
+//                 if (cell.topNode.connections.length)
+//                     paths.push(this.makeDot(cell.topNode.position));
+//             }
+//         }
+//         return paths;
+//     }
+
+//     private makeDot(center: [number, number]): Path {
+//         const radius = 0.01;
+//         const circlePath = PathUtil.approximateCircle(center, radius);
+//         return circlePath;
+//     }
+// }

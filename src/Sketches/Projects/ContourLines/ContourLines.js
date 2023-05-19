@@ -2,8 +2,8 @@ import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
-import Generator from './Generator.js';
 import presetsObject from './presets.json';
+import IsolineGrid from './IsolineGrid.js';
 
 export default class ContourLines extends Sketch {
     name = 'Contour Lines';
@@ -26,9 +26,9 @@ export default class ContourLines extends Sketch {
         const generator = new Generator();
 
         return (props) => {
-            const generator = new Generator(10, [props.width, props.height]);
+            const generator = new IsolineGrid(10, [props.width, props.height]);
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
-            const paths = generator.generate();
+            const paths = generator.generateIsolineLayers(5);
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

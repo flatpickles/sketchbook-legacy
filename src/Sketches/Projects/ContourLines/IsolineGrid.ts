@@ -140,21 +140,25 @@ export default class IsolineGrid {
         const prng = alea(0);
         this.noise = createNoise2D(prng);
 
+        // Scale the grid resolution & noise lookups with the grid aspect ratio
+        const aspectRatio = dimensions[1] / dimensions[0];
+        const scaledGridResolution = [gridResolution, Math.round(gridResolution * aspectRatio)];
+
         // Create the grid entities
         const gridCorners: GridCorner[][] = [];
         this.isolineNodes = [];
         this.gridCells = [];
-        for (let rowIdx = 0; rowIdx <= gridResolution; rowIdx++) {
+        for (let rowIdx = 0; rowIdx <= scaledGridResolution[1]; rowIdx++) {
             const cornerRow: GridCorner[] = [];
             const cellRow: IsolineGridCell[] = [];
 
-            for (let colIdx = 0; colIdx <= gridResolution; colIdx++) {
-                // Create grid corner
+            for (let colIdx = 0; colIdx <= scaledGridResolution[0]; colIdx++) {
+                // Create grid corner and assign noise value
                 const position: [number, number] = [
-                    (colIdx / gridResolution) * dimensions[0],
-                    (rowIdx / gridResolution) * dimensions[1],
+                    (colIdx / scaledGridResolution[0]) * dimensions[0],
+                    (rowIdx / scaledGridResolution[1]) * dimensions[1],
                 ];
-                const noiseValue = this.noise(position[0], position[1]);
+                const noiseValue = this.noise(position[0], position[1] * aspectRatio);
                 const gridCorner: GridCorner = { position, noiseValue };
                 cornerRow.push(gridCorner);
 

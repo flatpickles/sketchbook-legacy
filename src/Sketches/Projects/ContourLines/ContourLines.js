@@ -19,15 +19,17 @@ export default class ContourLines extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
+        gridResolution: new FloatParam('Grid Resolution', 20, 1, 100, 1, false),
+        noiseEdge: new FloatParam('Noise Edge', 0.5, 0, 1, 0.01, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
     sketchFn = () => {
         return (props) => {
-            const generator = new IsolineGrid(10, [props.width, props.height]);
+            const generator = new IsolineGrid(this.params.gridResolution.value, [props.width, props.height]);
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
             // const paths = generator.generateIsolineLayers(5);
-            const paths = generator.generateIsolines(0);
+            const paths = generator.generateIsolines(this.params.noiseEdge.value * 2 - 1);
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

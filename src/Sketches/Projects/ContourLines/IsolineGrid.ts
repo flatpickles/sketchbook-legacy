@@ -87,7 +87,7 @@ class IsolineGridCell {
         const bottomLeftDistance = this.bottomLeft.noiseValue - noiseEdge;
         const bottomRightDistance = this.bottomRight.noiseValue - noiseEdge;
 
-        // Use distance signs to lookup connections (per wikipedia)
+        // Use distance signs to lookup connections (per Marching Squares wikipedia)
         const lookupState =
             1 * (bottomLeftDistance > 0 ? 1 : 0) +
             2 * (bottomRightDistance > 0 ? 1 : 0) +
@@ -247,9 +247,41 @@ export default class IsolineGrid {
         this.clearAllConnections(); // todo: is this necessary?
         this.updateAllConnections(noiseEdge);
 
+        function getPathPointsFromNode(
+            currentNode: IsolineNode,
+            previousNode: IsolineNode | null = null
+        ): [number, number][] {
+            if (currentNode.connections.length > 2) {
+                throw 'Node cannot be connected in more than two directions';
+            } else if (currentNode.connections.length) {
+                while (currentNode.connections.length) {
+                    // Remove all connections...
+                    const nextNode = currentNode.connections.pop()!;
+                    // ... and follow those that aren't the previous node
+                    if (nextNode !== previousNode) {
+                        return [
+                            currentNode.position,
+                            ...getPathPointsFromNode(nextNode, currentNode),
+                        ];
+                    }
+                }
+            }
+            return [];
+        }
+
         // Generate isoline layer (set) from data model
-        // todo: implement
         const isolinePointSets: [number, number][][] = [];
+        for (const cell of this.gridCells.flat()) {
+            for (const node of [
+                cell.topNode,
+                cell.rightNode,
+                cell.bottomNode,
+                cell.leftNode,
+            ]) {
+                const pathPoints = getPathPointsFromNode(node);
+                if (pathPoints.length > 2) isolinePointSets.push(pathPoints);
+            }
+        }
 
         // Create bezier paths and return them
         const isolinePaths: Path[] = [];

@@ -23,12 +23,11 @@ export default class ContourLines extends Sketch {
     };
     
     sketchFn = () => {
-        const generator = new Generator();
-
         return (props) => {
             const generator = new IsolineGrid(10, [props.width, props.height]);
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
-            const paths = generator.generateIsolineLayers(5);
+            // const paths = generator.generateIsolineLayers(5);
+            const paths = generator.generateIsolines(0);
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

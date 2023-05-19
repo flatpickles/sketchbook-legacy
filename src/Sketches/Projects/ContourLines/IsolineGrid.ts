@@ -132,7 +132,6 @@ class IsolineGridCell {
 
 export default class IsolineGrid {
     private noise: NoiseFunction2D;
-    private gridCorners: GridCorner[][];
     private isolineNodes: IsolineNode[];
     private gridCells: IsolineGridCell[][];
 
@@ -142,7 +141,7 @@ export default class IsolineGrid {
         this.noise = createNoise2D(prng);
 
         // Create the grid entities
-        this.gridCorners = [];
+        const gridCorners: GridCorner[][] = [];
         this.isolineNodes = [];
         this.gridCells = [];
         for (let rowIdx = 0; rowIdx <= gridResolution; rowIdx++) {
@@ -163,8 +162,8 @@ export default class IsolineGrid {
                 // (cell indices are 1 less than corner indices)
                 if (rowIdx > 0 && colIdx > 0) {
                     // Retrieve corners
-                    const topLeft = this.gridCorners[rowIdx - 1][colIdx - 1];
-                    const topRight = this.gridCorners[rowIdx - 1][colIdx];
+                    const topLeft = gridCorners[rowIdx - 1][colIdx - 1];
+                    const topRight = gridCorners[rowIdx - 1][colIdx];
                     const bottomLeft = cornerRow[colIdx - 1];
                     const bottomRight = gridCorner;
 
@@ -222,7 +221,7 @@ export default class IsolineGrid {
                     cellRow.push(cell);
                 }
             }
-            this.gridCorners.push(cornerRow);
+            gridCorners.push(cornerRow);
             if (cellRow.length) this.gridCells.push(cellRow);
         }
     }
@@ -253,41 +252,42 @@ export default class IsolineGrid {
             previousNode: IsolineNode | null = null
         ): [number, number][] {
             if (currentNode.connections.length > 2) {
-                throw 'Node should not be connected in more than two directions';
+                throw 'Nodes should not be connected in more than two directions';
             } else if (currentNode.connections.length) {
-                // Collect the one or two valid connections from this node
-                const validConnectionNodes: IsolineNode[] = [];
+                // Collect the one or two valid paths leading from this node
+                const pathPoints: [number, number][][] = [];
                 while (currentNode.connections.length) {
-                    // Remove all connections
+                    // Remove all connections (eventually)
                     const nextNode = currentNode.connections.pop()!;
-                    // ... and follow those that aren't the previous node
-                    if (nextNode !== previousNode) validConnectionNodes.push(nextNode);
+                    // ... and follow those that aren't to the previous node
+                    if (nextNode !== previousNode) {
+                        pathPoints.push(getPathPointsFromNode(nextNode, currentNode));
+                    }
                 }
 
-                // Follow the valid connections
-                const pathPoints: [number, number][][] = validConnectionNodes.map((node) =>
-                    getPathPointsFromNode(node)
-                );
-
-                // Return the connected path
-                if (pathPoints.length === 1) {
+                // Return the connected path(s)
+                if (!pathPoints.length) {
+                    // No paths exist, so this is an endpoint
+                    return [currentNode.position];
+                } else if (pathPoints.length === 1) {
+                    // One path leading away; prefix it with the current node
                     return [currentNode.position, ...pathPoints[0]];
                 } else if (pathPoints.length === 2) {
+                    // Two paths leading away; connect them through the current node
+                    // (and flip the first path, for order continuity)
                     return [...pathPoints[0].reverse(), currentNode.position, ...pathPoints[1]];
-                } else {
+                } else if (pathPoints.length > 2) {
                     throw 'Paths should not exist in more than two directions';
                 }
             }
             return [];
         }
 
-        // Generate isoline layer (set) from data model
+        // Generate isoline layer from data model, as several collections of points
         const isolinePointSets: [number, number][][] = [];
         for (const isolineNode of this.isolineNodes) {
             const pathPoints = getPathPointsFromNode(isolineNode);
-            // console.log(pathPoints);
             if (pathPoints.length > 2) {
-                console.log(pathPoints);
                 isolinePointSets.push(pathPoints);
             }
         }
@@ -310,33 +310,3 @@ export default class IsolineGrid {
         return isolineLayers;
     }
 }
-
-// export default class Generator {
-//     private grid: IsolineGrid;
-//     constructor(gridResolution: number, dimensions: [number, number]) {
-//         this.grid = new IsolineGrid(gridResolution, dimensions);
-//         this.grid.updateAllConnections(0);
-//     }
-
-//     public generate(): Path[] {
-//         const paths: Path[] = [];
-//         for (let rowIdx = 0; rowIdx < this.grid.gridCells.length; rowIdx++) {
-//             for (
-//                 let colIdx = 0;
-//                 colIdx < this.grid.gridCells[rowIdx].length;
-//                 colIdx++
-//             ) {
-//                 const cell = this.grid.gridCells[rowIdx][colIdx];
-//                 if (cell.topNode.connections.length)
-//                     paths.push(this.makeDot(cell.topNode.position));
-//             }
-//         }
-//         return paths;
-//     }
-
-//     private makeDot(center: [number, number]): Path {
-//         const radius = 0.01;
-//         const circlePath = PathUtil.approximateCircle(center, radius);
-//         return circlePath;
-//     }
-// }

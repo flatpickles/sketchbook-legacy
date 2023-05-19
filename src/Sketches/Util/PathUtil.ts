@@ -4,7 +4,11 @@ import { createPath } from 'canvas-sketch-util/penplot';
 
 export default class PathUtil {
     static approximateCircle(center: [number, number], radius: number): Path {
+        // todo: generalize with >4 points, as in this approach:
+        // https://stackoverflow.com/a/27863181/280404
+
         // Implementation as described: https://stackoverflow.com/a/13338311/280404
+        const controlDistance = (radius * 4 * (Math.sqrt(2) - 1)) / 3;
 
         const circlePoints = [
             [center[0] + radius, center[1]], // right
@@ -12,7 +16,6 @@ export default class PathUtil {
             [center[0] - radius, center[1]], // left
             [center[0], center[1] - radius], // top
         ];
-        const controlDistance = (radius * 4 * (Math.sqrt(2) - 1)) / 3;
         const controlPoints = [
             [
                 [center[0] + radius, center[1] - controlDistance], // right incoming

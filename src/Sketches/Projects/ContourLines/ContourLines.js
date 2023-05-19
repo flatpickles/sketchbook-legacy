@@ -26,6 +26,7 @@ export default class ContourLines extends Sketch {
         const generator = new Generator();
 
         return (props) => {
+            const generator = new Generator(10, [props.width, props.height]);
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
             const paths = generator.generate();
 

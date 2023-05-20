@@ -51,18 +51,42 @@ class IsolineGridCell {
     }
 
     updateConnections(noiseEdge: number) {
-        // Calculate distances for interpolation (todo - update node positions)
-        const topLeftDistance = this.topLeft.noiseValue - noiseEdge;
-        const topRightDistance = this.topRight.noiseValue - noiseEdge;
-        const bottomLeftDistance = this.bottomLeft.noiseValue - noiseEdge;
-        const bottomRightDistance = this.bottomRight.noiseValue - noiseEdge;
+        // Helper function to get position of node along an edge
+        function nodePos(corner1: GridCorner, corner2: GridCorner, noiseEdge: number, axis: 0 | 1) {
+            const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+            const edgePercentage = clamp01(
+                (noiseEdge - corner1.noiseValue) / (corner2.noiseValue - corner1.noiseValue)
+            );
+            return (
+                corner1.position[axis] +
+                edgePercentage * (corner2.position[axis] - corner1.position[axis])
+            );
+        }
+
+        // Update node positions
+        this.leftNode.position = [
+            this.topLeft.position[0],
+            nodePos(this.topLeft, this.bottomLeft, noiseEdge, 1),
+        ];
+        this.topNode.position = [
+            nodePos(this.topLeft, this.topRight, noiseEdge, 0),
+            this.topLeft.position[1],
+        ];
+        this.rightNode.position = [
+            this.topRight.position[0],
+            nodePos(this.topRight, this.bottomRight, noiseEdge, 1),
+        ];
+        this.bottomNode.position = [
+            nodePos(this.bottomLeft, this.bottomRight, noiseEdge, 0),
+            this.bottomLeft.position[1],
+        ];
 
         // Use distance signs to lookup connections (per Marching Squares wikipedia)
         const lookupState =
-            1 * (bottomLeftDistance > 0 ? 1 : 0) +
-            2 * (bottomRightDistance > 0 ? 1 : 0) +
-            4 * (topRightDistance > 0 ? 1 : 0) +
-            8 * (topLeftDistance > 0 ? 1 : 0);
+            1 * (this.bottomLeft.noiseValue > noiseEdge ? 1 : 0) +
+            2 * (this.bottomRight.noiseValue > noiseEdge ? 1 : 0) +
+            4 * (this.topRight.noiseValue > noiseEdge ? 1 : 0) +
+            8 * (this.topLeft.noiseValue > noiseEdge ? 1 : 0);
         switch (lookupState) {
             case 1:
                 this.leftNode.connections.push(this.bottomNode);
@@ -232,7 +256,7 @@ export default class IsolineGrid {
 
     private updateAllConnections(noiseEdge: number) {
         // Clear all current connections
-        // todo: maybe not necessary, since traversal clears them anyway?
+        // (traversal removes connections; clear here in case traversal hasn't been done)
         for (const node of this.isolineNodes) {
             node.connections = [];
         }
@@ -246,7 +270,9 @@ export default class IsolineGrid {
         }
     }
 
-    public generateIsolines(noiseEdge: number): Path[] {
+    public generateIsolines(noiseEdge: number): any {
+        // todo: path type
+
         // Update data model
         this.updateAllConnections(noiseEdge);
 
@@ -301,6 +327,7 @@ export default class IsolineGrid {
         for (const pointSet of isolinePointSets) {
             isolinePaths.push(PathUtil.createBezierSpline(pointSet));
         }
+        // return isolinePointSets;
         return isolinePaths;
     }
 

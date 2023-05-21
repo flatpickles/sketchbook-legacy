@@ -44,8 +44,16 @@ export default class Generator {
     private pathsThroughNoiseField(config: GridConfig): Path[] {
         const paths: Path[] = [];
 
-        const numLines = 2000;
-        const numPoints = 3;
+        const numLines = 300;
+        const numPoints = 8;
+
+        /*
+            to explore:
+            - parameters
+            - seeded random starting points (param input)
+            - grid backing (using above) to avoid recalculating noise values
+            - grid larger than draw space (margin), allow flow in and out
+        */
 
         for (let lineIndex = 0; lineIndex < numLines; lineIndex++) {
             const startingPoint: [number, number] = [

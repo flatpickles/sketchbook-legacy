@@ -18,19 +18,19 @@
 
     // Experimental mode
     let storedExperimentalState = localStorage.getItem('showExperimental');
-    let showExperimental = storedExperimentalState ? (storedExperimentalState === 'true') : false;
-    $: worksInProgressButtonText = showExperimental ? '~ Hide Experiments ~' : 'Experimental Mode';
+    let experimentalMode = storedExperimentalState ? (storedExperimentalState === 'true') : false;
+    $: worksInProgressButtonText = experimentalMode ? '~ Hide Experiments ~' : 'Experimental Mode';
     $: showExperimentalButton = sketches.reduce((incrementalState, currentSketch) => {
         return currentSketch.experimental || incrementalState;
     }, false);
 
     function toggleExperimentalMode() {
         // Toggle the state
-        showExperimental = !showExperimental;
-        localStorage.setItem('showExperimental', showExperimental ? 'true' : 'false');
+        experimentalMode = !experimentalMode;
+        localStorage.setItem('showExperimental', experimentalMode ? 'true' : 'false');
 
         // Select a different non-experimental sketch if currently selected is experimental
-        if (!showExperimental && selected.experimental) {
+        if (!experimentalMode && selected.experimental) {
             for (let sketchIdx = 0; sketchIdx < sketches.length; sketchIdx++) {
                 const sketch = sketches[sketchIdx];
                 if (!sketch.experimental) {
@@ -61,7 +61,7 @@
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
                 Code and details <a href='https://github.com/flatpickles/sketchbook'>here</a>.
             </p>
-            {#if showExperimental}
+            {#if experimentalMode}
                 <p>
                     You've enabled experimental mode! Experimental sketches are generally incomplete or unimpressive, but might be interesting nonetheless.
                 </p>
@@ -73,6 +73,15 @@
                 rightLabel='H:'
                 bind:rightValue={$printDimensions.height}
             />
+            {#if experimentalMode}
+                <ValuePairInput
+                    groupLabel='Print Margin (Inches)'
+                    leftLabel='H:'
+                    bind:leftValue={$printDimensions.hMargin}
+                    rightLabel='V:'
+                    bind:rightValue={$printDimensions.vMargin}
+                />
+            {/if}
             <div id='buttons'>
                 {#if showExperimentalButton}
                     <Button name={worksInProgressButtonText} on:click={toggleExperimentalMode}></Button>
@@ -84,7 +93,7 @@
     
     <div id='list_container'>
         {#each sketches as sketch}
-            {#if !sketch.experimental || showExperimental || sketch == selected}
+            {#if !sketch.experimental || experimentalMode || sketch == selected}
                 <div
                     class='sketch_item'
                     class:sketch_selected={sketch == selected}

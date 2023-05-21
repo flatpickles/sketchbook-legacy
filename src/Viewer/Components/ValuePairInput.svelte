@@ -56,7 +56,7 @@
         column-gap: 0.5rem;
         width: 100%;
         box-sizing: border-box;
-        margin-bottom: 0.5rem;
+        margin: 2px 0;
     }
 
     .dimension-input {

@@ -40,9 +40,10 @@
             const normalizedSketchName = normalizeString(sketch.name);
             if (normalizedSketchName === normalizedLinkName) linkedIndex = currentIndex;
             if (normalizedSketchName === normalizedStoredName) storedIndex = currentIndex;
-            if (sketch.date && firstNonWIPIndex == undefined) firstNonWIPIndex = currentIndex;
+            if (sketch.date && !sketch.experimental && firstNonWIPIndex == undefined) firstNonWIPIndex = currentIndex;
         });
         const sketchToLoadIndex = linkedIndex ?? storedIndex ?? firstNonWIPIndex;
+        debugger;
         selectSketch(sketches[sketchToLoadIndex]);
     }
 

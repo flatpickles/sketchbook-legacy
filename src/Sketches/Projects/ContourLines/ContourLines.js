@@ -19,7 +19,7 @@ export default class ContourLines extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
-        gridResolution: new FloatParam('Grid Resolution', 20, 1, 100, 1, false),
+        gridResolution: new FloatParam('Grid Resolution', 20, 1, 200, 1, false),
         noiseEdge: new FloatParam('Noise Edge', 0.5, 0, 1, 0.01, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };

@@ -1,1 +1,1 @@
-declare module "bezier-spline";
+declare module 'bezier-spline';

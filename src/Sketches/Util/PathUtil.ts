@@ -53,6 +53,56 @@ export default class PathUtil {
         return circlePath;
     }
 
+    static createCardinalSpline(points: [number, number][], tension = 0.5): Path {
+        if (points.length < 2) {
+            throw 'Spline can only be drawn with two or more points.';
+        }
+
+        const closed =
+            points[0][0] == points[points.length - 1][0] &&
+            points[0][1] == points[points.length - 1][1];
+
+        if (!closed) {
+            console.log(points[0][0], points[0][1], points[1][0], points[1][1]);
+        }
+
+        // Add first and last points to the spline
+        if (closed) {
+            // Use second and second-to-last points as terminal control points on opposite side
+            const secondPoint = points[1];
+            points.unshift(points[points.length - 2]);
+            points.push(secondPoint);
+        } else {
+            // Reflect second and second-to-last points across first and last points
+            function reflect(p1: [number, number], p2: [number, number]): [number, number] {
+                return [p1[0] - (p2[0] - p1[0]), p1[1] - (p2[1] - p1[1])];
+            }
+            points.unshift(reflect(points[0], points[1]));
+            points.push(reflect(points[points.length - 1], points[points.length - 2]));
+        }
+
+        // Calculate spline points
+        const splinePath = createPath();
+        splinePath.moveTo(points[1][0], points[1][1]);
+        for (let ptIdx = 1; ptIdx < points.length - 2; ptIdx++) {
+            const p0 = points[ptIdx - 1];
+            const p1 = points[ptIdx];
+            const p2 = points[ptIdx + 1];
+            const p3 = points[ptIdx + 2];
+
+            const x1 = p1[0] + ((p2[0] - p0[0]) / 6) * tension;
+            const y1 = p1[1] + ((p2[1] - p0[1]) / 6) * tension;
+
+            const x2 = p2[0] - ((p3[0] - p1[0]) / 6) * tension;
+            const y2 = p2[1] - ((p3[1] - p1[1]) / 6) * tension;
+
+            splinePath.bezierCurveTo(x1, y1, x2, y2, p2[0], p2[1]);
+        }
+
+        if (closed) splinePath.closePath();
+        return splinePath;
+    }
+
     static createBezierSpline(points: [number, number][]): Path {
         if (points.length < 3) {
             throw 'Spline can only be drawn with three or more points.';
@@ -77,8 +127,7 @@ export default class PathUtil {
                 trailingKnots.push(points[trailingIndex]);
                 leadingKnots.unshift(points[leadingIndex]);
                 trailingIndex = (trailingIndex + 1) % points.length;
-                leadingIndex =
-                    leadingIndex > 0 ? leadingIndex - 1 : points.length - 1;
+                leadingIndex = leadingIndex > 0 ? leadingIndex - 1 : points.length - 1;
             }
             points = [...leadingKnots, ...points, ...trailingKnots];
         }

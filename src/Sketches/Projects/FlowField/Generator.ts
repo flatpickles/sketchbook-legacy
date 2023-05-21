@@ -53,6 +53,7 @@ export default class Generator {
             - seeded random starting points (param input)
             - grid backing (using above) to avoid recalculating noise values
             - grid larger than draw space (margin), allow flow in and out
+            - function mask (ray cast to find next point, then check if it's in the mask, etc)
         */
 
         for (let lineIndex = 0; lineIndex < numLines; lineIndex++) {
@@ -79,7 +80,7 @@ export default class Generator {
                 ];
                 points.push(nextPoint);
             }
-            paths.push(CurveUtil.createBezierSpline(points));
+            paths.push(CurveUtil.createCardinalSpline(points));
         }
         return paths;
     }

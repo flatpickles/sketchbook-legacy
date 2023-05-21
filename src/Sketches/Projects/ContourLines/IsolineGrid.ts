@@ -325,9 +325,26 @@ export default class IsolineGrid {
         // Create bezier paths and return them
         const isolinePaths: Path[] = [];
         for (const pointSet of isolinePointSets) {
-            isolinePaths.push(PathUtil.createBezierSpline(pointSet));
+            const path = PathUtil.createCardinalSpline(pointSet, 0);
+            isolinePaths.push(path);
         }
-        // return isolinePointSets;
+
+        // Create reference grid
+        const showRefGrid = false;
+        if (showRefGrid) {
+            for (let x = 0; x < this.gridCells.length; x++) {
+                for (let y = 0; y < this.gridCells[x].length; y++) {
+                    const cell = this.gridCells[x][y];
+                    const topLeft = cell.topLeft.position;
+                    const topRight = cell.topRight.position;
+                    const bottomLeft = cell.bottomLeft.position;
+                    const bottomRight = cell.bottomRight.position;
+                    const gridPath = [topLeft, topRight, bottomRight, bottomLeft, topLeft];
+                    isolinePaths.push(PathUtil.createCardinalSpline(gridPath, 0));
+                }
+            }
+        }
+
         return isolinePaths;
     }
 

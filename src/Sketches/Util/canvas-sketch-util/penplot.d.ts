@@ -1,1 +1,1 @@
-declare module "canvas-sketch-util/penplot";
+declare module 'canvas-sketch-util/penplot';

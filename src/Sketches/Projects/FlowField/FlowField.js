@@ -2,7 +2,7 @@ import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
-import Generator, { GridConfig } from './Generator.js';
+import Generator from './Generator.js';
 import presetsObject from './presets.json';
 
 export default class FlowField extends Sketch {

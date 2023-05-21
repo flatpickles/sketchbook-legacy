@@ -9,8 +9,8 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
 ## To do
 
 -   Page sizing:
+    -   Implement inset sizing (UI currently does nothing)
     -   Allow opting into print presentation for full-screen sketches
-    -   Inset sizing (visible as a background-colored border around the canvas)
     -   Fix dimensions bug with shaders in this mode
 -   Export - additionally export JSON file with current param values
 -   Text parameters
@@ -27,10 +27,12 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
     -   Color preview block has strange corners
 -   Resizing the window can leave the canvas element at the wrong size. It seems this is literal canvas size and not padding, and happens only when the window is getting smaller in one dimension, every other time it seems.
 -   Two finger mousepad swipe doesn't work for page navigation when Sketchbook is open. Probably this is disabled by my scrolling settings?
--   Presets sometimes think they've been changed on page load (\*), but they haven't.
--   Seems like the panel open/close tabs don't always work reliably with narrow screens.
--   Sporadically (primarily mobile): canvas-sketch doesn't fill the full screen height. Perhaps a race condition w/ full-height settings?
--   Once witnessed: switching between full-screen canvas sketches causes a repeated doubling of canvas scale until reset or resize. Resetting Sketchbook solves this problem.
+-   Sporadic:
+    -   presets sometimes think they've been changed on page load (\*), but they haven't.
+    -   panel open/close tabs don't always work reliably with narrow screens
+    -   canvas-sketch doesn't fill the full screen height. Perhaps a race condition w/ full-height settings? (primarily mobile)
+    -   print view was zoomed out too far, until scrolling (seen once on mobile)
+    -   switching between full-screen canvas sketches causes a repeated doubling of canvas scale until reset or resize. Resetting Sketchbook solves this problem. (seen once)
 
 ## To consider for v2
 

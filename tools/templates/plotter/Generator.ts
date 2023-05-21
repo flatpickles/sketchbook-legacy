@@ -1,5 +1,5 @@
 // @ts-ignore - ignore unresolved import for template file
-import CurveUtil from '../../Util/CurveUtil';
+import CurveUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
 export default class Generator {

@@ -43,7 +43,6 @@
             if (sketch.date && !sketch.experimental && firstNonWIPIndex == undefined) firstNonWIPIndex = currentIndex;
         });
         const sketchToLoadIndex = linkedIndex ?? storedIndex ?? firstNonWIPIndex;
-        debugger;
         selectSketch(sketches[sketchToLoadIndex]);
     }
 

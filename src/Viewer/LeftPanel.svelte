@@ -2,7 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
     import Button from './Components/Button.svelte';
     import PanelHeader from './PanelHeader.svelte';
-    import PrintSize from './Components/PrintSize.svelte';
+    import ValuePairInput from './Components/ValuePairInput.svelte';
+    import { printDimensions } from './stores';
 
     export let sketches;
     export let selected;
@@ -65,7 +66,13 @@
                     You've enabled experimental mode! Experimental sketches are generally incomplete or unimpressive, but might be interesting nonetheless.
                 </p>
             {/if}
-            <PrintSize />
+            <ValuePairInput
+                groupLabel='Print Size (Inches)'
+                leftLabel='W:'
+                bind:leftValue={$printDimensions.width}
+                rightLabel='H:'
+                bind:rightValue={$printDimensions.height}
+            />
             <div id='buttons'>
                 {#if showExperimentalButton}
                     <Button name={worksInProgressButtonText} on:click={toggleExperimentalMode}></Button>

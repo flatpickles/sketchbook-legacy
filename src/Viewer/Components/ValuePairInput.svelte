@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { printDimensions } from '../stores'
+    export let groupLabel: string;
+    export let leftLabel: string;
+    export let rightLabel: string;
+    export let leftValue: number;
+    export let rightValue: number;
+
 
     function selectText(event: FocusEvent) {
         (event.target as HTMLInputElement).select();
@@ -15,14 +20,14 @@
 </script>
 
 <fieldset class="inputs">
-    <legend>Print Size (Inches)</legend>
+    <legend>{groupLabel}</legend>
     <div class="dimension-input">
-        <label for="size-width-input">W:</label>
-        <input type="number" class="size-input" id="size-width-input" bind:value={$printDimensions.width} on:focusin={selectText} on:focusout={zeroIfNeeded}>
+        <label for="size-width-input">{leftLabel}</label>
+        <input type="number" class="size-input" id="size-width-input" bind:value={leftValue} on:focusin={selectText} on:focusout={zeroIfNeeded}>
     </div>
     <div class="dimension-input">
-        <label for="size-height-input">H:</label>
-        <input type="number" class="size-input" id="size-height-input" bind:value={$printDimensions.height} on:focusin={selectText} on:focusout={zeroIfNeeded}>
+        <label for="size-height-input">{rightLabel}</label>
+        <input type="number" class="size-input" id="size-height-input" bind:value={rightValue} on:focusin={selectText} on:focusout={zeroIfNeeded}>
     </div>
 </fieldset>
 

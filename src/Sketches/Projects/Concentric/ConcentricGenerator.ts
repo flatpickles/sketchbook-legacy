@@ -99,8 +99,7 @@ export default class ConcentricGenerator {
         if (thereAndBack) {
             maxWarble = Math.min(
                 maxWarble,
-                Math.abs(minDimension * (size1 - size2)) /
-                    (size1 < size2 ? 2 : 1)
+                Math.abs(minDimension * (size1 - size2)) / (size1 < size2 ? 2 : 1)
             );
         }
 
@@ -111,13 +110,9 @@ export default class ConcentricGenerator {
             if (size1 < size2) {
                 // rough to rough
                 bound1 =
-                    lineWidth / 2 +
-                    maxWarble / 2 +
-                    size1 * (minDimension - maxWarble - lineWidth); // inside radius
+                    lineWidth / 2 + maxWarble / 2 + size1 * (minDimension - maxWarble - lineWidth); // inside radius
                 bound2 =
-                    lineWidth / 2 +
-                    maxWarble / 2 +
-                    size2 * (minDimension - maxWarble - lineWidth); // outside radius
+                    lineWidth / 2 + maxWarble / 2 + size2 * (minDimension - maxWarble - lineWidth); // outside radius
             } else {
                 // smooth to smooth
                 bound1 = lineWidth / 2 + size1 * (minDimension - lineWidth); // outside radius
@@ -126,10 +121,7 @@ export default class ConcentricGenerator {
         } else {
             // smooth to rough or rough to smooth
             bound1 = lineWidth / 2 + size1 * (minDimension - lineWidth); // smooth radius
-            bound2 =
-                lineWidth / 2 +
-                maxWarble / 2 +
-                size2 * (minDimension - maxWarble - lineWidth); // rough radius
+            bound2 = lineWidth / 2 + maxWarble / 2 + size2 * (minDimension - maxWarble - lineWidth); // rough radius
         }
 
         // Generate paths

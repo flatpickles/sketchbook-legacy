@@ -4,7 +4,7 @@ import type { Path } from 'd3-path';
 
 import alea from 'alea';
 import { createNoise2D, type NoiseFunction2D } from 'simplex-noise';
-import PolylineUtil from '../../Util/PolyLineUtil';
+import PolylineUtil from '../../Util/PolylineUtil';
 
 interface GridCorner {
     position: [number, number];
@@ -319,6 +319,7 @@ export default class IsolineGrid {
         for (const isolineNode of this.isolineNodes) {
             let pathPoints = getPathPointsFromNode(isolineNode);
             // pathPoints = PolylineUtil.combineNearbyPoints(pathPoints, 0.4);
+            pathPoints = PolylineUtil.evenlySpacePoints(pathPoints);
             if (pathPoints.length > 2) {
                 isolinePointSets.push(pathPoints);
             }

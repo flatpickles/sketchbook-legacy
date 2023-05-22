@@ -12,8 +12,10 @@ import BioBlobs from './Sketches/Projects/BioBlobs/BioBlobs.js';
 import Globe from './Sketches/Projects/Globe/Globe.js';
 import ContourLines from './Sketches/Projects/ContourLines/ContourLines.js';
 import FlowField from './Sketches/Projects/FlowField/FlowField.js';
+import Testbed from './Sketches/Projects/Testbed/Testbed.js';
 
 const sketches = [
+    new Testbed(),
     new FlowField(),
     new ContourLines(),
     new Globe(),

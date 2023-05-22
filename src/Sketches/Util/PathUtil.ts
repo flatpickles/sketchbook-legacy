@@ -62,10 +62,6 @@ export default class PathUtil {
             points[0][0] == points[points.length - 1][0] &&
             points[0][1] == points[points.length - 1][1];
 
-        if (!closed) {
-            console.log(points[0][0], points[0][1], points[1][0], points[1][1]);
-        }
-
         // Add first and last points to the spline
         if (closed) {
             // Use second and second-to-last points as terminal control points on opposite side

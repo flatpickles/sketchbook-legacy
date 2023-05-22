@@ -4,6 +4,7 @@ import type { Path } from 'd3-path';
 
 import alea from 'alea';
 import { createNoise2D, type NoiseFunction2D } from 'simplex-noise';
+import PolylineUtil from '../../Util/PolyLineUtil';
 
 interface GridCorner {
     position: [number, number];
@@ -316,7 +317,8 @@ export default class IsolineGrid {
         // Generate isoline layer from data model, as several collections of points
         const isolinePointSets: [number, number][][] = [];
         for (const isolineNode of this.isolineNodes) {
-            const pathPoints = getPathPointsFromNode(isolineNode);
+            let pathPoints = getPathPointsFromNode(isolineNode);
+            // pathPoints = PolylineUtil.combineNearbyPoints(pathPoints, 0.4);
             if (pathPoints.length > 2) {
                 isolinePointSets.push(pathPoints);
             }
@@ -325,7 +327,7 @@ export default class IsolineGrid {
         // Create bezier paths and return them
         const isolinePaths: Path[] = [];
         for (const pointSet of isolinePointSets) {
-            const path = PathUtil.createCardinalSpline(pointSet, 0);
+            const path = PathUtil.createCardinalSpline(pointSet, 1);
             isolinePaths.push(path);
         }
 

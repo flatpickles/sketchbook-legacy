@@ -319,8 +319,8 @@ export default class IsolineGrid {
         for (const isolineNode of this.isolineNodes) {
             let pathPoints = getPathPointsFromNode(isolineNode);
             // pathPoints = PolylineUtil.combineNearbyPoints(pathPoints, 0.4);
-            pathPoints = PolylineUtil.evenlySpacePoints(pathPoints);
             if (pathPoints.length > 2) {
+                pathPoints = PolylineUtil.evenlySpacePoints(pathPoints);
                 isolinePointSets.push(pathPoints);
             }
         }

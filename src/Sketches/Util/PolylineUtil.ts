@@ -46,33 +46,31 @@ export default class PolylineUtil {
         polyline: Polyline,
         numPointsToReturn = polyline.length
     ): Polyline {
-        // Input checks (todo: are these correct?)
-        if (polyline.length < 2) {
-            return polyline;
-        }
-        if (numPointsToReturn < 2) {
+        // Input checks
+        if (polyline.length < 2 || numPointsToReturn < 2) {
             throw 'Cannot create a polyline with fewer than 2 points';
         }
 
         // Get full distances of each segment
         const distanceToNextOriginalPoint: number[] = [];
-        let totalDistance = 0;
+        let totalPolylineDistance = 0;
         for (let i = 0; i < polyline.length - 1; i++) {
             const distance = Math.sqrt(
                 (polyline[i + 1][0] - polyline[i][0]) ** 2 +
                     (polyline[i + 1][1] - polyline[i][1]) ** 2
             );
             distanceToNextOriginalPoint.push(distance);
-            totalDistance += distance;
+            totalPolylineDistance += distance;
         }
 
-        const stepDistance = totalDistance / (numPointsToReturn - 1);
+        // Initial state before polyline walk
+        const stepDistance = totalPolylineDistance / (numPointsToReturn - 1);
         const evenlySpacedPoints: Polyline = [polyline[0]];
-
         let distanceTraveled = 0;
         let lastOriginalPointIndex = 0;
         let distanceFromLastOriginalPoint = 0;
 
+        // Walk along the polyline, adding evenly spaced points
         for (let evenPointIndex = 1; evenPointIndex < numPointsToReturn - 1; evenPointIndex++) {
             const targetDistance = evenPointIndex * stepDistance;
             let stepDistanceRemaining = stepDistance;
@@ -84,12 +82,11 @@ export default class PolylineUtil {
                         distanceFromLastOriginalPoint) <
                 targetDistance
             ) {
-                distanceTraveled +=
+                const distanceIncrement =
                     distanceToNextOriginalPoint[lastOriginalPointIndex] -
                     distanceFromLastOriginalPoint;
-                stepDistanceRemaining -=
-                    distanceToNextOriginalPoint[lastOriginalPointIndex] -
-                    distanceFromLastOriginalPoint;
+                distanceTraveled += distanceIncrement;
+                stepDistanceRemaining -= distanceIncrement;
                 lastOriginalPointIndex += 1;
                 distanceFromLastOriginalPoint = 0;
             }

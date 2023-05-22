@@ -51,7 +51,7 @@ class IsolineGridCell {
         this.bottomNode = bottomNode;
     }
 
-    updateConnections(noiseEdge: number) {
+    updateConnections(noiseEdge: number, interpolateNodePositions = true) {
         // Helper function to get position of node along an edge
         function nodePos(corner1: GridCorner, corner2: GridCorner, noiseEdge: number, axis: 0 | 1) {
             const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
@@ -64,23 +64,25 @@ class IsolineGridCell {
             );
         }
 
-        // Update node positions
-        this.leftNode.position = [
-            this.topLeft.position[0],
-            nodePos(this.topLeft, this.bottomLeft, noiseEdge, 1),
-        ];
-        this.topNode.position = [
-            nodePos(this.topLeft, this.topRight, noiseEdge, 0),
-            this.topLeft.position[1],
-        ];
-        this.rightNode.position = [
-            this.topRight.position[0],
-            nodePos(this.topRight, this.bottomRight, noiseEdge, 1),
-        ];
-        this.bottomNode.position = [
-            nodePos(this.bottomLeft, this.bottomRight, noiseEdge, 0),
-            this.bottomLeft.position[1],
-        ];
+        if (interpolateNodePositions) {
+            // Update node positions
+            this.leftNode.position = [
+                this.topLeft.position[0],
+                nodePos(this.topLeft, this.bottomLeft, noiseEdge, 1),
+            ];
+            this.topNode.position = [
+                nodePos(this.topLeft, this.topRight, noiseEdge, 0),
+                this.topLeft.position[1],
+            ];
+            this.rightNode.position = [
+                this.topRight.position[0],
+                nodePos(this.topRight, this.bottomRight, noiseEdge, 1),
+            ];
+            this.bottomNode.position = [
+                nodePos(this.bottomLeft, this.bottomRight, noiseEdge, 0),
+                this.bottomLeft.position[1],
+            ];
+        }
 
         // Use distance signs to lookup connections (per Marching Squares wikipedia)
         const lookupState =
@@ -255,7 +257,7 @@ export default class IsolineGrid {
         }
     }
 
-    private updateAllConnections(noiseEdge: number) {
+    private updateAllConnections(noiseEdge: number, interpolateNodePositions = true) {
         // Clear all current connections
         // (traversal removes connections; clear here in case traversal hasn't been done)
         for (const node of this.isolineNodes) {
@@ -266,16 +268,20 @@ export default class IsolineGrid {
         for (let rowIdx = 0; rowIdx < this.gridCells.length; rowIdx++) {
             for (let colIdx = 0; colIdx < this.gridCells[rowIdx].length; colIdx++) {
                 const cell = this.gridCells[rowIdx][colIdx];
-                cell.updateConnections(noiseEdge);
+                cell.updateConnections(noiseEdge, interpolateNodePositions);
             }
         }
     }
 
-    public generateIsolines(noiseEdge: number): any {
-        // todo: path type
-
+    public generateIsolines(
+        noiseEdge: number,
+        splineTension = 1.0,
+        interpolateNodePositions = true,
+        evenlySpacePoints = true,
+        includeGridLayer = false
+    ): Path[][] {
         // Update data model
-        this.updateAllConnections(noiseEdge);
+        this.updateAllConnections(noiseEdge, interpolateNodePositions);
 
         // Helper function to get path points from a node, recursively
         function getPathPointsFromNode(
@@ -318,9 +324,8 @@ export default class IsolineGrid {
         const isolinePointSets: [number, number][][] = [];
         for (const isolineNode of this.isolineNodes) {
             let pathPoints = getPathPointsFromNode(isolineNode);
-            // pathPoints = PolylineUtil.combineNearbyPoints(pathPoints, 0.4);
             if (pathPoints.length > 2) {
-                pathPoints = PolylineUtil.evenlySpacePoints(pathPoints);
+                if (evenlySpacePoints) pathPoints = PolylineUtil.evenlySpacePoints(pathPoints);
                 isolinePointSets.push(pathPoints);
             }
         }
@@ -328,13 +333,13 @@ export default class IsolineGrid {
         // Create bezier paths and return them
         const isolinePaths: Path[] = [];
         for (const pointSet of isolinePointSets) {
-            const path = PathUtil.createCardinalSpline(pointSet, 1);
+            const path = PathUtil.createCardinalSpline(pointSet, splineTension);
             isolinePaths.push(path);
         }
 
         // Create reference grid
-        const showRefGrid = false;
-        if (showRefGrid) {
+        if (includeGridLayer) {
+            const splineLayer: Path[] = [];
             for (let x = 0; x < this.gridCells.length; x++) {
                 for (let y = 0; y < this.gridCells[x].length; y++) {
                     const cell = this.gridCells[x][y];
@@ -343,12 +348,12 @@ export default class IsolineGrid {
                     const bottomLeft = cell.bottomLeft.position;
                     const bottomRight = cell.bottomRight.position;
                     const gridPath = [topLeft, topRight, bottomRight, bottomLeft, topLeft];
-                    isolinePaths.push(PathUtil.createCardinalSpline(gridPath, 0));
+                    splineLayer.push(PathUtil.createCardinalSpline(gridPath, 0));
                 }
             }
+            return [isolinePaths, splineLayer];
         }
-
-        return isolinePaths;
+        return [isolinePaths];
     }
 
     public generateIsolineLayers(lineCount: number): Path[][] {
@@ -356,7 +361,7 @@ export default class IsolineGrid {
         for (let lineIndex = 0; lineIndex < lineCount; lineIndex++) {
             const noiseEdge = (lineIndex / lineCount) * 2 - 1; // [-1, 1]
             const isolines = this.generateIsolines(noiseEdge);
-            isolineLayers.push(isolines);
+            isolineLayers.push(isolines[0]);
         }
         return isolineLayers;
     }

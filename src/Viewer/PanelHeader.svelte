@@ -37,7 +37,7 @@
         </slot>
     </div>
 
-    <div class='subtitle_button' on:click={toggleOpenState} class:hidden={!showContents}>
+    <div class='subtitle_button' on:click={toggleOpenState} on:keypress={toggleOpenState} class:hidden={!showContents}>
         <Discloser
             direction={Direction.Down}
             size={12}

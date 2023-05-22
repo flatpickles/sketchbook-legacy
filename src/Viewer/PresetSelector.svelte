@@ -97,21 +97,21 @@
     </div>
 
     <div class='menu'>
-        <div class='menu_button' on:click={toggleMenu}>&ctdot;</div>
+        <div class='menu_button' on:click={toggleMenu} on:keypress={toggleMenu}>&ctdot;</div>
         <div class='menu_content' class:open={menuVisible}>
-            <div class='menu_item' on:click={resetClicked} class:disabled={!presetModified}>
+            <div class='menu_item' on:click={resetClicked} on:keypress={resetClicked} class:disabled={!presetModified}>
                 Reset
             </div>
-            <div class='menu_item' on:click={createClicked} class:disabled={!presetModified}>
+            <div class='menu_item' on:click={createClicked} on:keypress={createClicked} class:disabled={!presetModified}>
                 Create
             </div>
-            <div class='menu_item' on:click={removeClicked} class:disabled={!sketch.canRemoveSelectedPreset()}>
+            <div class='menu_item' on:click={removeClicked} on:keypress={removeClicked} class:disabled={!sketch.canRemoveSelectedPreset()}>
                 Remove
             </div>
-            <div class='menu_item' on:click={importClicked}>
+            <div class='menu_item' on:click={importClicked} on:keypress={importClicked}>
                 Import
             </div>
-            <div class='menu_item' on:click={exportClicked}>
+            <div class='menu_item' on:click={exportClicked} on:keypress={exportClicked}>
                 Export
             </div>
         </div>

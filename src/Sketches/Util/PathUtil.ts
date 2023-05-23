@@ -2,6 +2,9 @@ import BezierSpline from 'bezier-spline';
 import type { Path } from 'd3-path';
 import { createPath } from 'canvas-sketch-util/penplot';
 
+// Float comparison tolerance
+const floatTolerance = 0.0001;
+
 export default class PathUtil {
     static approximateCircle(center: [number, number], radius: number): Path {
         // todo: generalize with >4 points, as in this approach:
@@ -59,8 +62,8 @@ export default class PathUtil {
         }
 
         const closed =
-            points[0][0] == points[points.length - 1][0] &&
-            points[0][1] == points[points.length - 1][1];
+            Math.abs(points[0][0] - points[points.length - 1][0]) < floatTolerance &&
+            Math.abs(points[0][1] - points[points.length - 1][1]) < floatTolerance;
 
         // Add first and last points to the spline
         if (closed) {
@@ -108,8 +111,8 @@ export default class PathUtil {
         const leadingSize = 3; // number of adjacent points for path close smoothing
         const closed =
             leadingSize > 0 &&
-            points[0][0] == points[points.length - 1][0] &&
-            points[0][1] == points[points.length - 1][1];
+            Math.abs(points[0][0] - points[points.length - 1][0]) < floatTolerance &&
+            Math.abs(points[0][1] - points[points.length - 1][1]) < floatTolerance;
         if (closed && points.length <= 3) {
             throw 'Spline can only be closed with four or more points (including duplicated endpoints).';
         }

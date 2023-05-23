@@ -54,6 +54,7 @@ export default class Concentric extends Sketch {
             return renderPaths(iterations, {
                 lineWidth: scaledNibSize,
                 strokeStyle: 'black',
+                inkscape: true,
                 ...props
             });
         };

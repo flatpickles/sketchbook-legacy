@@ -45,6 +45,7 @@ export default class ContourLines extends Sketch {
                 lineWidth: [scaledNibSize, 0.02],
                 strokeStyle: 'black',
                 lineCap: 'round',
+                inkscape: true,
                 ...props
             });
         }

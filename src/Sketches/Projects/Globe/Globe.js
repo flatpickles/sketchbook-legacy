@@ -39,6 +39,7 @@ export default class Globe extends Sketch {
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,
                 strokeStyle: 'black',
+                inkscape: true,
                 ...props
             });
         }

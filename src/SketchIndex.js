@@ -16,8 +16,8 @@ import Testbed from './Sketches/Projects/Testbed/Testbed.js';
 import Relax from './Sketches/Projects/Relax/Relax.js';
 
 const sketches = [
+    // new Testbed(),
     new Relax(),
-    new Testbed(),
     new FlowField(),
     new ContourLines(),
     new Globe(),

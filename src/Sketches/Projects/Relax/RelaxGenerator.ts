@@ -79,6 +79,7 @@ export default class RelaxGenerator {
 
         // Interpolate between the paths
         const paths: Path[] = [];
+        let pathFlip = false;
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
             const t = pathIdx / (pathCount - 1);
             const pathPoints: [number, number][] = [];
@@ -89,6 +90,8 @@ export default class RelaxGenerator {
                 ];
                 pathPoints.push(point);
             }
+            if (pathFlip) pathPoints.reverse();
+            pathFlip = !pathFlip;
             const path = CurveUtil.createCardinalSpline(pathPoints, 0); // effectively a polyline...
             paths.push(path);
         }

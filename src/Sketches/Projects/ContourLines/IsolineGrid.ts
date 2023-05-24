@@ -162,7 +162,11 @@ export default class IsolineGrid {
     private isolineNodes: IsolineNode[];
     private gridCells: IsolineGridCell[][];
 
-    constructor(gridResolution: number, dimensions: [number, number]) {
+    constructor(
+        gridResolution: number,
+        dimensions: [number, number],
+        noiseScale: [number, number] = [1, 1]
+    ) {
         // Create the noise function
         const prng = alea(0);
         this.noise = createNoise2D(prng);
@@ -185,7 +189,10 @@ export default class IsolineGrid {
                     (colIdx / scaledGridResolution[0]) * dimensions[0],
                     (rowIdx / scaledGridResolution[1]) * dimensions[1],
                 ];
-                const noiseValue = this.noise(position[0], position[1] * aspectRatio);
+                const noiseValue = this.noise(
+                    position[0] * noiseScale[0],
+                    position[1] * noiseScale[1] * aspectRatio
+                );
                 const gridCorner: GridCorner = { position, noiseValue };
                 cornerRow.push(gridCorner);
 

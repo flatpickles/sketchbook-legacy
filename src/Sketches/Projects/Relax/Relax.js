@@ -19,6 +19,14 @@ export default class Relax extends Sketch {
     bundledPresets = presetsObject;
 
     params = {
+        pathCount: new FloatParam('Path Count', 100, 2, 200, 1, false),
+        resolution: new FloatParam('Path Detail', 0.5, 0.01, 1.0, 0.01, false),
+        inset: new FloatParam('Inset', 0.1, 0, 0.4, 0.01, false),
+        polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, false),
+        bottomCircle: new BoolParam('Bottom Circle', false),
+        bottomRotation: new FloatParam('Bottom Rotation', 0.07, -Math.PI/2, Math.PI/2, 0.01, false),
+        topCircle: new BoolParam('Top Circle', true),
+        topRotation: new FloatParam('Top Rotation', -0.07, -Math.PI/2, Math.PI/2, 0.01, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
@@ -27,7 +35,15 @@ export default class Relax extends Sketch {
 
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
-            const paths = generator.generate([props.width, props.height]);
+            const paths = generator.generate(
+                [props.width, props.height],
+                this.params.pathCount.value,
+                this.params.resolution.value,
+                this.params.inset.value,
+                this.params.polygonSides.value,
+                this.params.bottomCircle.value ? null : this.params.bottomRotation.value,
+                this.params.topCircle.value ? null : this.params.topRotation.value,
+            );
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

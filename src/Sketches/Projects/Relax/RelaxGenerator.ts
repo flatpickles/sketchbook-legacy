@@ -1,23 +1,16 @@
 import CurveUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
-// Configuration constants
-// todo: make these configurable?
-const pointsPerSegment = 100; // two segments per polygon side
-const polygonSides = 4;
-const generationPercentage = 0.25;
-const rotationPercentage = 0.75;
-const polygonRotationPercentage = -0.07;
-const inset = 0.1;
-
-// Adjustments computed in point offsets to maintain sharp corners
-const fullResolution = polygonSides * pointsPerSegment * 2 + 1;
-const pointsToGenerate = Math.ceil(fullResolution * generationPercentage);
-const pointRotationOffset = Math.ceil(rotationPercentage * (fullResolution - 1));
-const polygonPointRotationOffset = Math.ceil(polygonRotationPercentage * (fullResolution - 1));
-
 export default class RelaxGenerator {
-    private generatePolygonPath(center: [number, number], radius: number): [number, number][] {
+    private generatePolygonPath(
+        center: [number, number],
+        radius: number,
+        polygonSides: number,
+        fullResolution: number,
+        pointsToGenerate: number,
+        pointRotationOffset: number,
+        polygonPointRotationOffset: number
+    ): [number, number][] {
         // Calculate points around a polygon
         const polygonPoints: [number, number][] = [];
         for (let pointIdx = 0; pointIdx < pointsToGenerate; pointIdx++) {
@@ -47,7 +40,13 @@ export default class RelaxGenerator {
         return polygonPoints;
     }
 
-    private generateCirclePath(center: [number, number], radius: number): [number, number][] {
+    private generateCirclePath(
+        center: [number, number],
+        radius: number,
+        fullResolution: number,
+        pointsToGenerate: number,
+        pointRotationOffset: number
+    ): [number, number][] {
         // Calculate points around a circle
         const circlePoints: [number, number][] = [];
         for (let pointIdx = 0; pointIdx < pointsToGenerate; pointIdx++) {
@@ -61,7 +60,24 @@ export default class RelaxGenerator {
         return circlePoints;
     }
 
-    public generate(size: [number, number], pathCount = 100): Path[] {
+    public generate(
+        size: [number, number],
+        pathCount: number = 100,
+        resolution: number = 0.5,
+        inset: number = 0.1,
+        polygonSides: number | undefined = 4,
+        bottomPolygonRotation: number | null = -0.07,
+        topPolygonRotation: number | null = null
+    ): Path[] {
+        // Generate constants from input
+        // Adjustments computed in point offsets to maintain sharp corners
+        const generationPercentage = 0.25; // 1/4 of the way around the circle
+        const rotationPercentage = 0.75; // rotated into fourth quadrant (clockwise from East axis)
+        const pointsPerSegment = Math.ceil(resolution * 100);
+        const fullResolution = polygonSides * pointsPerSegment * 2 + 1;
+        const pointsToGenerate = Math.ceil(fullResolution * generationPercentage);
+        const pointRotationOffset = Math.ceil(rotationPercentage * (fullResolution - 1));
+
         // Constants for positioning and sizing
         const insetSize = inset * Math.min(size[0], size[1]);
         const topLeft = [insetSize, insetSize];
@@ -71,10 +87,34 @@ export default class RelaxGenerator {
         const center1: [number, number] = [topLeft[0], bottomRight[1]];
         const center2: [number, number] = [bottomRight[0] - radius2, topLeft[1] + radius2];
 
+        // Inline generators for guide paths
+        const polygonGenerator = (center: [number, number], radius: number, rotation: number) =>
+            this.generatePolygonPath(
+                center,
+                radius,
+                polygonSides,
+                fullResolution,
+                pointsToGenerate,
+                pointRotationOffset,
+                Math.ceil(rotation * (fullResolution - 1))
+            );
+        const circleGenerator = (center: [number, number], radius: number) =>
+            this.generateCirclePath(
+                center,
+                radius,
+                fullResolution,
+                pointsToGenerate,
+                pointRotationOffset
+            );
+
         // Generate the two paths
-        const polygonPoints = this.generatePolygonPath(center1, radius1);
-        const circlePoints = this.generateCirclePath(center2, radius2);
-        if (!polygonPoints.length || !circlePoints.length)
+        const bottomGuidePoints = bottomPolygonRotation
+            ? polygonGenerator(center1, radius1, bottomPolygonRotation)
+            : circleGenerator(center1, radius1);
+        const topGuidePoints = topPolygonRotation
+            ? polygonGenerator(center2, radius2, topPolygonRotation)
+            : circleGenerator(center2, radius2);
+        if (!bottomGuidePoints.length || !topGuidePoints.length)
             throw 'Guide paths should have the same length';
 
         // Interpolate between the paths
@@ -83,10 +123,10 @@ export default class RelaxGenerator {
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
             const t = pathIdx / (pathCount - 1);
             const pathPoints: [number, number][] = [];
-            for (let pointIdx = 0; pointIdx < polygonPoints.length; pointIdx++) {
+            for (let pointIdx = 0; pointIdx < bottomGuidePoints.length; pointIdx++) {
                 const point: [number, number] = [
-                    polygonPoints[pointIdx][0] * (1 - t) + circlePoints[pointIdx][0] * t,
-                    polygonPoints[pointIdx][1] * (1 - t) + circlePoints[pointIdx][1] * t,
+                    bottomGuidePoints[pointIdx][0] * (1 - t) + topGuidePoints[pointIdx][0] * t,
+                    bottomGuidePoints[pointIdx][1] * (1 - t) + topGuidePoints[pointIdx][1] * t,
                 ];
                 pathPoints.push(point);
             }

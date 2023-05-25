@@ -3,7 +3,7 @@ import PathUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
 import alea from 'alea';
-import { createNoise2D, type NoiseFunction2D } from 'simplex-noise';
+import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 import PolylineUtil from '../../Util/PolylineUtil';
 
 interface GridCorner {
@@ -158,18 +158,20 @@ class IsolineGridCell {
 }
 
 export default class IsolineGrid {
-    private noise: NoiseFunction2D;
+    private noise: NoiseFunction3D;
     private isolineNodes: IsolineNode[];
     private gridCells: IsolineGridCell[][];
 
     constructor(
         gridResolution: number,
         dimensions: [number, number],
-        noiseScale: [number, number] = [1, 1]
+        noiseScale: [number, number] = [1, 1],
+        noiseVariant: number
     ) {
+        console.log(noiseVariant);
         // Create the noise function
         const prng = alea(0);
-        this.noise = createNoise2D(prng);
+        this.noise = createNoise3D(prng);
 
         // Scale the grid resolution & noise lookups with the grid aspect ratio
         const aspectRatio = dimensions[1] / dimensions[0];
@@ -191,7 +193,8 @@ export default class IsolineGrid {
                 ];
                 const noiseValue = this.noise(
                     position[0] * noiseScale[0],
-                    position[1] * noiseScale[1] * aspectRatio
+                    position[1] * noiseScale[1] * aspectRatio,
+                    noiseVariant
                 );
                 const gridCorner: GridCorner = { position, noiseValue };
                 cornerRow.push(gridCorner);

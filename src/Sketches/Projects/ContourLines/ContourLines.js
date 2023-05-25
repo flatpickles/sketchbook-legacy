@@ -21,6 +21,7 @@ export default class ContourLines extends Sketch {
     params = {
         gridResolution: new FloatParam('Grid Resolution', 20, 1, 200, 1, false),
         layerCount: new FloatParam('Layer Count', 4, 1, 10, 1, false),
+        noiseVariant: new FloatParam('Noise Variant', 0, 0, 1, 0.01, false),
         edgeLow: new FloatParam('Lower Bound', -0.8, -1, 1, 0.01, false),
         edgeHigh: new FloatParam('Upper Bound', 0.8, -1, 1, 0.01, false),
         noiseScaleX: new FloatParam('Noise Scale X', 0.5, 0.01, 1.0, 0.01, false),
@@ -36,7 +37,8 @@ export default class ContourLines extends Sketch {
             const generator = new IsolineGrid(
                 this.params.gridResolution.value,
                 [props.width, props.height],
-                [this.params.noiseScaleX.value, this.params.noiseScaleY.value]
+                [this.params.noiseScaleX.value, this.params.noiseScaleY.value],
+                this.params.noiseVariant.value,
             );
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
 

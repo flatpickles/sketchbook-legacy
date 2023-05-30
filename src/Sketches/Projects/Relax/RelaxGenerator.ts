@@ -96,7 +96,7 @@ export default class RelaxGenerator {
                 fullResolution,
                 pointsToGenerate,
                 pointRotationOffset,
-                Math.ceil(rotation * (fullResolution - 1))
+                Math.ceil(((rotation - 0.5) * (fullResolution - 1)) / polygonSides)
             );
         const circleGenerator = (center: [number, number], radius: number) =>
             this.generateCirclePath(
@@ -108,12 +108,14 @@ export default class RelaxGenerator {
             );
 
         // Generate the two paths
-        const bottomGuidePoints = bottomPolygonRotation
-            ? polygonGenerator(center1, radius1, bottomPolygonRotation)
-            : circleGenerator(center1, radius1);
-        const topGuidePoints = topPolygonRotation
-            ? polygonGenerator(center2, radius2, topPolygonRotation)
-            : circleGenerator(center2, radius2);
+        const bottomGuidePoints =
+            bottomPolygonRotation != null
+                ? polygonGenerator(center1, radius1, bottomPolygonRotation)
+                : circleGenerator(center1, radius1);
+        const topGuidePoints =
+            topPolygonRotation != null
+                ? polygonGenerator(center2, radius2, topPolygonRotation)
+                : circleGenerator(center2, radius2);
         if (!bottomGuidePoints.length || !topGuidePoints.length)
             throw 'Guide paths should have the same length';
 

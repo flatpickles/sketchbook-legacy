@@ -18,16 +18,18 @@ export default class Relax extends Sketch {
     settings = {};
     bundledPresets = presetsObject;
 
+    liveUpdates = false;
+
     params = {
-        pathCount: new FloatParam('Path Count', 100, 2, 200, 1, false),
-        resolution: new FloatParam('Path Detail', 0.5, 0.01, 1.0, 0.01, false),
-        inset: new FloatParam('Inset', 0.1, 0, 0.4, 0.01, false),
-        polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, false),
-        bottomCircle: new BoolParam('Bottom Circle', false),
-        bottomRotation: new FloatParam('Bottom Rotation', 0.07, -Math.PI/2, Math.PI/2, 0.01, false),
-        topCircle: new BoolParam('Top Circle', true),
-        topRotation: new FloatParam('Top Rotation', -0.07, -Math.PI/2, Math.PI/2, 0.01, false),
-        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
+        pathCount: new FloatParam('Path Count', 100, 2, 200, 1, this.liveUpdates),
+        resolution: new FloatParam('Path Detail', 0.5, 0.01, 1.0, 0.01, this.liveUpdates),
+        inset: new FloatParam('Inset', 0.1, 0, 0.4, 0.01, this.liveUpdates),
+        polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, this.liveUpdates),
+        bottomCircle: new BoolParam('Bottom Circle', this.liveUpdates),
+        bottomRotation: new FloatParam('Bottom Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
+        topCircle: new BoolParam('Top Circle', this.liveUpdates),
+        topRotation: new FloatParam('Top Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
+        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, this.liveUpdates),
     };
     
     sketchFn = () => {

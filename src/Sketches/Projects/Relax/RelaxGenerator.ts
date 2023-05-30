@@ -65,6 +65,7 @@ export default class RelaxGenerator {
         pathCount: number = 100,
         resolution: number = 0.5,
         inset: number = 0.1,
+        normalizeInset = true,
         polygonSides: number | undefined = 4,
         bottomSize: number | undefined = 0.5,
         topSize: number | undefined = 0.5,
@@ -81,18 +82,18 @@ export default class RelaxGenerator {
         const pointRotationOffset = Math.ceil(rotationPercentage * (fullResolution - 1));
 
         // Apply minimum shape size
-        const minShapeSize = 0.1;
+        const minShapeSize = 0.01;
         topSize = (1 - minShapeSize) * topSize + minShapeSize;
         bottomSize = (1 - minShapeSize) * bottomSize + minShapeSize;
 
         // Constants for positioning and sizing
         const insetSize = inset * Math.min(size[0], size[1]);
-        const radius1 = (Math.min(size[0], size[1]) / 2) * bottomSize;
-        const radius2 = (Math.min(size[0], size[1]) / 2) * topSize;
+        const radius1 = (Math.min(size[0], size[1]) - insetSize * 2) * bottomSize;
+        const radius2 = (Math.min(size[0], size[1]) - insetSize * 2) * topSize;
         const center1: [number, number] = [insetSize, size[1] - insetSize];
         const center2: [number, number] =
-            topPolygonRotation != null
-                ? [size[0] - radius2, radius2] // polygon inset needs to be done after generation
+            topPolygonRotation != null && normalizeInset
+                ? [size[0] - radius2, radius2] // polygon inset needs to be done after generation (if normalized)
                 : [size[0] - radius2 - insetSize, radius2 + insetSize]; // circle inset can be done before generation
 
         // Inline generators for guide paths
@@ -128,7 +129,7 @@ export default class RelaxGenerator {
             throw 'Guide paths should have the same length';
 
         // Inset the top polygon path, if needed (post-generation)
-        if (topPolygonRotation != null) {
+        if (topPolygonRotation != null && normalizeInset) {
             // Find the natural inset from this configuration (highest Y and rightmost X)
             let naturalInsetPositions = [0, size[1]];
             for (const point of topGuidePoints) {

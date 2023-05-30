@@ -22,15 +22,16 @@ export default class Relax extends Sketch {
 
     params = {
         pathCount: new FloatParam('Path Count', 100, 2, 200, 1, this.liveUpdates),
-        resolution: new FloatParam('Path Detail', 0.5, 0.01, 1.0, 0.01, this.liveUpdates),
-        inset: new FloatParam('Inset', 0.1, 0, 0.25, 0.01, this.liveUpdates),
         polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, this.liveUpdates),
         topSize: new FloatParam('Top Size', 0.5, 0, 1, 0.01, this.liveUpdates),
-        topCircle: new BoolParam('Top Circle', this.liveUpdates),
-        topRotation: new FloatParam('Top Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
         bottomSize: new FloatParam('Bottom Size', 0.5, 0, 1, 0.01, this.liveUpdates),
-        bottomCircle: new BoolParam('Bottom Circle', this.liveUpdates),
+        topCircle: new BoolParam('Top Circle', true),
+        bottomCircle: new BoolParam('Bottom Circle', false),
+        topRotation: new FloatParam('Top Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
         bottomRotation: new FloatParam('Bottom Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
+        inset: new FloatParam('Inset', 0.1, 0, 0.25, 0.01, this.liveUpdates),
+        normalizeInset: new BoolParam('Normalize Inset', true),
+        resolution: new FloatParam('Path Detail', 0.5, 0.01, 1.0, 0.01, this.liveUpdates),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, this.liveUpdates),
     };
     
@@ -44,6 +45,7 @@ export default class Relax extends Sketch {
                 this.params.pathCount.value,
                 this.params.resolution.value,
                 this.params.inset.value,
+                this.params.normalizeInset.value,
                 this.params.polygonSides.value,
                 this.params.bottomSize.value,
                 this.params.topSize.value,

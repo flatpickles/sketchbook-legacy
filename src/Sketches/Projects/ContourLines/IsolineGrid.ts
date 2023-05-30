@@ -371,28 +371,34 @@ export default class IsolineGrid {
         noiseBounds: [number, number] = [-1, 1],
         splineTension = 1.0,
         interpolateNodePositions = true,
-        evenlySpacePoints = true
+        evenlySpacePoints = true,
+        includeGridLayer = false
     ): Path[][] {
         // Capture params in local generation function
-        const generateLayer = (noiseEdge: number) =>
+        const generateLayer = (noiseEdge: number, grid = false) =>
             this.generateIsolines(
                 noiseEdge,
                 splineTension,
                 interpolateNodePositions,
                 evenlySpacePoints,
-                false
+                grid
             );
 
         // Return a single layer if requested)
-        if (layerCount == 1) return generateLayer((noiseBounds[0] + noiseBounds[1]) / 2);
+        if (layerCount == 1)
+            return generateLayer((noiseBounds[0] + noiseBounds[1]) / 2, includeGridLayer);
 
         // Otherwise, return layers spaced evenly throughout the noise range
         const isolineLayers: Path[][] = [];
         for (let lineIndex = 0; lineIndex < layerCount; lineIndex++) {
             const noiseEdge =
                 noiseBounds[0] + (lineIndex / (layerCount - 1)) * (noiseBounds[1] - noiseBounds[0]);
-            const isolines = generateLayer(noiseEdge);
+            const isolines = generateLayer(
+                noiseEdge,
+                includeGridLayer && lineIndex == layerCount - 1
+            );
             isolineLayers.push(isolines[0]);
+            if (includeGridLayer && lineIndex == layerCount - 1) isolineLayers.push(isolines[1]);
         }
         return isolineLayers;
     }

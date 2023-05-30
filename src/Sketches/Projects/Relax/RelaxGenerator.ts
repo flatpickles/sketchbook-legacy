@@ -66,6 +66,8 @@ export default class RelaxGenerator {
         resolution: number = 0.5,
         inset: number = 0.1,
         polygonSides: number | undefined = 4,
+        bottomSize: number | undefined = 0.5,
+        topSize: number | undefined = 0.5,
         bottomPolygonRotation: number | null = 0.5,
         topPolygonRotation: number | null = null
     ): Path[] {
@@ -78,10 +80,15 @@ export default class RelaxGenerator {
         const pointsToGenerate = Math.ceil(fullResolution * generationPercentage);
         const pointRotationOffset = Math.ceil(rotationPercentage * (fullResolution - 1));
 
+        // Apply minimum shape size
+        const minShapeSize = 0.1;
+        topSize = (1 - minShapeSize) * topSize + minShapeSize;
+        bottomSize = (1 - minShapeSize) * bottomSize + minShapeSize;
+
         // Constants for positioning and sizing
         const insetSize = inset * Math.min(size[0], size[1]);
-        const radius1 = Math.min(size[0], size[1]) / 3;
-        const radius2 = Math.min(size[0], size[1]) / 2;
+        const radius1 = (Math.min(size[0], size[1]) / 2) * bottomSize;
+        const radius2 = (Math.min(size[0], size[1]) / 2) * topSize;
         const center1: [number, number] = [insetSize, size[1] - insetSize];
         const center2: [number, number] =
             topPolygonRotation != null

@@ -66,7 +66,7 @@ export default class RelaxGenerator {
         resolution: number = 0.5,
         inset: number = 0.1,
         polygonSides: number | undefined = 4,
-        bottomPolygonRotation: number | null = -0.07,
+        bottomPolygonRotation: number | null = 0.5,
         topPolygonRotation: number | null = null
     ): Path[] {
         // Generate constants from input
@@ -80,12 +80,13 @@ export default class RelaxGenerator {
 
         // Constants for positioning and sizing
         const insetSize = inset * Math.min(size[0], size[1]);
-        const topLeft = [insetSize, insetSize];
-        const bottomRight = size.map((d) => d - insetSize);
         const radius1 = Math.min(size[0], size[1]) / 3;
         const radius2 = Math.min(size[0], size[1]) / 2;
-        const center1: [number, number] = [topLeft[0], bottomRight[1]];
-        const center2: [number, number] = [bottomRight[0] - radius2, topLeft[1] + radius2];
+        const center1: [number, number] = [insetSize, size[1] - insetSize];
+        const center2: [number, number] =
+            topPolygonRotation != null
+                ? [size[0] - radius2, radius2] // polygon inset needs to be done after generation
+                : [size[0] - radius2 - insetSize, radius2 + insetSize]; // circle inset can be done before generation
 
         // Inline generators for guide paths
         const polygonGenerator = (center: [number, number], radius: number, rotation: number) =>
@@ -112,12 +113,37 @@ export default class RelaxGenerator {
             bottomPolygonRotation != null
                 ? polygonGenerator(center1, radius1, bottomPolygonRotation)
                 : circleGenerator(center1, radius1);
-        const topGuidePoints =
+        let topGuidePoints =
             topPolygonRotation != null
                 ? polygonGenerator(center2, radius2, topPolygonRotation)
                 : circleGenerator(center2, radius2);
         if (!bottomGuidePoints.length || !topGuidePoints.length)
             throw 'Guide paths should have the same length';
+
+        // Inset the top polygon path, if needed (post-generation)
+        if (topPolygonRotation != null) {
+            // Find the natural inset from this configuration (highest Y and rightmost X)
+            let naturalInsetPositions = [0, size[1]];
+            for (const point of topGuidePoints) {
+                if (point[0] > naturalInsetPositions[0]) naturalInsetPositions[0] = point[0];
+                if (point[1] < naturalInsetPositions[1]) naturalInsetPositions[1] = point[1];
+            }
+            const offsetInset = [
+                insetSize - (size[0] - naturalInsetPositions[0]),
+                insetSize - naturalInsetPositions[1],
+            ];
+
+            // Apply the offset inset
+            const insetPoints: [number, number][] = [];
+            for (const point of topGuidePoints) {
+                const insetPoint: [number, number] = [
+                    point[0] - offsetInset[0],
+                    point[1] + offsetInset[1],
+                ];
+                insetPoints.push(insetPoint);
+            }
+            topGuidePoints = insetPoints;
+        }
 
         // Interpolate between the paths
         const paths: Path[] = [];

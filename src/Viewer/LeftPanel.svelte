@@ -73,7 +73,7 @@
                 rightLabel='H:'
                 bind:rightValue={$printDimensions.height}
             />
-            {#if experimentalMode}
+            {#if experimentalMode && false}
                 <ValuePairInput
                     groupLabel='Print Margin (Inches)'
                     leftLabel='H:'

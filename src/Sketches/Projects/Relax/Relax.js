@@ -8,9 +8,9 @@ import presetsObject from './presets.json';
 export default class Relax extends Sketch {
     name = 'Relax';
     type = SketchType.Canvas;
-    // date = new Date('05/17/2023');
+    date = new Date('05/31/2023');
     description = `
-        This sketch is intended to be drawn out with a pen plotter.
+        Gradual transitions between rigid & continuous forms. These look best with lots of tightly-packed lines, and can be drawn out mechanically with a pen plotter, using one or two colors. The presets are designed for A4 paper, but this can render appealing square graphics as well.
     `;
     showPresets = true;
     experimental = true;
@@ -24,16 +24,16 @@ export default class Relax extends Sketch {
         pathCount: new FloatParam('Path Count', 100, 2, 200, 1, this.liveUpdates),
         polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, this.liveUpdates),
         twoTone: new BoolParam('Two Tone', false),
-        topSize: new FloatParam('Top Size', 0.5, 0, 1, 0.01, this.liveUpdates),
-        bottomSize: new FloatParam('Bottom Size', 0.5, 0, 1, 0.01, this.liveUpdates),
+        topSize: new FloatParam('Top Size', 0.66, 0, 1, 0.01, this.liveUpdates),
+        bottomSize: new FloatParam('Bottom Size', 0.33, 0, 1, 0.01, this.liveUpdates),
         topCircle: new BoolParam('Top Circle', true),
         bottomCircle: new BoolParam('Bottom Circle', false),
-        topRotation: new FloatParam('Top Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
-        bottomRotation: new FloatParam('Bottom Rotation', 0.5, 0, 1, 0.01, this.liveUpdates),
+        topRotation: new FloatParam('Top Rotation', 0.75, 0, 1, 0.01, this.liveUpdates),
+        bottomRotation: new FloatParam('Bottom Rotation', 0.25, 0, 1, 0.01, this.liveUpdates),
         inset: new FloatParam('Inset', 0.1, 0, 0.25, 0.01, this.liveUpdates),
         normalizeInset: new BoolParam('Normalize Inset', true),
-        resolution: new FloatParam('Path Detail', 0.5, 0.01, 1.0, 0.01, this.liveUpdates),
-        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, this.liveUpdates),
+        resolution: new FloatParam('Path Detail', 1, 0.01, 1.0, 0.01, this.liveUpdates),
+        lineWidth: new FloatParam('Nib Size (mm)', 0.7, 0.1, 2, 0.01, this.liveUpdates),
     };
     
     sketchFn = () => {
@@ -57,7 +57,7 @@ export default class Relax extends Sketch {
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,
-                strokeStyle: this.params.twoTone.value ? ['#AAA', 'black'] : 'black',
+                strokeStyle: this.params.twoTone.value ? ['#1C8F96', '#1A135A'] : 'black',
                 inkscape: true,
                 ...props
             });

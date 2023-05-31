@@ -12,7 +12,7 @@ export default class Relax extends Sketch {
     description = `
         This sketch is intended to be drawn out with a pen plotter.
     `;
-    showPresets = false;
+    showPresets = true;
     experimental = true;
     displayAsPrint = true;
     settings = {};
@@ -23,6 +23,7 @@ export default class Relax extends Sketch {
     params = {
         pathCount: new FloatParam('Path Count', 100, 2, 200, 1, this.liveUpdates),
         polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, this.liveUpdates),
+        twoTone: new BoolParam('Two Tone', false),
         topSize: new FloatParam('Top Size', 0.5, 0, 1, 0.01, this.liveUpdates),
         bottomSize: new FloatParam('Bottom Size', 0.5, 0, 1, 0.01, this.liveUpdates),
         topCircle: new BoolParam('Top Circle', true),
@@ -43,6 +44,7 @@ export default class Relax extends Sketch {
             const paths = generator.generate(
                 [props.width, props.height],
                 this.params.pathCount.value,
+                this.params.twoTone.value,
                 this.params.resolution.value,
                 this.params.inset.value,
                 this.params.normalizeInset.value,
@@ -55,7 +57,7 @@ export default class Relax extends Sketch {
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,
-                strokeStyle: 'black',
+                strokeStyle: this.params.twoTone.value ? ['#AAA', 'black'] : 'black',
                 inkscape: true,
                 ...props
             });

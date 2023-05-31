@@ -168,7 +168,6 @@ export default class IsolineGrid {
         noiseScale: [number, number] = [1, 1],
         noiseVariant: number
     ) {
-        console.log(noiseVariant);
         // Create the noise function
         const prng = alea(0);
         this.noise = createNoise3D(prng);

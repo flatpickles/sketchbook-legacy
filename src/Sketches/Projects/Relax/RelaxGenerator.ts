@@ -63,6 +63,7 @@ export default class RelaxGenerator {
     public generate(
         size: [number, number],
         pathCount: number = 100,
+        twoTone: boolean = false,
         resolution: number = 0.5,
         inset: number = 0.1,
         normalizeInset = true,
@@ -71,7 +72,7 @@ export default class RelaxGenerator {
         topSize: number | undefined = 0.5,
         bottomPolygonRotation: number | null = 0.5,
         topPolygonRotation: number | null = null
-    ): Path[] {
+    ): Path[][] {
         // Generate constants from input
         // Adjustments computed in point offsets to maintain sharp corners
         const generationPercentage = 0.25; // 1/4 of the way around the circle
@@ -154,8 +155,10 @@ export default class RelaxGenerator {
         }
 
         // Interpolate between the paths
-        const paths: Path[] = [];
-        let pathFlip = false;
+        const paths1: Path[] = [];
+        const paths2: Path[] = [];
+        let pathFlip = [false, false];
+        let diffusedError = 0;
         for (let pathIdx = 0; pathIdx < pathCount; pathIdx++) {
             const t = pathIdx / (pathCount - 1);
             const pathPoints: [number, number][] = [];
@@ -166,13 +169,27 @@ export default class RelaxGenerator {
                 ];
                 pathPoints.push(point);
             }
-            if (pathFlip) pathPoints.reverse();
-            pathFlip = !pathFlip;
-            const path = CurveUtil.createCardinalSpline(pathPoints, 0); // effectively a polyline...
-            paths.push(path);
+
+            // Determine which layer to add to & flip the path if needed
+            const firstLayer = !twoTone || t + diffusedError < 0.5;
+            const flipIndex = firstLayer ? 0 : 1;
+            if (pathFlip[flipIndex]) pathPoints.reverse();
+            pathFlip[flipIndex] = !pathFlip[flipIndex];
+
+            // Create the path (effectively a polyline)
+            const path = CurveUtil.createCardinalSpline(pathPoints, 0);
+
+            // Select which path layer to add to via one-dimensional error diffusion (dithering)
+            if (firstLayer) {
+                diffusedError = diffusedError + t;
+                paths1.push(path);
+            } else {
+                diffusedError = diffusedError - (1 - t);
+                paths2.push(path);
+            }
         }
 
-        // Return the two paths
-        return paths;
+        // Return all the paths
+        return twoTone ? [paths1, paths2] : [paths1];
     }
 }

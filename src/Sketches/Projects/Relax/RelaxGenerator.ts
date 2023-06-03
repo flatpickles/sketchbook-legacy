@@ -190,7 +190,7 @@ export default class RelaxGenerator {
         }
 
         // Return all the paths
-        debugger;
+        console.log(twoTone);
         return twoTone ? [paths1, paths2] : [paths1];
     }
 }

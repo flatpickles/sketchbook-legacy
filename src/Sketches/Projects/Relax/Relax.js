@@ -54,7 +54,6 @@ export default class Relax extends Sketch {
                 this.params.bottomCircle.value ? null : this.params.bottomRotation.value,
                 this.params.topCircle.value ? null : this.params.topRotation.value,
             );
-            console.log(paths);
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

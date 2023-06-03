@@ -8,12 +8,12 @@ import presetsObject from './presets.json';
 export default class Relax extends Sketch {
     name = 'Relax';
     type = SketchType.Canvas;
-    date = new Date('05/31/2023');
+    date = new Date('06/03/2023');
     description = `
-        Gradual transitions between rigid & continuous forms. These look best with lots of tightly-packed lines, and can be drawn out mechanically with a pen plotter, using one or two colors. The presets are designed for A4 paper, but this can render appealing square graphics as well.
+        Gradual transitions between rigid & continuous forms. These look best with lots of tightly-packed lines, and can be drawn out mechanically with a pen plotter, using one or two colors. The presets are designed for A4 dimensions, but the system can render appealing square graphics as well.
     `;
     showPresets = true;
-    experimental = true;
+    experimental = false;
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;

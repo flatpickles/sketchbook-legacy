@@ -177,12 +177,18 @@ export default class IsolineGrid {
             const cellRow: IsolineGridCell[] = [];
 
             for (let colIdx = 0; colIdx <= scaledGridResolution[0]; colIdx++) {
-                // Create grid corner and assign noise value
-                const position: [number, number] = [
-                    (colIdx / scaledGridResolution[0]) * gridDimensions[0],
-                    (rowIdx / scaledGridResolution[1]) * gridDimensions[1],
+                // Calculate progress
+                const progress = [
+                    colIdx / scaledGridResolution[0],
+                    rowIdx / scaledGridResolution[1],
                 ];
-                const noiseValue = valueFn(position[0], position[1] * aspectRatio);
+
+                // Create grid corner and assign value
+                const position: [number, number] = [
+                    progress[0] * gridDimensions[0],
+                    progress[1] * gridDimensions[1],
+                ];
+                const noiseValue = valueFn(progress[0], progress[1]);
                 const gridCorner: GridCorner = { position, noiseValue };
                 cornerRow.push(gridCorner);
 
@@ -355,7 +361,7 @@ export default class IsolineGrid {
 
     public generateIsolineLayers(
         layerCount: number,
-        noiseBounds: [number, number] = [-1, 1],
+        noiseBounds: [number, number] = [0, 1],
         splineTension = 1.0,
         interpolateNodePositions = true,
         evenlySpacePoints = true,

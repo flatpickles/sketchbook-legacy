@@ -26,6 +26,9 @@ export default class ContourLines extends Sketch {
         layerCount: new FloatParam('Step Count', 4, 1, 10, 1, false),
         edgeLow: new FloatParam('Lower Bound', 0.1, 0.01, 1, 0.01, false),
         edgeHigh: new FloatParam('Upper Bound', 0.9, 0.01, 1, 0.01, false),
+        inset: new FloatParam('Inset', 0.1, 0.01, 0.25, 0.01, false),
+        fixedAspect: new BoolParam('Fix Aspect', false),
+        rounding: new FloatParam('Rounding', 0.5, 0, 1, 0.01, false),
         noiseScaleX: new FloatParam('Noise Scale X', 0.5, 0.01, 1.0, 0.01, false),
         noiseScaleY: new FloatParam('Noise Scale Y', 0.5, 0.01, 1.0, 0.01, false),
         noiseVariant: new FloatParam('Noise Variant', 0, 0, 1, 0.01, false),
@@ -67,16 +70,27 @@ export default class ContourLines extends Sketch {
 
                 // Multiply the noise value by the rounded rectangle
                 const roundedRectValue = roundedRectSDF(
-                    x, y, 1
+                    x, y, this.params.rounding.value
                 );
                 const multiplier = Math.max(0, (1 - roundedRectValue * 2));
                 return noiseValue * multiplier;
             }
 
             // Create the generator
+            const insetPercent = this.params.inset.value;
+            const fixedAspectDimension = Math.min(props.width, props.height);
+            const insetValues = [
+                this.params.fixedAspect.value
+                    ? (props.width - fixedAspectDimension) / 2 + fixedAspectDimension * insetPercent
+                    : props.width * insetPercent,
+                this.params.fixedAspect.value
+                    ? (props.height - fixedAspectDimension) / 2 + fixedAspectDimension * insetPercent
+                    : props.height * insetPercent,
+            ];
             const generator = new IsolineGrid(
                 this.params.gridResolution.value,
-                [props.width, props.height],
+                insetValues,
+                [props.width - insetValues[0] * 2, props.height - insetValues[1] * 2],
                 valueFn
             );
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches

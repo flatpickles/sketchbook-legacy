@@ -161,6 +161,7 @@ export default class IsolineGrid {
 
     constructor(
         gridResolution: number,
+        gridOrigin: [number, number],
         gridDimensions: [number, number],
         valueFn: (x: number, y: number) => number
     ) {
@@ -185,8 +186,8 @@ export default class IsolineGrid {
 
                 // Create grid corner and assign value
                 const position: [number, number] = [
-                    progress[0] * gridDimensions[0],
-                    progress[1] * gridDimensions[1],
+                    gridOrigin[0] + progress[0] * gridDimensions[0],
+                    gridOrigin[1] + progress[1] * gridDimensions[1],
                 ];
                 const noiseValue = valueFn(progress[0], progress[1]);
                 const gridCorner: GridCorner = { position, noiseValue };

@@ -1,6 +1,9 @@
+import { renderPaths } from 'canvas-sketch-util/penplot';
+import alea from 'alea';
+import { createNoise3D } from 'simplex-noise';
+
 import Sketch, { SketchType } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
-import { renderPaths } from 'canvas-sketch-util/penplot';
 
 import presetsObject from './presets.json';
 import IsolineGrid from './IsolineGrid.js';
@@ -33,12 +36,22 @@ export default class ContourLines extends Sketch {
     };
     
     sketchFn = () => {
+
+        
+        // Create the noise function
+        const prng = alea(0);
+        const noise = createNoise3D(prng);
+        const valueFn = (x, y) => noise(
+            x * this.params.noiseScaleX.value,
+            y * this.params.noiseScaleY.value,
+            this.params.noiseVariant.value
+        );
+
         return (props) => {
             const generator = new IsolineGrid(
                 this.params.gridResolution.value,
                 [props.width, props.height],
-                [this.params.noiseScaleX.value, this.params.noiseScaleY.value],
-                this.params.noiseVariant.value,
+                valueFn
             );
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
 

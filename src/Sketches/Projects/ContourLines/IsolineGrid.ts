@@ -2,8 +2,6 @@
 import PathUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
-import alea from 'alea';
-import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 import PolylineUtil from '../../Util/PolylineUtil';
 
 interface GridCorner {
@@ -158,22 +156,16 @@ class IsolineGridCell {
 }
 
 export default class IsolineGrid {
-    private noise: NoiseFunction3D;
     private isolineNodes: IsolineNode[];
     private gridCells: IsolineGridCell[][];
 
     constructor(
         gridResolution: number,
-        dimensions: [number, number],
-        noiseScale: [number, number] = [1, 1],
-        noiseVariant: number
+        gridDimensions: [number, number],
+        valueFn: (x: number, y: number) => number
     ) {
-        // Create the noise function
-        const prng = alea(0);
-        this.noise = createNoise3D(prng);
-
         // Scale the grid resolution & noise lookups with the grid aspect ratio
-        const aspectRatio = dimensions[1] / dimensions[0];
+        const aspectRatio = gridDimensions[1] / gridDimensions[0];
         const scaledGridResolution = [gridResolution, Math.round(gridResolution * aspectRatio)];
 
         // Create the grid entities
@@ -187,14 +179,10 @@ export default class IsolineGrid {
             for (let colIdx = 0; colIdx <= scaledGridResolution[0]; colIdx++) {
                 // Create grid corner and assign noise value
                 const position: [number, number] = [
-                    (colIdx / scaledGridResolution[0]) * dimensions[0],
-                    (rowIdx / scaledGridResolution[1]) * dimensions[1],
+                    (colIdx / scaledGridResolution[0]) * gridDimensions[0],
+                    (rowIdx / scaledGridResolution[1]) * gridDimensions[1],
                 ];
-                const noiseValue = this.noise(
-                    position[0] * noiseScale[0],
-                    position[1] * noiseScale[1] * aspectRatio,
-                    noiseVariant
-                );
+                const noiseValue = valueFn(position[0], position[1] * aspectRatio);
                 const gridCorner: GridCorner = { position, noiseValue };
                 cornerRow.push(gridCorner);
 

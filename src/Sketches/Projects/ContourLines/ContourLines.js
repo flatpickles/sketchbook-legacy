@@ -48,10 +48,28 @@ export default class ContourLines extends Sketch {
                     y * props.height * this.params.noiseScaleY.value,
                     this.params.noiseVariant.value
                 ) / 2 + 0.5;
-                const centerDistance = Math.sqrt(
-                    Math.pow(x - 0.5, 2) + Math.pow(y - 0.5, 2)
+
+                // Rounded rectangle function
+                const roundedRectSDF = (x, y, radius) => {
+                    // Normalize to [0, 1]
+                    const width = 1, height = 1;
+                    x = x * 2 - 1;
+                    y = y * 2 - 1;
+                    radius = radius - 0.5;
+
+                    // Calculations
+                    const dx = Math.abs(x) - width / 2 + radius;
+                    const dy = Math.abs(y) - height / 2 + radius;
+                    return Math.min(Math.max(dx, dy), 0.0) + Math.sqrt(
+                        Math.max(dx, 0.0) * Math.max(dx, 0.0) + Math.max(dy, 0.0) * Math.max(dy, 0.0)
+                    ) - radius;
+                }
+
+                // Multiply the noise value by the rounded rectangle
+                const roundedRectValue = roundedRectSDF(
+                    x, y, 1
                 );
-                const multiplier = Math.max(0, (1 - centerDistance * 2));
+                const multiplier = Math.max(0, (1 - roundedRectValue * 2));
                 return noiseValue * multiplier;
             }
 

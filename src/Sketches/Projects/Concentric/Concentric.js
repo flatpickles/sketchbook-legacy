@@ -30,9 +30,9 @@ export default class Concentric extends Sketch {
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
         xIterations: new FloatParam('X Iterations', 1, 1, 4, 1, false),
         yIterations: new FloatParam('Y Iterations', 1, 1, 6, 1, false),
-        iterationGap: new FloatParam('Iter. Gap %', 0, 0, 10, 1, false),
-        width: new FloatParam('Width %', 100, 0, 100, 1, false),
-        height: new FloatParam('Height %', 100, 0, 100, 1, false),
+        iterationGap: new FloatParam('Iter. Gap %', 0, 0, 10, 0.5, false),
+        hInset: new FloatParam('W Inset %', 0, 0, 10, 0.5, false),
+        vInset: new FloatParam('H Inset %', 0, 0, 10, 0.5, false),
     };
 
     sketchFn = () => {
@@ -40,8 +40,8 @@ export default class Concentric extends Sketch {
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
             const scaledSize = [
-                this.params.width.value / 100 * props.width,
-                this.params.height.value / 100 * props.height
+                (100 - this.params.hInset.value * 2) * props.width / 100,
+                (100 - this.params.vInset.value * 2) * props.height / 100,
             ];
             const scaledGap = [
                 props.width * this.params.iterationGap.value / 100,

@@ -24,8 +24,8 @@ export default class ContourLines extends Sketch {
     params = {
         gridResolution: new FloatParam('Grid Resolution', 20, 1, 200, 1, false),
         layerCount: new FloatParam('Step Count', 4, 1, 10, 1, false),
-        edgeLow: new FloatParam('Lower Bound', 0.1, 0.01, 1, 0.01, false),
-        edgeHigh: new FloatParam('Upper Bound', 0.9, 0.01, 1, 0.01, false),
+        edgeLow: new FloatParam('Lower Bound', 0.1, 0.05, 1, 0.01, false),
+        edgeHigh: new FloatParam('Upper Bound', 0.9, 0.05, 1, 0.01, false),
         inset: new FloatParam('Inset', 0.1, 0.01, 0.25, 0.01, false),
         fixedAspect: new BoolParam('Fix Aspect', false),
         rounding: new FloatParam('Rounding', 0.5, 0, 1, 0.01, false),
@@ -68,11 +68,20 @@ export default class ContourLines extends Sketch {
                     ) - radius;
                 }
 
+                const sigmoidEasing = (t, k) => {
+                    const sigmoidBase = (t, k) => {
+                        return (1.0 / (1.0 + Math.exp(-k * t))) - 0.5;
+                    }
+                    const correction = 0.5 / sigmoidBase(1.0, k);
+                    return correction * sigmoidBase(2.0 * t - 1.0, k) + 0.5;
+                }
+
                 // Multiply the noise value by the rounded rectangle
-                const roundedRectValue = roundedRectSDF(
+                let multiplier = roundedRectSDF(
                     x, y, this.params.rounding.value
                 );
-                const multiplier = Math.max(0, (1 - roundedRectValue * 2));
+                multiplier = sigmoidEasing(multiplier, 14); // fixed easing value, always slaps
+                multiplier = Math.max(0, (1 - multiplier * 2));
                 return noiseValue * multiplier;
             }
 

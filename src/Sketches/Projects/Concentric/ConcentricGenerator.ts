@@ -19,7 +19,9 @@ export default class ConcentricGenerator {
      */
     public generateIterations(
         iterationCounts: [number, number],
+        origin: [number, number],
         fullDimensions: [number, number],
+        iterationGap: [number, number],
         size1 = 1,
         size2 = 0.2,
         thereAndBack = false,
@@ -31,19 +33,20 @@ export default class ConcentricGenerator {
         lineWidth = 0.01
     ): Path[][] {
         const iterations: Path[][] = [];
+        const dimensions: [number, number] = [
+            fullDimensions[0] / iterationCounts[0] - iterationGap[0],
+            fullDimensions[1] / iterationCounts[1] - iterationGap[1],
+        ];
         for (let x = 0; x < iterationCounts[0]; x++) {
             for (let y = 0; y < iterationCounts[1]; y++) {
                 const iterationNumber = 1 + x * iterationCounts[1] + y;
-                const dimensions: [number, number] = [
-                    fullDimensions[0] / iterationCounts[0],
-                    fullDimensions[1] / iterationCounts[1],
-                ];
                 const center: [number, number] = [
-                    (x + 0.5) * dimensions[0],
-                    (y + 0.5) * dimensions[1],
+                    (x + 0.5) * (dimensions[0] + iterationGap[0]) + origin[0],
+                    (y + 0.5) * (dimensions[1] + iterationGap[1]) + origin[1],
                 ];
                 iterations.push(
                     this.generateCirclePaths(
+                        origin,
                         dimensions,
                         center,
                         size1,
@@ -78,6 +81,7 @@ export default class ConcentricGenerator {
      * @returns - an array of Path objects
      */
     public generateCirclePaths(
+        origin: [number, number],
         dimensions: [number, number],
         center: [number, number],
         size1 = 1,
@@ -105,7 +109,6 @@ export default class ConcentricGenerator {
 
         // Calculate bounds
         let bound1, bound2: number;
-        const halfLineWidth = lineWidth / 2;
         if (thereAndBack) {
             if (size1 < size2) {
                 // rough to rough

@@ -30,16 +30,29 @@ export default class Concentric extends Sketch {
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
         xIterations: new FloatParam('X Iterations', 1, 1, 4, 1, false),
         yIterations: new FloatParam('Y Iterations', 1, 1, 6, 1, false),
+        iterationGap: new FloatParam('Iter. Gap %', 0, 0, 10, 1, false),
+        width: new FloatParam('Width %', 100, 0, 100, 1, false),
+        height: new FloatParam('Height %', 100, 0, 100, 1, false),
     };
 
     sketchFn = () => {
         const generator = new ConcentricGenerator();
-
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
+            const scaledSize = [
+                this.params.width.value / 100 * props.width,
+                this.params.height.value / 100 * props.height
+            ];
+            const scaledGap = [
+                props.width * this.params.iterationGap.value / 100,
+                props.height * this.params.iterationGap.value / 100,
+            ];
+
             const iterations = generator.generateIterations(
-                    [this.params.xIterations.value, this.params.yIterations.value], 
-                    [props.width, props.height],
+                    [this.params.xIterations.value, this.params.yIterations.value],
+                    [(props.width - scaledSize[0]) / 2, (props.height - scaledSize[1]) / 2],
+                    scaledSize,
+                    scaledGap,
                     this.params.size1.value,
                     this.params.size2.value,
                     this.params.thereAndBack.value,

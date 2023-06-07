@@ -14,8 +14,10 @@ import ContourLines from './Sketches/Projects/ContourLines/ContourLines.js';
 import FlowField from './Sketches/Projects/FlowField/FlowField.js';
 import Testbed from './Sketches/Projects/Testbed/Testbed.js';
 import Relax from './Sketches/Projects/Relax/Relax.js';
+import CornerRays from './Sketches/Projects/CornerRays/CornerRays.js';
 
 const sketches = [
+    new CornerRays(),
     // new Testbed(),
     new Relax(),
     new FlowField(),

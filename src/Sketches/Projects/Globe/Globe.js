@@ -20,7 +20,8 @@ export default class Globe extends Sketch {
 
     params = {
         radius: new FloatParam('Radius', 0.5, 0.1, 1, 0.01, false),
-        lineCount: new FloatParam('Line Count', 15, 2, 30, 1, false),
+        latCount: new FloatParam('Lat. Count', 15, 0, 30, 1, false),
+        longCount: new FloatParam('Long. Count', 15, 0, 30, 1, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
@@ -30,7 +31,8 @@ export default class Globe extends Sketch {
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
             const paths = generator.generate(
-                this.params.lineCount.value,
+                this.params.latCount.value,
+                this.params.longCount.value,
                 20,
                 this.params.radius.value * Math.min(props.width, props.height) / 2 - scaledNibSize / 2,
                 [props.width / 2, props.height / 2]

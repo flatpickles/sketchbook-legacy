@@ -8,9 +8,9 @@ import presetsObject from './presets.json';
 export default class CornerRays extends Sketch {
     name = 'Corner Rays';
     type = SketchType.Canvas;
-    // date = new Date('05/17/2023');
+    date = new Date('06/07/2023');
     description = `
-        This sketch is intended to be drawn out with a pen plotter.
+        Do it for the Moiré. This sketch is intended to be drawn out on large paper with a pen plotter.
     `;
     showPresets = false;
     experimental = true;

@@ -16,6 +16,14 @@
         });
     }
 
+    // Communicate category selection event to parent (w/ category string)
+    // todo!
+    function selectCategory(category) {
+        dispatch('category', {
+            category: category
+        });
+    }
+
     // Experimental mode
     let storedExperimentalState = localStorage.getItem('showExperimental');
     let experimentalMode = storedExperimentalState ? (storedExperimentalState === 'true') : false;
@@ -63,7 +71,7 @@
             </p>
             {#if experimentalMode}
                 <p>
-                    You've enabled experimental mode! Experimental sketches are generally incomplete or unimpressive, but might be interesting nonetheless.
+                    You've enabled experimental mode! This will show projects that may be incomplete or unimpressive, but might be interesting nonetheless.
                 </p>
             {/if}
             <ValuePairInput
@@ -90,6 +98,17 @@
             </div>
         </span>
     </PanelHeader>
+
+    {#if experimentalMode}
+        <div id='category_container'>
+            <div class='category_item selected'>
+                Paths
+            </div>
+            <div class='category_item'>
+                Pixels
+            </div>
+        </div>
+    {/if}
     
     <div id='list_container'>
         {#each sketches as sketch}
@@ -114,6 +133,7 @@
         flex-direction: column;
         overflow: auto;
         max-height: 100vh;
+        hyphens: auto;
     }
 
     /* Settings panel */
@@ -126,6 +146,35 @@
     :global(#buttons > *) {
         margin-top: calc(var(--spacing) / 4);
         width: 100%;
+    }
+
+    /* Category list */
+
+    #category_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-top: var(--border-emphasis);
+        border-bottom: var(--border-emphasis);
+        margin-bottom: var(--spacing);
+    }
+
+    .category_item {
+        font-size: var(--sketch-list-font-size);
+        cursor: pointer;
+        flex-grow: 1;
+        width: 50%;
+        padding: var(--spacing);
+        user-select: none;
+    }
+
+    .category_item:first-of-type {
+        border-right: var(--border-emphasis);
+    }
+
+    .category_item.selected {
+        color: var(--selected-text-color);
+        background-color:  var(--selected-bg-color);
     }
 
     /* Sketch list */

@@ -32,6 +32,7 @@ export default class __name__ extends Sketch {
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,
                 strokeStyle: 'black',
+                lineCap: 'round',
                 inkscape: true,
                 ...props
             });

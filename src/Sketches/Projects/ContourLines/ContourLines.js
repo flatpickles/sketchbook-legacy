@@ -13,25 +13,28 @@ export default class ContourLines extends Sketch {
     type = SketchType.Canvas;
     // date = new Date('05/17/2023');
     description = `
-        This sketch is intended to be drawn out with a pen plotter.
+        Isolines drawn over simplex noise, with additional shaping and easing to fit
+        nicely on a piece of paper. The lower parameters can optionally reveal the underlying
+        data structures in artistic ways – I trust you'll use them with care. 
     `;
-    showPresets = false;
+    showPresets = true;
     experimental = true;
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
 
     params = {
-        gridResolution: new FloatParam('Grid Resolution', 20, 1, 200, 1, false),
         layerCount: new FloatParam('Step Count', 4, 1, 10, 1, false),
         edgeLow: new FloatParam('Lower Bound', 0.1, 0.05, 1, 0.01, false),
         edgeHigh: new FloatParam('Upper Bound', 0.9, 0.05, 1, 0.01, false),
         inset: new FloatParam('Inset', 0.1, 0.01, 0.25, 0.01, false),
         fixedAspect: new BoolParam('Fix Aspect', false),
         rounding: new FloatParam('Rounding', 0.5, 0, 1, 0.01, false),
+        easing: new FloatParam('Edge Weight', 10, 1, 15, 0.01, false),
         noiseScaleX: new FloatParam('Noise Scale X', 0.5, 0.01, 1.0, 0.01, false),
         noiseScaleY: new FloatParam('Noise Scale Y', 0.5, 0.01, 1.0, 0.01, false),
         noiseVariant: new FloatParam('Noise Variant', 0, 0, 1, 0.01, false),
+        gridResolution: new FloatParam('Grid Resolution', 20, 1, 200, 1, false),
         interpolate: new BoolParam('Interpolate', true),
         evenSpacing: new BoolParam('Even Spacing', true),
         splineTension: new FloatParam('Spline Tension', 1, 0, 1, 0.01, false),
@@ -76,11 +79,11 @@ export default class ContourLines extends Sketch {
                     return correction * sigmoidBase(2.0 * t - 1.0, k) + 0.5;
                 }
 
-                // Multiply the noise value by the rounded rectangle
+                // Multiply the noise value by eased rounded rectangle SDF
                 let multiplier = roundedRectSDF(
                     x, y, this.params.rounding.value
                 );
-                multiplier = sigmoidEasing(multiplier, 14); // fixed easing value, always slaps
+                multiplier = sigmoidEasing(multiplier, this.params.easing.value);
                 multiplier = Math.max(0, (1 - multiplier * 2));
                 return noiseValue * multiplier;
             }

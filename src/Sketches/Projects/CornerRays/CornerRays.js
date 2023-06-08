@@ -49,6 +49,7 @@ export default class CornerRays extends Sketch {
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,
                 strokeStyle: 'black',
+                lineCap: 'round',
                 inkscape: true,
                 ...props
             });

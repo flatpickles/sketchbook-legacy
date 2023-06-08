@@ -17,6 +17,7 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
 
 ## Known Issues
 
+-   "Create" from existing but modified preset doesn't provide a usable name to start (number should increment further)
 -   Resizing can clear canvas; need to redraw upon window resize
 -   Color parameter inputs have a weird internal margin after hiding/showing right panel
 -   If a sketch times out with a particular set of parameters, it can become unresponsive, and those params are saved in local storage so that the same issue persists past reload

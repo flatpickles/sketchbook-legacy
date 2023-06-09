@@ -1,4 +1,4 @@
-import Sketch, { SketchType } from '../../Base/Sketch.js';
+import Sketch, { SketchType, SketchCategory } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
@@ -17,9 +17,9 @@ export default class Relax extends Sketch {
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
+    category = SketchCategory.Paths;
 
     liveUpdates = false;
-
     params = {
         pathCount: new FloatParam('Path Count', 100, 2, 200, 1, this.liveUpdates),
         polygonSides: new FloatParam('Shape Sides', 4, 3, 10, 1, this.liveUpdates),

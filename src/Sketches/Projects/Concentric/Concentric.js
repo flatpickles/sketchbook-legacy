@@ -1,6 +1,6 @@
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
-import Sketch, { SketchType } from '../../Base/Sketch.js';
+import Sketch, { SketchType, SketchCategory } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import ConcentricGenerator from './ConcentricGenerator.js';
 
@@ -17,6 +17,7 @@ export default class Concentric extends Sketch {
     showPresets = true;
     bundledPresets = presetsObject;
     displayAsPrint = true;
+    category = SketchCategory.Paths;
 
     params = {
         size1: new FloatParam('Size 1', 0.25, 0.01, 1, 0.01, false),

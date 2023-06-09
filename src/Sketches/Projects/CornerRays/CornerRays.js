@@ -1,4 +1,4 @@
-import Sketch, { SketchType } from '../../Base/Sketch.js';
+import Sketch, { SketchType, SketchCategory } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
@@ -17,6 +17,7 @@ export default class CornerRays extends Sketch {
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
+    category = SketchCategory.Paths;
 
     params = {
         nodeCount: new FloatParam('Node Count', 10, 2, 40, 1, false),

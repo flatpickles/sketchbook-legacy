@@ -7,6 +7,11 @@ export const SketchType = {
     GL: 'GL'
 }
 
+export const SketchCategory = {
+    Paths: 'Paths',
+    Pixels: 'Pixels',
+};
+
 const fileNameDivider = ' - ';
 
 export default class Sketch {
@@ -23,6 +28,7 @@ export default class Sketch {
     showPresets = true;
     displayAsPrint = false;
     defaultPresetName = 'Default Values';
+    category = SketchCategory.Pixels;
 
     get #userPresetsKey() {
         return this.name + ' userPresets';

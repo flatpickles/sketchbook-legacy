@@ -1,4 +1,4 @@
-import Sketch, { SketchType } from '../../Base/Sketch.js';
+import Sketch, { SketchType, SketchCategory } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
@@ -17,6 +17,7 @@ export default class Globe extends Sketch {
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
+    category = SketchCategory.Paths;
 
     params = {
         radius: new FloatParam('Radius', 0.5, 0.1, 1, 0.01, false),

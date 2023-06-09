@@ -2,7 +2,7 @@ import { renderPaths } from 'canvas-sketch-util/penplot';
 import alea from 'alea';
 import { createNoise3D } from 'simplex-noise';
 
-import Sketch, { SketchType } from '../../Base/Sketch.js';
+import Sketch, { SketchType, SketchCategory } from '../../Base/Sketch.js';
 import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
 
 import presetsObject from './presets.json';
@@ -22,6 +22,7 @@ export default class ContourLines extends Sketch {
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
+    category = SketchCategory.Paths;
 
     params = {
         layerCount: new FloatParam('Step Count', 4, 1, 10, 1, false),

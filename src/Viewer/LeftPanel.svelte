@@ -7,6 +7,7 @@
 
     export let sketches;
     export let selected;
+    let visibleSketches = [];
 
     // Communicate selection event to parent
 	const dispatch = createEventDispatcher();
@@ -16,11 +17,24 @@
         });
     }
 
-    // Communicate category selection event to parent (w/ category string)
-    // todo!
+    // Derive categories from available sketches
+    const categories = sketches.reduce((acc, sketch) => {
+        if (acc.indexOf(sketch.category) === -1) {
+            acc.push(sketch.category);
+        }
+        return acc;
+    }, []);
+    if (categories.length != 2) {
+        throw 'UI supports only two categories for now.';
+    }
+
+    // Enable category selection
+    let selectedCategory = undefined;
+    selectCategory(selected.category);
     function selectCategory(category) {
-        dispatch('category', {
-            category: category
+        selectedCategory = category;
+        visibleSketches = sketches.filter((sketch) => {
+            return sketch.category === category;
         });
     }
 
@@ -81,15 +95,6 @@
                 rightLabel='H:'
                 bind:rightValue={$printDimensions.height}
             />
-            {#if experimentalMode && false}
-                <ValuePairInput
-                    groupLabel='Print Margin (Inches)'
-                    leftLabel='H:'
-                    bind:leftValue={$printDimensions.hMargin}
-                    rightLabel='V:'
-                    bind:rightValue={$printDimensions.vMargin}
-                />
-            {/if}
             <div id='buttons'>
                 {#if showExperimentalButton}
                     <Button name={worksInProgressButtonText} on:click={toggleExperimentalMode}></Button>
@@ -101,21 +106,24 @@
 
     {#if experimentalMode}
         <div id='category_container'>
-            <div class='category_item selected'>
-                Paths
-            </div>
-            <div class='category_item'>
-                Pixels
-            </div>
+            {#each categories as category}
+                <div
+                    class='category_item'
+                    class:selected={category == selectedCategory}
+                    on:click={selectCategory.bind(this, category)}
+                    on:keypress={selectCategory.bind(this, category)}>
+                        {category}
+                </div>
+            {/each}
         </div>
     {/if}
     
     <div id='list_container'>
-        {#each sketches as sketch}
+        {#each visibleSketches as sketch}
             {#if !sketch.experimental || experimentalMode || sketch == selected}
                 <div
                     class='sketch_item'
-                    class:sketch_selected={sketch == selected}
+                    class:selected={sketch == selected}
                     on:click={selectSketch.bind(this, sketch)}
                     on:keypress={selectSketch.bind(this, sketch)}>
                         {#if sketch.experimental}~{/if}
@@ -197,7 +205,7 @@
         border-top: var(--border);
     }
 
-    .sketch_selected {
+    .sketch_item.selected {
         color: var(--selected-text-color);
         background-color:  var(--selected-bg-color);
     }

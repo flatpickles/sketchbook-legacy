@@ -16,6 +16,7 @@ import Testbed from './Sketches/Projects/Testbed/Testbed.js';
 import Relax from './Sketches/Projects/Relax/Relax.js';
 import CornerRays from './Sketches/Projects/CornerRays/CornerRays.js';
 
+// Collect all sketches (todo: automate as a part of the build process)
 const sketches = [
     new CornerRays(),
     // new Testbed(),
@@ -35,5 +36,4 @@ const sketches = [
     new NoSignal(),
     new FloppyDisk()
 ];
-
 export default sketches;

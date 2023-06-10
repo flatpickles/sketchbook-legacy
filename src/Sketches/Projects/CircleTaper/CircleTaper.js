@@ -20,6 +20,9 @@ export default class CircleTaper extends Sketch {
     category = SketchCategory.Paths;
 
     params = {
+        startingRadius: new FloatParam('Center Radius', 1, 0.1, 2, 0.01, false),
+        taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
+        taperCount: new FloatParam('Taper Count', 10, 0, 20, 1, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
@@ -28,7 +31,12 @@ export default class CircleTaper extends Sketch {
 
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
-            const paths = generator.generate([props.width/2, props.height/2]);
+            const paths = generator.generate(
+                [props.width/2, props.height/2],
+                this.params.startingRadius.value,
+                this.params.taperRatio.value,
+                this.params.taperCount.value
+            );
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

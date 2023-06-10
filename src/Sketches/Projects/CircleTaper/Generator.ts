@@ -3,6 +3,8 @@ import PathUtil from '../../Util/PathUtil';
 import CurveUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
+const minRadius = 0.01;
+
 export default class Generator {
     public generate(
         center: [number, number] = [4, 4],
@@ -20,6 +22,8 @@ export default class Generator {
         let currentRadius = startingRadius;
         for (let circleIndex = 0; circleIndex < sideCircleCount; circleIndex++) {
             currentRadius *= taperRatio;
+            if (currentRadius < minRadius) break;
+            console.log(currentRadius);
             currentCenterOffset += currentRadius;
             const currentCenterA: [number, number] = [center[0], center[1] + currentCenterOffset];
             const currentCenterB: [number, number] = [center[0], center[1] - currentCenterOffset];

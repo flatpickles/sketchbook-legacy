@@ -24,6 +24,7 @@ export default class CircleTaper extends Sketch {
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
         taperCount: new FloatParam('Taper Count', 10, 0, 20, 1, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
+        forward: new BoolParam('Forward', false),
     };
     
     sketchFn = () => {
@@ -35,7 +36,8 @@ export default class CircleTaper extends Sketch {
                 [props.width/2, props.height/2],
                 this.params.startingRadius.value,
                 this.params.taperRatio.value,
-                this.params.taperCount.value
+                this.params.taperCount.value,
+                this.params.forward.value
             );
 
             return renderPaths(paths, {

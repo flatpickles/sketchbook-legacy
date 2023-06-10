@@ -11,7 +11,7 @@ export default class Generator {
         startingRadius = 2,
         taperRatio = 0.7,
         sideCircleCount = 10,
-        forward = false,
+        expandedForm = false,
         angleOffset = 0,
         divisionCount = 3
     ): Path[] {
@@ -25,9 +25,9 @@ export default class Generator {
         let currentRadius = startingRadius;
         for (let circleIndex = 0; circleIndex < sideCircleCount; circleIndex++) {
             // Adjust measurments for next iteration
-            if (forward) currentCenterOffset += currentRadius;
+            if (expandedForm) currentCenterOffset += currentRadius;
             currentRadius *= taperRatio;
-            if (!forward) currentCenterOffset += currentRadius;
+            if (!expandedForm) currentCenterOffset += currentRadius;
             if (currentRadius < minRadius) break;
 
             // Draw circle trails for each division around the circle

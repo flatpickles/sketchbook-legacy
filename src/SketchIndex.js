@@ -15,9 +15,11 @@ import FlowField from './Sketches/Projects/FlowField/FlowField.js';
 import Testbed from './Sketches/Projects/Testbed/Testbed.js';
 import Relax from './Sketches/Projects/Relax/Relax.js';
 import CornerRays from './Sketches/Projects/CornerRays/CornerRays.js';
+import CircleTaper from './Sketches/Projects/CircleTaper/CircleTaper.js';
 
 // Collect all sketches (todo: automate as a part of the build process)
 const sketches = [
+    new CircleTaper(),
     new CornerRays(),
     // new Testbed(),
     new Relax(),

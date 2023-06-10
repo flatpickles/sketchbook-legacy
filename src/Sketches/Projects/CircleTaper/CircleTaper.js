@@ -5,8 +5,8 @@ import { renderPaths } from 'canvas-sketch-util/penplot';
 import Generator from './Generator.js';
 import presetsObject from './presets.json';
 
-export default class __name__ extends Sketch {
-    name = '__name__(noCase)';
+export default class CircleTaper extends Sketch {
+    name = 'Circle Taper';
     type = SketchType.Canvas;
     // date = new Date('05/17/2023');
     description = `
@@ -28,7 +28,7 @@ export default class __name__ extends Sketch {
 
         return (props) => {
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
-            const paths = generator.generate();
+            const paths = generator.generate([props.width/2, props.height/2]);
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

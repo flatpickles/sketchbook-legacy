@@ -11,7 +11,9 @@ export default class Generator {
         startingRadius = 2,
         taperRatio = 0.7,
         sideCircleCount = 10,
-        forward = false
+        forward = false,
+        angleOffset = 0,
+        divisionCount = 3
     ): Path[] {
         const returnPaths: Path[] = [];
 
@@ -22,21 +24,23 @@ export default class Generator {
         let currentCenterOffset = 0;
         let currentRadius = startingRadius;
         for (let circleIndex = 0; circleIndex < sideCircleCount; circleIndex++) {
+            // Adjust measurments for next iteration
             if (forward) currentCenterOffset += currentRadius;
             currentRadius *= taperRatio;
             if (!forward) currentCenterOffset += currentRadius;
             if (currentRadius < minRadius) break;
-            console.log(currentRadius);
-            const currentCenterA: [number, number] = [center[0], center[1] + currentCenterOffset];
-            const currentCenterB: [number, number] = [center[0], center[1] - currentCenterOffset];
-            const currentCenterC: [number, number] = [center[0] + currentCenterOffset, center[1]];
-            const currentCenterD: [number, number] = [center[0] - currentCenterOffset, center[1]];
-            returnPaths.push(PathUtil.approximateCircle(currentCenterA, currentRadius));
-            returnPaths.push(PathUtil.approximateCircle(currentCenterB, currentRadius));
-            returnPaths.push(PathUtil.approximateCircle(currentCenterC, currentRadius));
-            returnPaths.push(PathUtil.approximateCircle(currentCenterD, currentRadius));
-        }
 
+            // Draw circle trails for each division around the circle
+            for (let divisionIndex = 0; divisionIndex < divisionCount; divisionIndex++) {
+                const divisionProgress = divisionIndex / divisionCount;
+                const divisionAngle = divisionProgress * Math.PI * 2 + angleOffset;
+                const divisionCenter: [number, number] = [
+                    center[0] + Math.cos(divisionAngle) * currentCenterOffset,
+                    center[1] + Math.sin(divisionAngle) * currentCenterOffset,
+                ];
+                returnPaths.push(PathUtil.approximateCircle(divisionCenter, currentRadius));
+            }
+        }
         return returnPaths;
     }
 }

@@ -22,9 +22,11 @@ export default class CircleTaper extends Sketch {
     params = {
         startingRadius: new FloatParam('Center Radius', 1, 0.1, 2, 0.01, false),
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
+        divisionCount: new FloatParam('Division Count', 4, 2, 10, 1, false),
         taperCount: new FloatParam('Taper Count', 10, 0, 20, 1, false),
-        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
         forward: new BoolParam('Forward', false),
+        rotation: new FloatParam('Rotation', 0, 0, 1, 0.01, false),
+        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
     sketchFn = () => {
@@ -37,7 +39,9 @@ export default class CircleTaper extends Sketch {
                 this.params.startingRadius.value,
                 this.params.taperRatio.value,
                 this.params.taperCount.value,
-                this.params.forward.value
+                this.params.forward.value,
+                this.params.rotation.value * Math.PI * 2 / this.params.divisionCount.value,
+                this.params.divisionCount.value,
             );
 
             return renderPaths(paths, {

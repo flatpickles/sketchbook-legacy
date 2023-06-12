@@ -5,26 +5,34 @@ import type { Path } from 'd3-path';
 
 const minRadius = 0.01;
 
+type Circle = {
+    center: [number, number];
+    radius: number;
+};
+
 export default class Generator {
     public generate(
-        center: [number, number] = [4, 4],
-        startingRadius = 2,
+        topLeft: [number, number],
+        bottomRight: [number, number],
         taperRatio = 0.7,
         sideCircleCount = 10,
         expandedForm = false,
         angleOffset = 0,
         divisionCount = 3
     ): Path[] {
-        const returnPaths: Path[] = [];
+        // Calculate tapering circle values from a unit circle centered at [0, 0]
+        const relativeCircles: Circle[] = [];
 
-        // Draw center circle
-        returnPaths.push(PathUtil.approximateCircle(center, startingRadius));
+        // Start with center circle
+        relativeCircles.push({ center: [0, 0], radius: 0.5 });
 
-        // Draw tapering circles
+        // Calculate tapering circles
         let currentCenterOffset = 0;
-        let currentRadius = startingRadius;
+        let currentRadius = 0.5;
+        let topLeftBound: [number, number] = [Infinity, Infinity];
+        let bottomRightBound: [number, number] = [-Infinity, -Infinity];
         for (let circleIndex = 0; circleIndex < sideCircleCount; circleIndex++) {
-            // Adjust measurments for next iteration
+            // Adjust measurements for next iteration
             if (expandedForm) currentCenterOffset += currentRadius;
             currentRadius *= taperRatio;
             if (!expandedForm) currentCenterOffset += currentRadius;
@@ -32,15 +40,50 @@ export default class Generator {
 
             // Draw circle trails for each division around the circle
             for (let divisionIndex = 0; divisionIndex < divisionCount; divisionIndex++) {
+                // Calculate and add circle
                 const divisionProgress = divisionIndex / divisionCount;
                 const divisionAngle = divisionProgress * Math.PI * 2 + angleOffset;
                 const divisionCenter: [number, number] = [
-                    center[0] + Math.cos(divisionAngle) * currentCenterOffset,
-                    center[1] + Math.sin(divisionAngle) * currentCenterOffset,
+                    Math.cos(divisionAngle) * currentCenterOffset,
+                    Math.sin(divisionAngle) * currentCenterOffset,
                 ];
-                returnPaths.push(PathUtil.approximateCircle(divisionCenter, currentRadius));
+                relativeCircles.push({ center: divisionCenter, radius: currentRadius });
+                // Update bounds
+                topLeftBound = [
+                    Math.min(topLeftBound[0], divisionCenter[0] - currentRadius),
+                    Math.min(topLeftBound[1], divisionCenter[1] - currentRadius),
+                ];
+                bottomRightBound = [
+                    Math.max(bottomRightBound[0], divisionCenter[0] + currentRadius),
+                    Math.max(bottomRightBound[1], divisionCenter[1] + currentRadius),
+                ];
             }
         }
+
+        // Calculate scaling factor to fit the circles within the bounds
+        const boundsWidth = bottomRight[0] - topLeft[0];
+        const boundsHeight = bottomRight[1] - topLeft[1];
+        const designWidth = bottomRightBound[0] - topLeftBound[0];
+        const designHeight = bottomRightBound[1] - topLeftBound[1];
+        const scale = Math.min(boundsWidth / designWidth, boundsHeight / designHeight);
+        const center: [number, number] = [
+            topLeft[0] + boundsWidth / 2,
+            topLeft[1] + boundsHeight / 2,
+        ];
+
+        // todo: properly handle designs that aren't perfectly centered
+
+        // Scale and translate circles to fit within the bounds
+        const returnPaths: Path[] = [];
+        for (const circle of relativeCircles) {
+            const scaledCenter: [number, number] = [
+                center[0] + circle.center[0] * scale,
+                center[1] + circle.center[1] * scale,
+            ];
+            const scaledRadius = circle.radius * scale;
+            returnPaths.push(PathUtil.approximateCircle(scaledCenter, scaledRadius));
+        }
+
         return returnPaths;
     }
 }

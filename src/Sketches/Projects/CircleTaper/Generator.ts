@@ -3,7 +3,7 @@ import PathUtil from '../../Util/PathUtil';
 import CurveUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
-const minRadius = 0.01;
+const minRadius = 0.001;
 
 type Circle = {
     center: [number, number];
@@ -29,8 +29,8 @@ export default class Generator {
         // Calculate tapering circles
         let currentCenterOffset = 0;
         let currentRadius = 0.5;
-        let topLeftBound: [number, number] = [Infinity, Infinity];
-        let bottomRightBound: [number, number] = [-Infinity, -Infinity];
+        let topLeftBound: [number, number] = [-0.5, -0.5];
+        let bottomRightBound: [number, number] = [0.5, 0.5];
         for (let circleIndex = 0; circleIndex < sideCircleCount; circleIndex++) {
             // Adjust measurements for next iteration
             if (expandedForm) currentCenterOffset += currentRadius;
@@ -66,9 +66,10 @@ export default class Generator {
         const designWidth = bottomRightBound[0] - topLeftBound[0];
         const designHeight = bottomRightBound[1] - topLeftBound[1];
         const scale = Math.min(boundsWidth / designWidth, boundsHeight / designHeight);
+        const centerRatios = [-topLeftBound[0] / designWidth, -topLeftBound[1] / designHeight];
         const center: [number, number] = [
-            topLeft[0] + boundsWidth / 2,
-            topLeft[1] + boundsHeight / 2,
+            centerRatios[0] * designWidth * scale,
+            centerRatios[1] * designHeight * scale,
         ];
 
         // todo: properly handle designs that aren't perfectly centered

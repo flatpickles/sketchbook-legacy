@@ -1,9 +1,8 @@
 // @ts-ignore - ignore unresolved import for template file
 import PathUtil from '../../Util/PathUtil';
-import CurveUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
-const minRadius = 0.001;
+const minRadius = 0.01;
 
 type Circle = {
     center: [number, number];
@@ -29,8 +28,7 @@ export default class Generator {
         // Calculate tapering circles
         let currentCenterOffset = 0;
         let currentRadius = 0.5;
-        let topLeftBound: [number, number] = [-0.5, -0.5];
-        let bottomRightBound: [number, number] = [0.5, 0.5];
+        let designRadius = 0.5;
         for (let circleIndex = 0; circleIndex < sideCircleCount; circleIndex++) {
             // Adjust measurements for next iteration
             if (expandedForm) currentCenterOffset += currentRadius;
@@ -48,31 +46,19 @@ export default class Generator {
                     Math.sin(divisionAngle) * currentCenterOffset,
                 ];
                 relativeCircles.push({ center: divisionCenter, radius: currentRadius });
-                // Update bounds
-                topLeftBound = [
-                    Math.min(topLeftBound[0], divisionCenter[0] - currentRadius),
-                    Math.min(topLeftBound[1], divisionCenter[1] - currentRadius),
-                ];
-                bottomRightBound = [
-                    Math.max(bottomRightBound[0], divisionCenter[0] + currentRadius),
-                    Math.max(bottomRightBound[1], divisionCenter[1] + currentRadius),
-                ];
+                // Update bound calculation
+                designRadius = Math.max(designRadius, currentCenterOffset + currentRadius);
             }
         }
 
         // Calculate scaling factor to fit the circles within the bounds
         const boundsWidth = bottomRight[0] - topLeft[0];
         const boundsHeight = bottomRight[1] - topLeft[1];
-        const designWidth = bottomRightBound[0] - topLeftBound[0];
-        const designHeight = bottomRightBound[1] - topLeftBound[1];
-        const scale = Math.min(boundsWidth / designWidth, boundsHeight / designHeight);
-        const centerRatios = [-topLeftBound[0] / designWidth, -topLeftBound[1] / designHeight];
+        const scale = Math.min(boundsWidth / (designRadius * 2), boundsHeight / (designRadius * 2));
         const center: [number, number] = [
-            centerRatios[0] * designWidth * scale,
-            centerRatios[1] * designHeight * scale,
+            topLeft[0] + boundsWidth / 2,
+            topLeft[1] + boundsHeight / 2,
         ];
-
-        // todo: properly handle designs that aren't perfectly centered
 
         // Scale and translate circles to fit within the bounds
         const returnPaths: Path[] = [];

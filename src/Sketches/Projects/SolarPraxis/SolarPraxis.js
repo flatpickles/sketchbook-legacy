@@ -5,8 +5,8 @@ import { renderPaths } from 'canvas-sketch-util/penplot';
 import Generator from './Generator.js';
 import presetsObject from './presets.json';
 
-export default class CircleTaper extends Sketch {
-    name = 'Circle Taper';
+export default class SolarPraxis extends Sketch {
+    name = 'Solar Praxis';
     type = SketchType.Canvas;
     date = new Date('06/13/23');
     description = `

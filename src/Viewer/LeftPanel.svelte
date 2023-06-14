@@ -104,19 +104,17 @@
         </span>
     </PanelHeader>
 
-    {#if experimentalMode}
-        <div id='category_container'>
-            {#each categories as category}
-                <div
-                    class='category_item'
-                    class:selected={category == selectedCategory}
-                    on:click={selectCategory.bind(this, category)}
-                    on:keypress={selectCategory.bind(this, category)}>
-                        {category}
-                </div>
-            {/each}
-        </div>
-    {/if}
+    <div id='category_container'>
+        {#each categories as category}
+            <div
+                class='category_item'
+                class:selected={category == selectedCategory}
+                on:click={selectCategory.bind(this, category)}
+                on:keypress={selectCategory.bind(this, category)}>
+                    {category}
+            </div>
+        {/each}
+    </div>
     
     <div id='list_container'>
         {#each visibleSketches as sketch}

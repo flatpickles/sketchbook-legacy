@@ -2,7 +2,7 @@
 import PathUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
-const minRadius = 0.001;
+const minRadius = 0.01;
 
 type Circle = {
     center: [number, number];
@@ -35,7 +35,6 @@ export default class Generator {
             if (expandedForm) currentCenterOffset += currentRadius;
             currentRadius *= taperRatio;
             if (!expandedForm) currentCenterOffset += currentRadius;
-            if (currentRadius < minRadius) break;
 
             // Draw circle trails for each division around the circle
             for (let divisionIndex = 0; divisionIndex < divisionCount; divisionIndex++) {
@@ -71,9 +70,11 @@ export default class Generator {
                 center[1] + circle.center[1] * scale,
             ];
             const scaledRadius = circle.radius * scale;
+            if (scaledRadius < minRadius) continue;
             // Add inner circles
             for (let innerCircleIdx = 1; innerCircleIdx < innerCircleCount; innerCircleIdx++) {
                 const innerCircleRadius = scaledRadius * (innerCircleIdx / innerCircleCount);
+                if (innerCircleRadius < minRadius) continue;
                 const innerCircle = PathUtil.approximateCircle(scaledCenter, innerCircleRadius);
                 innerPaths.push(innerCircle);
             }

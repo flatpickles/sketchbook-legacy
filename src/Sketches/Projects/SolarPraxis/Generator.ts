@@ -18,7 +18,8 @@ export default class Generator {
         expandedForm = false,
         angleOffset = 0,
         divisionCount = 3,
-        innerCircleCount = 2
+        innerCircleCount = 2,
+        linearInner = false
     ): Path[][] {
         // Calculate tapering circle values from a unit circle centered at [0, 0]
         const relativeCircles: Circle[] = [];
@@ -71,13 +72,35 @@ export default class Generator {
             ];
             const scaledRadius = circle.radius * scale;
             if (scaledRadius < minRadius) continue;
-            // Add inner circles
-            for (let innerCircleIdx = 1; innerCircleIdx < innerCircleCount; innerCircleIdx++) {
-                const innerCircleRadius = scaledRadius * (innerCircleIdx / innerCircleCount);
-                if (innerCircleRadius < minRadius) continue;
-                const innerCircle = PathUtil.approximateCircle(scaledCenter, innerCircleRadius);
-                innerPaths.push(innerCircle);
+
+            // Add inner circles, with either linear or proportional spacing
+            if (linearInner) {
+                // Calculate inner circle radius increment
+                // This will vary slightly for each outer circle, for even spacing between inner circles
+                const biggestCircleSize = relativeCircles[0].radius * scale;
+                const innerCircleBaseIncrement = biggestCircleSize / innerCircleCount;
+                const innerCircleIncrement =
+                    scaledRadius / Math.ceil(scaledRadius / innerCircleBaseIncrement);
+                const evenInnerCircleCount = scaledRadius / innerCircleIncrement;
+                // Add inner circles with the calculated increment
+                for (
+                    let innerCircleIdx = 1;
+                    innerCircleIdx < evenInnerCircleCount;
+                    innerCircleIdx++
+                ) {
+                    const innerCircleRadius = innerCircleIncrement * innerCircleIdx;
+                    if (innerCircleRadius < minRadius) continue;
+                    innerPaths.push(PathUtil.approximateCircle(scaledCenter, innerCircleRadius));
+                }
+            } else {
+                // Add inner circles with proportional spacing
+                for (let innerCircleIdx = 1; innerCircleIdx < innerCircleCount; innerCircleIdx++) {
+                    const innerCircleRadius = scaledRadius * (innerCircleIdx / innerCircleCount);
+                    if (innerCircleRadius < minRadius) continue;
+                    innerPaths.push(PathUtil.approximateCircle(scaledCenter, innerCircleRadius));
+                }
             }
+
             // Add outer circle
             outerPaths.push(PathUtil.approximateCircle(scaledCenter, scaledRadius));
         }

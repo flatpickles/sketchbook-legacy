@@ -10,7 +10,9 @@ export default class SolarPraxis extends Sketch {
     type = SketchType.Canvas;
     date = new Date('06/13/23');
     description = `
-        A simple concept: circles diminishing in size with a consistent ratio, radiating outward. These forms gesture towards sacred geometries; your mileage may vary.
+        Outer circles diminish in size with a consistent ratio, radiating outward.
+        Inner circles add complexity, and can be used to create fill patterns or introduce moire effects.
+        These forms gesture towards sacred geometry; your mileage may vary.
     `;
     showPresets = true;
     experimental = true;
@@ -24,7 +26,8 @@ export default class SolarPraxis extends Sketch {
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
         taperCount: new FloatParam('Taper Count', 20, 0, 20, 1, false),
         expandedForm: new BoolParam('Expanded Form', false),
-        innerCircleCount: new FloatParam('Inner Circles', 4, 0, 20, 1, false),
+        innerCircleCount: new FloatParam('Inner Circles', 4, 0, 30, 1, false),
+        linearInner: new BoolParam('Linear Inner', false),
         rotation: new FloatParam('Rotation', 0, 0, 1, 0.01, false),
         inset: new FloatParam('Added Inset', 0.1, 0.01, 0.25, 0.01, false),
         innerLineWidth: new FloatParam('Inner Nib (mm)', 0.5, 0.1, 2, 0.01, false),
@@ -47,7 +50,8 @@ export default class SolarPraxis extends Sketch {
                 this.params.expandedForm.value,
                 this.params.rotation.value * Math.PI * 2 / this.params.divisionCount.value,
                 this.params.divisionCount.value,
-                this.params.innerCircleCount.value
+                this.params.innerCircleCount.value,
+                this.params.linearInner.value
             );
 
             return renderPaths(paths, {

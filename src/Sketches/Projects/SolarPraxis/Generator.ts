@@ -18,7 +18,7 @@ export default class Generator {
         expandedForm = false,
         angleOffset = 0,
         divisionCount = 3
-    ): Path[] {
+    ): Path[][] {
         // Calculate tapering circle values from a unit circle centered at [0, 0]
         const relativeCircles: Circle[] = [];
 
@@ -60,17 +60,26 @@ export default class Generator {
             topLeft[1] + boundsHeight / 2,
         ];
 
-        // Scale and translate circles to fit within the bounds
-        const returnPaths: Path[] = [];
+        // Scale and translate circles to fit within the bounds, and add inner circles
+        const outerPaths: Path[] = [];
+        const innerPaths: Path[] = [];
         for (const circle of relativeCircles) {
             const scaledCenter: [number, number] = [
                 center[0] + circle.center[0] * scale,
                 center[1] + circle.center[1] * scale,
             ];
             const scaledRadius = circle.radius * scale;
-            returnPaths.push(PathUtil.approximateCircle(scaledCenter, scaledRadius));
+
+            const innerCircleCount = 5;
+            for (let innerCircleIdx = 1; innerCircleIdx < innerCircleCount; innerCircleIdx++) {
+                const innerCircleRadius = scaledRadius * (innerCircleIdx / innerCircleCount);
+                const innerCircle = PathUtil.approximateCircle(scaledCenter, innerCircleRadius);
+                innerPaths.push(innerCircle);
+            }
+
+            outerPaths.push(PathUtil.approximateCircle(scaledCenter, scaledRadius));
         }
 
-        return returnPaths;
+        return [outerPaths, innerPaths];
     }
 }

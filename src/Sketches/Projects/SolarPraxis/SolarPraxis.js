@@ -24,16 +24,19 @@ export default class SolarPraxis extends Sketch {
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
         taperCount: new FloatParam('Taper Count', 20, 0, 20, 1, false),
         expandedForm: new BoolParam('Expanded Form', false),
+        drawInnerCircles: new BoolParam('Inner Circles', true),
         rotation: new FloatParam('Rotation', 0, 0, 1, 0.01, false),
         inset: new FloatParam('Added Inset', 0.1, 0.01, 0.25, 0.01, false),
-        lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
+        innerLineWidth: new FloatParam('Inner Nib (mm)', 0.5, 0.1, 2, 0.01, false),
+        outerLineWidth: new FloatParam('Outer Nib (mm)', 1, 0.1, 2, 0.01, false),
     };
     
     sketchFn = () => {
         const generator = new Generator();
 
         return (props) => {
-            const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
+            const scaledInnerNibSize = this.params.innerLineWidth.value * 0.0393701; // mm to inches
+            const scaledOuterNibSize = this.params.outerLineWidth.value * 0.0393701; // mm to inches
             const minDimension = Math.min(props.width, props.height);
             const inset = this.params.inset.value * minDimension;
             const paths = generator.generate(
@@ -45,9 +48,10 @@ export default class SolarPraxis extends Sketch {
                 this.params.rotation.value * Math.PI * 2 / this.params.divisionCount.value,
                 this.params.divisionCount.value,
             );
+            const pathsToDraw = this.params.drawInnerCircles.value ? paths : paths[0];
 
-            return renderPaths(paths, {
-                lineWidth: scaledNibSize,
+            return renderPaths(pathsToDraw, {
+                lineWidth: [scaledOuterNibSize, scaledInnerNibSize],
                 strokeStyle: 'black',
                 lineCap: 'round',
                 inkscape: true,

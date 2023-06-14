@@ -24,7 +24,7 @@ export default class SolarPraxis extends Sketch {
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
         taperCount: new FloatParam('Taper Count', 20, 0, 20, 1, false),
         expandedForm: new BoolParam('Expanded Form', false),
-        drawInnerCircles: new BoolParam('Inner Circles', true),
+        innerCircleCount: new FloatParam('Inner Circles', 4, 0, 20, 1, false),
         rotation: new FloatParam('Rotation', 0, 0, 1, 0.01, false),
         inset: new FloatParam('Added Inset', 0.1, 0.01, 0.25, 0.01, false),
         innerLineWidth: new FloatParam('Inner Nib (mm)', 0.5, 0.1, 2, 0.01, false),
@@ -47,10 +47,10 @@ export default class SolarPraxis extends Sketch {
                 this.params.expandedForm.value,
                 this.params.rotation.value * Math.PI * 2 / this.params.divisionCount.value,
                 this.params.divisionCount.value,
+                this.params.innerCircleCount.value
             );
-            const pathsToDraw = this.params.drawInnerCircles.value ? paths : paths[0];
 
-            return renderPaths(pathsToDraw, {
+            return renderPaths(paths, {
                 lineWidth: [scaledOuterNibSize, scaledInnerNibSize],
                 strokeStyle: 'black',
                 lineCap: 'round',

@@ -1,5 +1,5 @@
 import Sketch, { SketchType, SketchCategory } from '../../Base/Sketch.js';
-import { FloatParam, BoolParam, ColorParam } from '../../Base/SketchParam.js';
+import { FloatParam, BoolParam } from '../../Base/SketchParam.js';
 import { renderPaths } from 'canvas-sketch-util/penplot';
 
 import Generator from './Generator.js';
@@ -8,11 +8,11 @@ import presetsObject from './presets.json';
 export default class CircleTaper extends Sketch {
     name = 'Circle Taper';
     type = SketchType.Canvas;
-    // date = new Date('05/17/2023');
+    date = new Date('06/13/23');
     description = `
-        This sketch is intended to be drawn out with a pen plotter.
+        A simple concept: circles diminishing in size with a consistent ratio, radiating outward. These forms gesture towards sacred geometries; your mileage may vary.
     `;
-    showPresets = false;
+    showPresets = true;
     experimental = true;
     displayAsPrint = true;
     settings = {};
@@ -22,7 +22,7 @@ export default class CircleTaper extends Sketch {
     params = {
         divisionCount: new FloatParam('Division Count', 4, 2, 10, 1, false),
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
-        taperCount: new FloatParam('Taper Count', 10, 0, 20, 1, false),
+        taperCount: new FloatParam('Taper Count', 20, 0, 20, 1, false),
         expandedForm: new BoolParam('Expanded Form', false),
         rotation: new FloatParam('Rotation', 0, 0, 1, 0.01, false),
         inset: new FloatParam('Added Inset', 0.1, 0.01, 0.25, 0.01, false),

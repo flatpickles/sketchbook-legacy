@@ -1,1 +1,38 @@
-{}
+{
+    "Look Up": {
+        "divisionCount": 3,
+        "taperRatio": 0.67,
+        "taperCount": 20,
+        "expandedForm": false,
+        "rotation": 0.25,
+        "inset": 0.01,
+        "lineWidth": 1.4
+    },
+    "Third Eye": {
+        "divisionCount": 8,
+        "taperRatio": 0.5,
+        "taperCount": 6,
+        "expandedForm": false,
+        "rotation": 0,
+        "inset": 0.05,
+        "lineWidth": 0.9
+    },
+    "Solar Agent": {
+        "divisionCount": 2,
+        "taperRatio": 0.7,
+        "taperCount": 20,
+        "expandedForm": true,
+        "rotation": 0.25,
+        "inset": 0.01,
+        "lineWidth": 1.25
+    },
+    "The Seed of Life": {
+        "divisionCount": 6,
+        "taperRatio": 1,
+        "taperCount": 1,
+        "expandedForm": false,
+        "rotation": 0.5,
+        "inset": 0.1,
+        "lineWidth": 2
+    }
+}

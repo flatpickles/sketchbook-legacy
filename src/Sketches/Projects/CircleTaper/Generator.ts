@@ -2,7 +2,7 @@
 import PathUtil from '../../Util/PathUtil';
 import type { Path } from 'd3-path';
 
-const minRadius = 0.01;
+const minRadius = 0.001;
 
 type Circle = {
     center: [number, number];

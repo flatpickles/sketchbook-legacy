@@ -64,6 +64,7 @@ export default class Generator {
         // Scale and translate circles to fit within the bounds, and add inner circles
         const outerPaths: Path[] = [];
         const innerPaths: Path[] = [];
+        innerCircleCount += 1;
         for (const circle of relativeCircles) {
             // Calculate metrics
             const scaledCenter: [number, number] = [
@@ -105,6 +106,6 @@ export default class Generator {
             outerPaths.push(PathUtil.approximateCircle(scaledCenter, scaledRadius));
         }
 
-        return [outerPaths, innerPaths];
+        return [innerPaths, outerPaths];
     }
 }

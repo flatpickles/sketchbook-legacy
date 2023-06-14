@@ -4,16 +4,20 @@
         "taperRatio": 0.67,
         "taperCount": 20,
         "expandedForm": false,
+        "innerCircleCount": 1,
+        "linearInner": false,
         "rotation": 0.25,
         "inset": 0.01,
-        "innerLineWidth": 0.7,
-        "outerLineWidth": 1.4
+        "innerLineWidth": 1,
+        "outerLineWidth": 1.5
     },
     "Third Eye": {
         "divisionCount": 8,
         "taperRatio": 0.5,
         "taperCount": 6,
         "expandedForm": false,
+        "innerCircleCount": 0,
+        "linearInner": false,
         "rotation": 0,
         "inset": 0.05,
         "innerLineWidth": 0.45,
@@ -24,19 +28,23 @@
         "taperRatio": 0.7,
         "taperCount": 20,
         "expandedForm": true,
+        "innerCircleCount": 1,
+        "linearInner": false,
         "rotation": 0.25,
         "inset": 0.01,
-        "innerLineWidth": 0.6,
+        "innerLineWidth": 0.75,
         "outerLineWidth": 1.25
     },
-    "The Seed of Life": {
+    "Evolution Revolution": {
         "divisionCount": 6,
-        "taperRatio": 1,
-        "taperCount": 1,
-        "expandedForm": false,
+        "taperRatio": 0.5,
+        "taperCount": 4,
+        "expandedForm": true,
+        "innerCircleCount": 1,
+        "linearInner": false,
         "rotation": 0.5,
-        "inset": 0.1,
+        "inset": 0.01,
         "innerLineWidth": 1,
-        "outerLineWidth": 2
+        "outerLineWidth": 0.97
     }
 }

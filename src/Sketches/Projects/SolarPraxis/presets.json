@@ -23,6 +23,18 @@
         "innerLineWidth": 0.45,
         "outerLineWidth": 0.9
     },
+    "The New Normal": {
+        "divisionCount": 4,
+        "taperRatio": 0.59,
+        "taperCount": 7,
+        "expandedForm": false,
+        "innerCircleCount": 25,
+        "linearInner": true,
+        "rotation": 0,
+        "inset": 0.05,
+        "innerLineWidth": 0.25,
+        "outerLineWidth": 1
+    },
     "Stellar Agent": {
         "divisionCount": 2,
         "taperRatio": 0.7,
@@ -45,6 +57,6 @@
         "rotation": 0.5,
         "inset": 0.01,
         "innerLineWidth": 1,
-        "outerLineWidth": 0.97
+        "outerLineWidth": 1
     }
 }

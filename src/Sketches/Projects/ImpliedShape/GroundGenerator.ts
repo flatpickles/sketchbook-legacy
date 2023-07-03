@@ -9,7 +9,7 @@ export default class GroundGenerator {
     ): [number, number][][] {
         const paths: [number, number][][] = [];
         const gap = 0.1;
-        const rectangleCount = 10;
+        const rectangleCount = 5;
         const dimensions = [bottomRight[0] - topLeft[0], bottomRight[1] - topLeft[1]];
         const rectangleDimensions = [
             (dimensions[0] - gap * (rectangleCount - 1)) / rectangleCount,

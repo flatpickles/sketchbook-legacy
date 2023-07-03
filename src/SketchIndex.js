@@ -16,9 +16,11 @@ import Testbed from './Sketches/Projects/Testbed/Testbed.js';
 import Relax from './Sketches/Projects/Relax/Relax.js';
 import CornerRays from './Sketches/Projects/CornerRays/CornerRays.js';
 import SolarPraxis from './Sketches/Projects/SolarPraxis/SolarPraxis.js';
+import ImpliedShape from './Sketches/Projects/ImpliedShape/ImpliedShape.js';
 
 // Collect all sketches (todo: automate as a part of the build process)
 const sketches = [
+    new ImpliedShape(),
     new SolarPraxis(),
     new CornerRays(),
     // new Testbed(),

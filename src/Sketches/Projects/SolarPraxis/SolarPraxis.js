@@ -26,7 +26,7 @@ export default class SolarPraxis extends Sketch {
         taperRatio: new FloatParam('Taper Ratio', 0.7, 0.5, 1, 0.01, false),
         taperCount: new FloatParam('Taper Count', 20, 0, 20, 1, false),
         expandedForm: new BoolParam('Expanded Form', false),
-        innerCircleCount: new FloatParam('Inner Circles', 3, 0, 30, 1, false),
+        innerCircleCount: new FloatParam('Inner Circles', 2, 0, 30, 1, false),
         linearInner: new BoolParam('Linear Inner', false),
         rotation: new FloatParam('Rotation', 0, 0, 1, 0.01, false),
         inset: new FloatParam('Added Inset', 0.1, 0.01, 0.25, 0.01, false),

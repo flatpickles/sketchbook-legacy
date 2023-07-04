@@ -1,25 +1,21 @@
-// @ts-ignore - ignore unresolved import for template file
-import CurveUtil from '../../Util/PathUtil';
-import type { Path } from 'd3-path';
-
 export default class GroundGenerator {
     public generate(
+        rectangleCount: number,
         topLeft: [number, number],
-        bottomRight: [number, number]
+        bottomRight: [number, number],
+        gapSize: number
     ): [number, number][][] {
         const paths: [number, number][][] = [];
-        const gap = 0.1;
-        const rectangleCount = 5;
         const dimensions = [bottomRight[0] - topLeft[0], bottomRight[1] - topLeft[1]];
         const rectangleDimensions = [
-            (dimensions[0] - gap * (rectangleCount - 1)) / rectangleCount,
-            (dimensions[1] - gap * (rectangleCount - 1)) / rectangleCount,
+            (dimensions[0] - gapSize * (rectangleCount - 1)) / rectangleCount,
+            (dimensions[1] - gapSize * (rectangleCount - 1)) / rectangleCount,
         ];
         for (let xIndex = 0; xIndex < rectangleCount; xIndex++) {
             for (let yIndex = 0; yIndex < rectangleCount; yIndex++) {
                 const rectTopLeft: [number, number] = [
-                    topLeft[0] + xIndex * (rectangleDimensions[0] + gap),
-                    topLeft[1] + yIndex * (rectangleDimensions[1] + gap),
+                    topLeft[0] + xIndex * (rectangleDimensions[0] + gapSize),
+                    topLeft[1] + yIndex * (rectangleDimensions[1] + gapSize),
                 ];
                 const rectBottomRight: [number, number] = [
                     rectTopLeft[0] + rectangleDimensions[0],

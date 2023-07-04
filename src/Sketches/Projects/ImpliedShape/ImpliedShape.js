@@ -48,7 +48,7 @@ export default class ImpliedShape extends Sketch {
             return renderPaths(maskedPaths, {
                 lineWidth: scaledNibSize,
                 strokeStyle: 'black',
-                lineCap: 'round',
+                lineCap: 'square',
                 inkscape: true,
                 ...props
             });

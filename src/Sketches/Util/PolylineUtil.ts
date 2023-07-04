@@ -66,7 +66,17 @@ export default class PolylineUtil {
             previousPoint = currentPoint;
         }
 
-        // todo: merge last & first for closed paths (when applicable)
+        // Merge last & first for closed paths (when applicable)
+        if (maskedPolylines.length > 1) {
+            const firstPolyline = maskedPolylines[0];
+            const lastPolyline = maskedPolylines[maskedPolylines.length - 1];
+            if (firstPolyline[0] === lastPolyline[lastPolyline.length - 1]) {
+                lastPolyline.pop();
+                maskedPolylines[0] = [...lastPolyline, ...firstPolyline];
+                maskedPolylines.pop();
+            }
+        }
+
         return maskedPolylines;
     }
 

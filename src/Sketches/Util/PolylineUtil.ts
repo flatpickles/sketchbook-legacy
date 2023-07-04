@@ -1,31 +1,11 @@
-type Polyline = [number, number][];
-type MaskFunction = (point: [number, number]) => boolean;
+type Point = [number, number];
+type Polyline = Point[];
+type MaskFunction = (point: Point) => boolean;
 
 export default class PolylineUtil {
+    // Apply a mask function to a polyline, returning a set of polylines that
+    // pass through the space where the mask function returns true.
     public static maskPolyline(polyline: Polyline, maskFn: MaskFunction): Polyline[] {
-        // Find the intersection between two starting points on either side of a maskFn boundary
-        // todo: more efficient approach (binary search)
-        function findIntersectionBetween(
-            startPoint: [number, number],
-            endPoint: [number, number],
-            maskFn: MaskFunction,
-            maxIterations = 200
-        ): [number, number] {
-            const startingValue = maskFn(startPoint);
-            let currentValue = startingValue;
-            let currentPoint = startPoint;
-            let currentIteration = 0;
-            while (currentValue === startingValue && currentIteration < maxIterations) {
-                currentPoint = [
-                    currentPoint[0] + (endPoint[0] - startPoint[0]) / maxIterations,
-                    currentPoint[1] + (endPoint[1] - startPoint[1]) / maxIterations,
-                ];
-                currentValue = maskFn(currentPoint);
-                currentIteration += 1;
-            }
-            return currentPoint;
-        }
-
         // Start a new set of polylines (multiple iff the original is broken up by the mask)
         const maskedPolylines: Polyline[] = [[]];
         let previousPoint = polyline[0];
@@ -45,7 +25,7 @@ export default class PolylineUtil {
                 maskedPolylines[maskedPolylines.length - 1].push(currentPoint);
             } else if (!previousInMask && currentInMask) {
                 // Start a new output polyline from the intersection point
-                const intersectionPoint = findIntersectionBetween(
+                const intersectionPoint = PolylineUtil.findMaskEdgeBetween(
                     previousPoint,
                     currentPoint,
                     maskFn
@@ -53,7 +33,7 @@ export default class PolylineUtil {
                 maskedPolylines.push([intersectionPoint, currentPoint]);
             } else if (previousInMask && !currentInMask) {
                 // Draw to the intersection point
-                const intersectionPoint = findIntersectionBetween(
+                const intersectionPoint = PolylineUtil.findMaskEdgeBetween(
                     previousPoint,
                     currentPoint,
                     maskFn
@@ -80,6 +60,36 @@ export default class PolylineUtil {
         return maskedPolylines;
     }
 
+    // Binary search for the intersection point between the line segment and the mask edge.
+    // This will find the intersection with an error of d/2^n, where n is the number of iterations,
+    // and d is the distance between the start and end points.
+    private static findMaskEdgeBetween(
+        startPoint: Point,
+        endPoint: Point,
+        maskFn: MaskFunction,
+        iterations = 10
+    ): Point {
+        let valueA = maskFn(startPoint);
+        let valueB = maskFn(endPoint);
+        let pointA = startPoint;
+        let pointB = endPoint;
+        let iteration = 0;
+
+        while (valueA != valueB && iteration < iterations) {
+            const midPoint: Point = [(pointA[0] + pointB[0]) / 2, (pointA[1] + pointB[1]) / 2];
+            const midValue = maskFn(midPoint);
+            if (midValue === valueA) {
+                pointA = midPoint;
+                valueA = midValue;
+            } else {
+                pointB = midPoint;
+                valueB = midValue;
+            }
+            iteration += 1;
+        }
+        return pointA;
+    }
+
     // Average out points along the line which are closer than the given distance.
     public static combineNearbyPoints(polyline: Polyline, minDistance: number): Polyline {
         // todo: doesn't work well for closed polylines
@@ -87,8 +97,7 @@ export default class PolylineUtil {
         let numRecentPointsToCombine = 1; // running; 1 is status quo (no combination)
 
         for (const point of polyline) {
-            const lastPoint: [number, number] | undefined =
-                processedPoints[processedPoints.length - 1];
+            const lastPoint: Point | undefined = processedPoints[processedPoints.length - 1];
             if (lastPoint) {
                 const distance = Math.sqrt(
                     (point[0] - lastPoint[0]) ** 2 + (point[1] - lastPoint[1]) ** 2
@@ -186,7 +195,7 @@ export default class PolylineUtil {
             const y =
                 lastOriginalPoint[1] +
                 (nextOriginalPoint[1] - lastOriginalPoint[1]) * progressBetweenOriginalPoints;
-            const newPoint: [number, number] = [x, y];
+            const newPoint: Point = [x, y];
             evenlySpacedPoints.push(newPoint);
 
             // Update distance & progress
@@ -200,7 +209,7 @@ export default class PolylineUtil {
     }
 
     // Average out the position of a set of points into one
-    private static averagePosition(points: Polyline): [number, number] {
+    private static averagePosition(points: Polyline): Point {
         const average = points.reduce(
             (sum, point) => [sum[0] + point[0], sum[1] + point[1]],
             [0, 0]

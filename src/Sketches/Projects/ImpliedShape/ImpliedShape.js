@@ -39,12 +39,15 @@ export default class ImpliedShape extends Sketch {
             const scaledGapSize = this.params.gapSize.value * minDimension;
 
             // Generate the background
-            const paths = groundGenerator.generate(
+            let paths = groundGenerator.generate(
                 this.params.rectCount.value,
                 [scaledGapSize, scaledGapSize],
                 [props.width - scaledGapSize, props.height - scaledGapSize],
                 scaledGapSize,
             );
+
+            // Subdivide the background paths for more accurate intersection detection
+            paths = paths.map(path => PolylineUtil.subdividePolyline(path, minDimension / 100));
 
             // Mask out a circle in the center
             const center = [props.width / 2, props.height / 2];

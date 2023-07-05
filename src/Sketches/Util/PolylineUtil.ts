@@ -3,6 +3,29 @@ type Polyline = Point[];
 type MaskFunction = (point: Point) => boolean;
 
 export default class PolylineUtil {
+    // Divide a polyline into segments of a maximum length
+    public static subdividePolyline(polyline: Polyline, maxSegmentLength: number): Polyline {
+        const subdividedPolyline: Polyline = [];
+        for (let pointIndex = 0; pointIndex < polyline.length - 1; pointIndex++) {
+            const thisPoint = polyline[pointIndex];
+            const nextPoint = polyline[pointIndex + 1];
+            const segmentLength = Math.sqrt(
+                Math.pow(nextPoint[0] - thisPoint[0], 2) + Math.pow(nextPoint[1] - thisPoint[1], 2)
+            );
+            const segmentCount = Math.ceil(segmentLength / maxSegmentLength);
+            for (let segmentIndex = 0; segmentIndex < segmentCount; segmentIndex++) {
+                const segmentRatio = segmentIndex / segmentCount;
+                const segmentPoint: Point = [
+                    thisPoint[0] + (nextPoint[0] - thisPoint[0]) * segmentRatio,
+                    thisPoint[1] + (nextPoint[1] - thisPoint[1]) * segmentRatio,
+                ];
+                subdividedPolyline.push(segmentPoint);
+            }
+        }
+        subdividedPolyline.push(polyline[polyline.length - 1]);
+        return subdividedPolyline;
+    }
+
     // Apply a mask function to a polyline, returning a set of polylines that
     // pass through the space where the mask function returns true.
     public static maskPolyline(polyline: Polyline, maskFn: MaskFunction): Polyline[] {

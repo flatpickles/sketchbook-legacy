@@ -1,16 +1,4 @@
 {
-    "Look Up": {
-        "divisionCount": 3,
-        "taperRatio": 0.67,
-        "taperCount": 20,
-        "expandedForm": false,
-        "innerCircleCount": 1,
-        "linearInner": false,
-        "rotation": 0.25,
-        "inset": 0.01,
-        "innerLineWidth": 1,
-        "outerLineWidth": 1.5
-    },
     "Third Eye": {
         "divisionCount": 8,
         "taperRatio": 0.5,
@@ -22,6 +10,18 @@
         "inset": 0.05,
         "innerLineWidth": 0.45,
         "outerLineWidth": 0.9
+    },
+    "Sigil": {
+        "divisionCount": 6,
+        "taperRatio": 0.5,
+        "taperCount": 4,
+        "expandedForm": true,
+        "innerCircleCount": 1,
+        "linearInner": false,
+        "rotation": 0.5,
+        "inset": 0.01,
+        "innerLineWidth": 1,
+        "outerLineWidth": 1
     },
     "The New Normal": {
         "divisionCount": 4,
@@ -35,6 +35,18 @@
         "innerLineWidth": 0.25,
         "outerLineWidth": 1
     },
+    "Look Up": {
+        "divisionCount": 3,
+        "taperRatio": 0.67,
+        "taperCount": 20,
+        "expandedForm": false,
+        "innerCircleCount": 1,
+        "linearInner": false,
+        "rotation": 0.25,
+        "inset": 0.01,
+        "innerLineWidth": 1,
+        "outerLineWidth": 1.5
+    },
     "Stellar Agent": {
         "divisionCount": 2,
         "taperRatio": 0.7,
@@ -46,17 +58,5 @@
         "inset": 0.01,
         "innerLineWidth": 0.75,
         "outerLineWidth": 1.25
-    },
-    "Evolution Revolution": {
-        "divisionCount": 6,
-        "taperRatio": 0.5,
-        "taperCount": 4,
-        "expandedForm": true,
-        "innerCircleCount": 1,
-        "linearInner": false,
-        "rotation": 0.5,
-        "inset": 0.01,
-        "innerLineWidth": 1,
-        "outerLineWidth": 1
     }
 }

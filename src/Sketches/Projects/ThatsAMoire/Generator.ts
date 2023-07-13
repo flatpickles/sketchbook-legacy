@@ -20,12 +20,25 @@ export default class Generator {
         outerRadius: number,
         innerRadius: number,
         rayCount = 20,
-        rotation = 0
+        rotation = 0,
+        noiseIntensity = 1,
+        noiseDensity = 0.3,
+        noiseVariant = 0.0,
+        noiseAsymmetry = 0.0
     ): Path[] {
         const rays: Path[] = [];
         for (let i = 0; i < rayCount; i++) {
             const angle = (i / rayCount) * Math.PI * 2 + rotation;
-            const ray = this.generateRay(center, outerRadius, innerRadius, angle);
+            const ray = this.generateRay(
+                center,
+                outerRadius,
+                innerRadius,
+                angle,
+                noiseIntensity,
+                noiseDensity,
+                noiseVariant,
+                noiseAsymmetry
+            );
             rays.push(PathUtil.createCardinalSpline(ray, 1));
         }
         return rays;
@@ -35,19 +48,23 @@ export default class Generator {
         center: Point,
         outerRadius: number,
         innerRadius: number,
-        angle: number
+        angle: number,
+        noiseIntensity = 1,
+        noiseDensity = 0.3,
+        noiseVariant = 0.0,
+        noiseAsymmetry = 0.0
     ): Point[] {
         const rayPath = [];
-        const rayPointCount = 10;
-        const noiseDensity = 0.1;
+        const rayPointCount = 50;
 
         for (let i = 0; i <= rayPointCount; i++) {
             const r = (outerRadius - innerRadius) * (i / rayPointCount) + innerRadius;
-            const normalizedNoise = this.noise(
-                noiseDensity * Math.cos(angle),
-                noiseDensity * Math.sin(angle),
-                noiseDensity * r
+            let normalizedNoise = this.noise(
+                noiseDensity * Math.cos(angle) * noiseAsymmetry + noiseVariant,
+                noiseDensity * Math.sin(angle) * noiseAsymmetry + noiseVariant,
+                noiseDensity * r + noiseVariant
             );
+            normalizedNoise *= noiseIntensity;
 
             const rayPoint: Point = [
                 center[0] + Math.cos(angle + normalizedNoise) * r,

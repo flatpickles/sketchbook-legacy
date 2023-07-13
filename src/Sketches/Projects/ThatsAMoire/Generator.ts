@@ -15,28 +15,38 @@ export default class Generator {
         this.noise = createNoise3D(prng);
     }
 
-    public generateRays(center: Point, radius: number, rayCount = 20): Path[] {
+    public generateRays(
+        center: Point,
+        outerRadius: number,
+        innerRadius: number,
+        rayCount = 20,
+        rotation = 0
+    ): Path[] {
         const rays: Path[] = [];
         for (let i = 0; i < rayCount; i++) {
-            const angle = (i / rayCount) * Math.PI * 2;
-            const ray = this.generateRay(center, radius, angle);
+            const angle = (i / rayCount) * Math.PI * 2 + rotation;
+            const ray = this.generateRay(center, outerRadius, innerRadius, angle);
             rays.push(PathUtil.createCardinalSpline(ray, 1));
         }
         return rays;
     }
 
-    private generateRay(center: Point, radius: number, angle: number, curve = 10): Point[] {
-        const rayPath = [center];
-        const rayPointCount = 80;
-        const curveIncrement = curve / rayPointCount;
-        const noiseDensity = 0.05;
+    private generateRay(
+        center: Point,
+        outerRadius: number,
+        innerRadius: number,
+        angle: number
+    ): Point[] {
+        const rayPath = [];
+        const rayPointCount = 10;
+        const noiseDensity = 0.1;
 
         for (let i = 0; i <= rayPointCount; i++) {
-            const r = radius * (i / rayPointCount);
+            const r = (outerRadius - innerRadius) * (i / rayPointCount) + innerRadius;
             const normalizedNoise = this.noise(
-                noiseDensity * (Math.cos(angle) + 6),
-                noiseDensity * (Math.sin(angle) + 1),
-                (noiseDensity * i) / 3
+                noiseDensity * Math.cos(angle),
+                noiseDensity * Math.sin(angle),
+                noiseDensity * r
             );
 
             const rayPoint: Point = [

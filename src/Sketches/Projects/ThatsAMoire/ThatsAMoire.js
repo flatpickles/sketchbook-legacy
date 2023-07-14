@@ -12,7 +12,7 @@ export default class ThatsAMoire extends Sketch {
     description = `
         This sketch is intended to be drawn out with a pen plotter.
     `;
-    showPresets = false;
+    showPresets = true;
     experimental = true;
     displayAsPrint = true;
     settings = {};
@@ -22,14 +22,14 @@ export default class ThatsAMoire extends Sketch {
     params = {
         rayCount: new FloatParam('Ray Count', 150, 10, 200, 1, false),
         outerRadius: new FloatParam('Outer Radius', 1, 0, 1, 0.01, false),
-        innerRadius: new FloatParam('Inner Radius', 0.5, 0, 1, 0.01, false),
-        centerOffset: new FloatParam('Center Offset', 0.01, 0.001, 0.05, 0.001, false),
+        innerRadius: new FloatParam('Inner Radius', 0.33, 0, 1, 0.01, false),
+        centerOffset: new FloatParam('Center Offset', 0.01, 0, 0.05, 0.001, false),
         rotationOffset: new FloatParam('Rotation Offset', 0.0, 0, 0.1, 0.01, false),
-        noiseIntensity: new FloatParam('Noise Intensity', 0.1, 0, 1, 0.01, false),
-        noiseDensity: new FloatParam('Noise Density', 0.1, 0, 1, 0.01, false),
-        noiseVariant: new FloatParam('Noise Variant', 1, 0, 1, 0.01, false),
-        asymmetry: new FloatParam('Asymmetry', 0, 0, 0.25, 0.01, false),
-        lineWidth: new FloatParam('Nib Size (mm)', 0.3, 0.1, 2, 0.01, false),
+        noiseIntensity: new FloatParam('Noise Intensity', 0.5, 0, 1, 0.01, false),
+        noiseDensity: new FloatParam('Noise Density', 0.4, 0, 1, 0.01, false),
+        noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
+        asymmetry: new FloatParam('Asymmetry', 0.1, 0, 0.25, 0.01, false),
+        lineWidth: new FloatParam('Nib Size (mm)', 0.5, 0.1, 2, 0.01, false),
     };
     
     sketchFn = () => {

@@ -1,1 +1,26 @@
-{}
+{
+    "The Original 4x4": {
+        "rayCount": 80,
+        "outerRadius": 0.9,
+        "innerRadius": 0.2,
+        "centerOffset": 0.035,
+        "rotationOffset": 0,
+        "noiseIntensity": 0.63,
+        "noiseDensity": 0.7,
+        "noiseVariant": 0.9,
+        "asymmetry": 0,
+        "lineWidth": 0.5
+    },
+    "Sunthing 4x4": {
+        "rayCount": 30,
+        "outerRadius": 0.95,
+        "innerRadius": 0.05,
+        "centerOffset": 0,
+        "rotationOffset": 0.04,
+        "noiseIntensity": 0.63,
+        "noiseDensity": 1,
+        "noiseVariant": 0.9,
+        "asymmetry": 0,
+        "lineWidth": 0.5
+    }
+}

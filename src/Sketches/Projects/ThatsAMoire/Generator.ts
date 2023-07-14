@@ -55,7 +55,7 @@ export default class Generator {
         noiseAsymmetry = 0.0
     ): Point[] {
         const rayPath = [];
-        const rayPointCount = 50;
+        const rayPointCount = 100;
 
         for (let i = 0; i <= rayPointCount; i++) {
             const r = (outerRadius - innerRadius) * (i / rayPointCount) + innerRadius;

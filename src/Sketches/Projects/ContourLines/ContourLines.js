@@ -9,7 +9,7 @@ import presetsObject from './presets.json';
 import IsolineGrid from './IsolineGrid.js';
 
 export default class ContourLines extends Sketch {
-    name = 'Contour Lines';
+    name = 'Contours';
     type = SketchType.Canvas;
     date = new Date('07/21/2023');
     description = `

@@ -21,6 +21,7 @@ import ThatsAMoire from './Sketches/Projects/ThatsAMoire/ThatsAMoire.js';
 
 // Collect all sketches (todo: automate as a part of the build process)
 const sketches = [
+    new ContourLines(),
     new ThatsAMoire(),
     new ImpliedShape(),
     new SolarPraxis(),
@@ -28,7 +29,6 @@ const sketches = [
     // new Testbed(),
     new Relax(),
     new FlowField(),
-    new ContourLines(),
     new Globe(),
     new BioBlobs(),
     new Concentric(),

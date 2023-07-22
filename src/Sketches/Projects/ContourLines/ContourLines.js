@@ -11,14 +11,14 @@ import IsolineGrid from './IsolineGrid.js';
 export default class ContourLines extends Sketch {
     name = 'Contour Lines';
     type = SketchType.Canvas;
-    // date = new Date('05/17/2023');
+    date = new Date('07/21/2023');
     description = `
         Isolines drawn over simplex noise, with additional shaping and easing to fit
         nicely on a piece of paper. The lower parameters can optionally reveal the underlying
-        data structures in artistic ways – I trust you'll use them with care. 
+        data structures in artistic ways – I trust you'll use them with care.
     `;
     showPresets = true;
-    experimental = true;
+    experimental = false;
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
@@ -26,16 +26,16 @@ export default class ContourLines extends Sketch {
 
     params = {
         layerCount: new FloatParam('Step Count', 4, 1, 10, 1, false),
-        edgeLow: new FloatParam('Lower Bound', 0.1, 0.05, 1, 0.01, false),
-        edgeHigh: new FloatParam('Upper Bound', 0.9, 0.05, 1, 0.01, false),
-        inset: new FloatParam('Inset', 0.1, 0.01, 0.25, 0.01, false),
+        edgeLow: new FloatParam('Lower Bound', 0.25, 0.05, 1, 0.01, false),
+        edgeHigh: new FloatParam('Upper Bound', 0.85, 0.05, 1, 0.01, false),
+        inset: new FloatParam('Inset', 0.01, 0.01, 0.25, 0.01, false),
         fixedAspect: new BoolParam('Fix Aspect', false),
-        rounding: new FloatParam('Rounding', 0.5, 0, 1, 0.01, false),
+        rounding: new FloatParam('Rounding', 0.32, 0, 1, 0.01, false),
         easing: new FloatParam('Edge Weight', 10, 1, 15, 0.01, false),
-        noiseScaleX: new FloatParam('Noise Scale X', 0.5, 0.01, 1.0, 0.01, false),
-        noiseScaleY: new FloatParam('Noise Scale Y', 0.5, 0.01, 1.0, 0.01, false),
-        noiseVariant: new FloatParam('Noise Variant', 0, 0, 1, 0.01, false),
-        gridResolution: new FloatParam('Grid Resolution', 20, 1, 200, 1, false),
+        noiseScaleX: new FloatParam('Noise Scale X', 0.19, 0.01, 1.0, 0.01, false),
+        noiseScaleY: new FloatParam('Noise Scale Y', 0.81, 0.01, 1.0, 0.01, false),
+        noiseVariant: new FloatParam('Noise Variant', 0.21, 0, 1, 0.01, false),
+        gridResolution: new FloatParam('Grid Resolution', 200, 1, 200, 1, false),
         interpolate: new BoolParam('Interpolate', true),
         evenSpacing: new BoolParam('Even Spacing', true),
         splineTension: new FloatParam('Spline Tension', 1, 0, 1, 0.01, false),

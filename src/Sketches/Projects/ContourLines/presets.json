@@ -16,6 +16,23 @@
         "splineTension": 1,
         "lineWidth": 1.27
     },
+    "Top Notch": {
+        "layerCount": 4,
+        "edgeLow": 0.1,
+        "edgeHigh": 0.9,
+        "inset": 0.1,
+        "fixedAspect": true,
+        "rounding": 1,
+        "easing": 10,
+        "noiseScaleX": 0.93,
+        "noiseScaleY": 0.01,
+        "noiseVariant": 1,
+        "gridResolution": 171,
+        "interpolate": true,
+        "evenSpacing": true,
+        "splineTension": 1,
+        "lineWidth": 1.9
+    },
     "Esoterica": {
         "layerCount": 10,
         "edgeLow": 0.05,
@@ -31,23 +48,6 @@
         "interpolate": false,
         "evenSpacing": false,
         "splineTension": 0,
-        "lineWidth": 1
-    },
-    "Molten Vibes": {
-        "layerCount": 4,
-        "edgeLow": 0.25,
-        "edgeHigh": 0.85,
-        "inset": 0.01,
-        "fixedAspect": false,
-        "rounding": 0.32,
-        "easing": 10,
-        "noiseScaleX": 0.19,
-        "noiseScaleY": 0.81,
-        "noiseVariant": 0.21,
-        "gridResolution": 200,
-        "interpolate": true,
-        "evenSpacing": true,
-        "splineTension": 1,
         "lineWidth": 1
     },
     "Cross Section": {
@@ -84,24 +84,7 @@
         "splineTension": 1,
         "lineWidth": 1
     },
-    "Something": {
-        "layerCount": 4,
-        "edgeLow": 0.1,
-        "edgeHigh": 0.9,
-        "inset": 0.1,
-        "fixedAspect": true,
-        "rounding": 1,
-        "easing": 10,
-        "noiseScaleX": 0.93,
-        "noiseScaleY": 0.01,
-        "noiseVariant": 1,
-        "gridResolution": 171,
-        "interpolate": true,
-        "evenSpacing": true,
-        "splineTension": 1,
-        "lineWidth": 1.9
-    },
-    "Another Thing": {
+    "Globular": {
         "layerCount": 4,
         "edgeLow": 0.07,
         "edgeHigh": 0.85,

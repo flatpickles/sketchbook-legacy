@@ -8,12 +8,14 @@ import presetsObject from './presets.json';
 export default class ThatsAMoire extends Sketch {
     name = 'That\'s A Moiré';
     type = SketchType.Canvas;
-    // date = new Date('05/17/2023');
+    date = new Date('07/28/2023');
     description = `
-        This sketch is intended to be drawn out with a pen plotter.
+        Subtle moiré pattern generation via two offset radial patterns, each of which is identical
+        to the other. Simplex noise distorts these patterns as they flow outward, creating movement
+        and keeping it interesting.
     `;
     showPresets = true;
-    experimental = true;
+    experimental = false;
     displayAsPrint = true;
     settings = {};
     bundledPresets = presetsObject;
@@ -29,7 +31,7 @@ export default class ThatsAMoire extends Sketch {
         noiseDensity: new FloatParam('Noise Density', 0.4, 0, 1, 0.01, false),
         noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
         asymmetry: new FloatParam('Asymmetry', 0.1, 0, 0.25, 0.01, false),
-        lineResolution: new FloatParam('Line Resolution', 100, 2, 300, 1, false),
+        lineResolution: new FloatParam('Line Resolution', 50, 2, 100, 1, false),
         lineWidth: new FloatParam('Nib Size (mm)', 0.5, 0.1, 2, 0.01, false),
     };
     

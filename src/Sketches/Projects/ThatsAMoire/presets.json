@@ -9,7 +9,7 @@
         "noiseDensity": 0.67,
         "noiseVariant": 0.35,
         "asymmetry": 0.14,
-        "lineResolution": 179,
+        "lineResolution": 100,
         "lineWidth": 0.51
     },
     "Sunthing": {
@@ -35,7 +35,7 @@
         "noiseDensity": 0.7,
         "noiseVariant": 0.9,
         "asymmetry": 0,
-        "lineResolution": 100,
+        "lineResolution": 50,
         "lineWidth": 0.5
     }
 }

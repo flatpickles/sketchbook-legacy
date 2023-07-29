@@ -3,6 +3,7 @@
     import LeftPanel from './Viewer/LeftPanel.svelte';
     import RightPanel from './Viewer/RightPanel.svelte';
     import sketches from './SketchIndex.js';
+    import latinize from 'latinize';
 
     let viewerComponent;
     let currentSketch;
@@ -52,7 +53,7 @@
             currentSketch = selectedSketch;
             localStorage.setItem('currentSketchName', currentSketch.name);
             document.title = currentSketch.name;
-            const hashName = '#' + currentSketch.name.toLowerCase().replace(/\s+/g, '-');
+            const hashName = '#' + sanitizeSketchName(currentSketch.name);
             location.hash = hashName;
         }
     }
@@ -68,6 +69,11 @@
             currentSketch.updatePresetModified();
         }
         viewerComponent.update();
+    }
+
+    function sanitizeSketchName(name) {
+        const latinized = latinize(name);
+        return latinized.toLowerCase().replace(/\s+/g, '-');
     }
 </script>
 

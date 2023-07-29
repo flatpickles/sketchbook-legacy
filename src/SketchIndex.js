@@ -18,9 +18,11 @@ import CornerRays from './Sketches/Projects/CornerRays/CornerRays.js';
 import SolarPraxis from './Sketches/Projects/SolarPraxis/SolarPraxis.js';
 import ImpliedShape from './Sketches/Projects/ImpliedShape/ImpliedShape.js';
 import ThatsAMoire from './Sketches/Projects/ThatsAMoire/ThatsAMoire.js';
+import Disintegration from './Sketches/Projects/Disintegration/Disintegration.js';
 
 // Collect all sketches (todo: automate as a part of the build process)
 const sketches = [
+    new Disintegration(),
     new ThatsAMoire(),
     new ContourLines(),
     new ImpliedShape(),

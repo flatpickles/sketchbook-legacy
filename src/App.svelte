@@ -3,7 +3,6 @@
     import LeftPanel from './Viewer/LeftPanel.svelte';
     import RightPanel from './Viewer/RightPanel.svelte';
     import sketches from './SketchIndex.js';
-    import latinize from 'latinize';
 
     let viewerComponent;
     let currentSketch;
@@ -72,7 +71,7 @@
     }
 
     function sanitizeSketchName(name) {
-        const latinized = latinize(name);
+        const latinized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         return latinized.toLowerCase().replace(/\s+/g, '-');
     }
 </script>

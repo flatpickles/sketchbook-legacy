@@ -15,6 +15,7 @@
 <style>
     input {
         cursor: pointer;
+        appearance: none;
         -webkit-appearance: none;
         border: none;
         background: none;

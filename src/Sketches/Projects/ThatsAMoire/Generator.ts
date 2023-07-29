@@ -24,7 +24,8 @@ export default class Generator {
         noiseIntensity = 1,
         noiseDensity = 0.3,
         noiseVariant = 0.0,
-        noiseAsymmetry = 0.0
+        noiseAsymmetry = 0.0,
+        rayPointCount = 100
     ): Path[] {
         const rays: Path[] = [];
         for (let i = 0; i < rayCount; i++) {
@@ -37,7 +38,8 @@ export default class Generator {
                 noiseIntensity,
                 noiseDensity,
                 noiseVariant,
-                noiseAsymmetry
+                noiseAsymmetry,
+                rayPointCount
             );
             rays.push(PathUtil.createCardinalSpline(ray, 1));
         }
@@ -52,10 +54,10 @@ export default class Generator {
         noiseIntensity = 1,
         noiseDensity = 0.3,
         noiseVariant = 0.0,
-        noiseAsymmetry = 0.0
+        noiseAsymmetry = 0.0,
+        rayPointCount = 100
     ): Point[] {
         const rayPath = [];
-        const rayPointCount = 100;
 
         for (let i = 0; i <= rayPointCount; i++) {
             const r = (outerRadius - innerRadius) * (i / rayPointCount) + innerRadius;

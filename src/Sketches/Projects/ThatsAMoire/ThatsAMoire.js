@@ -29,6 +29,7 @@ export default class ThatsAMoire extends Sketch {
         noiseDensity: new FloatParam('Noise Density', 0.4, 0, 1, 0.01, false),
         noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
         asymmetry: new FloatParam('Asymmetry', 0.1, 0, 0.25, 0.01, false),
+        lineResolution: new FloatParam('Line Resolution', 100, 2, 300, 1, false),
         lineWidth: new FloatParam('Nib Size (mm)', 0.5, 0.1, 2, 0.01, false),
     };
     
@@ -48,7 +49,8 @@ export default class ThatsAMoire extends Sketch {
                 this.params.noiseIntensity.value,
                 this.params.noiseDensity.value,
                 this.params.noiseVariant.value,
-                this.params.asymmetry.value
+                this.params.asymmetry.value,
+                this.params.lineResolution.value
             );
             const bottomPaths = generator.generateRays(
                 [props.width / 2, props.height / 2 + centerOffset/2],
@@ -58,7 +60,8 @@ export default class ThatsAMoire extends Sketch {
                 this.params.noiseIntensity.value,
                 this.params.noiseDensity.value,
                 this.params.noiseVariant.value,
-                this.params.asymmetry.value
+                this.params.asymmetry.value,
+                this.params.lineResolution.value
             );
             
             return renderPaths([topPaths, bottomPaths], {

@@ -1,7 +1,8 @@
 // @ts-ignore - ignore unresolved import for template file
 import CurveUtil from '../../Util/PathUtil';
 
-type Line = [[number, number], [number, number]];
+type Point = [number, number];
+type Line = [Point, Point];
 
 export default class Generator {
     public generate(width: number, height: number): Line[] {
@@ -14,23 +15,34 @@ export default class Generator {
 
         for (let col = 0; col <= columns; col++) {
             for (let row = 0; row <= rows; row++) {
-                // Horizontal lines
-                const x1 = col * columnSize;
-                const x2 = (col + 1) * columnSize;
+                const x = col * columnSize;
                 const y = row * rowSize;
-                paths.push([
-                    [x1, y],
-                    [x2, y],
-                ]);
+
+                // Horizontal lines
+                const hAngle = 0;
+                const hCenter = [x + columnSize / 2, y];
+                const hPoint1: Point = [
+                    hCenter[0] + (Math.cos(hAngle) * columnSize) / 2,
+                    hCenter[1] + (Math.sin(hAngle) * columnSize) / 2,
+                ];
+                const hPoint2: Point = [
+                    hCenter[0] - (Math.cos(hAngle) * columnSize) / 2,
+                    hCenter[1] - (Math.sin(hAngle) * columnSize) / 2,
+                ];
+                paths.push([hPoint1, hPoint2]);
 
                 // Vertical lines
-                const y1 = row * rowSize;
-                const y2 = (row + 1) * rowSize;
-                const x = col * columnSize;
-                paths.push([
-                    [x, y1],
-                    [x, y2],
-                ]);
+                const vAngle = Math.PI / 2;
+                const vCenter = [x, y + rowSize / 2];
+                const vPoint1: Point = [
+                    vCenter[0] + (Math.cos(vAngle) * rowSize) / 2,
+                    vCenter[1] + (Math.sin(vAngle) * rowSize) / 2,
+                ];
+                const vPoint2: Point = [
+                    vCenter[0] - (Math.cos(vAngle) * rowSize) / 2,
+                    vCenter[1] - (Math.sin(vAngle) * rowSize) / 2,
+                ];
+                paths.push([vPoint1, vPoint2]);
             }
         }
 

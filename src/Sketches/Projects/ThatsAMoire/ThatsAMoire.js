@@ -6,7 +6,7 @@ import Generator from './Generator.js';
 import presetsObject from './presets.json';
 
 export default class ThatsAMoire extends Sketch {
-    name = 'That\'s A Moiré';
+    name = 'That\'s a Moiré';
     type = SketchType.Canvas;
     date = new Date('07/28/2023');
     description = `

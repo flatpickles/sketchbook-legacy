@@ -56,10 +56,18 @@ export default class Generator {
         return paths;
     }
 
-    public generate(origin: Point, size: Point, columns: number = 30, rows: number = 30): Line[] {
-        const scale = 0.2;
-        const onset = 0.05;
-
+    public generate(
+        origin: Point,
+        size: Point,
+        columns = 30,
+        rows = 30,
+        rotationMin = 0,
+        rotationMax = Math.PI / 2,
+        noiseScaleX = 0.2,
+        noiseScaleY = 0.2,
+        noiseVariant = 0,
+        noiseXYOffset = 0
+    ): Line[] {
         const columnSize = size[0] / columns;
         const rowSize = size[1] / rows;
         const paths: Line[] = [];
@@ -68,10 +76,12 @@ export default class Generator {
             for (let row = 0; row <= rows; row++) {
                 const x = origin[0] + col * columnSize;
                 const y = origin[1] + row * rowSize;
+                const onset = rotationMin + (row / rows) * (rotationMax - rotationMin);
 
                 // Horizontal lines
                 if (col < columns) {
-                    const hAngle = 0 + row * onset * this.noise(row * scale, col * scale, 0);
+                    const hAngle =
+                        0 + onset * this.noise(row * noiseScaleY, col * noiseScaleX, noiseVariant);
                     const hCenter = [x + columnSize / 2, y];
                     const hPoint1: Point = [
                         hCenter[0] + (Math.cos(hAngle) * columnSize) / 2,
@@ -87,7 +97,13 @@ export default class Generator {
                 // Vertical lines
                 if (row < rows) {
                     const vAngle =
-                        Math.PI / 2 - row * onset * this.noise(row * scale, col * scale, 0);
+                        Math.PI / 2 -
+                        onset *
+                            this.noise(
+                                row * noiseScaleY,
+                                col * noiseScaleX,
+                                noiseVariant + noiseXYOffset
+                            );
                     const vCenter = [x, y + rowSize / 2];
                     const vPoint1: Point = [
                         vCenter[0] + (Math.cos(vAngle) * rowSize) / 2,

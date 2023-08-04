@@ -23,6 +23,11 @@ export default class Disintegration extends Sketch {
         divisions: new FloatParam('Divisions', 20, 2, 100, 1, false),
         proportional: new BoolParam('Proportional', false),
         inset: new FloatParam('Inset', 0, 0, 0.5, 0.01, false),
+        rotationMin: new FloatParam('Rotation Min', 0, 0, 1, 0.01, false),
+        rotationMax: new FloatParam('Rotation Max', 0.25, 0, 1, 0.01, false),
+        noiseScale: new FloatParam('Noise Scale', 0.2, 0, 1, 0.01, false),
+        noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
+        noiseOffset: new FloatParam('Noise XY Offset', 0, 0, 1, 0.01, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
@@ -47,7 +52,13 @@ export default class Disintegration extends Sketch {
                 originPoint,
                 size,
                 rows,
-                cols
+                cols,
+                this.params.rotationMin.value * Math.PI * 2,
+                this.params.rotationMax.value * Math.PI * 2,
+                this.params.noiseScale.value / rows * 10,
+                this.params.noiseScale.value / cols * 10,
+                this.params.noiseVariant.value * 10,
+                this.params.noiseOffset.value * 10,
             );
 
             return renderPaths(paths, {

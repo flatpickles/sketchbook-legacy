@@ -56,9 +56,7 @@ export default class Generator {
         return paths;
     }
 
-    public generate(origin: Point, size: Point): Line[] {
-        const columns = 30;
-        const rows = 30;
+    public generate(origin: Point, size: Point, columns: number = 30, rows: number = 30): Line[] {
         const scale = 0.2;
         const onset = 0.05;
 

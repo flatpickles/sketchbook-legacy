@@ -6,7 +6,6 @@ type Line = [Point, Point];
 
 export default class Generator {
     private noise: NoiseFunction3D;
-    private noiseField: Array<Array<[number, number]>> = []; // grid of [x, y] vectors (2D noise values)
 
     constructor() {
         const prng = alea(0);

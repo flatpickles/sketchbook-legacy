@@ -25,8 +25,9 @@
             output = output.replace(/\s+/g, '');
             output = output.replace(/-+/g, '');
             output = output.replace(/_+/g, '');
-            return output;
+            return sanitizeSketchName(output);
         };
+        // debugger;
         const normalizedLinkName = window.location.hash
             ? normalizeString(window.location.hash.substring(1))
             : undefined;
@@ -38,6 +39,7 @@
         let linkedIndex, storedIndex, firstNonWIPIndex;
         sketches.forEach((sketch, currentIndex) => {
             const normalizedSketchName = normalizeString(sketch.name);
+            console.log(normalizedSketchName);
             if (normalizedSketchName === normalizedLinkName) linkedIndex = currentIndex;
             if (normalizedSketchName === normalizedStoredName) storedIndex = currentIndex;
             if (sketch.date && !sketch.experimental && firstNonWIPIndex == undefined) firstNonWIPIndex = currentIndex;

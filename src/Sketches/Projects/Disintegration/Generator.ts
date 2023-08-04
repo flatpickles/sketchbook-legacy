@@ -67,35 +67,48 @@ export default class Generator {
     public generate(
         origin: Point,
         size: Point,
-        columns = 30,
+        cols = 30,
         rows = 30,
         rotationMin = 0,
         rotationMax = Math.PI / 2,
         rotationEasing = 0.01,
+        xOnset = false,
+        yOnset = true,
         thereAndBack = false,
         noiseScaleX = 0.2,
         noiseScaleY = 0.2,
         noiseVariant = 0,
         noiseXYOffset = 0
     ): Line[] {
-        const columnSize = size[0] / columns;
+        const columnSize = size[0] / cols;
         const rowSize = size[1] / rows;
         const paths: Line[] = [];
 
-        for (let col = 0; col <= columns; col++) {
+        for (let col = 0; col <= cols; col++) {
             for (let row = 0; row <= rows; row++) {
                 const x = origin[0] + col * columnSize;
                 const y = origin[1] + row * rowSize;
-                let progress = row / rows;
+                let xProgress = col / cols;
+                let yProgress = row / rows;
                 if (thereAndBack) {
-                    progress = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
+                    xProgress = xProgress < 0.5 ? xProgress * 2 : (1 - xProgress) * 2;
+                    yProgress = yProgress < 0.5 ? yProgress * 2 : (1 - yProgress) * 2;
                 }
+                const combinedProgress = xOnset
+                    ? yOnset
+                        ? rotationMax > rotationMin
+                            ? Math.min(xProgress, yProgress)
+                            : Math.max(xProgress, yProgress)
+                        : xProgress
+                    : yOnset
+                    ? yProgress
+                    : 0;
                 const onset =
                     rotationMin +
-                    sigmoidEasing(progress, rotationEasing) * (rotationMax - rotationMin);
+                    sigmoidEasing(combinedProgress, rotationEasing) * (rotationMax - rotationMin);
 
                 // Horizontal lines
-                if (col < columns) {
+                if (col < cols) {
                     const hAngle =
                         0 + onset * this.noise(row * noiseScaleY, col * noiseScaleX, noiseVariant);
                     const hCenter = [x + columnSize / 2, y];

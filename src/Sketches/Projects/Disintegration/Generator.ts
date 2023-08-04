@@ -72,6 +72,7 @@ export default class Generator {
         rotationMin = 0,
         rotationMax = Math.PI / 2,
         rotationEasing = 0.01,
+        thereAndBack = false,
         noiseScaleX = 0.2,
         noiseScaleY = 0.2,
         noiseVariant = 0,
@@ -85,9 +86,13 @@ export default class Generator {
             for (let row = 0; row <= rows; row++) {
                 const x = origin[0] + col * columnSize;
                 const y = origin[1] + row * rowSize;
+                let progress = row / rows;
+                if (thereAndBack) {
+                    progress = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
+                }
                 const onset =
                     rotationMin +
-                    sigmoidEasing(row / rows, rotationEasing) * (rotationMax - rotationMin);
+                    sigmoidEasing(progress, rotationEasing) * (rotationMax - rotationMin);
 
                 // Horizontal lines
                 if (col < columns) {

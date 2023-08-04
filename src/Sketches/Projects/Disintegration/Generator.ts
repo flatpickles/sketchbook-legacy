@@ -12,7 +12,8 @@ export default class Generator {
         this.noise = createNoise3D(prng);
     }
 
-    public generate(width: number, height: number): Line[] {
+    // todo: maybe reintegrate this as a parameter option
+    public generateFlippy(width: number, height: number): Line[] {
         const columns = 10;
         const rows = 10;
         const columnSize = width / (columns + 1.5);
@@ -49,6 +50,57 @@ export default class Generator {
                     vCenter[1] - (Math.sin(vAngle) * rowSize) / 2,
                 ];
                 paths.push([vPoint1, vPoint2]);
+            }
+        }
+
+        return paths;
+    }
+
+    public generate(origin: Point, size: Point): Line[] {
+        const columns = 30;
+        const rows = 30;
+        const scale = 0.2;
+        const onset = 0.05;
+
+        const columnSize = size[0] / columns;
+        const rowSize = size[1] / rows;
+        const paths: Line[] = [];
+
+        for (let col = 0; col <= columns; col++) {
+            for (let row = 0; row <= rows; row++) {
+                const x = origin[0] + col * columnSize;
+                const y = origin[1] + row * rowSize;
+
+                // Horizontal lines
+                if (col < columns) {
+                    const hAngle = 0 + row * onset * this.noise(row * scale, col * scale, 0);
+                    const hCenter = [x + columnSize / 2, y];
+                    const hPoint1: Point = [
+                        hCenter[0] + (Math.cos(hAngle) * columnSize) / 2,
+                        hCenter[1] + (Math.sin(hAngle) * columnSize) / 2,
+                    ];
+                    const hPoint2: Point = [
+                        hCenter[0] - (Math.cos(hAngle) * columnSize) / 2,
+                        hCenter[1] - (Math.sin(hAngle) * columnSize) / 2,
+                    ];
+                    paths.push([hPoint1, hPoint2]);
+                }
+
+                // Vertical lines
+                if (row < rows) {
+                    const vAngle =
+                        Math.PI / 2 - row * onset * this.noise(row * scale, col * scale, 0);
+                    const vCenter = [x, y + rowSize / 2];
+                    const vPoint1: Point = [
+                        vCenter[0] + (Math.cos(vAngle) * rowSize) / 2,
+                        vCenter[1] + (Math.sin(vAngle) * rowSize) / 2,
+                    ];
+                    const vPoint2: Point = [
+                        vCenter[0] - (Math.cos(vAngle) * rowSize) / 2,
+                        vCenter[1] - (Math.sin(vAngle) * rowSize) / 2,
+                    ];
+                    paths.push([vPoint1, vPoint2]);
+                }
             }
         }
 

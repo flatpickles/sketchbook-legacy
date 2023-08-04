@@ -20,6 +20,7 @@ export default class Disintegration extends Sketch {
     category = SketchCategory.Paths;
 
     params = {
+        inset: new FloatParam('Inset', 0, 0, 0.5, 0.01, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
     };
     
@@ -27,8 +28,12 @@ export default class Disintegration extends Sketch {
         const generator = new Generator();
 
         return (props) => {
+            const originPoint = this.params.inset.value * Math.min(props.width, props.height);
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
-            const paths = generator.generate(props.width, props.height);
+            const paths = generator.generate(
+                [originPoint, originPoint],
+                [props.width - originPoint * 2, props.height - originPoint * 2]
+            );
 
             return renderPaths(paths, {
                 lineWidth: scaledNibSize,

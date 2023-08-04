@@ -4,6 +4,14 @@ import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 type Point = [number, number];
 type Line = [Point, Point];
 
+const sigmoidEasing = (t: number, k: number) => {
+    const sigmoidBase = (t: number, k: number) => {
+        return 1.0 / (1.0 + Math.exp(-k * t)) - 0.5;
+    };
+    const correction = 0.5 / sigmoidBase(1.0, k);
+    return correction * sigmoidBase(2.0 * t - 1.0, k) + 0.5;
+};
+
 export default class Generator {
     private noise: NoiseFunction3D;
 
@@ -63,6 +71,7 @@ export default class Generator {
         rows = 30,
         rotationMin = 0,
         rotationMax = Math.PI / 2,
+        rotationEasing = 0.01,
         noiseScaleX = 0.2,
         noiseScaleY = 0.2,
         noiseVariant = 0,
@@ -76,7 +85,9 @@ export default class Generator {
             for (let row = 0; row <= rows; row++) {
                 const x = origin[0] + col * columnSize;
                 const y = origin[1] + row * rowSize;
-                const onset = rotationMin + (row / rows) * (rotationMax - rotationMin);
+                const onset =
+                    rotationMin +
+                    sigmoidEasing(row / rows, rotationEasing) * (rotationMax - rotationMin);
 
                 // Horizontal lines
                 if (col < columns) {

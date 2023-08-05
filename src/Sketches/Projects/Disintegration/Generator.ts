@@ -66,8 +66,8 @@ export default class Generator {
 
     public generate(
         size: Point,
-        cols = 30,
-        rows = 30,
+        divisions = 30,
+        square = true,
         inset = 1,
         rotationMin = 0,
         rotationMax = Math.PI / 2,
@@ -80,12 +80,22 @@ export default class Generator {
         noiseVariant = 0,
         noiseXYOffset = 0
     ): Line[] {
-        const columnSize = size[0] / (cols + inset * 2);
-        const rowSize = size[1] / (rows + inset * 2);
         const paths: Line[] = [];
 
-        for (let col = 0; col <= cols; col++) {
-            for (let row = 0; row <= rows; row++) {
+        // When false, squares are ACTUALLY square; when true, top/bottom inset are equal
+        const equalizeSquareInset = true;
+
+        // Funky math for inset and division sizing
+        const colTotal = divisions + inset * 2;
+        let rowTotal = colTotal * (square ? size[1] / size[0] : 1);
+        if (equalizeSquareInset) rowTotal = Math.floor(rowTotal);
+        const columnSize = size[0] / colTotal;
+        const rowSize = size[1] / rowTotal;
+        const cols = Math.floor(colTotal - inset * 2);
+        const rows = Math.floor(rowTotal - inset * 2);
+
+        for (let row = 0; row <= rows; row++) {
+            for (let col = 0; col <= cols; col++) {
                 const x = (inset + col) * columnSize;
                 const y = (inset + row) * rowSize;
                 let xProgress = col / cols;
@@ -107,30 +117,14 @@ export default class Generator {
                     rotationMin +
                     sigmoidEasing(combinedProgress, rotationEasing) * (rotationMax - rotationMin);
 
-                // Horizontal lines
-                if (col < cols) {
-                    const hAngle =
-                        0 + onset * this.noise(row * noiseScaleY, col * noiseScaleX, noiseVariant);
-                    const hCenter = [x + columnSize / 2, y];
-                    const hPoint1: Point = [
-                        hCenter[0] + (Math.cos(hAngle) * columnSize) / 2,
-                        hCenter[1] + (Math.sin(hAngle) * columnSize) / 2,
-                    ];
-                    const hPoint2: Point = [
-                        hCenter[0] - (Math.cos(hAngle) * columnSize) / 2,
-                        hCenter[1] - (Math.sin(hAngle) * columnSize) / 2,
-                    ];
-                    paths.push([hPoint1, hPoint2]);
-                }
-
                 // Vertical lines
                 if (row < rows) {
                     const vAngle =
                         Math.PI / 2 -
                         onset *
                             this.noise(
-                                row * noiseScaleY,
-                                col * noiseScaleX,
+                                (row * noiseScaleY) / rows,
+                                (col * noiseScaleX) / cols,
                                 noiseVariant + noiseXYOffset
                             );
                     const vCenter = [x, y + rowSize / 2];
@@ -143,6 +137,28 @@ export default class Generator {
                         vCenter[1] - (Math.sin(vAngle) * rowSize) / 2,
                     ];
                     paths.push([vPoint1, vPoint2]);
+                }
+
+                // Horizontal lines
+                if (col < cols) {
+                    const hAngle =
+                        0 +
+                        onset *
+                            this.noise(
+                                (row * noiseScaleY) / rows,
+                                (col * noiseScaleX) / cols,
+                                noiseVariant
+                            );
+                    const hCenter = [x + columnSize / 2, y];
+                    const hPoint1: Point = [
+                        hCenter[0] + (Math.cos(hAngle) * columnSize) / 2,
+                        hCenter[1] + (Math.sin(hAngle) * columnSize) / 2,
+                    ];
+                    const hPoint2: Point = [
+                        hCenter[0] - (Math.cos(hAngle) * columnSize) / 2,
+                        hCenter[1] - (Math.sin(hAngle) * columnSize) / 2,
+                    ];
+                    paths.push([hPoint1, hPoint2]);
                 }
             }
         }

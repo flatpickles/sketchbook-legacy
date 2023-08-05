@@ -21,8 +21,8 @@ export default class Disintegration extends Sketch {
 
     params = {
         divisions: new FloatParam('Divisions', 20, 2, 100, 1, false),
+        inset: new FloatParam('Inset', 0, 0, 3, 0.5, false),
         proportional: new BoolParam('Proportional', false),
-        inset: new FloatParam('Inset', 0, 0, 0.5, 0.01, false),
         rotationMin: new FloatParam('Rotation Min', 0, 0, 1, 0.01, false),
         rotationMax: new FloatParam('Rotation Max', 0.25, 0, 1, 0.01, false),
         rotationEasing: new FloatParam('Rotation Easing', 0.01, 0.01, 1, 0.01, false),
@@ -39,24 +39,19 @@ export default class Disintegration extends Sketch {
         const generator = new Generator();
 
         return (props) => {
-            // Calculate sizing
-            const insetSize = this.params.inset.value * Math.min(props.width, props.height);
-            const originPoint = [insetSize, insetSize];
-            const size = [props.width - insetSize * 2, props.height - insetSize * 2];
-            
             // Calculate divisions
             const rows = this.params.divisions.value;
             const cols = this.params.proportional.value
                 ? this.params.divisions.value
-                : Math.floor(this.params.divisions.value * size[1] / size[0]);
+                : Math.floor(this.params.divisions.value * props.height / props.width);
                 
             // Generate paths
             const scaledNibSize = this.params.lineWidth.value * 0.0393701; // mm to inches
             const paths = generator.generate(
-                originPoint,
-                size,
+                [props.width, props.height],
                 rows,
                 cols,
+                this.params.inset.value,
                 this.params.rotationMin.value * Math.PI * 2,
                 this.params.rotationMax.value * Math.PI * 2,
                 this.params.rotationEasing.value * 10,

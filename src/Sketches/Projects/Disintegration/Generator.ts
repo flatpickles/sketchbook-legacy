@@ -65,10 +65,10 @@ export default class Generator {
     }
 
     public generate(
-        origin: Point,
         size: Point,
         cols = 30,
         rows = 30,
+        inset = 1,
         rotationMin = 0,
         rotationMax = Math.PI / 2,
         rotationEasing = 0.01,
@@ -80,14 +80,14 @@ export default class Generator {
         noiseVariant = 0,
         noiseXYOffset = 0
     ): Line[] {
-        const columnSize = size[0] / cols;
-        const rowSize = size[1] / rows;
+        const columnSize = size[0] / (cols + inset * 2);
+        const rowSize = size[1] / (rows + inset * 2);
         const paths: Line[] = [];
 
         for (let col = 0; col <= cols; col++) {
             for (let row = 0; row <= rows; row++) {
-                const x = origin[0] + col * columnSize;
-                const y = origin[1] + row * rowSize;
+                const x = (inset + col) * columnSize;
+                const y = (inset + row) * rowSize;
                 let xProgress = col / cols;
                 let yProgress = row / rows;
                 if (thereAndBack) {

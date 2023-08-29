@@ -1,8 +1,10 @@
 # :notebook: `sketchbook`
 
-[Sketchbook](https://sketchbook.flatpickles.com/) is a web app that presents a growing collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
+[Sketchbook](https://sketchbook.flatpickles.com/) is a web app that presents a collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
-I aspire to rebuild Sketchbook with TypeScript & SvelteKit. I also plan to eventually split this into two repositories: the UI and development system as an open source repo, and my own personal artwork as a fork of this, maintaining copyright. For now, no open source license applies.
+I'm currently rebuilding Sketchbook [over here](https://github.com/flatpickles/sketchbook)! Though the new version isn't yet ready for prime time, it'll eventually be much more flexible and capable than this first version. Onward!
+
+---
 
 Caveat lector: this readme is a rough brain-dump space from here on out!
 

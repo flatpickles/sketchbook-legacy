@@ -1,4 +1,5 @@
-#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → No Signal</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook-v1) → [Projects](../) → No Signal</sup>
+
 ---
 
 ## [No Signal](https://sketchbook.flatpickles.com/#no-signal)
@@ -9,6 +10,6 @@ No Signal is implemented fully as an HTML canvas painting, without any shaders. 
 
 ### Parameters
 
-* `Color Count`: Number of vertical color stripes displayed in the upper segment of the screen.
-* `B&W Count`: Number of vertical black & white stripes displayed in the lower segment of the screen.
-* `Display Text`: Hide or show the "No Signal" text in the middle of the screen.
+-   `Color Count`: Number of vertical color stripes displayed in the upper segment of the screen.
+-   `B&W Count`: Number of vertical black & white stripes displayed in the lower segment of the screen.
+-   `Display Text`: Hide or show the "No Signal" text in the middle of the screen.

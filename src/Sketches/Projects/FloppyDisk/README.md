@@ -1,4 +1,5 @@
-#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → [Projects](../) → Floppy Disk</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook-v1) → [Projects](../) → Floppy Disk</sup>
+
 ---
 
 ## [Floppy Disk](https://sketchbook.flatpickles.com/#floppy-disk)
@@ -9,14 +10,14 @@ Floppy Disk is implemented as a shader, taking a playful approach to abstract sh
 
 ### Parameters
 
-* `Inner Size`: The size (relative to display space radius) of the inner border of the form.
-* `Outer Size`: The size of the outer border of the form.
-* `Shape 1`: Number of polygon vertices for the first of two underlying shapes.
-* `Factor 1`: The influence that the first shape has on the overall form.
-* `Shape 2`: Number of polygon vertices for the second of two underlying shapes.
-* `Factor 2`: The influence that the second shape has on the overall form.
-* `Center Color`: The color at the center.
-* `Color 1`: Innermost ring color, repeated several times.
-* `Color 2`: Second innermost ring color, repeated several times.
-* `Color 3`: Third innermost ring color, repeated several times.
-* `BG Color`: The color outside of the form.
+-   `Inner Size`: The size (relative to display space radius) of the inner border of the form.
+-   `Outer Size`: The size of the outer border of the form.
+-   `Shape 1`: Number of polygon vertices for the first of two underlying shapes.
+-   `Factor 1`: The influence that the first shape has on the overall form.
+-   `Shape 2`: Number of polygon vertices for the second of two underlying shapes.
+-   `Factor 2`: The influence that the second shape has on the overall form.
+-   `Center Color`: The color at the center.
+-   `Color 1`: Innermost ring color, repeated several times.
+-   `Color 2`: Second innermost ring color, repeated several times.
+-   `Color 3`: Third innermost ring color, repeated several times.
+-   `BG Color`: The color outside of the form.

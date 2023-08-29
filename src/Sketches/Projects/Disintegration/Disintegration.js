@@ -12,7 +12,7 @@ export default class Disintegration extends Sketch {
     description = `
         This sketch is intended to be drawn out with a pen plotter.
     `;
-    showPresets = false;
+    showPresets = true;
     experimental = true;
     displayAsPrint = true;
     settings = {};
@@ -33,6 +33,7 @@ export default class Disintegration extends Sketch {
         noiseVariant: new FloatParam('Noise Variant', 0.5, 0, 1, 0.01, false),
         noiseOffset: new FloatParam('Noise XY Offset', 0, 0, 1, 0.01, false),
         lineWidth: new FloatParam('Nib Size (mm)', 1, 0.1, 2, 0.01, false),
+        circleMode: new BoolParam('Circle Mode', false),
     };
     
     sketchFn = () => {
@@ -56,6 +57,7 @@ export default class Disintegration extends Sketch {
                 this.params.noiseScale.value * 10,
                 this.params.noiseVariant.value * 10,
                 this.params.noiseOffset.value * 10,
+                this.params.circleMode.value
             );
 
             return renderPaths(paths, {

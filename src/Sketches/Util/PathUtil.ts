@@ -2,10 +2,21 @@ import BezierSpline from 'bezier-spline';
 import type { Path } from 'd3-path';
 import { createPath } from 'canvas-sketch-util/penplot';
 
+import type { Polyline } from './PolylineUtil';
+
 // Float comparison tolerance
 const floatTolerance = 0.0001;
 
 export default class PathUtil {
+    static pathFromPolyline(polyline: Polyline): Path {
+        const path = createPath();
+        path.moveTo(polyline[0][0], polyline[0][1]);
+        for (let i = 1; i < polyline.length; i++) {
+            path.lineTo(polyline[i][0], polyline[i][1]);
+        }
+        return path;
+    }
+
     static approximateCircle(center: [number, number], radius: number): Path {
         // todo: generalize with >4 points, as in this approach:
         // https://stackoverflow.com/a/27863181/280404

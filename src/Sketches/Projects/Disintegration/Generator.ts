@@ -4,6 +4,9 @@ import { createNoise3D, type NoiseFunction3D } from 'simplex-noise';
 type Point = [number, number];
 type Line = [Point, Point];
 
+import PathUtil from '../../Util/PathUtil';
+import type { Path } from 'd3-path';
+
 const sigmoidEasing = (t: number, k: number) => {
     const sigmoidBase = (t: number, k: number) => {
         return 1.0 / (1.0 + Math.exp(-k * t)) - 0.5;
@@ -78,12 +81,13 @@ export default class Generator {
         noiseScaleX = 0.2,
         noiseScaleY = 0.2,
         noiseVariant = 0,
-        noiseXYOffset = 0
-    ): Line[] {
-        const paths: Line[] = [];
+        noiseXYOffset = 0,
+        circleMode = false
+    ): Path[] {
+        const paths: Path[] = [];
 
         // When false, squares are ACTUALLY square; when true, top/bottom inset are equal
-        const equalizeSquareInset = true;
+        const equalizeSquareInset = false;
 
         // Funky math for inset and division sizing
         const colTotal = divisions + inset * 2;
@@ -92,15 +96,16 @@ export default class Generator {
         const columnSize = size[0] / colTotal;
         const rowSize = size[1] / rowTotal;
         const cols = Math.floor(colTotal - inset * 2);
-        const rows = Math.floor(rowTotal - inset * 2);
+        const rows = Math.floor(rowTotal - inset * 2 + (circleMode ? 1 : 0));
 
         for (let row = 0; row <= rows; row++) {
             for (let col = 0; col <= cols; col++) {
                 const x = (inset + col) * columnSize;
-                const y = (inset + row) * rowSize;
+                const y = (inset + row - (circleMode ? 0.5 : 0)) * rowSize;
                 let xProgress = col / cols;
                 let yProgress = row / rows;
                 if (thereAndBack) {
+                    yProgress = Math.min(row / (rows - 1), 1); // last vertical lines should be at progress 1 for there & back
                     xProgress = xProgress < 0.5 ? xProgress * 2 : (1 - xProgress) * 2;
                     yProgress = yProgress < 0.5 ? yProgress * 2 : (1 - yProgress) * 2;
                 }
@@ -112,38 +117,45 @@ export default class Generator {
                         : xProgress
                     : yOnset
                     ? yProgress
-                    : 0;
-                const onset =
-                    rotationMin +
-                    sigmoidEasing(combinedProgress, rotationEasing) * (rotationMax - rotationMin);
+                    : 1;
+                const onset = sigmoidEasing(combinedProgress, rotationEasing);
+                const angleOnset = rotationMin + onset * (rotationMax - rotationMin);
 
                 // Vertical lines
+                const vNoise = this.noise(
+                    (row * noiseScaleY) / rows,
+                    (col * noiseScaleX) / cols,
+                    noiseVariant + noiseXYOffset
+                );
                 if (row < rows) {
-                    const vAngle =
-                        Math.PI / 2 -
-                        onset *
-                            this.noise(
-                                (row * noiseScaleY) / rows,
-                                (col * noiseScaleX) / cols,
-                                noiseVariant + noiseXYOffset
-                            );
-                    const vCenter = [x, y + rowSize / 2];
-                    const vPoint1: Point = [
-                        vCenter[0] + (Math.cos(vAngle) * rowSize) / 2,
-                        vCenter[1] + (Math.sin(vAngle) * rowSize) / 2,
-                    ];
-                    const vPoint2: Point = [
-                        vCenter[0] - (Math.cos(vAngle) * rowSize) / 2,
-                        vCenter[1] - (Math.sin(vAngle) * rowSize) / 2,
-                    ];
-                    paths.push([vPoint1, vPoint2]);
+                    const vAngle = Math.PI / 2 - angleOnset * vNoise;
+                    const vCenter: [number, number] = [x, y + rowSize / 2];
+                    if (circleMode) {
+                        const maxRadius = Math.min(columnSize, rowSize) / 2 - 0.005;
+                        const scaledNoise = (vNoise + 1) / 2;
+                        const radius = onset * maxRadius * scaledNoise;
+                        if (radius > maxRadius) {
+                            debugger;
+                        }
+                        paths.push(PathUtil.approximateCircle(vCenter, radius));
+                    } else {
+                        const vPoint1: Point = [
+                            vCenter[0] + (Math.cos(vAngle) * rowSize) / 2,
+                            vCenter[1] + (Math.sin(vAngle) * rowSize) / 2,
+                        ];
+                        const vPoint2: Point = [
+                            vCenter[0] - (Math.cos(vAngle) * rowSize) / 2,
+                            vCenter[1] - (Math.sin(vAngle) * rowSize) / 2,
+                        ];
+                        paths.push(PathUtil.pathFromPolyline([vPoint1, vPoint2]));
+                    }
                 }
 
                 // Horizontal lines
-                if (col < cols) {
+                if (col < cols && !circleMode) {
                     const hAngle =
                         0 +
-                        onset *
+                        angleOnset *
                             this.noise(
                                 (row * noiseScaleY) / rows,
                                 (col * noiseScaleX) / cols,
@@ -158,11 +170,12 @@ export default class Generator {
                         hCenter[0] - (Math.cos(hAngle) * columnSize) / 2,
                         hCenter[1] - (Math.sin(hAngle) * columnSize) / 2,
                     ];
-                    paths.push([hPoint1, hPoint2]);
+                    paths.push(PathUtil.pathFromPolyline([hPoint1, hPoint2]));
                 }
             }
         }
 
+        console.log(paths.length);
         return paths;
     }
 }

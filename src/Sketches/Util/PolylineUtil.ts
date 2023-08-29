@@ -1,5 +1,5 @@
-type Point = [number, number];
-type Polyline = Point[];
+export type Point = [number, number];
+export type Polyline = Point[];
 type MaskFunction = (point: Point) => boolean;
 
 export default class PolylineUtil {

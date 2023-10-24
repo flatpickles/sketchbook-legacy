@@ -1,6 +1,6 @@
 # :notebook: `sketchbook-legacy`
 
-This is the original Sketchbook, which has now evolved into [this project](https://skbk.cc). The art projects previously developed within this version of Sketchbook have been ported into [this repository](https://github.com/flatpickles/ls-art). `sketchbook-legacy` is no longer maintained, but is still available [here](skbk-legacy.flatpickles.com) for archival purposes.
+This is the original Sketchbook, which has now evolved into [this project](https://skbk.cc). The art projects previously developed within this version of Sketchbook have been ported into [this repository](https://github.com/flatpickles/ls-art). `sketchbook-legacy` is no longer maintained, but is still available [here](https://skbk-legacy.flatpickles.com) for archival purposes.
 
 [Check out the new Sketchbook repo here!](https://github.com/flatpickles/sketchbook)
 

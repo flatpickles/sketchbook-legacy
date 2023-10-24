@@ -1,14 +1,16 @@
-# :notebook: `sketchbook`
+# :notebook: `sketchbook-legacy`
+
+This is the original Sketchbook, which has now evolved into [this project](https://skbk.cc). The art projects previously developed within this version of Sketchbook have been ported into [this repository](https://github.com/flatpickles/ls-art). `sketchbook-legacy` is no longer maintained, but is still available [here](skbk-legacy.flatpickles.com) for archival purposes.
+
+[Check out the new Sketchbook repo here!](https://github.com/flatpickles/sketchbook)
+
+## `sketchbook-legacy` readme
 
 [Sketchbook](https://sketchbook.flatpickles.com/) is a web app that presents a collection of programmatic art pieces, aka "sketches", each with a set of configurable parameters. For the time being, sketches may only be built via the magnificent [canvas-sketch](https://github.com/mattdesl/canvas-sketch) framework.
 
-I'm currently rebuilding Sketchbook [over here](https://github.com/flatpickles/sketchbook)! Though the new version isn't yet ready for prime time, it'll eventually be much more flexible and capable than this first version. Onward!
-
----
-
 Caveat lector: this readme is a rough brain-dump space from here on out!
 
-## To do
+### To do
 
 -   Page sizing:
     -   Implement inset sizing (UI currently does nothing)
@@ -17,7 +19,7 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
 -   Export - additionally export JSON file with current param values
 -   Text parameters
 
-## Known Issues
+### Known Issues
 
 -   "Create" from existing but modified preset doesn't provide a usable name to start (number should increment further)
 -   Resizing can clear canvas; need to redraw upon window resize
@@ -88,7 +90,7 @@ Caveat lector: this readme is a rough brain-dump space from here on out!
     -   When sharing a link to a WIP sketch with WIP disabled, it works as expected until another sketch is selected, then the WIP sketch disappears in the left panel. Ideally this would only happen on page reload, for consistency.
     -   Try using Vulf Mono - maybe it'd add a little vibe. It's also not as compact, TBD.
 
-## Workflow / project wishlist
+### Workflow / project wishlist
 
 -   No defaults? Just presets - param default values are optional, first preset used otherwise
 -   Preset values etc

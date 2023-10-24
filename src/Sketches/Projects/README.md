@@ -1,4 +1,5 @@
-#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook) → Projects</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook-legacy) → Projects</sup>
+
 ---
 
 ## Projects

@@ -81,7 +81,7 @@
         <span slot='contents'>
             <p>
                 Sketchbook is a collection of programmatic art pieces. It is a work in progress.
-                Code and details <a href='https://github.com/flatpickles/sketchbook-v1'>here</a>.
+                Code and details <a href='https://github.com/flatpickles/sketchbook-legacy'>here</a>.
             </p>
             {#if experimentalMode}
                 <p>

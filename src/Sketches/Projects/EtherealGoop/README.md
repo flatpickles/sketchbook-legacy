@@ -1,4 +1,4 @@
-#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook-v1) → [Projects](../) → Ethereal Goop</sup>
+#### <sup>:notebook: [sketchbook](https://github.com/flatpickles/sketchbook-legacy) → [Projects](../) → Ethereal Goop</sup>
 
 ---
 
